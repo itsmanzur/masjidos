@@ -1,0 +1,8 @@
+/.agents/
+/.codex/
+/.git/
+/_future/
+/_release/
+*.zip
+Thumbs.db
+.DS_Store

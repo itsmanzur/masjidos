@@ -1,0 +1,2064 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MasjidOS 1.1.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/masjidos/\n"
+"Language: bn_BD\n"
+"Language-Team: Bengali\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: masjidos\n"
+"\n"
+
+#. translators: %d: Number of currently active notices.
+#: public/class-itmms-public.php:749
+msgid "%d active notices"
+msgstr "%dটি সক্রিয় নোটিশ"
+
+#: public/templates/events.php:22
+msgid "%d events"
+msgstr "%d events"
+
+#: admin/assets/js/modules/settings.js:177
+msgid "%s Iqamah"
+msgstr "%s-এর জামাত"
+
+#: admin/assets/js/modules/settings.js:173
+msgid "%s offset"
+msgstr "%s সমন্বয়"
+
+#: public/class-itmms-public.php:747
+msgid "1 active notice"
+msgstr "১টি সক্রিয় নোটিশ"
+
+#: admin/assets/js/modules/docs.js:176
+msgid "A narrow Jumuah card for sidebars, footers, or mobile-first layouts."
+msgstr "সাইডবার, ফুটার বা মোবাইল-কেন্দ্রিক লেআউটের জন্য একটি সরু জুমা কার্ড।"
+
+#: admin/assets/js/modules/docs.js:158
+msgid "Accepted types: all, general, urgent, jumuah"
+msgstr "গ্রহণযোগ্য ধরন: all, general, urgent, jumuah"
+
+#: admin/assets/js/modules/announcements.js:79
+msgid "Active"
+msgstr "সক্রিয়"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "active announcement"
+msgid_plural "active announcements"
+msgstr[0] "সক্রিয় ঘোষণা"
+msgstr[1] "সক্রিয় ঘোষণাসমূহ"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "active event"
+msgid_plural "active events"
+msgstr[0] "active event"
+msgstr[1] "active events"
+
+#: admin/assets/js/modules/dashboard.js:96
+msgid "Active Events"
+msgstr "Active Events"
+
+#: admin/assets/js/modules/dashboard.js:95
+msgid "Active Notices"
+msgstr "সক্রিয় নোটিশ"
+
+#: admin/assets/js/modules/docs.js:221
+msgid "Add [masjidos_prayer_times] to the masjid homepage or a dedicated prayer times page."
+msgstr "মসজিদের হোমপেজ বা নির্দিষ্ট নামাজের সময়সূচি পাতায় [masjidos_prayer_times] যোগ করুন।"
+
+#: admin/assets/js/modules/events.js:34
+msgid "Add an event"
+msgstr "Add an event"
+
+#: admin/assets/js/modules/events.js:36
+msgid "Add event details, schedule, or prerequisites..."
+msgstr "Add event details, schedule, or prerequisites..."
+
+#: admin/assets/js/modules/docs.js:219
+msgid "Add jamaat start times for Fajr, Dhuhr, Asr, Maghrib, and Isha."
+msgstr "ফজর, যোহর, আসর, মাগরিব ও এশার জামাত শুরুর সময় যোগ করুন।"
+
+#: admin/assets/js/modules/docs.js:76
+msgid "Add khatib name, short bio, and use Select Photo to choose an image from WordPress Media Library."
+msgstr "খতিবের নাম ও সংক্ষিপ্ত পরিচয় যোগ করুন এবং ওয়ার্ডপ্রেস মিডিয়া লাইব্রেরি থেকে ছবি নিতে ছবি নির্বাচন ব্যবহার করুন।"
+
+#: admin/assets/js/modules/docs.js:220
+msgid "Add sessions, topic, language, khatib profile, and notice from Settings > Jumuah Settings, then publish [masjidos_jumuah]."
+msgstr "সেটিংস > জুমা সেটিংস থেকে সেশন, বিষয়, ভাষা, খতিবের প্রোফাইল ও নোটিশ যোগ করে [masjidos_jumuah] প্রকাশ করুন।"
+
+#: admin/assets/js/modules/announcements.js:37
+msgid "Add the useful details visitors need."
+msgstr "দর্শনার্থীদের প্রয়োজনীয় তথ্য যোগ করুন।"
+
+#: admin/assets/js/modules/docs.js:263
+msgid "Adds Iqamah columns beside prayer times."
+msgstr "নামাজের সময়ের পাশে জামাতের কলাম যোগ করে।"
+
+#: admin/assets/js/modules/docs.js:218
+msgid "Adjust Official Times"
+msgstr "অফিসিয়াল সময় সমন্বয় করুন"
+
+#: admin/assets/js/modules/settings.js:96
+msgid "Adjustments"
+msgstr "সমন্বয়"
+
+#: admin/assets/js/app.js:79
+msgid "Administrator"
+msgstr "প্রশাসক"
+
+#: admin/assets/js/modules/docs.js:348
+msgid "All notices"
+msgstr "সব নোটিশ"
+
+#: admin/assets/js/modules/docs.js:271
+msgid "Announcement shortcode attributes"
+msgstr "ঘোষণা শর্টকোডের অ্যাট্রিবিউট"
+
+#: admin/assets/js/modules/announcements.js:30 includes/class-itmms-settings.php:139
+msgid "Announcements"
+msgstr "ঘোষণা"
+
+#: public/class-itmms-public.php:196
+msgid "Announcements are disabled"
+msgstr "ঘোষণা মডিউল নিষ্ক্রিয়"
+
+#: admin/assets/js/modules/docs.js:65
+msgid "Appearance > Widgets, add a Shortcode block in a sidebar or footer area."
+msgstr "অ্যাপিয়ারেন্স > উইজেটস থেকে সাইডবার বা ফুটার এলাকায় একটি শর্টকোড ব্লক যোগ করুন।"
+
+#: admin/assets/js/modules/docs.js:372
+msgid "April"
+msgstr "এপ্রিল"
+
+#: admin/assets/js/modules/docs.js:311 admin/assets/js/modules/docs.js:323 admin/assets/js/modules/docs.js:335 admin/assets/js/modules/docs.js:347 admin/assets/js/modules/docs.js:359
+msgid "Arabic"
+msgstr "আরবি"
+
+#: admin/assets/js/modules/dashboard.js:144 admin/assets/js/modules/dashboard.js:38 admin/assets/js/modules/dashboard.js:62 admin/assets/js/modules/settings.js:67 admin/assets/js/modules/settings.js:75 public/class-itmms-public.php:568
+msgid "Asr"
+msgstr "আসর"
+
+#: admin/assets/js/modules/dashboard.js:98 admin/assets/js/modules/settings.js:50
+msgid "Asr Method"
+msgstr "আসর পদ্ধতি"
+
+#: admin/assets/js/modules/dashboard.js:91
+msgid "Assalamu Alaikum"
+msgstr "আসসালামু আলাইকুম"
+
+#: admin/assets/js/modules/docs.js:376
+msgid "August"
+msgstr "আগস্ট"
+
+#: includes/class-itmms-settings.php:138
+msgid "Auto location, Azan countdown, Qibla"
+msgstr "স্বয়ংক্রিয় অবস্থান, আজান কাউন্টডাউন, কিবলা"
+
+#: admin/assets/js/modules/docs.js:417
+msgid "Automatically hides past events based on their end time"
+msgstr "Automatically hides past events based on their end time"
+
+#: public/class-itmms-public.php:391 public/class-itmms-public.php:396 public/class-itmms-public.php:401 public/class-itmms-public.php:435 public/class-itmms-public.php:440 public/class-itmms-public.php:474 public/class-itmms-public.php:479 public/class-itmms-public.php:484 public/class-itmms-public.php:518 public/class-itmms-public.php:523
+msgid "Available in MasjidOS Pro."
+msgstr "MasjidOS Pro-তে পাওয়া যাবে।"
+
+#: admin/assets/js/app.js:877
+msgid "Available soon"
+msgstr "শিগগিরই পাওয়া যাবে"
+
+#: admin/assets/js/modules/docs.js:395
+msgid "Available when MasjidOS Pro is installed and active."
+msgstr "MasjidOS Pro ইনস্টল ও সক্রিয় থাকলে পাওয়া যাবে।"
+
+#: public/class-itmms-public.php:381
+msgid "Balanced prayer times card with Qibla and meta panel."
+msgstr "কিবলা ও তথ্য প্যানেলসহ ভারসাম্যপূর্ণ নামাজের সময়ের কার্ড।"
+
+#: admin/assets/js/modules/docs.js:311 admin/assets/js/modules/docs.js:323 admin/assets/js/modules/docs.js:335 admin/assets/js/modules/docs.js:347 admin/assets/js/modules/docs.js:359
+msgid "Bangla"
+msgstr "বাংলা"
+
+#: admin/assets/js/modules/docs.js:425
+msgid "Bangla Events"
+msgstr "Bangla Events"
+
+#: admin/assets/js/modules/docs.js:181
+msgid "Bangla Jumuah"
+msgstr "বাংলা জুমা"
+
+#: admin/assets/js/modules/docs.js:124
+msgid "Bangla Widget"
+msgstr "বাংলা উইজেট"
+
+#. translators: %s: Prayer time before the configured minute offset is applied.
+#: admin/assets/js/modules/dashboard.js:46 public/templates/prayer-times.php:44
+msgid "Base time: %s"
+msgstr "মূল সময়: %s"
+
+#: admin/assets/js/modules/docs.js:344
+msgid "Before testing this shortcode, publish at least one notice from the Notices screen and make sure its start time has arrived."
+msgstr "এই শর্টকোড পরীক্ষার আগে নোটিশ স্ক্রিন থেকে অন্তত একটি নোটিশ প্রকাশ করুন এবং সেটির শুরুর সময় হয়েছে কি না নিশ্চিত করুন।"
+
+#: admin/assets/js/modules/docs.js:85
+msgid "Best default for a public prayer times page or homepage section."
+msgstr "পাবলিক নামাজের সময়সূচি পাতা বা হোমপেজ সেকশনের জন্য সেরা ডিফল্ট।"
+
+#: admin/assets/js/modules/docs.js:92
+msgid "Calculates every day locally"
+msgstr "প্রতিদিনের সময় লোকালি হিসাব করে"
+
+#: admin/assets/js/modules/dashboard.js:85
+msgid "Calculating..."
+msgstr "হিসাব করা হচ্ছে..."
+
+#: admin/assets/js/modules/settings.js:95
+msgid "Calculation"
+msgstr "হিসাব"
+
+#: admin/assets/js/modules/settings.js:43
+msgid "Calculation Method"
+msgstr "হিসাব পদ্ধতি"
+
+#: admin/assets/js/modules/docs.js:173
+msgid "Can show khatib photo, name, bio, topic, and language"
+msgstr "খতিবের ছবি, নাম, পরিচয়, বিষয় ও ভাষা দেখাতে পারে"
+
+#: admin/assets/js/modules/announcements.js:45 admin/assets/js/modules/events.js:42
+msgid "Cancel"
+msgstr "বাতিল"
+
+#: public/class-itmms-public.php:469
+msgid "Card-style monthly timetable for narrower sections."
+msgstr "সরু সেকশনের জন্য কার্ড-স্টাইল মাসিক সময়সূচি।"
+
+#: admin/assets/js/modules/docs.js:115
+msgid "Change the widget heading for a homepage or masjid page."
+msgstr "হোমপেজ বা মসজিদের পাতার জন্য উইজেটের শিরোনাম পরিবর্তন করুন।"
+
+#: admin/assets/js/modules/docs.js:426
+msgid "Changes headers, dates, and location prefixes"
+msgstr "Changes headers, dates, and location prefixes"
+
+#: admin/assets/js/modules/docs.js:247
+msgid "Changes public Jumuah labels."
+msgstr "পাবলিক জুমার লেবেল পরিবর্তন করে।"
+
+#: admin/assets/js/modules/docs.js:261
+msgid "Changes public labels and prayer names."
+msgstr "পাবলিক লেবেল ও নামাজের নাম পরিবর্তন করে।"
+
+#: admin/assets/js/modules/docs.js:232
+msgid "Changes public widget labels and prayer names."
+msgstr "পাবলিক উইজেটের লেবেল ও নামাজের নাম পরিবর্তন করে।"
+
+#: admin/assets/js/modules/docs.js:438
+msgid "Changes public widget labels."
+msgstr "Changes public widget labels."
+
+#: admin/assets/js/modules/docs.js:436
+msgid "Changes the events list heading."
+msgstr "Changes the events list heading."
+
+#: admin/assets/js/modules/docs.js:277
+msgid "Changes the list design heading."
+msgstr "লিস্ট ডিজাইনের শিরোনাম পরিবর্তন করে।"
+
+#: admin/assets/js/modules/docs.js:262
+msgid "Changes the table heading."
+msgstr "টেবিলের শিরোনাম পরিবর্তন করে।"
+
+#: admin/assets/js/modules/docs.js:230 admin/assets/js/modules/docs.js:248
+msgid "Changes the widget heading."
+msgstr "উইজেটের শিরোনাম পরিবর্তন করে।"
+
+#: admin/assets/js/modules/docs.js:274
+msgid "Changes widget labels."
+msgstr "উইজেটের লেবেল পরিবর্তন করে।"
+
+#: public/class-itmms-public.php:278
+msgid "Check back later for community lectures, prayers, and charity events."
+msgstr "Check back later for community lectures, prayers, and charity events."
+
+#: admin/assets/js/modules/docs.js:217
+msgid "Choose Method"
+msgstr "পদ্ধতি নির্বাচন করুন"
+
+#: admin/assets/js/modules/settings.js:42
+msgid "Choose the calculation rules used by local prayer time logic."
+msgstr "লোকাল নামাজের সময় হিসাবের নিয়ম নির্বাচন করুন।"
+
+#: admin/assets/js/modules/settings.js:33
+msgid "City"
+msgstr "শহর"
+
+#: admin/assets/js/modules/docs.js:310 admin/assets/js/modules/docs.js:322 public/class-itmms-public.php:379 public/class-itmms-public.php:423
+msgid "Classic"
+msgstr "ক্লাসিক"
+
+#: admin/assets/js/modules/docs.js:111
+msgid "Classic Design"
+msgstr "ক্লাসিক ডিজাইন"
+
+#: public/class-itmms-public.php:464
+msgid "Clean monthly prayer timetable table."
+msgstr "পরিচ্ছন্ন মাসিক নামাজের সময়সূচি টেবিল।"
+
+#: admin/assets/js/modules/settings.js:157
+msgid "Click the first number pair, for example %s, to copy it."
+msgstr "প্রথম সংখ্যাজোড়া, যেমন %s, কপি করতে সেটিতে ক্লিক করুন।"
+
+#: admin/assets/js/modules/dashboard.js:138
+msgid "Clockwise from true north"
+msgstr "প্রকৃত উত্তর থেকে ঘড়ির কাঁটার দিকে"
+
+#: admin/assets/js/modules/docs.js:310 admin/assets/js/modules/docs.js:322 admin/assets/js/modules/docs.js:332 public/class-itmms-public.php:384 public/class-itmms-public.php:428 public/class-itmms-public.php:467
+msgid "Compact"
+msgstr "কমপ্যাক্ট"
+
+#: admin/assets/js/modules/docs.js:119
+msgid "Compact Design"
+msgstr "কমপ্যাক্ট ডিজাইন"
+
+#: admin/assets/js/modules/docs.js:176
+msgid "Compact Jumuah"
+msgstr "কমপ্যাক্ট জুমা"
+
+#: public/class-itmms-public.php:513
+msgid "Compact scrolling announcement strip."
+msgstr "কমপ্যাক্ট স্ক্রলিং ঘোষণা স্ট্রিপ।"
+
+#: admin/assets/js/app.js:87 admin/assets/js/modules/dashboard.js:114 admin/assets/js/modules/dashboard.js:135
+msgid "Configure"
+msgstr "কনফিগার"
+
+#: admin/assets/js/modules/dashboard.js:142
+msgid "Coordinates"
+msgstr "স্থানাঙ্ক"
+
+#: admin/assets/js/modules/settings.js:160
+msgid "Coordinates are more accurate than city name. If your timetable is still 1-3 minutes different, use Prayer Time Adjustments below."
+msgstr "শহরের নামের চেয়ে স্থানাঙ্ক বেশি নির্ভুল। সময়সূচিতে এখনো ১-৩ মিনিট পার্থক্য থাকলে নিচের নামাজের সময় সমন্বয় ব্যবহার করুন।"
+
+#: admin/assets/js/app.js:736
+msgid "Copied"
+msgstr "কপি হয়েছে"
+
+#: admin/assets/js/modules/docs.js:297
+msgid "Copy"
+msgstr "কপি"
+
+#: admin/assets/js/modules/docs.js:25
+msgid "Copy a shortcode, paste it into a WordPress page, and keep this page as your built-in memory."
+msgstr "একটি শর্টকোড কপি করে ওয়ার্ডপ্রেস পাতায় পেস্ট করুন এবং এই পাতাটি নির্দেশিকা হিসেবে রাখুন।"
+
+#: admin/assets/js/modules/docs.js:216
+msgid "Copy latitude and longitude from Google Maps for the exact masjid location."
+msgstr "মসজিদের সঠিক অবস্থানের অক্ষাংশ ও দ্রাঘিমাংশ গুগল ম্যাপস থেকে কপি করুন।"
+
+#: admin/assets/js/modules/docs.js:308 admin/assets/js/modules/docs.js:320 admin/assets/js/modules/docs.js:330 admin/assets/js/modules/docs.js:343 admin/assets/js/modules/docs.js:356
+msgid "Copy Shortcode"
+msgstr "শর্টকোড কপি করুন"
+
+#: admin/assets/js/modules/settings.js:31
+msgid "Core identity, location, and timezone details used across widgets."
+msgstr "সব উইজেটে ব্যবহৃত মূল পরিচয়, অবস্থান ও টাইমজোনের তথ্য।"
+
+#: admin/assets/js/app.js:836
+msgid "Could not save. Please try again."
+msgstr "সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।"
+
+#: admin/assets/js/modules/settings.js:34
+msgid "Country"
+msgstr "দেশ"
+
+#: admin/assets/js/modules/docs.js:308
+msgid "Create a copy-ready prayer widget shortcode without memorizing attributes."
+msgstr "অ্যাট্রিবিউট মুখস্থ না করেই কপি করার উপযোগী নামাজের উইজেট শর্টকোড তৈরি করুন।"
+
+#: admin/assets/js/modules/docs.js:320
+msgid "Create a Jumuah widget shortcode for Friday pages, sidebars, or homepage sections."
+msgstr "জুমার পাতা, সাইডবার বা হোমপেজ সেকশনের জন্য জুমা উইজেট শর্টকোড তৈরি করুন।"
+
+#: admin/assets/js/modules/docs.js:330
+msgid "Create a monthly timetable shortcode for public pages or printable notice-board views."
+msgstr "পাবলিক পাতা বা প্রিন্টযোগ্য নোটিশ বোর্ডের জন্য মাসিক সময়সূচি শর্টকোড তৈরি করুন।"
+
+#: admin/assets/js/modules/docs.js:356
+msgid "Create a public events feed shortcode for community pages or mosque notice boards."
+msgstr "Create a public events feed shortcode for community pages or mosque notice boards."
+
+#: admin/assets/js/modules/docs.js:343
+msgid "Create a public notice list or compact ticker from your active announcements."
+msgstr "সক্রিয় ঘোষণা থেকে পাবলিক নোটিশ তালিকা বা কমপ্যাক্ট টিকার তৈরি করুন।"
+
+#: public/class-itmms-public.php:226
+msgid "Create a published notice whose start date has arrived and end date has not passed."
+msgstr "এমন একটি প্রকাশিত নোটিশ তৈরি করুন যার শুরুর তারিখ হয়েছে এবং শেষের তারিখ পার হয়নি।"
+
+#: admin/assets/js/modules/docs.js:159
+msgid "Create and schedule notices from the Notices screen"
+msgstr "নোটিশ স্ক্রিন থেকে নোটিশ তৈরি ও সময় নির্ধারণ করুন"
+
+#: admin/assets/js/modules/events.js:42
+msgid "Create Event"
+msgstr "Create Event"
+
+#: admin/assets/js/modules/announcements.js:30
+msgid "Create public notices, urgent updates, and scheduled Jumuah messages."
+msgstr "পাবলিক নোটিশ, জরুরি আপডেট ও নির্ধারিত জুমার বার্তা তৈরি করুন।"
+
+#: admin/assets/js/modules/settings.js:54
+msgid "Currency"
+msgstr "মুদ্রা"
+
+#: admin/assets/js/modules/docs.js:258 admin/assets/js/modules/docs.js:259
+msgid "current"
+msgstr "বর্তমান"
+
+#: admin/assets/js/modules/docs.js:333
+msgid "Current month"
+msgstr "বর্তমান মাস"
+
+#: public/class-itmms-public.php:703
+msgid "Current Month"
+msgstr "বর্তমান মাস"
+
+#: admin/assets/js/modules/docs.js:334
+msgid "Current year"
+msgstr "বর্তমান বছর"
+
+#: admin/assets/js/modules/docs.js:115
+msgid "Custom Title"
+msgstr "কাস্টম শিরোনাম"
+
+#: admin/assets/js/app.js:72 admin/assets/js/app.js:788 admin/assets/js/app.js:86
+msgid "Dashboard"
+msgstr "ড্যাশবোর্ড"
+
+#: public/class-itmms-public.php:695
+msgid "Date"
+msgstr "তারিখ"
+
+#: admin/assets/js/modules/docs.js:380
+msgid "December"
+msgstr "ডিসেম্বর"
+
+#: admin/assets/js/modules/docs.js:422
+msgid "Defaults to 5 events"
+msgstr "Defaults to 5 events"
+
+#: admin/assets/js/modules/announcements.js:62 admin/assets/js/modules/events.js:59
+msgid "Delete"
+msgstr "মুছুন"
+
+#: admin/assets/js/app.js:290
+msgid "Delete this event permanently?"
+msgstr "Delete this event permanently?"
+
+#: admin/assets/js/app.js:241
+msgid "Delete this notice permanently?"
+msgstr "এই নোটিশটি স্থায়ীভাবে মুছবেন?"
+
+#: admin/assets/js/modules/events.js:36
+msgid "Description"
+msgstr "Description"
+
+#: admin/assets/js/modules/docs.js:310 admin/assets/js/modules/docs.js:322 admin/assets/js/modules/docs.js:332 admin/assets/js/modules/docs.js:346 admin/assets/js/modules/docs.js:358
+msgid "Design"
+msgstr "ডিজাইন"
+
+#: admin/assets/js/modules/docs.js:178
+msgid "Designed for small spaces"
+msgstr "ছোট জায়গার জন্য তৈরি"
+
+#: admin/assets/js/modules/announcements.js:37
+msgid "Details"
+msgstr "বিস্তারিত"
+
+#: admin/assets/js/modules/dashboard.js:37 admin/assets/js/modules/dashboard.js:61 admin/assets/js/modules/settings.js:66 admin/assets/js/modules/settings.js:74
+msgid "Dhuhr"
+msgstr "যোহর"
+
+#: admin/assets/js/modules/docs.js:205 public/class-itmms-public.php:516
+msgid "Digital Board"
+msgstr "ডিজিটাল বোর্ড"
+
+#: admin/assets/js/modules/docs.js:346
+msgid "Digital Board (Pro)"
+msgstr "ডিজিটাল বোর্ড (Pro)"
+
+#: admin/assets/js/modules/dashboard.js:116
+msgid "Disabled"
+msgstr "নিষ্ক্রিয়"
+
+#: admin/assets/js/modules/docs.js:419
+msgid "Displays location, date range, and descriptions"
+msgstr "Displays location, date range, and descriptions"
+
+#: admin/assets/js/app.js:77 admin/assets/js/app.js:793
+msgid "Docs"
+msgstr "ডকস"
+
+#: admin/assets/js/modules/docs.js:126
+msgid "Does not add Arabic beside the name"
+msgstr "নামের পাশে আরবি যোগ করে না"
+
+#: admin/assets/js/modules/announcements.js:82
+msgid "Draft"
+msgstr "খসড়া"
+
+#: admin/assets/js/modules/docs.js:66
+msgid "Drag the Shortcode widget into your layout and paste the shortcode there."
+msgstr "শর্টকোড উইজেটটি লেআউটে টেনে এনে সেখানে শর্টকোড পেস্ট করুন।"
+
+#: admin/assets/js/modules/announcements.js:62 admin/assets/js/modules/dashboard.js:101 admin/assets/js/modules/events.js:59
+msgid "Edit"
+msgstr "সম্পাদনা"
+
+#: admin/assets/js/modules/events.js:34
+msgid "Editing event"
+msgstr "Editing event"
+
+#: admin/assets/js/modules/announcements.js:35
+msgid "Editing notice"
+msgstr "নোটিশ সম্পাদনা"
+
+#: admin/assets/js/modules/settings.js:47
+msgid "Egyptian Authority"
+msgstr "মিশরীয় কর্তৃপক্ষ"
+
+#: admin/assets/js/modules/settings.js:81
+msgid "Enable Jumuah widget"
+msgstr "জুমা উইজেট সক্রিয় করুন"
+
+#: public/class-itmms-public.php:197
+msgid "Enable the Announcements module before using this shortcode."
+msgstr "এই শর্টকোড ব্যবহারের আগে ঘোষণা মডিউল সক্রিয় করুন।"
+
+#: public/class-itmms-public.php:262
+msgid "Enable the Events module before using this shortcode."
+msgstr "Enable the Events module before using this shortcode."
+
+#: admin/assets/js/modules/dashboard.js:116
+msgid "Enabled"
+msgstr "সক্রিয়"
+
+#: admin/assets/js/modules/announcements.js:42 admin/assets/js/modules/events.js:39
+msgid "Ends"
+msgstr "শেষ"
+
+#: admin/assets/js/modules/announcements.js:61 admin/assets/js/modules/events.js:58
+msgid "Ends %s"
+msgstr "শেষ %s"
+
+#: admin/assets/js/modules/docs.js:311 admin/assets/js/modules/docs.js:323 admin/assets/js/modules/docs.js:335 admin/assets/js/modules/docs.js:347 admin/assets/js/modules/docs.js:359
+msgid "English"
+msgstr "ইংরেজি"
+
+#: admin/assets/js/app.js:329
+msgid "Event created."
+msgstr "Event created."
+
+#: includes/class-itmms-events.php:192 includes/class-itmms-rest.php:469
+msgid "Event not found."
+msgstr "Event not found."
+
+#: admin/assets/js/modules/docs.js:434
+msgid "Event shortcode attributes"
+msgstr "Event shortcode attributes"
+
+#: includes/class-itmms-events.php:160 includes/class-itmms-events.php:200
+msgid "Event start time is required."
+msgstr "Event start time is required."
+
+#: admin/assets/js/modules/events.js:35
+msgid "Event Title"
+msgstr "Event Title"
+
+#: includes/class-itmms-events.php:157 includes/class-itmms-events.php:197
+msgid "Event title is required."
+msgstr "Event title is required."
+
+#: admin/assets/js/app.js:329
+msgid "Event updated."
+msgstr "Event updated."
+
+#: admin/assets/js/app.js:74 admin/assets/js/app.js:790 admin/assets/js/modules/docs.js:34 admin/assets/js/modules/events.js:29 includes/class-itmms-settings.php:140
+msgid "Events"
+msgstr "Events"
+
+#: public/class-itmms-public.php:261
+msgid "Events are disabled"
+msgstr "Events are disabled"
+
+#: includes/class-itmms-settings.php:140
+msgid "Events calendar, timings, and location registration"
+msgstr "Events calendar, timings, and location registration"
+
+#: admin/assets/js/modules/docs.js:356
+msgid "Events Generator"
+msgstr "Events Generator"
+
+#: admin/assets/js/modules/docs.js:415
+msgid "Events List"
+msgstr "Events List"
+
+#: admin/assets/js/modules/events.js:35
+msgid "Example: Eid-ul-Fitr Prayer Gathering"
+msgstr "Example: Eid-ul-Fitr Prayer Gathering"
+
+#: admin/assets/js/modules/announcements.js:36
+msgid "Example: Friday parking update"
+msgstr "উদাহরণ: শুক্রবারের পার্কিং আপডেট"
+
+#: admin/assets/js/modules/settings.js:88
+msgid "Example: Imam & Khatib, Powerup Masjid."
+msgstr "উদাহরণ: ইমাম ও খতিব, পাওয়ারআপ মসজিদ।"
+
+#: admin/assets/js/modules/events.js:40
+msgid "Example: Main Prayer Hall"
+msgstr "Example: Main Prayer Hall"
+
+#: admin/assets/js/modules/announcements.js:81
+msgid "Expired"
+msgstr "মেয়াদোত্তীর্ণ"
+
+#: admin/assets/js/modules/docs.js:163
+msgid "Expiry rules still apply in the background"
+msgstr "মেয়াদ শেষ হওয়ার নিয়ম পটভূমিতে কার্যকর থাকবে"
+
+#: admin/assets/js/modules/docs.js:102
+msgid "Explicitly use the free table design."
+msgstr "স্পষ্টভাবে ফ্রি টেবিল ডিজাইন ব্যবহার করুন।"
+
+#: admin/assets/js/modules/dashboard.js:35 admin/assets/js/modules/dashboard.js:59 admin/assets/js/modules/settings.js:64 admin/assets/js/modules/settings.js:73
+msgid "Fajr"
+msgstr "ফজর"
+
+#: admin/assets/js/modules/docs.js:370
+msgid "February"
+msgstr "ফেব্রুয়ারি"
+
+#: admin/assets/js/modules/docs.js:157
+msgid "Filter the widget to a single notice type."
+msgstr "উইজেটটি একটি নির্দিষ্ট নোটিশের ধরনে ফিল্টার করুন।"
+
+#: admin/assets/js/modules/docs.js:275
+msgid "Filters public notices by type."
+msgstr "পাবলিক নোটিশ ধরন অনুযায়ী ফিল্টার করে।"
+
+#: admin/assets/js/modules/settings.js:63
+msgid "Fine-tune calculated times to match the official masjid timetable."
+msgstr "মসজিদের অফিসিয়াল সময়সূচির সঙ্গে মিলিয়ে হিসাব করা সময় সূক্ষ্মভাবে সমন্বয় করুন।"
+
+#: admin/assets/js/modules/docs.js:147
+msgid "First create and publish a notice from MasjidOS > Notices"
+msgstr "প্রথমে MasjidOS > নোটিশ থেকে একটি নোটিশ তৈরি ও প্রকাশ করুন"
+
+#: admin/assets/js/modules/docs.js:416
+msgid "First create and schedule an event from MasjidOS > Events"
+msgstr "First create and schedule an event from MasjidOS > Events"
+
+#: admin/assets/js/modules/settings.js:208 admin/assets/js/modules/settings.js:82 public/class-itmms-public.php:639
+msgid "First Jumuah"
+msgstr "প্রথম জুমা"
+
+#: admin/assets/js/modules/settings.js:168
+msgid "For Bangladesh use %1$s. If this is %2$s, prayer times will be calculated as UTC and will look wrong."
+msgstr "বাংলাদেশের জন্য %1$s ব্যবহার করুন। এটি %2$s হলে নামাজের সময় UTC হিসেবে হিসাব হবে এবং ভুল দেখাবে।"
+
+#: admin/assets/js/modules/docs.js:215
+msgid "For Bangladesh use Asia/Dhaka. Wrong timezone is the most common cause of wrong prayer times."
+msgstr "বাংলাদেশের জন্য Asia/Dhaka ব্যবহার করুন। ভুল নামাজের সময় দেখানোর সবচেয়ে সাধারণ কারণ ভুল টাইমজোন।"
+
+#: admin/assets/js/modules/docs.js:217
+msgid "For Bangladesh, Karachi + Hanafi is a sensible default."
+msgstr "বাংলাদেশের জন্য Karachi + Hanafi একটি উপযুক্ত ডিফল্ট।"
+
+#: admin/assets/js/modules/docs.js:111
+msgid "Free design preset for regular content width pages."
+msgstr "সাধারণ কনটেন্ট প্রস্থের পাতার জন্য ফ্রি ডিজাইন প্রিসেট।"
+
+#: admin/assets/js/modules/announcements.js:68 admin/assets/js/modules/docs.js:348 public/class-itmms-public.php:750
+msgid "General"
+msgstr "সাধারণ"
+
+#: admin/assets/js/modules/docs.js:30
+msgid "Generators"
+msgstr "জেনারেটর"
+
+#: admin/assets/js/modules/docs.js:75
+msgid "Go to Settings > Jumuah Settings. Add First Jumuah and optional Second Jumuah times."
+msgstr "সেটিংস > জুমা সেটিংসে যান। প্রথম জুমা এবং প্রয়োজনে দ্বিতীয় জুমার সময় যোগ করুন।"
+
+#: admin/assets/js/app.js:87
+msgid "Go to WordPress Dashboard"
+msgstr "WordPress Dashboard-এ যান"
+
+#: admin/assets/js/modules/docs.js:94
+msgid "Good for dedicated timetable pages"
+msgstr "নির্দিষ্ট সময়সূচির পাতার জন্য উপযোগী"
+
+#: admin/assets/js/modules/docs.js:174
+msgid "Good for homepage and Friday notice pages"
+msgstr "হোমপেজ ও শুক্রবারের নোটিশ পাতার জন্য উপযোগী"
+
+#: admin/assets/js/modules/docs.js:116
+msgid "Good for homepage sections"
+msgstr "হোমপেজ সেকশনের জন্য উপযোগী"
+
+#: admin/assets/js/modules/docs.js:108
+msgid "Good for narrower content areas"
+msgstr "সরু কনটেন্ট এলাকার জন্য উপযোগী"
+
+#: admin/assets/js/modules/docs.js:113
+msgid "Good for pages and homepage sections"
+msgstr "পাতা ও হোমপেজ সেকশনের জন্য উপযোগী"
+
+#: admin/assets/js/modules/docs.js:155
+msgid "Good for urgent and short updates"
+msgstr "জরুরি ও সংক্ষিপ্ত আপডেটের জন্য উপযোগী"
+
+#: admin/assets/js/modules/docs.js:161
+msgid "Hide Dates"
+msgstr "তারিখ লুকান"
+
+#: admin/assets/js/modules/docs.js:137
+msgid "Hide Iqamah"
+msgstr "জামাতের সময় লুকান"
+
+#: admin/assets/js/modules/docs.js:133
+msgid "Hide Meta"
+msgstr "অতিরিক্ত তথ্য লুকান"
+
+#: admin/assets/js/modules/docs.js:129
+msgid "Hide Qibla"
+msgstr "কিবলা লুকান"
+
+#: admin/assets/js/modules/docs.js:186
+msgid "Hides khatib profile, topic, language, and location"
+msgstr "খতিবের প্রোফাইল, বিষয়, ভাষা ও অবস্থান লুকায়"
+
+#: admin/assets/js/modules/docs.js:131
+msgid "Hides only the Qibla panel"
+msgstr "শুধু কিবলা প্যানেল লুকায়"
+
+#: admin/assets/js/modules/docs.js:120
+msgid "Hides the side panel automatically"
+msgstr "সাইড প্যানেল স্বয়ংক্রিয়ভাবে লুকায়"
+
+#: admin/assets/js/modules/announcements.js:40
+msgid "Higher notices appear first."
+msgstr "বেশি অগ্রাধিকারের নোটিশ আগে দেখায়।"
+
+#: admin/assets/js/modules/docs.js:109
+msgid "Highlights the current day"
+msgstr "বর্তমান দিন হাইলাইট করে"
+
+#: admin/assets/js/modules/docs.js:87
+msgid "Highlights the current prayer"
+msgstr "বর্তমান ওয়াক্ত হাইলাইট করে"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "Hijri date"
+msgstr "হিজরি তারিখ"
+
+#: admin/assets/js/modules/settings.js:153
+msgid "How to find latitude and longitude"
+msgstr "অক্ষাংশ ও দ্রাঘিমাংশ কীভাবে খুঁজবেন"
+
+#: includes/class-itmms-roles.php:55
+msgid "Imam"
+msgstr "ইমাম"
+
+#: admin/assets/js/modules/docs.js:103 admin/assets/js/modules/docs.js:107 admin/assets/js/modules/docs.js:112 admin/assets/js/modules/docs.js:122 admin/assets/js/modules/docs.js:153 admin/assets/js/modules/docs.js:177
+msgid "Included in the free plugin"
+msgstr "ফ্রি প্লাগিনে অন্তর্ভুক্ত"
+
+#: admin/assets/js/modules/docs.js:96
+msgid "Includes Current Month and timetable-only Print actions"
+msgstr "বর্তমান মাস ও শুধু সময়সূচি প্রিন্ট করার সুবিধা আছে"
+
+#: admin/assets/js/modules/docs.js:150
+msgid "Includes notice type and publish date"
+msgstr "নোটিশের ধরন ও প্রকাশের তারিখ দেখায়"
+
+#: admin/assets/js/modules/docs.js:89
+msgid "Includes Qibla direction and calculation meta"
+msgstr "কিবলার দিক ও হিসাবের তথ্য দেখায়"
+
+#: admin/assets/js/modules/dashboard.js:51 admin/assets/js/modules/settings.js:97 public/class-itmms-public.php:564 public/class-itmms-public.php:696
+msgid "Iqamah"
+msgstr "জামাত"
+
+#: admin/assets/js/modules/settings.js:72
+msgid "Iqamah Times"
+msgstr "জামাতের সময়"
+
+#: admin/assets/js/modules/dashboard.js:40 admin/assets/js/modules/dashboard.js:64 admin/assets/js/modules/settings.js:69 admin/assets/js/modules/settings.js:77
+msgid "Isha"
+msgstr "এশা"
+
+#: admin/assets/js/modules/dashboard.js:118 admin/assets/js/modules/settings.js:186 public/class-itmms-public.php:638
+msgid "Jamaat"
+msgstr "জামাত"
+
+#: admin/assets/js/modules/settings.js:177
+msgid "Jamaat start time"
+msgstr "জামাত শুরুর সময়"
+
+#: admin/assets/js/modules/docs.js:369
+msgid "January"
+msgstr "জানুয়ারি"
+
+#: admin/assets/js/modules/docs.js:375
+msgid "July"
+msgstr "জুলাই"
+
+#: admin/assets/js/modules/announcements.js:68 admin/assets/js/modules/announcements.js:74 admin/assets/js/modules/dashboard.js:114 admin/assets/js/modules/docs.js:32 admin/assets/js/modules/docs.js:348 admin/assets/js/modules/settings.js:98 public/class-itmms-public.php:752
+msgid "Jumuah"
+msgstr "জুমা"
+
+#: admin/assets/js/modules/docs.js:288
+msgid "Jumuah design presets"
+msgstr "জুমার ডিজাইন প্রিসেট"
+
+#: admin/assets/js/modules/docs.js:320
+msgid "Jumuah Generator"
+msgstr "জুমা জেনারেটর"
+
+#: admin/assets/js/modules/settings.js:89
+msgid "Jumuah Notice"
+msgstr "জুমার নোটিশ"
+
+#: admin/assets/js/modules/docs.js:248 public/class-itmms-public.php:302 public/class-itmms-public.php:636
+msgid "Jumuah Prayer"
+msgstr "জুমার নামাজ"
+
+#: admin/assets/js/modules/docs.js:75
+msgid "Jumuah Sessions"
+msgstr "জুমার সেশন"
+
+#: admin/assets/js/modules/settings.js:80
+msgid "Jumuah Settings"
+msgstr "জুমা সেটিংস"
+
+#: admin/assets/js/modules/docs.js:243
+msgid "Jumuah shortcode attributes"
+msgstr "জুমা শর্টকোডের অ্যাট্রিবিউট"
+
+#: admin/assets/js/modules/docs.js:170
+msgid "Jumuah Widget"
+msgstr "জুমা উইজেট"
+
+#: admin/assets/js/modules/docs.js:185
+msgid "Jumuah Without Meta"
+msgstr "অতিরিক্ত তথ্য ছাড়া জুমা"
+
+#: admin/assets/js/modules/docs.js:374
+msgid "June"
+msgstr "জুন"
+
+#: admin/assets/js/modules/docs.js:138
+msgid "Keeps Azan/prayer time rows clean"
+msgstr "আজান/নামাজের সময়ের সারি পরিচ্ছন্ন রাখে"
+
+#: admin/assets/js/modules/docs.js:121
+msgid "Keeps countdown and prayer table"
+msgstr "কাউন্টডাউন ও নামাজের টেবিল রাখে"
+
+#: admin/assets/js/modules/docs.js:130
+msgid "Keeps next prayer countdown"
+msgstr "পরবর্তী ওয়াক্তের কাউন্টডাউন রাখে"
+
+#: admin/assets/js/modules/docs.js:183
+msgid "Keeps your configured topic and khatib text unchanged"
+msgstr "আপনার নির্ধারিত বিষয় ও খতিবের লেখা অপরিবর্তিত রাখে"
+
+#: admin/assets/js/modules/docs.js:427
+msgid "Keeps your custom event title and description unchanged"
+msgstr "Keeps your custom event title and description unchanged"
+
+#: admin/assets/js/modules/dashboard.js:120 public/class-itmms-public.php:641
+msgid "Khatib"
+msgstr "খতিব"
+
+#: admin/assets/js/modules/settings.js:86
+msgid "Khatib Name"
+msgstr "খতিবের নাম"
+
+#: admin/assets/js/modules/settings.js:87
+msgid "Khatib Photo"
+msgstr "খতিবের ছবি"
+
+#: admin/assets/js/modules/docs.js:76
+msgid "Khatib Profile"
+msgstr "খতিবের প্রোফাইল"
+
+#: admin/assets/js/modules/settings.js:88
+msgid "Khatib Short Bio"
+msgstr "খতিবের সংক্ষিপ্ত পরিচয়"
+
+#: admin/assets/js/modules/dashboard.js:117 admin/assets/js/modules/settings.js:185 public/class-itmms-public.php:637
+msgid "Khutbah"
+msgstr "খুতবা"
+
+#: admin/assets/js/modules/settings.js:85
+msgid "Khutbah Language"
+msgstr "খুতবার ভাষা"
+
+#: admin/assets/js/modules/settings.js:84
+msgid "Khutbah Topic"
+msgstr "খুতবার বিষয়"
+
+#: admin/assets/js/modules/settings.js:184
+msgid "Label"
+msgstr "লেবেল"
+
+#: admin/assets/js/modules/docs.js:311 admin/assets/js/modules/docs.js:323 admin/assets/js/modules/docs.js:335 admin/assets/js/modules/docs.js:347 admin/assets/js/modules/docs.js:359 public/class-itmms-public.php:643
+msgid "Language"
+msgstr "ভাষা"
+
+#: admin/assets/js/modules/settings.js:37
+msgid "Latitude"
+msgstr "অক্ষাংশ"
+
+#: admin/assets/js/modules/settings.js:187
+msgid "Leave blank if your masjid has only one Jumuah."
+msgstr "আপনার মসজিদে একটি জুমা হলে খালি রাখুন।"
+
+#: admin/assets/js/modules/docs.js:235
+msgid "Legacy shortcut. Use design=\"compact\" for new pages."
+msgstr "পুরোনো শর্টকাট। নতুন পাতায় design=\"compact\" ব্যবহার করুন।"
+
+#: admin/assets/js/modules/docs.js:349 admin/assets/js/modules/docs.js:360
+msgid "Limit"
+msgstr "সীমা"
+
+#: admin/assets/js/modules/docs.js:421
+msgid "Limit Events"
+msgstr "Limit Events"
+
+#: admin/assets/js/modules/docs.js:421
+msgid "Limit the number of events displayed on the page."
+msgstr "Limit the number of events displayed on the page."
+
+#: admin/assets/js/modules/docs.js:276
+msgid "Limits the number of active notices shown."
+msgstr "দেখানো সক্রিয় নোটিশের সংখ্যা সীমিত করে।"
+
+#: admin/assets/js/modules/docs.js:439
+msgid "Limits the number of events shown."
+msgstr "Limits the number of events shown."
+
+#: admin/assets/js/modules/docs.js:346 admin/assets/js/modules/docs.js:358
+msgid "List"
+msgstr "তালিকা"
+
+#: admin/assets/js/modules/announcements.js:32
+msgid "Live now"
+msgstr "এখন চলছে"
+
+#: admin/assets/js/modules/dashboard.js:91
+msgid "Live overview for your masjid operations."
+msgstr "আপনার মসজিদের কার্যক্রমের সরাসরি সারসংক্ষেপ।"
+
+#: admin/assets/js/modules/dashboard.js:97
+msgid "Local calculation"
+msgstr "লোকাল হিসাব"
+
+#: admin/assets/js/modules/dashboard.js:141 admin/assets/js/modules/events.js:40 public/class-itmms-public.php:566 public/class-itmms-public.php:644 public/templates/events.php:11
+msgid "Location"
+msgstr "অবস্থান"
+
+#: admin/assets/js/modules/settings.js:38
+msgid "Longitude"
+msgstr "দ্রাঘিমাংশ"
+
+#: admin/assets/js/modules/dashboard.js:39 admin/assets/js/modules/dashboard.js:63 admin/assets/js/modules/settings.js:68 admin/assets/js/modules/settings.js:76
+msgid "Maghrib"
+msgstr "মাগরিব"
+
+#: admin/assets/js/modules/settings.js:187
+msgid "Main Friday jamaat shown in the public widget."
+msgstr "পাবলিক উইজেটে দেখানো প্রধান শুক্রবারের জামাত।"
+
+#: admin/assets/js/modules/docs.js:135
+msgid "Makes the widget visually shorter"
+msgstr "উইজেটটি দৃশ্যত ছোট করে"
+
+#: admin/assets/js/modules/docs.js:371
+msgid "March"
+msgstr "মার্চ"
+
+#: admin/assets/js/app.js:64 admin/assets/js/modules/shared.js:142
+msgid "Masjid Admin"
+msgstr "মসজিদ প্রশাসক"
+
+#: admin/assets/js/modules/settings.js:32
+msgid "Masjid Name"
+msgstr "মসজিদের নাম"
+
+#: admin/assets/js/modules/docs.js:277 public/class-itmms-public.php:182 public/class-itmms-public.php:743
+msgid "Masjid Notices"
+msgstr "মসজিদের নোটিশ"
+
+#: admin/assets/js/modules/settings.js:31
+msgid "Masjid Profile"
+msgstr "মসজিদের প্রোফাইল"
+
+#: admin/class-itmms-admin.php:60 admin/class-itmms-admin.php:61
+msgid "MasjidOS"
+msgstr "MasjidOS"
+
+#: includes/class-itmms-installer.php:70
+msgid "MasjidOS - Activation Error"
+msgstr "MasjidOS - সক্রিয়করণ ত্রুটি"
+
+#: admin/assets/js/modules/docs.js:25
+msgid "MasjidOS Documentation"
+msgstr "MasjidOS ডকুমেন্টেশন"
+
+#: includes/class-itmms-installer.php:63
+msgid "MasjidOS requires PHP 7.4 or higher."
+msgstr "MasjidOS ?????? PHP 7.4 ?? ??? ???? ????????"
+
+#: includes/class-itmms-installer.php:59
+msgid "MasjidOS requires WordPress 6.0 or higher."
+msgstr "MasjidOS-এর জন্য WordPress 6.0 বা পরবর্তী সংস্করণ প্রয়োজন।"
+
+#: admin/assets/js/modules/docs.js:423
+msgid "Maximum limit is 20"
+msgstr "Maximum limit is 20"
+
+#: admin/assets/js/modules/docs.js:373
+msgid "May"
+msgstr "মে"
+
+#: admin/assets/js/modules/dashboard.js:143 public/class-itmms-public.php:567
+msgid "Method"
+msgstr "পদ্ধতি"
+
+#: admin/assets/js/modules/settings.js:173
+msgid "Minutes, -60 to +60"
+msgstr "মিনিট, -৬০ থেকে +৬০"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "module enabled"
+msgid_plural "modules enabled"
+msgstr[0] "মডিউল সক্রিয়"
+msgstr[1] "মডিউল সক্রিয়"
+
+#: admin/assets/js/modules/dashboard.js:151
+msgid "Module Manager"
+msgstr "মডিউল ম্যানেজার"
+
+#: admin/assets/js/app.js:75 admin/assets/js/app.js:791
+msgid "Modules"
+msgstr "মডিউল"
+
+#: admin/assets/js/modules/docs.js:333 public/class-itmms-public.php:700
+msgid "Month"
+msgstr "মাস"
+
+#: admin/assets/js/modules/docs.js:338
+msgid "Month navigation"
+msgstr "মাস নেভিগেশন"
+
+#: admin/assets/js/modules/docs.js:100
+msgid "Month uses 1 to 12"
+msgstr "মাসের জন্য ১ থেকে ১২ ব্যবহার হয়"
+
+#: admin/assets/js/modules/docs.js:106
+msgid "Monthly Compact Design"
+msgstr "মাসিক কমপ্যাক্ট ডিজাইন"
+
+#: admin/assets/js/modules/docs.js:289
+msgid "Monthly prayer timetable"
+msgstr "মাসিক নামাজের সময়সূচি"
+
+#: admin/assets/js/modules/docs.js:262 public/class-itmms-public.php:119 public/class-itmms-public.php:694
+msgid "Monthly Prayer Timetable"
+msgstr "মাসিক নামাজের সময়সূচি"
+
+#: admin/assets/js/modules/docs.js:102
+msgid "Monthly Table Design"
+msgstr "মাসিক টেবিল ডিজাইন"
+
+#: admin/assets/js/modules/docs.js:91
+msgid "Monthly Timetable"
+msgstr "মাসিক সময়সূচি"
+
+#: admin/assets/js/modules/docs.js:256
+msgid "Monthly timetable attributes"
+msgstr "মাসিক সময়সূচির অ্যাট্রিবিউট"
+
+#: admin/assets/js/modules/docs.js:330
+msgid "Monthly Timetable Generator"
+msgstr "মাসিক সময়সূচি জেনারেটর"
+
+#: admin/assets/js/modules/docs.js:203 public/class-itmms-public.php:477
+msgid "Mosque Board"
+msgstr "মসজিদ বোর্ড"
+
+#: admin/assets/js/modules/docs.js:332
+msgid "Mosque Board (Pro)"
+msgstr "মসজিদ বোর্ড (Pro)"
+
+#: admin/assets/js/modules/events.js:44
+msgid "Mosque calendar"
+msgstr "Mosque calendar"
+
+#: admin/assets/js/modules/dashboard.js:96
+msgid "Mosque calendar events"
+msgstr "Mosque calendar events"
+
+#: admin/assets/js/modules/docs.js:198 public/class-itmms-public.php:394
+msgid "Mosque Display"
+msgstr "মসজিদ ডিসপ্লে"
+
+#: admin/assets/js/modules/docs.js:201 public/class-itmms-public.php:438
+msgid "Mosque Notice"
+msgstr "মসজিদ নোটিশ"
+
+#: includes/class-itmms-roles.php:61
+msgid "Muazzin"
+msgstr "মুয়াজ্জিন"
+
+#: admin/assets/js/modules/settings.js:45
+msgid "Muslim World League"
+msgstr "মুসলিম ওয়ার্ল্ড লিগ"
+
+#: public/class-itmms-public.php:430
+msgid "Narrow Jumuah card for sidebars and mobile-first sections."
+msgstr "সাইডবার ও মোবাইল-কেন্দ্রিক সেকশনের জন্য সরু জুমা কার্ড।"
+
+#: public/class-itmms-public.php:386
+msgid "Narrow prayer table for sidebars and smaller sections."
+msgstr "সাইডবার ও ছোট সেকশনের জন্য সরু নামাজের টেবিল।"
+
+#: admin/assets/js/modules/events.js:34
+msgid "New event"
+msgstr "New event"
+
+#: admin/assets/js/modules/events.js:30
+msgid "New Event"
+msgstr "New Event"
+
+#: admin/assets/js/modules/announcements.js:35
+msgid "New notice"
+msgstr "নতুন নোটিশ"
+
+#: admin/assets/js/modules/announcements.js:31
+msgid "New Notice"
+msgstr "নতুন নোটিশ"
+
+#: public/class-itmms-public.php:699
+msgid "Next month"
+msgstr "পরবর্তী মাস"
+
+#: admin/assets/js/modules/dashboard.js:93 public/class-itmms-public.php:563
+msgid "Next Prayer"
+msgstr "পরবর্তী ওয়াক্ত"
+
+#: public/class-itmms-public.php:225
+msgid "No active notices"
+msgstr "কোনো সক্রিয় নোটিশ নেই"
+
+#: admin/assets/js/modules/dashboard.js:89
+msgid "No active notices. Add one from the Notices screen."
+msgstr "কোনো সক্রিয় নোটিশ নেই। নোটিশ স্ক্রিন থেকে একটি যোগ করুন।"
+
+#: admin/assets/js/modules/events.js:58
+msgid "No end time"
+msgstr "No end time"
+
+#: admin/assets/js/modules/events.js:51
+msgid "No events registered yet. Create the first one using the editor."
+msgstr "No events registered yet. Create the first one using the editor."
+
+#: admin/assets/js/modules/announcements.js:61
+msgid "No expiry"
+msgstr "মেয়াদ শেষ হবে না"
+
+#: admin/assets/js/modules/events.js:56
+msgid "No Location"
+msgstr "No Location"
+
+#: admin/assets/js/modules/announcements.js:54
+msgid "No notices yet. Publish the first update from the editor."
+msgstr "এখনো কোনো নোটিশ নেই। এডিটর থেকে প্রথম আপডেট প্রকাশ করুন।"
+
+#: admin/assets/js/app.js:433 admin/assets/js/modules/settings.js:136
+msgid "No photo"
+msgstr "কোনো ছবি নেই"
+
+#: public/class-itmms-public.php:277
+msgid "No upcoming events"
+msgstr "No upcoming events"
+
+#: admin/assets/js/modules/dashboard.js:129 admin/assets/js/modules/dashboard.js:132 admin/assets/js/modules/dashboard.js:51
+msgid "Not set"
+msgstr "নির্ধারিত নয়"
+
+#: admin/assets/js/modules/announcements.js:74 admin/assets/js/modules/dashboard.js:88 public/class-itmms-public.php:744
+msgid "Notice"
+msgstr "নোটিশ"
+
+#: admin/assets/js/modules/announcements.js:47
+msgid "Notice library"
+msgstr "নোটিশ লাইব্রেরি"
+
+#: admin/assets/js/modules/docs.js:146 public/class-itmms-public.php:506
+msgid "Notice List"
+msgstr "নোটিশ তালিকা"
+
+#: includes/class-itmms-announcements.php:195 includes/class-itmms-rest.php:409
+msgid "Notice not found."
+msgstr "নোটিশ পাওয়া যায়নি।"
+
+#: admin/assets/js/modules/docs.js:78
+msgid "Notice Pill"
+msgstr "নোটিশ পিল"
+
+#: admin/assets/js/app.js:371
+msgid "Notice published."
+msgstr "নোটিশ প্রকাশিত হয়েছে।"
+
+#: admin/assets/js/modules/docs.js:152 public/class-itmms-public.php:511
+msgid "Notice Ticker"
+msgstr "নোটিশ টিকার"
+
+#: includes/class-itmms-announcements.php:165 includes/class-itmms-announcements.php:200
+msgid "Notice title is required."
+msgstr "নোটিশের শিরোনাম আবশ্যক।"
+
+#: admin/assets/js/app.js:371
+msgid "Notice updated."
+msgstr "নোটিশ আপডেট হয়েছে।"
+
+#: admin/assets/js/modules/docs.js:343
+msgid "Notice Widget Generator"
+msgstr "নোটিশ উইজেট জেনারেটর"
+
+#: admin/assets/js/app.js:73 admin/assets/js/app.js:789 admin/assets/js/modules/docs.js:33
+msgid "Notices"
+msgstr "নোটিশ"
+
+#: admin/assets/js/modules/docs.js:379
+msgid "November"
+msgstr "নভেম্বর"
+
+#: admin/assets/js/modules/dashboard.js:52 public/class-itmms-public.php:565
+msgid "Now"
+msgstr "এখন"
+
+#: admin/assets/js/modules/docs.js:378
+msgid "October"
+msgstr "অক্টোবর"
+
+#: admin/assets/js/modules/events.js:31 admin/assets/js/modules/events.js:67
+msgid "Ongoing"
+msgstr "Ongoing"
+
+#: admin/assets/js/modules/settings.js:161
+msgid "Open Google Maps"
+msgstr "গুগল ম্যাপস খুলুন"
+
+#: admin/assets/js/modules/settings.js:155
+msgid "Open Google Maps and search your masjid name or address."
+msgstr "গুগল ম্যাপস খুলে মসজিদের নাম বা ঠিকানা খুঁজুন।"
+
+#: admin/assets/js/modules/docs.js:312 admin/assets/js/modules/docs.js:324 admin/assets/js/modules/docs.js:336 admin/assets/js/modules/docs.js:350 admin/assets/js/modules/docs.js:361
+msgid "Optional custom title"
+msgstr "ঐচ্ছিক কাস্টম শিরোনাম"
+
+#: admin/assets/js/modules/settings.js:89
+msgid "Optional public note, for example: Please arrive early."
+msgstr "ঐচ্ছিক পাবলিক নোট, যেমন: অনুগ্রহ করে আগে আসুন।"
+
+#: admin/assets/js/modules/events.js:39
+msgid "Optional."
+msgstr "Optional."
+
+#: admin/assets/js/modules/announcements.js:42
+msgid "Optional. Uses the same timezone."
+msgstr "ঐচ্ছিক। একই টাইমজোন ব্যবহার করে।"
+
+#: admin/assets/js/modules/settings.js:222
+msgid "Organized setup panels for masjid profile, prayer times, Iqamah, and Jumuah."
+msgstr "মসজিদের প্রোফাইল, নামাজের সময়, জামাত ও জুমার জন্য সাজানো সেটআপ প্যানেল।"
+
+#: admin/assets/js/modules/docs.js:29
+msgid "Overview"
+msgstr "সারসংক্ষেপ"
+
+#: admin/assets/js/modules/docs.js:63
+msgid "Pages > Add New, add a Shortcode block, paste the shortcode, then publish."
+msgstr "পেজেস > নতুন যোগ করুন থেকে একটি শর্টকোড ব্লক যোগ করে শর্টকোড পেস্ট করুন, তারপর প্রকাশ করুন।"
+
+#: admin/assets/js/modules/events.js:68
+msgid "Past"
+msgstr "Past"
+
+#: admin/assets/js/modules/settings.js:158
+msgid "Paste the first number into Latitude and the second number into Longitude."
+msgstr "প্রথম সংখ্যাটি অক্ষাংশ এবং দ্বিতীয় সংখ্যাটি দ্রাঘিমাংশ ঘরে পেস্ট করুন।"
+
+#: public/class-itmms-public.php:745
+msgid "Pause"
+msgstr "থামান"
+
+#: admin/assets/js/modules/docs.js:154
+msgid "Pauses on hover and respects reduced-motion settings"
+msgstr "হোভার করলে থামে এবং reduced-motion সেটিংস মেনে চলে"
+
+#: admin/assets/js/modules/docs.js:290
+msgid "PDF export for notice boards"
+msgstr "নোটিশ বোর্ডের জন্য PDF এক্সপোর্ট"
+
+#: public/class-itmms-public.php:746
+msgid "Play"
+msgstr "চালান"
+
+#: admin/assets/js/modules/docs.js:64
+msgid "Post or Article"
+msgstr "পোস্ট বা নিবন্ধ"
+
+#: admin/assets/js/modules/docs.js:64
+msgid "Posts > Add New, place the shortcode where the prayer widget should appear."
+msgstr "পোস্টস > নতুন যোগ করুন থেকে যেখানে নামাজের উইজেট দেখাতে চান সেখানে শর্টকোড দিন।"
+
+#: admin/assets/js/modules/docs.js:31
+msgid "Prayer"
+msgstr "নামাজ"
+
+#: admin/assets/js/modules/settings.js:42
+msgid "Prayer Calculation"
+msgstr "নামাজের সময় হিসাব"
+
+#: admin/assets/js/modules/dashboard.js:97
+msgid "Prayer Method"
+msgstr "নামাজের পদ্ধতি"
+
+#: admin/assets/js/modules/docs.js:26
+msgid "Prayer Settings"
+msgstr "নামাজের সেটিংস"
+
+#: admin/assets/js/modules/dashboard.js:135
+msgid "Prayer Setup"
+msgstr "নামাজের সেটআপ"
+
+#: admin/assets/js/modules/docs.js:228
+msgid "Prayer shortcode attributes"
+msgstr "নামাজ শর্টকোডের অ্যাট্রিবিউট"
+
+#: admin/assets/js/modules/settings.js:63
+msgid "Prayer Time Adjustments"
+msgstr "নামাজের সময় সমন্বয়"
+
+#: admin/assets/js/modules/docs.js:230 includes/class-itmms-settings.php:138 public/class-itmms-public.php:51 public/class-itmms-public.php:562
+msgid "Prayer Times"
+msgstr "নামাজের সময়"
+
+#: admin/assets/js/modules/docs.js:287
+msgid "Prayer times block/widget presets"
+msgstr "নামাজের সময়ের ব্লক/উইজেট প্রিসেট"
+
+#: admin/assets/js/modules/docs.js:308
+msgid "Prayer Times Generator"
+msgstr "নামাজের সময় জেনারেটর"
+
+#: admin/assets/js/modules/docs.js:85
+msgid "Prayer Times Widget"
+msgstr "নামাজের সময় উইজেট"
+
+#: admin/assets/js/modules/docs.js:197 public/class-itmms-public.php:389
+msgid "Premium Card"
+msgstr "প্রিমিয়াম কার্ড"
+
+#: admin/assets/js/modules/docs.js:202 public/class-itmms-public.php:472
+msgid "Premium Print"
+msgstr "প্রিমিয়াম প্রিন্ট"
+
+#: admin/assets/js/modules/docs.js:332
+msgid "Premium Print (Pro)"
+msgstr "প্রিমিয়াম প্রিন্ট (Pro)"
+
+#: admin/assets/js/modules/docs.js:200 public/class-itmms-public.php:433
+msgid "Premium Sermon"
+msgstr "প্রিমিয়াম খুতবা"
+
+#: public/class-itmms-public.php:698
+msgid "Previous month"
+msgstr "আগের মাস"
+
+#: public/class-itmms-public.php:704
+msgid "Print"
+msgstr "প্রিন্ট"
+
+#: admin/assets/js/modules/announcements.js:40
+msgid "Priority"
+msgstr "অগ্রাধিকার"
+
+#: admin/assets/js/modules/announcements.js:61
+msgid "Priority %s"
+msgstr "অগ্রাধিকার %s"
+
+#: admin/assets/js/modules/docs.js:104
+msgid "Pro can add more monthly designs without changing this shortcode system"
+msgstr "এই শর্টকোড ব্যবস্থা না বদলিয়েই Pro আরও মাসিক ডিজাইন যোগ করতে পারে"
+
+#: admin/assets/js/modules/docs.js:194
+msgid "Pro design presets"
+msgstr "Pro ডিজাইন প্রিসেট"
+
+#: admin/assets/js/modules/settings.js:94
+msgid "Profile"
+msgstr "প্রোফাইল"
+
+#: admin/assets/js/modules/settings.js:99
+msgid "Public"
+msgstr "পাবলিক"
+
+#: admin/assets/js/modules/settings.js:107
+msgid "Public Options"
+msgstr "পাবলিক অপশন"
+
+#: admin/assets/js/modules/settings.js:107
+msgid "Public transparency reports"
+msgstr "পাবলিক স্বচ্ছতা প্রতিবেদন"
+
+#: admin/assets/js/modules/announcements.js:35
+msgid "Publish an update"
+msgstr "একটি আপডেট প্রকাশ করুন"
+
+#: admin/assets/js/modules/announcements.js:45
+msgid "Publish Notice"
+msgstr "নোটিশ প্রকাশ করুন"
+
+#: admin/assets/js/modules/docs.js:221
+msgid "Publish Shortcode"
+msgstr "শর্টকোড প্রকাশ করুন"
+
+#: admin/assets/js/modules/announcements.js:44
+msgid "Published"
+msgstr "প্রকাশিত"
+
+#: admin/assets/js/modules/dashboard.js:95
+msgid "Published and in schedule"
+msgstr "প্রকাশিত ও সময়সীমার মধ্যে"
+
+#: public/class-itmms-public.php:570
+msgid "Qibla"
+msgstr "কিবলা"
+
+#: admin/assets/js/modules/dashboard.js:138
+msgid "Qibla Direction"
+msgstr "কিবলার দিক"
+
+#: admin/assets/js/modules/docs.js:206 public/class-itmms-public.php:521
+msgid "Ramadan Banner"
+msgstr "রমজান ব্যানার"
+
+#: admin/assets/js/modules/docs.js:346
+msgid "Ramadan Banner (Pro)"
+msgstr "রমজান ব্যানার (Pro)"
+
+#: admin/assets/js/modules/docs.js:204 public/class-itmms-public.php:482
+msgid "Ramadan Monthly"
+msgstr "রমজান মাসিক"
+
+#: admin/assets/js/modules/docs.js:332
+msgid "Ramadan Monthly (Pro)"
+msgstr "রমজান মাসিক (Pro)"
+
+#: admin/assets/js/modules/docs.js:199 public/class-itmms-public.php:399
+msgid "Ramadan Special"
+msgstr "রমজান স্পেশাল"
+
+#: public/class-itmms-public.php:508
+msgid "Readable public notice board."
+msgstr "সহজপাঠ্য পাবলিক নোটিশ বোর্ড।"
+
+#: admin/assets/js/modules/announcements.js:47
+msgid "Recent announcements"
+msgstr "সাম্প্রতিক ঘোষণা"
+
+#: admin/assets/js/modules/docs.js:213
+msgid "Recommended setup checklist"
+msgstr "প্রস্তাবিত সেটআপ চেকলিস্ট"
+
+#: admin/assets/js/modules/docs.js:36
+msgid "Reference"
+msgstr "রেফারেন্স"
+
+#: admin/assets/js/modules/settings.js:141
+msgid "Remove"
+msgstr "সরান"
+
+#: admin/assets/js/modules/shared.js:120
+msgid "Request failed"
+msgstr "অনুরোধ ব্যর্থ হয়েছে"
+
+#: admin/assets/js/modules/settings.js:156
+msgid "Right-click the exact masjid location on the map."
+msgstr "ম্যাপে মসজিদের সঠিক অবস্থানে রাইট-ক্লিক করুন।"
+
+#: admin/assets/js/modules/settings.js:109
+msgid "Save Settings"
+msgstr "সেটিংস সংরক্ষণ করুন"
+
+#: admin/assets/js/app.js:832
+msgid "Saved"
+msgstr "সংরক্ষিত"
+
+#: admin/assets/js/modules/dashboard.js:98
+msgid "Saved preference"
+msgstr "সংরক্ষিত পছন্দ"
+
+#: admin/assets/js/app.js:315 admin/assets/js/app.js:357 admin/assets/js/app.js:811
+msgid "Saving..."
+msgstr "সংরক্ষণ করা হচ্ছে..."
+
+#: admin/assets/js/modules/events.js:29
+msgid "Schedule special lectures, community gatherings, Eid prayers, or charity events."
+msgstr "Schedule special lectures, community gatherings, Eid prayers, or charity events."
+
+#: admin/assets/js/modules/announcements.js:32 admin/assets/js/modules/announcements.js:80
+msgid "Scheduled"
+msgstr "নির্ধারিত"
+
+#: admin/assets/js/modules/events.js:44
+msgid "Scheduled events"
+msgstr "Scheduled events"
+
+#: includes/class-itmms-settings.php:139
+msgid "Scheduled notices, public list, ticker"
+msgstr "নির্ধারিত নোটিশ, পাবলিক তালিকা, টিকার"
+
+#: admin/assets/js/modules/settings.js:209 admin/assets/js/modules/settings.js:83 public/class-itmms-public.php:640
+msgid "Second Jumuah"
+msgstr "দ্বিতীয় জুমা"
+
+#: admin/assets/js/app.js:736
+msgid "Select"
+msgstr "নির্বাচন করুন"
+
+#: admin/assets/js/modules/settings.js:138
+msgid "Select from Media Library or paste image URL"
+msgstr "মিডিয়া লাইব্রেরি থেকে নির্বাচন করুন বা ছবির URL পেস্ট করুন"
+
+#: admin/assets/js/app.js:497
+msgid "Select Khatib Photo"
+msgstr "খতিবের ছবি নির্বাচন করুন"
+
+#: admin/assets/js/modules/settings.js:140
+msgid "Select Photo"
+msgstr "ছবি নির্বাচন করুন"
+
+#: admin/assets/js/modules/docs.js:273
+msgid "Selects a free notice design. Pro designs are supplied by the Pro plugin."
+msgstr "একটি ফ্রি নোটিশ ডিজাইন নির্বাচন করে। Pro ডিজাইন Pro প্লাগিন থেকে সরবরাহ করা হয়।"
+
+#: admin/assets/js/modules/docs.js:231
+msgid "Selects the free design preset. Pro adds more designs from the Pro plugin."
+msgstr "ফ্রি ডিজাইন প্রিসেট নির্বাচন করে। Pro প্লাগিন আরও ডিজাইন যোগ করে।"
+
+#: admin/assets/js/modules/docs.js:246
+msgid "Selects the free Jumuah design preset. Pro can add more designs from the Pro plugin."
+msgstr "ফ্রি জুমা ডিজাইন প্রিসেট নির্বাচন করে। Pro প্লাগিন আরও ডিজাইন যোগ করতে পারে।"
+
+#: admin/assets/js/modules/docs.js:437
+msgid "Selects the layout style."
+msgstr "Selects the layout style."
+
+#: admin/assets/js/modules/docs.js:260
+msgid "Selects the monthly timetable design. Pro designs are rendered by the Pro plugin."
+msgstr "মাসিক সময়সূচির ডিজাইন নির্বাচন করে। Pro ডিজাইন Pro প্লাগিন রেন্ডার করে।"
+
+#: admin/assets/js/modules/docs.js:377
+msgid "September"
+msgstr "সেপ্টেম্বর"
+
+#: admin/assets/js/modules/docs.js:216
+msgid "Set Coordinates"
+msgstr "স্থানাঙ্ক নির্ধারণ করুন"
+
+#: admin/assets/js/modules/settings.js:80
+msgid "Set Friday sessions, khatib profile, topic, language, and public notice."
+msgstr "শুক্রবারের সেশন, খতিবের প্রোফাইল, বিষয়, ভাষা ও পাবলিক নোটিশ নির্ধারণ করুন।"
+
+#: admin/assets/js/modules/docs.js:219
+msgid "Set Iqamah Times"
+msgstr "জামাতের সময় নির্ধারণ করুন"
+
+#: admin/assets/js/modules/settings.js:72
+msgid "Set jamaat start times shown on the dashboard and public prayer widget."
+msgstr "ড্যাশবোর্ড ও পাবলিক নামাজ উইজেটে দেখানো জামাত শুরুর সময় নির্ধারণ করুন।"
+
+#: admin/assets/js/modules/docs.js:220
+msgid "Set Jumuah Details"
+msgstr "জুমার তথ্য নির্ধারণ করুন"
+
+#: admin/assets/js/modules/docs.js:215
+msgid "Set Timezone"
+msgstr "টাইমজোন নির্ধারণ করুন"
+
+#: admin/assets/js/app.js:76 admin/assets/js/app.js:792 admin/assets/js/modules/settings.js:222
+msgid "Settings"
+msgstr "সেটিংস"
+
+#: admin/assets/js/modules/docs.js:25
+msgid "Shortcodes, setup notes, and usage recipes"
+msgstr "শর্টকোড, সেটআপ নোট ও ব্যবহারের নির্দেশিকা"
+
+#: admin/assets/js/modules/docs.js:161
+msgid "Show a cleaner list without start dates."
+msgstr "শুরুর তারিখ ছাড়া আরও পরিচ্ছন্ন তালিকা দেখান।"
+
+#: admin/assets/js/modules/docs.js:98
+msgid "Show a fixed month and year timetable."
+msgstr "নির্দিষ্ট মাস ও বছরের সময়সূচি দেখান।"
+
+#: admin/assets/js/modules/docs.js:146
+msgid "Show active notices as a readable public notice board."
+msgstr "সক্রিয় নোটিশ সহজপাঠ্য পাবলিক নোটিশ বোর্ড হিসেবে দেখান।"
+
+#: admin/assets/js/modules/docs.js:351
+msgid "Show Date"
+msgstr "তারিখ দেখান"
+
+#: admin/assets/js/modules/docs.js:170
+msgid "Show Friday khutbah and jamaat time on any public page."
+msgstr "যেকোনো পাবলিক পাতায় শুক্রবারের খুতবা ও জামাতের সময় দেখান।"
+
+#: admin/assets/js/modules/docs.js:315 admin/assets/js/modules/docs.js:337
+msgid "Show Iqamah"
+msgstr "জামাতের সময় দেখান"
+
+#: admin/assets/js/modules/docs.js:325
+msgid "Show Khatib & Meta"
+msgstr "খতিব ও অতিরিক্ত তথ্য দেখান"
+
+#: admin/assets/js/modules/docs.js:314
+msgid "Show Meta"
+msgstr "অতিরিক্ত তথ্য দেখান"
+
+#: admin/assets/js/modules/docs.js:185
+msgid "Show only the public Jumuah session times and header."
+msgstr "শুধু পাবলিক জুমার সেশনের সময় ও হেডার দেখান।"
+
+#: admin/assets/js/modules/docs.js:124
+msgid "Show prayer names and widget labels in Bangla."
+msgstr "নামাজের নাম ও উইজেটের লেবেল বাংলায় দেখান।"
+
+#: admin/assets/js/modules/docs.js:313
+msgid "Show Qibla"
+msgstr "কিবলা দেখান"
+
+#: admin/assets/js/modules/docs.js:91
+msgid "Show the full prayer timetable for the current month."
+msgstr "বর্তমান মাসের সম্পূর্ণ নামাজের সময়সূচি দেখান।"
+
+#: admin/assets/js/modules/docs.js:181
+msgid "Show the Jumuah widget labels in Bangla."
+msgstr "জুমা উইজেটের লেবেল বাংলায় দেখান।"
+
+#: admin/assets/js/modules/docs.js:106
+msgid "Show the month as day cards instead of a wide table."
+msgstr "প্রশস্ত টেবিলের বদলে মাসটি দিনের কার্ড হিসেবে দেখান।"
+
+#: admin/assets/js/modules/docs.js:415
+msgid "Show upcoming community gatherings, lectures, and special prayers."
+msgstr "Show upcoming community gatherings, lectures, and special prayers."
+
+#: admin/assets/js/modules/docs.js:258
+msgid "Shows a specific Gregorian month."
+msgstr "নির্দিষ্ট গ্রেগরিয়ান মাস দেখায়।"
+
+#: admin/assets/js/modules/docs.js:259
+msgid "Shows a specific Gregorian year."
+msgstr "নির্দিষ্ট গ্রেগরিয়ান বছর দেখায়।"
+
+#: admin/assets/js/modules/docs.js:88
+msgid "Shows next prayer countdown"
+msgstr "পরবর্তী ওয়াক্তের কাউন্টডাউন দেখায়"
+
+#: admin/assets/js/modules/docs.js:172
+msgid "Shows one or two Jumuah sessions"
+msgstr "এক বা দুইটি জুমার সেশন দেখায়"
+
+#: admin/assets/js/modules/docs.js:125
+msgid "Shows one prayer name only"
+msgstr "শুধু একটি নামাজের নাম দেখায়"
+
+#: admin/assets/js/modules/docs.js:236
+msgid "Shows or hides jamaat/Iqamah times."
+msgstr "জামাতের সময় দেখায় বা লুকায়।"
+
+#: admin/assets/js/modules/docs.js:249
+msgid "Shows or hides khatib and location details."
+msgstr "খতিব ও অবস্থানের তথ্য দেখায় বা লুকায়।"
+
+#: admin/assets/js/modules/docs.js:234
+msgid "Shows or hides method, Asr, and timezone details."
+msgstr "পদ্ধতি, আসর ও টাইমজোনের তথ্য দেখায় বা লুকায়।"
+
+#: admin/assets/js/modules/docs.js:278
+msgid "Shows or hides notice start dates."
+msgstr "নোটিশের শুরুর তারিখ দেখায় বা লুকায়।"
+
+#: admin/assets/js/modules/docs.js:264
+msgid "Shows or hides reload-free month and year controls."
+msgstr "রিলোড ছাড়াই মাস ও বছর নিয়ন্ত্রণ দেখায় বা লুকায়।"
+
+#: admin/assets/js/modules/docs.js:233
+msgid "Shows or hides the Qibla card."
+msgstr "কিবলা কার্ড দেখায় বা লুকায়।"
+
+#: admin/assets/js/modules/docs.js:86
+msgid "Shows today's prayer times"
+msgstr "আজকের নামাজের সময় দেখায়"
+
+#: admin/assets/js/modules/announcements.js:41 admin/assets/js/modules/events.js:38
+msgid "site timezone"
+msgstr "সাইটের টাইমজোন"
+
+#: admin/assets/js/modules/settings.js:107
+msgid "Small public-facing switches for transparency and display preferences."
+msgstr "স্বচ্ছতা ও প্রদর্শনের পছন্দের জন্য ছোট পাবলিক সুইচ।"
+
+#: admin/assets/js/modules/docs.js:149
+msgid "Sorted by priority and start date"
+msgstr "অগ্রাধিকার ও শুরুর তারিখ অনুযায়ী সাজানো"
+
+#: admin/assets/js/modules/docs.js:418
+msgid "Sorted chronologically by event start date"
+msgstr "Sorted chronologically by event start date"
+
+#: admin/assets/js/modules/docs.js:98
+msgid "Specific Month"
+msgstr "নির্দিষ্ট মাস"
+
+#: admin/assets/js/modules/settings.js:52
+msgid "Standard"
+msgstr "স্ট্যান্ডার্ড"
+
+#: admin/assets/js/modules/announcements.js:41 admin/assets/js/modules/events.js:38
+msgid "Starts"
+msgstr "শুরু"
+
+#: admin/assets/js/modules/announcements.js:61 admin/assets/js/modules/events.js:58
+msgid "Starts %s"
+msgstr "শুরু %s"
+
+#: admin/assets/js/modules/docs.js:134
+msgid "Still shows Qibla if qibla is enabled"
+msgstr "কিবলা সক্রিয় থাকলে এখনো কিবলা দেখায়"
+
+#: admin/assets/js/modules/dashboard.js:36 admin/assets/js/modules/dashboard.js:60 admin/assets/js/modules/settings.js:65
+msgid "Sunrise"
+msgstr "সূর্যোদয়"
+
+#: admin/assets/js/modules/docs.js:179
+msgid "Supports language=\"bn\""
+msgstr "language=\"bn\" সমর্থন করে"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "System Health"
+msgstr "সিস্টেমের অবস্থা"
+
+#: admin/assets/js/modules/docs.js:332 public/class-itmms-public.php:462
+msgid "Table"
+msgstr "টেবিল"
+
+#: admin/assets/js/modules/docs.js:230 admin/assets/js/modules/docs.js:248 admin/assets/js/modules/docs.js:262 admin/assets/js/modules/docs.js:277 admin/assets/js/modules/docs.js:436
+msgid "Text"
+msgstr "টেক্সট"
+
+#: includes/class-itmms-events.php:175
+msgid "The event could not be created."
+msgstr "The event could not be created."
+
+#: includes/class-itmms-rest.php:473
+msgid "The event could not be deleted."
+msgstr "The event could not be deleted."
+
+#: includes/class-itmms-events.php:216
+msgid "The event could not be updated."
+msgstr "The event could not be updated."
+
+#: includes/class-itmms-events.php:163 includes/class-itmms-events.php:203
+msgid "The event end time must be after its start time."
+msgstr "The event end time must be after its start time."
+
+#: admin/assets/js/modules/docs.js:195
+msgid "The free plugin only shows these as available in MasjidOS Pro. The actual Pro design code ships from the Pro plugin, not from this free plugin."
+msgstr "ফ্রি প্লাগিনে এগুলো শুধু MasjidOS Pro-তে পাওয়া যাবে বলে দেখানো হয়। প্রকৃত Pro ডিজাইনের কোড এই ফ্রি প্লাগিনে নয়, Pro প্লাগিনের সঙ্গে আসে।"
+
+#: includes/class-itmms-announcements.php:180
+msgid "The notice could not be created."
+msgstr "নোটিশ তৈরি করা যায়নি।"
+
+#: includes/class-itmms-rest.php:413
+msgid "The notice could not be deleted."
+msgstr "নোটিশ মুছতে পারেনি।"
+
+#: includes/class-itmms-announcements.php:216
+msgid "The notice could not be updated."
+msgstr "নোটিশ আপডেট করা যায়নি।"
+
+#: includes/class-itmms-announcements.php:168 includes/class-itmms-announcements.php:203
+msgid "The notice end date must be after its start date."
+msgstr "নোটিশের শেষের তারিখ শুরুর তারিখের পরে হতে হবে।"
+
+#: admin/assets/js/modules/docs.js:244
+msgid "The shortcode controls presentation only. Actual Friday data comes from Settings > Jumuah Settings."
+msgstr "শর্টকোড শুধু উপস্থাপন নিয়ন্ত্রণ করে। শুক্রবারের প্রকৃত তথ্য সেটিংস > জুমা সেটিংস থেকে আসে।"
+
+#: public/class-itmms-public.php:702
+msgid "The timetable could not be loaded. Please try again."
+msgstr "সময়সূচি লোড করা যায়নি। আবার চেষ্টা করুন।"
+
+#: public/class-itmms-public.php:879
+msgid "This announcement widget design is available in MasjidOS Pro."
+msgstr "এই ঘোষণা উইজেট ডিজাইন MasjidOS Pro-তে পাওয়া যাবে।"
+
+#: public/class-itmms-public.php:853
+msgid "This Jumuah widget design is available in MasjidOS Pro."
+msgstr "এই জুমা উইজেট ডিজাইন MasjidOS Pro-তে পাওয়া যাবে।"
+
+#: public/class-itmms-public.php:866
+msgid "This monthly timetable design is available in MasjidOS Pro."
+msgstr "এই মাসিক সময়সূচির ডিজাইন MasjidOS Pro-তে পাওয়া যাবে।"
+
+#: public/class-itmms-public.php:840
+msgid "This prayer widget design is available in MasjidOS Pro."
+msgstr "এই নামাজের উইজেট ডিজাইন MasjidOS Pro-তে পাওয়া যাবে।"
+
+#: admin/assets/js/modules/docs.js:346
+msgid "Ticker"
+msgstr "টিকার"
+
+#: public/templates/events.php:13
+msgid "Time"
+msgstr "সময়"
+
+#: public/class-itmms-public.php:697
+msgid "Timetable month navigation"
+msgstr "সময়সূচির মাস নেভিগেশন"
+
+#: admin/assets/js/modules/dashboard.js:145 admin/assets/js/modules/dashboard.js:99 admin/assets/js/modules/settings.js:35 public/class-itmms-public.php:569
+msgid "Timezone"
+msgstr "টাইমজোন"
+
+#: admin/assets/js/modules/settings.js:168
+msgid "Timezone matters:"
+msgstr "টাইমজোন গুরুত্বপূর্ণ:"
+
+#: admin/assets/js/modules/settings.js:160
+msgid "Tip:"
+msgstr "পরামর্শ:"
+
+#: admin/assets/js/modules/announcements.js:36 admin/assets/js/modules/docs.js:312 admin/assets/js/modules/docs.js:324 admin/assets/js/modules/docs.js:336 admin/assets/js/modules/docs.js:350 admin/assets/js/modules/docs.js:361
+msgid "Title"
+msgstr "শিরোনাম"
+
+#: public/templates/events.php:12
+msgid "to"
+msgstr "to"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "Today's Prayer Times"
+msgstr "আজকের নামাজের সময়"
+
+#: admin/assets/js/modules/dashboard.js:75
+msgid "Toggle %s"
+msgstr "%s চালু বা বন্ধ করুন"
+
+#: admin/assets/js/app.js:83
+msgid "Toggle menu"
+msgstr "Toggle menu"
+
+#: admin/assets/js/modules/dashboard.js:119 public/class-itmms-public.php:642
+msgid "Topic"
+msgstr "বিষয়"
+
+#: admin/assets/js/modules/docs.js:77
+msgid "Topic & Language"
+msgstr "বিষয় ও ভাষা"
+
+#: admin/assets/js/modules/announcements.js:32 admin/assets/js/modules/events.js:31
+msgid "Total"
+msgstr "মোট"
+
+#: admin/assets/js/modules/docs.js:425
+msgid "Translate event labels and titles into Bangla."
+msgstr "Translate event labels and titles into Bangla."
+
+#: admin/assets/js/modules/docs.js:182
+msgid "Translates widget title and labels"
+msgstr "উইজেটের শিরোনাম ও লেবেল অনুবাদ করে"
+
+#: admin/assets/js/modules/dashboard.js:151
+msgid "Turn modules on only when your masjid needs them. Disabled modules stay light."
+msgstr "মসজিদের প্রয়োজন হলেই মডিউল চালু করুন। নিষ্ক্রিয় মডিউল হালকা থাকে।"
+
+#: admin/assets/js/modules/announcements.js:39 admin/assets/js/modules/docs.js:348
+msgid "Type"
+msgstr "ধরন"
+
+#: admin/assets/js/modules/settings.js:48
+msgid "Umm al-Qura, Makkah"
+msgstr "উম্মুল কুরা, মক্কা"
+
+#: admin/assets/js/modules/announcements.js:44
+msgid "Uncheck to keep this notice private."
+msgstr "নোটিশটি ব্যক্তিগত রাখতে টিক তুলে দিন।"
+
+#: admin/assets/js/modules/events.js:31 admin/assets/js/modules/events.js:66
+msgid "Upcoming"
+msgstr "Upcoming"
+
+#: admin/assets/js/modules/docs.js:436 public/class-itmms-public.php:249 public/class-itmms-public.php:270
+msgid "Upcoming Events"
+msgstr "Upcoming Events"
+
+#: admin/assets/js/modules/events.js:42
+msgid "Update Event"
+msgstr "Update Event"
+
+#: admin/assets/js/modules/announcements.js:45
+msgid "Update Notice"
+msgstr "নোটিশ আপডেট করুন"
+
+#: admin/assets/js/modules/settings.js:143
+msgid "Upload or choose an image from WordPress Media Library."
+msgstr "ওয়ার্ডপ্রেস মিডিয়া লাইব্রেরি থেকে ছবি আপলোড বা নির্বাচন করুন।"
+
+#: admin/assets/js/modules/announcements.js:68 admin/assets/js/modules/announcements.js:74 admin/assets/js/modules/docs.js:348 public/class-itmms-public.php:751
+msgid "Urgent"
+msgstr "জরুরি"
+
+#: admin/assets/js/modules/docs.js:157
+msgid "Urgent Notices Only"
+msgstr "শুধু জরুরি নোটিশ"
+
+#: admin/assets/js/modules/docs.js:152
+msgid "Use a compact moving strip in a homepage or header area."
+msgstr "হোমপেজ বা হেডার এলাকায় কমপ্যাক্ট চলমান স্ট্রিপ ব্যবহার করুন।"
+
+#: admin/assets/js/modules/docs.js:78
+msgid "Use Jumuah Notice for arrival notes, parking notes, or special Friday announcements."
+msgstr "আগমনের নির্দেশনা, পার্কিং নোট বা শুক্রবারের বিশেষ ঘোষণার জন্য জুমার নোটিশ ব্যবহার করুন।"
+
+#: admin/assets/js/modules/docs.js:77
+msgid "Use Khutbah Topic and Khutbah Language to show the Friday talk details publicly."
+msgstr "শুক্রবারের আলোচনার তথ্য প্রকাশ্যে দেখাতে খুতবার বিষয় ও খুতবার ভাষা ব্যবহার করুন।"
+
+#: admin/assets/js/modules/docs.js:218
+msgid "Use Prayer Time Adjustments if the local committee timetable differs by a few minutes."
+msgstr "স্থানীয় কমিটির সময়সূচিতে কয়েক মিনিট পার্থক্য থাকলে নামাজের সময় সমন্বয় ব্যবহার করুন।"
+
+#: admin/assets/js/modules/docs.js:119
+msgid "Use this in a sidebar, footer, or narrow homepage section."
+msgstr "সাইডবার, ফুটার বা সরু হোমপেজ সেকশনে এটি ব্যবহার করুন।"
+
+#: admin/assets/js/app.js:498
+msgid "Use this photo"
+msgstr "এই ছবি ব্যবহার করুন"
+
+#: admin/assets/js/modules/docs.js:133
+msgid "Use this when method/timezone details are not needed publicly."
+msgstr "পদ্ধতি/টাইমজোনের তথ্য প্রকাশ্যে প্রয়োজন না হলে এটি ব্যবহার করুন।"
+
+#: admin/assets/js/modules/docs.js:137
+msgid "Use this when you only want calculated prayer times."
+msgstr "শুধু হিসাব করা নামাজের সময় চাইলে এটি ব্যবহার করুন।"
+
+#: admin/assets/js/modules/docs.js:129
+msgid "Use this when you want a compact prayer table only."
+msgstr "শুধু কমপ্যাক্ট নামাজের টেবিল চাইলে এটি ব্যবহার করুন।"
+
+#: admin/assets/js/modules/dashboard.js:99
+msgid "Used across schedules"
+msgstr "সব সময়সূচিতে ব্যবহৃত"
+
+#: admin/assets/js/modules/docs.js:139
+msgid "Useful before Iqamah times are finalized"
+msgstr "জামাতের সময় চূড়ান্ত হওয়ার আগে উপযোগী"
+
+#: admin/assets/js/modules/docs.js:99
+msgid "Useful for archive pages"
+msgstr "আর্কাইভ পাতার জন্য উপযোগী"
+
+#: admin/assets/js/modules/docs.js:162
+msgid "Useful for evergreen notices"
+msgstr "দীর্ঘমেয়াদি নোটিশের জন্য উপযোগী"
+
+#: admin/assets/js/modules/docs.js:187
+msgid "Useful for very simple pages"
+msgstr "খুব সাধারণ পাতার জন্য উপযোগী"
+
+#: admin/assets/js/modules/docs.js:117
+msgid "Useful when multiple masjid pages exist"
+msgstr "একাধিক মসজিদের পাতা থাকলে উপযোগী"
+
+#: admin/assets/js/modules/announcements.js:41 admin/assets/js/modules/events.js:38
+msgid "Uses %s."
+msgstr "%s ব্যবহার করে।"
+
+#: admin/assets/js/modules/docs.js:148
+msgid "Uses published notices whose schedule is currently active"
+msgstr "যেসব প্রকাশিত নোটিশের সময়সূচি এখন সক্রিয় সেগুলো ব্যবহার করে"
+
+#: admin/assets/js/modules/docs.js:171
+msgid "Uses the Jumuah Settings section"
+msgstr "জুমা সেটিংস সেকশন ব্যবহার করে"
+
+#: admin/assets/js/modules/docs.js:93
+msgid "Uses your saved location, method, offsets, and timezone"
+msgstr "সংরক্ষিত অবস্থান, পদ্ধতি, সমন্বয় ও টাইমজোন ব্যবহার করে"
+
+#: admin/assets/js/modules/docs.js:95
+msgid "Visitors can switch month and year without reloading the page"
+msgstr "দর্শনার্থীরা পাতা রিলোড না করেই মাস ও বছর বদলাতে পারেন"
+
+#: admin/assets/js/modules/docs.js:285
+msgid "What is coming next"
+msgstr "পরবর্তীতে যা আসছে"
+
+#: admin/assets/js/modules/docs.js:61
+msgid "Where to paste shortcodes"
+msgstr "শর্টকোড কোথায় পেস্ট করবেন"
+
+#: admin/assets/js/modules/docs.js:73
+msgid "Where to set Jumuah data"
+msgstr "জুমার তথ্য কোথায় নির্ধারণ করবেন"
+
+#: public/class-itmms-public.php:425
+msgid "Wide Jumuah card with khutbah, jamaat, and meta details."
+msgstr "খুতবা, জামাত ও অতিরিক্ত তথ্যসহ প্রশস্ত জুমা কার্ড।"
+
+#: admin/assets/js/modules/docs.js:65
+msgid "Widget Area"
+msgstr "উইজেট এলাকা"
+
+#: admin/class-itmms-admin.php:212
+msgid "WordPress Dashboard"
+msgstr "ওয়ার্ডপ্রেস ড্যাশবোর্ড"
+
+#: admin/assets/js/modules/docs.js:63
+msgid "WordPress Page"
+msgstr "ওয়ার্ডপ্রেস পাতা"
+
+#: admin/assets/js/modules/docs.js:127
+msgid "Works with classic and compact designs"
+msgstr "ক্লাসিক ও কমপ্যাক্ট ডিজাইনে কাজ করে"
+
+#: admin/assets/js/modules/docs.js:334 public/class-itmms-public.php:701
+msgid "Year"
+msgstr "বছর"
