@@ -92,7 +92,7 @@ final class ITMMS_Public {
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_prayer_widget_design', '', $design, $data, $atts, $designs );
 			if ( is_string( $rendered ) && '' !== $rendered ) {
-				return $rendered;
+				return wp_kses_post( $rendered );
 			}
 
 			return $this->render_locked_design_notice( $design, $designs[ $design ] ?? null );
@@ -103,7 +103,7 @@ final class ITMMS_Public {
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
-		return (string) ob_get_clean();
+		return wp_kses_post( (string) ob_get_clean() );
 	}
 
 	/**
@@ -155,7 +155,7 @@ final class ITMMS_Public {
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_monthly_prayer_widget_design', '', $design, $data, $atts, $designs );
 			if ( is_string( $rendered ) && '' !== $rendered ) {
-				return $rendered;
+				return wp_kses_post( $rendered );
 			}
 
 			return $this->render_locked_monthly_design_notice( $design, $designs[ $design ] ?? null );
@@ -166,7 +166,7 @@ final class ITMMS_Public {
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
-		return (string) ob_get_clean();
+		return wp_kses_post( (string) ob_get_clean() );
 	}
 
 	/**
@@ -214,7 +214,7 @@ final class ITMMS_Public {
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_announcement_widget_design', '', $design, $notices, $settings, $atts, $designs );
 			if ( is_string( $rendered ) && '' !== $rendered ) {
-				return $rendered;
+				return wp_kses_post( $rendered );
 			}
 
 			return $this->render_locked_announcement_design_notice( $design, $designs[ $design ] ?? null );
@@ -233,7 +233,7 @@ final class ITMMS_Public {
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
-		return (string) ob_get_clean();
+		return wp_kses_post( (string) ob_get_clean() );
 	}
 
 	/**
@@ -285,7 +285,7 @@ final class ITMMS_Public {
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
-		return (string) ob_get_clean();
+		return wp_kses_post( (string) ob_get_clean() );
 	}
 
 	/**
@@ -329,7 +329,7 @@ final class ITMMS_Public {
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_jumuah_widget_design', '', $design, $jumuah, $settings, $atts, $designs );
 			if ( is_string( $rendered ) && '' !== $rendered ) {
-				return $rendered;
+				return wp_kses_post( $rendered );
 			}
 
 			return $this->render_locked_jumuah_design_notice( $design, $designs[ $design ] ?? null );
@@ -364,7 +364,7 @@ final class ITMMS_Public {
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
-		return (string) ob_get_clean();
+		return wp_kses_post( (string) ob_get_clean() );
 	}
 
 	/**

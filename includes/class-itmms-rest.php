@@ -364,6 +364,11 @@ final class ITMMS_REST {
 	}
 
 	public function get_public_announcements( WP_REST_Request $request ): WP_REST_Response {
+		$settings = ITMMS_Settings::get_all();
+		if ( empty( $settings['modules']['announcements'] ) ) {
+			return rest_ensure_response( [ 'announcements' => [] ] );
+		}
+
 		$limit = max( 1, min( 50, absint( $request->get_param( 'limit' ) ) ?: 10 ) );
 		$type = sanitize_key( (string) $request->get_param( 'type' ) );
 		$announcements = array_map(

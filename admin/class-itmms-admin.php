@@ -63,7 +63,7 @@ final class ITMMS_Admin {
 			'masjidos',
 			[ $this, 'render_app' ],
 			'dashicons-building',
-			3
+			80
 		);
 	}
 
