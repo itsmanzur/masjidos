@@ -22,12 +22,13 @@ define( 'ITMMS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ITMMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'ITMMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 // Internal database/capability schema version. This does not need to match the public plugin version.
-define( 'ITMMS_DB_VERSION', '1.1' );
+define( 'ITMMS_DB_VERSION', '1.2' );
 
 // Load classes immediately because activation hooks run early.
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-roles.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-installer.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-settings.php';
+require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-hijri.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-prayer-times.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-announcements.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-events.php';

@@ -106,6 +106,126 @@ final class ITMMS_REST {
 
 		register_rest_route(
 			self::NAMESPACE,
+			'/prayer-widget',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_prayer_widget' ],
+				'permission_callback' => '__return_true',
+				'args'                => $this->widget_preview_args(),
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/monthly-prayer-widget',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_monthly_prayer_widget' ],
+				'permission_callback' => '__return_true',
+				'args'                => [
+					'month'    => [
+						'required'          => false,
+						'validate_callback' => function( $param ) {
+							return is_numeric( $param ) || empty( $param );
+						},
+						'sanitize_callback' => 'absint',
+					],
+					'year'     => [
+						'required'          => false,
+						'validate_callback' => function( $param ) {
+							return is_numeric( $param ) || empty( $param );
+						},
+						'sanitize_callback' => 'absint',
+					],
+					'design'   => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
+					],
+					'language' => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
+					],
+					'iqamah'   => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+					'title'    => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/calendar',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_calendar_widget' ],
+				'permission_callback' => '__return_true',
+				'args'                => [
+					'month'    => [
+						'required'          => false,
+						'validate_callback' => function( $param ) {
+							return is_numeric( $param ) || empty( $param );
+						},
+						'sanitize_callback' => 'absint',
+					],
+					'year'     => [
+						'required'          => false,
+						'validate_callback' => function( $param ) {
+							return is_numeric( $param ) || empty( $param );
+						},
+						'sanitize_callback' => 'absint',
+					],
+					'language' => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
+					],
+					'title'    => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/jumuah-widget',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_jumuah_widget' ],
+				'permission_callback' => '__return_true',
+				'args'                => $this->widget_preview_args(),
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/announcements-widget',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_announcements_widget' ],
+				'permission_callback' => '__return_true',
+				'args'                => $this->widget_preview_args(),
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/events-widget',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_events_widget' ],
+				'permission_callback' => '__return_true',
+				'args'                => $this->widget_preview_args(),
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
 			'/announcements',
 			[
 				[
@@ -251,6 +371,63 @@ final class ITMMS_REST {
 		);
 	}
 
+	/**
+	 * Shared args for shortcode preview widget endpoints.
+	 *
+	 * @return array<string,array<string,mixed>>
+	 */
+	private function widget_preview_args(): array {
+		return [
+			'design'   => [
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_key',
+			],
+			'language' => [
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_key',
+			],
+			'qibla'    => [
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_text_field',
+			],
+			'meta'     => [
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_text_field',
+			],
+			'iqamah'   => [
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_text_field',
+			],
+			'limit'    => [
+				'required'          => false,
+				'validate_callback' => function( $param ) {
+					return is_numeric( $param ) || empty( $param );
+				},
+				'sanitize_callback' => 'absint',
+			],
+			'title'    => [
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_text_field',
+			],
+		];
+	}
+
+	/**
+	 * Read a REST yes/no flag with a safe default.
+	 */
+	private function yes_no_param( WP_REST_Request $request, string $key, string $default ): string {
+		$value = strtolower( sanitize_text_field( (string) $request->get_param( $key ) ) );
+		return in_array( $value, [ 'yes', 'no' ], true ) ? $value : $default;
+	}
+
+	/**
+	 * Read short optional text for preview shortcode attributes.
+	 */
+	private function short_text_param( WP_REST_Request $request, string $key ): string {
+		$value = sanitize_text_field( (string) $request->get_param( $key ) );
+		return wp_html_excerpt( $value, 120, '' );
+	}
+
 	public function can_read(): bool {
 		if ( current_user_can( 'manage_options' ) ) {
 			return true;
@@ -297,6 +474,7 @@ final class ITMMS_REST {
 				'prayers'     => $prayer_times['prayers'],
 				'next_prayer' => $prayer_times['next_prayer'],
 				'prayer_meta' => $prayer_times['meta'],
+				'hijri_date'  => ITMMS_Hijri::for_date( new DateTimeImmutable( 'now', new DateTimeZone( (string) ( $settings['timezone'] ?? wp_timezone_string() ) ) ), (int) ( $settings['hijri_adjustment'] ?? 0 ), 'en' ),
 				'announcements' => ITMMS_Announcements::active( 5 ),
 				'events'        => ITMMS_Events::active( 5 ),
 				'modules'     => ITMMS_Settings::module_definitions(),
@@ -336,6 +514,24 @@ final class ITMMS_REST {
 	}
 
 	/**
+	 * Return a public prayer times widget for the Features preview modal.
+	 */
+	public function get_prayer_widget( WP_REST_Request $request ): WP_REST_Response {
+		$html = ITMMS_Public::get_instance()->render_prayer_times_shortcode(
+			[
+				'design'   => sanitize_key( (string) $request->get_param( 'design' ) ),
+				'language' => sanitize_key( (string) $request->get_param( 'language' ) ),
+				'qibla'    => $this->yes_no_param( $request, 'qibla', 'yes' ),
+				'meta'     => $this->yes_no_param( $request, 'meta', 'yes' ),
+				'iqamah'   => $this->yes_no_param( $request, 'iqamah', 'yes' ),
+				'title'    => $this->short_text_param( $request, 'title' ),
+			]
+		);
+
+		return rest_ensure_response( [ 'html' => $html ] );
+	}
+
+	/**
 	 * Return a public monthly timetable widget for reload-free navigation.
 	 */
 	public function get_monthly_prayer_widget( WP_REST_Request $request ): WP_REST_Response {
@@ -353,6 +549,74 @@ final class ITMMS_REST {
 				'iqamah'     => 'yes' === strtolower( (string) $request->get_param( 'iqamah' ) ) ? 'yes' : 'no',
 				'navigation' => 'yes',
 				'title'      => wp_html_excerpt( sanitize_text_field( (string) $request->get_param( 'title' ) ), 120, '' ),
+			]
+		);
+
+		return rest_ensure_response( [ 'html' => $html ] );
+	}
+
+	/**
+	 * Return a public Jumuah widget for the Features preview modal.
+	 */
+	public function get_jumuah_widget( WP_REST_Request $request ): WP_REST_Response {
+		$html = ITMMS_Public::get_instance()->render_jumuah_shortcode(
+			[
+				'design'   => sanitize_key( (string) $request->get_param( 'design' ) ),
+				'language' => sanitize_key( (string) $request->get_param( 'language' ) ),
+				'meta'     => $this->yes_no_param( $request, 'meta', 'yes' ),
+				'title'    => $this->short_text_param( $request, 'title' ),
+			]
+		);
+
+		return rest_ensure_response( [ 'html' => $html ] );
+	}
+
+	/**
+	 * Return a public announcements widget for the Features preview modal.
+	 */
+	public function get_announcements_widget( WP_REST_Request $request ): WP_REST_Response {
+		$html = ITMMS_Public::get_instance()->render_announcements_shortcode(
+			[
+				'design'   => sanitize_key( (string) $request->get_param( 'design' ) ),
+				'language' => sanitize_key( (string) $request->get_param( 'language' ) ),
+				'limit'    => (string) max( 1, min( 20, absint( $request->get_param( 'limit' ) ) ?: 5 ) ),
+				'title'    => $this->short_text_param( $request, 'title' ),
+			]
+		);
+
+		return rest_ensure_response( [ 'html' => $html ] );
+	}
+
+	/**
+	 * Return a public events widget for the Features preview modal.
+	 */
+	public function get_events_widget( WP_REST_Request $request ): WP_REST_Response {
+		$html = ITMMS_Public::get_instance()->render_events_shortcode(
+			[
+				'language' => sanitize_key( (string) $request->get_param( 'language' ) ),
+				'limit'    => (string) max( 1, min( 20, absint( $request->get_param( 'limit' ) ) ?: 5 ) ),
+				'title'    => $this->short_text_param( $request, 'title' ),
+			]
+		);
+
+		return rest_ensure_response( [ 'html' => $html ] );
+	}
+
+	/**
+	 * Return a public calendar widget for reload-free navigation.
+	 */
+	public function get_calendar_widget( WP_REST_Request $request ): WP_REST_Response {
+		$month = absint( $request->get_param( 'month' ) ) ?: (int) wp_date( 'n' );
+		$year = absint( $request->get_param( 'year' ) ) ?: (int) wp_date( 'Y' );
+		$month = max( 1, min( 12, $month ) );
+		$year = max( 1970, min( 2099, $year ) );
+
+		$html = ITMMS_Public::get_instance()->render_islamic_calendar_shortcode(
+			[
+				'month'    => $month,
+				'year'     => $year,
+				'language' => sanitize_key( $request->get_param( 'language' ) ?: 'en' ),
+				'title'    => sanitize_text_field( $request->get_param( 'title' ) ?: '' ),
 			]
 		);
 

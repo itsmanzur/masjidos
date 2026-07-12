@@ -12,24 +12,30 @@ defined( 'ABSPATH' ) || exit;
 		<div>
 			<span><?php echo esc_html( $meta['location'] ?? get_bloginfo( 'name' ) ); ?></span>
 			<h2><?php echo esc_html( $atts['title'] ); ?></h2>
-			<p><?php echo esc_html( (string) ( $data['label'] ?? '' ) ); ?> &middot; <?php echo esc_html( (string) ( $data['timezone'] ?? '' ) ); ?></p>
+			<p>
+				<span><?php echo esc_html( (string) ( $data['label'] ?? '' ) ); ?></span>
+				<?php if ( ! empty( $hijri_range_label ) ) : ?>
+					<span><?php echo esc_html( $hijri_range_label ); ?></span>
+				<?php endif; ?>
+				<span><?php echo esc_html( (string) ( $data['timezone'] ?? '' ) ); ?></span>
+			</p>
 		</div>
 		<?php if ( $show_navigation ) : ?>
 			<div class="itmms-public-monthly__nav" aria-label="<?php echo esc_attr( $labels['navigation'] ); ?>">
 				<button type="button" data-itmms-monthly-step="-1" aria-label="<?php echo esc_attr( $labels['previous'] ); ?>" title="<?php echo esc_attr( $labels['previous'] ); ?>">&#8249;</button>
 				<label>
 					<span class="screen-reader-text"><?php echo esc_html( $labels['month'] ); ?></span>
-					<select data-itmms-monthly-month aria-label="<?php echo esc_attr( $labels['month'] ); ?>">
+					<select data-itmms-monthly-month aria-label="<?php echo esc_attr( $labels['month'] ); ?>" style="display: inline-block !important; -webkit-appearance: select !important; -moz-appearance: select !important; appearance: select !important; width: 100%; height: 36px; padding: 0 28px 0 10px; border: 1px solid rgba(255, 255, 255, 0.24); border-radius: 6px; background: rgba(255, 255, 255, 0.1); color: #fff; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer;">
 						<?php foreach ( $this->month_names( $language ) as $itmms_number => $itmms_name ) : ?>
-							<option value="<?php echo esc_attr( (string) $itmms_number ); ?>" <?php selected( $month, $itmms_number ); ?>><?php echo esc_html( $itmms_name ); ?></option>
+							<option value="<?php echo esc_attr( (string) $itmms_number ); ?>" <?php selected( $month, $itmms_number ); ?> style="display: block !important; background: #fff !important; color: var(--itmms-public-text, #111827) !important;"><?php echo esc_html( $itmms_name ); ?></option>
 						<?php endforeach; ?>
 					</select>
 				</label>
 				<label>
 					<span class="screen-reader-text"><?php echo esc_html( $labels['year'] ); ?></span>
-					<select data-itmms-monthly-year aria-label="<?php echo esc_attr( $labels['year'] ); ?>">
+					<select data-itmms-monthly-year aria-label="<?php echo esc_attr( $labels['year'] ); ?>" style="display: inline-block !important; -webkit-appearance: select !important; -moz-appearance: select !important; appearance: select !important; width: 100%; height: 36px; padding: 0 28px 0 10px; border: 1px solid rgba(255, 255, 255, 0.24); border-radius: 6px; background: rgba(255, 255, 255, 0.1); color: #fff; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer;">
 		<?php for ( $itmms_option_year = max( 1970, $year - 5 ); $itmms_option_year <= min( 2099, $year + 5 ); $itmms_option_year++ ) : ?>
-							<option value="<?php echo esc_attr( (string) $itmms_option_year ); ?>" <?php selected( $year, $itmms_option_year ); ?>><?php echo esc_html( (string) $itmms_option_year ); ?></option>
+							<option value="<?php echo esc_attr( (string) $itmms_option_year ); ?>" <?php selected( $year, $itmms_option_year ); ?> style="display: block !important; background: #fff !important; color: var(--itmms-public-text, #111827) !important;"><?php echo esc_html( (string) $itmms_option_year ); ?></option>
 						<?php endfor; ?>
 					</select>
 				</label>

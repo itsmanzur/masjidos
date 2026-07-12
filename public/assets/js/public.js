@@ -16,6 +16,10 @@
 	}
 
 	function tick( widget ) {
+		if ( ! document.documentElement.contains( widget ) ) {
+			return;
+		}
+
 		var raw = widget.getAttribute( 'data-next-prayer' );
 		var target = raw ? new Date( raw ) : null;
 		var output = widget.querySelector( '[data-itmms-public-countdown]' );
@@ -29,7 +33,15 @@
 		}, 1000 );
 	}
 
-	document.querySelectorAll( '.itmms-public-prayer' ).forEach( tick );
+	function initPrayerCountdowns( root ) {
+		( root || document ).querySelectorAll( '.itmms-public-prayer' ).forEach( function ( widget ) {
+			if ( widget.getAttribute( 'data-itmms-countdown-ready' ) ) {
+				return;
+			}
+			widget.setAttribute( 'data-itmms-countdown-ready', '1' );
+			tick( widget );
+		} );
+	}
 
 	function loadMonthlyWidget( widget, month, year, focusSelector ) {
 		var endpoint = widget.getAttribute( 'data-endpoint' );
@@ -147,4 +159,227 @@
 		button.setAttribute( 'aria-pressed', paused ? 'true' : 'false' );
 		button.textContent = paused ? button.getAttribute( 'data-play-label' ) : button.getAttribute( 'data-pause-label' );
 	} );
+
+	function initQiblaCompass( root ) {
+		( root || document ).querySelectorAll( '[data-itmms-public-qibla]' ).forEach( function ( qiblaWidget ) {
+			if ( qiblaWidget.getAttribute( 'data-itmms-qibla-ready' ) ) {
+				return;
+			}
+			qiblaWidget.setAttribute( 'data-itmms-qibla-ready', '1' );
+			var bearing = parseFloat( qiblaWidget.getAttribute( 'data-itmms-public-qibla' ) ) || 0;
+			var needle = qiblaWidget.querySelector( '.itmms-public-qibla__compass span' );
+			var prompt = qiblaWidget.querySelector( '.itmms-public-qibla__prompt' );
+			if ( ! needle ) {
+				return;
+			}
+
+			var active = false;
+
+			function handleOrientation( event ) {
+				var heading = null;
+				// iOS specific
+				if ( event.webkitCompassHeading !== undefined ) {
+					heading = event.webkitCompassHeading;
+				} else if ( event.absolute === true || event.alpha !== null ) {
+					// Android/standard absolute orientation
+					// alpha is 0 when top points due North, increases counter-clockwise
+					heading = 360 - event.alpha;
+				}
+
+				if ( heading !== null ) {
+					var angle = bearing - heading;
+					needle.style.transform = 'rotate(' + angle + 'deg)';
+					if ( prompt && ! active ) {
+						active = true;
+						var widgetContainer = qiblaWidget.closest( '.itmms-public-prayer' );
+						var langCode = 'en';
+						if ( widgetContainer ) {
+							var lang = widgetContainer.className.match( /itmms-public-prayer--lang-(\w+)/ );
+							if ( lang ) {
+								langCode = lang[1];
+							}
+						}
+						if ( 'bn' === langCode ) {
+							prompt.textContent = 'লাইভ কিবলা কম্পাস';
+						} else if ( 'ar' === langCode ) {
+							prompt.textContent = 'القبلة المباشرة';
+						} else {
+							prompt.textContent = 'Live Qibla Compass';
+						}
+						prompt.style.color = 'var(--itmms-public-accent)';
+					}
+				}
+			}
+
+			function startCompass() {
+				if ( typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function' ) {
+					DeviceOrientationEvent.requestPermission()
+						.then( function ( response ) {
+							if ( response === 'granted' ) {
+								window.addEventListener( 'deviceorientation', handleOrientation, true );
+							} else {
+								window.alert( 'Permission to access device orientation was denied.' );
+							}
+						} )
+						.catch( function ( e ) {
+							console.error( 'Compass permission error:', e );
+						} );
+				} else {
+					// standard/Android
+					if ( 'ondeviceorientationabsolute' in window ) {
+						window.addEventListener( 'deviceorientationabsolute', handleOrientation, true );
+					} else {
+						window.addEventListener( 'deviceorientation', handleOrientation, true );
+					}
+				}
+			}
+
+			qiblaWidget.addEventListener( 'click', startCompass );
+			// Support keyboard trigger
+			qiblaWidget.addEventListener( 'keydown', function ( e ) {
+				if ( e.key === 'Enter' || e.key === ' ' ) {
+					e.preventDefault();
+					startCompass();
+				}
+			} );
+		} );
+	}
+
+	function loadCalendarWidget( widget, month, year, focusSelector ) {
+		var endpoint = widget.getAttribute( 'data-endpoint' );
+		var language = widget.getAttribute( 'data-language' ) || 'en';
+		var title = widget.getAttribute( 'data-title' ) || '';
+
+		if ( ! endpoint ) {
+			return;
+		}
+
+		widget.classList.add( 'is-loading' );
+		widget.setAttribute( 'aria-busy', 'true' );
+
+		var url = endpoint + '?month=' + month + '&year=' + year + '&language=' + language + '&title=' + encodeURIComponent( title );
+
+		fetch( url )
+			.then( function ( response ) {
+				if ( ! response.ok ) {
+					throw new Error();
+				}
+				return response.json();
+			} )
+			.then( function ( data ) {
+				if ( ! data.html ) {
+					throw new Error();
+				}
+				var temp = document.createElement( 'div' );
+				temp.innerHTML = data.html;
+				var newWidget = temp.firstElementChild;
+				widget.replaceWith( newWidget );
+
+				if ( focusSelector ) {
+					var el = newWidget.querySelector( focusSelector );
+					if ( el ) {
+						el.focus();
+					}
+				}
+			} )
+			.catch( function () {
+				widget.classList.remove( 'is-loading' );
+				widget.removeAttribute( 'aria-busy' );
+			} );
+	}
+
+	document.addEventListener( 'click', function ( event ) {
+		var button = event.target.closest( '[data-itmms-calendar-step]' );
+		if ( ! button ) {
+			return;
+		}
+
+		var widget = button.closest( '[data-itmms-calendar]' );
+		var current = new Date( Number( widget.getAttribute( 'data-year' ) ), Number( widget.getAttribute( 'data-month' ) ) - 1, 1 );
+		current.setMonth( current.getMonth() + Number( button.getAttribute( 'data-itmms-calendar-step' ) ) );
+		loadCalendarWidget( widget, current.getMonth() + 1, current.getFullYear(), '[data-itmms-calendar-step="' + button.getAttribute( 'data-itmms-calendar-step' ) + '"]' );
+	} );
+
+	document.addEventListener( 'click', function ( event ) {
+		var currentButton = event.target.closest( '[data-itmms-calendar-current]' );
+		if ( currentButton ) {
+			var widget = currentButton.closest( '[data-itmms-calendar]' );
+			loadCalendarWidget( widget, Number( widget.getAttribute( 'data-current-month' ) ), Number( widget.getAttribute( 'data-current-year' ) ), '[data-itmms-calendar-current]' );
+		}
+	} );
+
+	document.addEventListener( 'change', function ( event ) {
+		if ( ! event.target.matches( '[data-itmms-calendar-month], [data-itmms-calendar-year]' ) ) {
+			return;
+		}
+
+		var widget = event.target.closest( '[data-itmms-calendar]' );
+		var month = widget.querySelector( '[data-itmms-calendar-month]' );
+		var year = widget.querySelector( '[data-itmms-calendar-year]' );
+		loadCalendarWidget( widget, Number( month.value ), Number( year.value ), event.target.matches( '[data-itmms-calendar-month]' ) ? '[data-itmms-calendar-month]' : '[data-itmms-calendar-year]' );
+	} );
+
+	document.addEventListener( 'click', function ( event ) {
+		var cell = event.target.closest( '.itmms-public-calendar__cell' );
+		if ( ! cell ) {
+			return;
+		}
+
+		var widget = cell.closest( '[data-itmms-calendar]' );
+		var drawer = widget.querySelector( '#itmms-calendar-mobile-drawer' );
+		var titleEl = widget.querySelector( '#itmms-calendar-drawer-title' );
+		var listEl = widget.querySelector( '#itmms-calendar-drawer-list' );
+		if ( ! drawer || ! titleEl || ! listEl ) {
+			return;
+		}
+
+		widget.querySelectorAll( '.itmms-public-calendar__cell' ).forEach( function ( c ) {
+			c.classList.remove( 'is-selected' );
+		} );
+		cell.classList.add( 'is-selected' );
+
+		var gDateLabel = cell.getAttribute( 'data-gregorian-date' );
+		var hDateLabel = cell.getAttribute( 'data-hijri-date-label' );
+		
+		var parts = gDateLabel.split( '-' );
+		var formattedGDate = new Date( parts[0], parts[1] - 1, parts[2] ).toLocaleDateString( undefined, { day: 'numeric', month: 'long', year: 'numeric' } );
+
+		titleEl.textContent = formattedGDate + ' / ' + hDateLabel;
+
+		var eventItems = cell.querySelectorAll( '.itmms-public-calendar__event-item' );
+		var holyLabel = cell.querySelector( '.itmms-public-calendar__holy-label' );
+		
+		var listHtml = '';
+		if ( holyLabel ) {
+			listHtml += '<div class="itmms-public-calendar__drawer-item is-holiday">' + holyLabel.innerHTML + '</div>';
+		}
+
+		if ( eventItems.length > 0 ) {
+			eventItems.forEach( function ( item ) {
+				listHtml += '<div class="itmms-public-calendar__drawer-item">' + item.innerHTML + '</div>';
+			} );
+		}
+
+		if ( listHtml === '' ) {
+			var emptyMsg = widget.getAttribute( 'data-error' ) || 'No events scheduled';
+			listHtml = '<div class="itmms-public-calendar__drawer-item is-empty">' + emptyMsg + '</div>';
+		}
+
+		listEl.innerHTML = listHtml;
+		drawer.style.display = 'block';
+	} );
+
+	// Initialize on page load
+	window.itmmsPublicRefresh = function ( root ) {
+		initPrayerCountdowns( root || document );
+		initQiblaCompass( root || document );
+	};
+
+	if ( document.readyState === 'loading' ) {
+		document.addEventListener( 'DOMContentLoaded', function () {
+			window.itmmsPublicRefresh( document );
+		} );
+	} else {
+		window.itmmsPublicRefresh( document );
+	}
 } )();

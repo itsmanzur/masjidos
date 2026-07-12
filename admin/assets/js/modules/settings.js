@@ -36,6 +36,11 @@
 			timezoneHelp(),
 			field( __( 'Latitude', 'masjidos' ), 'latitude', s.latitude, 'number', 'any' ),
 			field( __( 'Longitude', 'masjidos' ), 'longitude', s.longitude, 'number', 'any' ),
+			'<div class="itmms-field itmms-field-wide itmms-field-geolocation" style="margin-top: 5px;">' +
+				'<button type="button" class="itmms-btn itmms-btn-ghost" id="itmms-detect-location" style="display: inline-flex; align-items: center; gap: 8px; justify-content: center; width: auto; font-weight: 700; height: 40px; padding: 0 16px;">' +
+					icon( 'settings' ) + ' ' + esc( __( 'Detect My Location', 'masjidos' ) ) +
+				'</button>' +
+			'</div>',
 			coordinateHelp()
 		].join( '' ) );
 
@@ -45,12 +50,20 @@
 				[ 'mwl', __( 'Muslim World League', 'masjidos' ) ],
 				[ 'isna', 'ISNA' ],
 				[ 'egypt', __( 'Egyptian Authority', 'masjidos' ) ],
-				[ 'makkah', __( 'Umm al-Qura, Makkah', 'masjidos' ) ]
+				[ 'makkah', __( 'Umm al-Qura, Makkah', 'masjidos' ) ],
+				[ 'dubai', __( 'Dubai', 'masjidos' ) ],
+				[ 'qatar', __( 'Qatar', 'masjidos' ) ],
+				[ 'kuwait', __( 'Kuwait', 'masjidos' ) ],
+				[ 'singapore', __( 'Singapore', 'masjidos' ) ],
+				[ 'tehran', __( 'Tehran', 'masjidos' ) ],
+				[ 'jafari', __( 'Jafari', 'masjidos' ) ]
 			] ),
+			methodHelp(),
 			selectField( __( 'Asr Method', 'masjidos' ), 'asr_method', s.asr_method, [
 				[ 'hanafi', 'Hanafi' ],
 				[ 'standard', __( 'Standard', 'masjidos' ) ]
 			] ),
+			fieldWithHelp( __( 'Hijri Date Adjustment', 'masjidos' ), 'hijri_adjustment', s.hijri_adjustment || 0, 'number', '1', __( 'Days, -3 to +3. Use this if your local moon-sighting calendar is one day different.', 'masjidos' ), '-3', '3' ),
 			selectField( __( 'Currency', 'masjidos' ), 'currency', s.currency, [
 				[ 'BDT', 'BDT' ],
 				[ 'USD', 'USD' ],
@@ -89,6 +102,24 @@
 			textareaField( __( 'Jumuah Notice', 'masjidos' ), 'jumuah_notice', jumuah.notice || '', __( 'Optional public note, for example: Please arrive early.', 'masjidos' ) )
 		].join( '' ), 'itmms-settings-panel--jumuah' );
 
+		var tvDisplayUrl = ( window.itmmData.siteUrl || '' ) + '/masjidos-display/';
+		var tvPanel = settingsPanel( __( 'TV Display Settings', 'masjidos' ), __( 'Configure fullscreen mosque display layout, theme, and font size options.', 'masjidos' ), [
+			selectField( __( 'TV Theme Style', 'masjidos' ), 'tv_theme', s.tv_theme || 'dark', [
+				[ 'dark', __( 'Dark Mode (Gold & Charcoal)', 'masjidos' ) ],
+				[ 'light', __( 'Light Mode (Teal & Slate)', 'masjidos' ) ],
+				[ 'green', __( 'Green Mode (Emerald & Gold)', 'masjidos' ) ]
+			] ),
+			selectField( __( 'TV Font Size', 'masjidos' ), 'tv_font_size', s.tv_font_size || 'normal', [
+				[ 'small', __( 'Small', 'masjidos' ) ],
+				[ 'normal', __( 'Normal', 'masjidos' ) ],
+				[ 'large', __( 'Large', 'masjidos' ) ],
+				[ 'xlarge', __( 'Extra Large', 'masjidos' ) ]
+			] ),
+			fieldWithHelp( __( 'Announcement Scroll Speed', 'masjidos' ), 'tv_announcement_speed', s.tv_announcement_speed || 7, 'number', '1', __( 'Number of seconds to display each announcement (3 to 30 seconds).', 'masjidos' ), '3', '30' ),
+			mediaField( __( 'TV Custom Logo', 'masjidos' ), 'tv_logo_url', s.tv_logo_url || '' ),
+			tvDisplayHelpUrl( tvDisplayUrl )
+		].join( '' ) );
+
 		return '<form class="itmms-settings-form" id="itmms-settings-form">' +
 			'<div class="itmms-settings-tabs" role="tablist">' +
 				settingsTabButton( 'profile', __( 'Profile', 'masjidos' ), true ) +
@@ -96,6 +127,7 @@
 				settingsTabButton( 'adjustments', __( 'Adjustments', 'masjidos' ), false ) +
 				settingsTabButton( 'iqamah', __( 'Iqamah', 'masjidos' ), false ) +
 				settingsTabButton( 'jumuah', __( 'Jumuah', 'masjidos' ), false ) +
+				settingsTabButton( 'tv', __( 'TV Display', 'masjidos' ), false ) +
 				settingsTabButton( 'public', __( 'Public', 'masjidos' ), false ) +
 			'</div>' +
 			'<div class="itmms-settings-tab-panels">' +
@@ -104,6 +136,7 @@
 				'<div class="itmms-settings-tab-panel" data-settings-panel="adjustments">' + adjustmentsPanel + '</div>' +
 				'<div class="itmms-settings-tab-panel" data-settings-panel="iqamah">' + iqamahPanel + '</div>' +
 				'<div class="itmms-settings-tab-panel" data-settings-panel="jumuah">' + jumuahPanel + '</div>' +
+				'<div class="itmms-settings-tab-panel" data-settings-panel="tv">' + tvPanel + '</div>' +
 				'<div class="itmms-settings-tab-panel" data-settings-panel="public">' + settingsPanel( __( 'Public Options', 'masjidos' ), __( 'Small public-facing switches for transparency and display preferences.', 'masjidos' ), '<label class="itmms-check"><input type="checkbox" name="public_transparency" ' + ( s.public_transparency ? 'checked' : '' ) + '> ' + esc( __( 'Public transparency reports', 'masjidos' ) ) + '</label>' ) + '</div>' +
 			'</div>' +
 			'<div class="itmms-form-actions"><button class="itmms-btn itmms-btn-primary" type="submit">' + esc( __( 'Save Settings', 'masjidos' ) ) + '</button><span id="itmms-save-status"></span></div>' +
@@ -123,6 +156,10 @@
 
 	function field( label, name, value, type, step ) {
 		return '<label class="itmms-field"><span>' + esc( label ) + '</span><input type="' + esc( type ) + '" name="' + esc( name ) + '" value="' + esc( value ) + '"' + ( step ? ' step="' + esc( step ) + '"' : '' ) + '></label>';
+	}
+
+	function fieldWithHelp( label, name, value, type, step, help, min, max ) {
+		return '<label class="itmms-field"><span>' + esc( label ) + '</span><input type="' + esc( type ) + '" name="' + esc( name ) + '" value="' + esc( value ) + '"' + ( step ? ' step="' + esc( step ) + '"' : '' ) + ( min ? ' min="' + esc( min ) + '"' : '' ) + ( max ? ' max="' + esc( max ) + '"' : '' ) + '><small>' + esc( help ) + '</small></label>';
 	}
 
 	function textareaField( label, name, value, placeholder ) {
@@ -164,8 +201,26 @@
 	}
 
 	function timezoneHelp() {
+		var state = window.itmms.state;
+		var s = state.settings || {};
+		var mismatchWarning = '';
+
+		if ( window.itmmData && window.itmmData.siteTimezone && s.timezone && s.timezone !== window.itmmData.siteTimezone ) {
+			mismatchWarning = '<div class="itmms-settings-warning-alert" id="itmms-timezone-mismatch-warning" style="grid-column: 1 / -1; margin-top: 10px; padding: 12px 16px; border-left: 4px solid #f0b840; background: rgba(240, 184, 64, 0.08); border-radius: var(--itmms-radius, 6px); font-size: 13px; color: var(--itmms-text, #111827); line-height: 1.5; width: 100%; box-sizing: border-box;">' +
+				'<strong>' + esc( __( 'Timezone Mismatch Warning:', 'masjidos' ) ) + '</strong> ' +
+				sprintf( esc( __( 'MasjidOS calculation timezone (%1$s) does not match your WordPress site settings timezone (%2$s). This can cause widget countdown calculations to be incorrect. Please align them.', 'masjidos' ) ), '<code>' + esc( s.timezone ) + '</code>', '<code>' + esc( window.itmmData.siteTimezone ) + '</code>' ) +
+			'</div>';
+		}
+
 		return '<div class="itmms-inline-help">' +
 			'<strong>' + esc( __( 'Timezone matters:', 'masjidos' ) ) + '</strong> ' + sprintf( esc( __( 'For Bangladesh use %1$s. If this is %2$s, prayer times will be calculated as UTC and will look wrong.', 'masjidos' ) ), '<code>Asia/Dhaka</code>', '<code>+00:00</code>' ) +
+		'</div>' + mismatchWarning;
+	}
+
+	function methodHelp() {
+		return '<div class="itmms-inline-help itmms-field-wide">' +
+			'<strong>' + esc( __( 'Method tip:', 'masjidos' ) ) + '</strong> ' +
+			esc( __( 'Use the method followed by your local masjid or Islamic authority. For Bangladesh, Karachi + Hanafi is a sensible starting point, then adjust minutes if your official timetable differs.', 'masjidos' ) ) +
 		'</div>';
 	}
 
@@ -208,6 +263,22 @@
 			{ label: __( 'First Jumuah', 'masjidos' ), khutbah_time: jumuah.khutbah_time || '13:00', jamaat_time: jumuah.jamaat_time || '13:30' },
 			{ label: __( 'Second Jumuah', 'masjidos' ), khutbah_time: '', jamaat_time: '' }
 		];
+	}
+
+	function tvDisplayHelpUrl( url ) {
+		return '<div class="itmms-coordinate-help itmms-field-wide" style="margin-top: 15px;">' +
+			'<div class="itmms-coordinate-help-icon">' + icon( 'external' ) + '</div>' +
+			'<div>' +
+				'<h3>' + esc( __( 'Mosque TV Display Link', 'masjidos' ) ) + '</h3>' +
+				'<p style="margin-bottom: 12px; font-size: 13px; color: var(--itmms-public-muted);">' + esc( __( 'Open this URL on your mosque TV, monitor, or display screen to show a beautiful fullscreen board with real-time clock, prayer table, countdown, and announcements.', 'masjidos' ) ) + '</p>' +
+				'<div style="display: flex; gap: 10px; align-items: center;">' +
+					'<input type="text" readonly value="' + esc( url ) + '" style="flex: 1; font-family: monospace; font-size: 13px; background: #fff; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" onclick="this.select();">' +
+					'<button type="button" class="itmms-btn itmms-btn-ghost" data-copy-tv-url data-url="' + esc( url ) + '" style="height: 40px; font-weight: 700;">' + esc( __( 'Copy Link', 'masjidos' ) ) + '</button>' +
+					'<a href="' + esc( url ) + '" target="_blank" class="itmms-btn itmms-btn-primary" style="display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 16px; font-weight: 700; text-decoration: none; border-radius: 4px;">' + esc( __( 'Open Display', 'masjidos' ) ) + '</a>' +
+				'</div>' +
+				'<p style="margin-top: 10px; font-size: 12px; color: #667085;"><strong>' + esc( __( 'Tip:', 'masjidos' ) ) + '</strong> ' + esc( __( 'You can override theme, language, and font size in the URL directly, for example: ', 'masjidos' ) ) + '<code>' + esc( url ) + '?theme=green&lang=bn&font_size=large</code></p>' +
+			'</div>' +
+		'</div>';
 	}
 
 	function selectField( label, name, value, options ) {

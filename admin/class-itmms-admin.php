@@ -93,6 +93,13 @@ final class ITMMS_Admin {
 			ITMMS_VERSION
 		);
 
+		wp_enqueue_style(
+			'itmms-public',
+			ITMMS_PLUGIN_URL . 'public/assets/css/public.css',
+			[],
+			ITMMS_VERSION
+		);
+
 		wp_register_script(
 			'itmms-admin-shared',
 			ITMMS_PLUGIN_URL . 'admin/assets/js/modules/shared.js',
@@ -141,6 +148,22 @@ final class ITMMS_Admin {
 			true
 		);
 
+		wp_register_script(
+			'itmms-admin-features',
+			ITMMS_PLUGIN_URL . 'admin/assets/js/modules/features.js',
+			[ 'itmms-admin-shared' ],
+			ITMMS_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
+			'itmms-public',
+			ITMMS_PLUGIN_URL . 'public/assets/js/public.js',
+			[],
+			ITMMS_VERSION,
+			true
+		);
+
 		wp_enqueue_script(
 			'itmms-admin',
 			ITMMS_PLUGIN_URL . 'admin/assets/js/app.js',
@@ -151,6 +174,7 @@ final class ITMMS_Admin {
 				'itmms-admin-announcements',
 				'itmms-admin-docs',
 				'itmms-admin-events',
+				'itmms-admin-features',
 			],
 			ITMMS_VERSION,
 			true
@@ -166,15 +190,16 @@ final class ITMMS_Admin {
 			'itmms-admin-shared',
 			'itmmData',
 			[
-				'restUrl'  => rest_url( 'masjidos/v1/' ),
-				'nonce'    => wp_create_nonce( 'wp_rest' ),
-				'version'  => ITMMS_VERSION,
-				'locale'   => determine_locale(),
-				'siteUrl'  => get_site_url(),
-				'adminUrl' => admin_url(),
-				'settings' => ITMMS_Settings::get_all(),
-				'modules'  => ITMMS_Settings::module_definitions(),
-				'user'     => [
+				'restUrl'      => rest_url( 'masjidos/v1/' ),
+				'nonce'        => wp_create_nonce( 'wp_rest' ),
+				'version'      => ITMMS_VERSION,
+				'locale'       => determine_locale(),
+				'siteUrl'      => get_site_url(),
+				'adminUrl'     => admin_url(),
+				'siteTimezone' => wp_timezone_string(),
+				'settings'     => ITMMS_Settings::get_all(),
+				'modules'      => ITMMS_Settings::module_definitions(),
+				'user'         => [
 					'id'   => get_current_user_id(),
 					'name' => wp_get_current_user()->display_name,
 				],

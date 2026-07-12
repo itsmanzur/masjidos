@@ -46,7 +46,8 @@ final class ITMMS_Prayer_Times {
 					$settings['asr_method'] ?? '',
 					$settings['prayer_offsets'] ?? [],
 					$settings['iqamah_times'] ?? [],
-					'iqamah-v2',
+					$settings['hijri_adjustment'] ?? 0,
+					'calculation-registry-v2',
 				]
 			)
 		);
@@ -73,14 +74,16 @@ final class ITMMS_Prayer_Times {
 		$solar = self::solar_position( $day );
 		$solar_noon = 720 - ( $solar['equation'] + ( 4 * $longitude ) - ( 60 * $tz_offset ) );
 
+		$maghrib_zenith = isset( $method['maghrib_angle'] ) ? 90 + (float) $method['maghrib_angle'] : 90.833;
+		$maghrib_minutes = $solar_noon + self::hour_angle_minutes( $latitude, $solar['declination'], $maghrib_zenith );
 		$base_times = [
 			'fajr'    => $solar_noon - self::hour_angle_minutes( $latitude, $solar['declination'], 90 + $method['fajr_angle'] ),
 			'sunrise' => $solar_noon - self::hour_angle_minutes( $latitude, $solar['declination'], 90.833 ),
 			'dhuhr'   => $solar_noon,
 			'asr'     => $solar_noon + self::asr_minutes( $latitude, $solar['declination'], $asr_factor ),
-			'maghrib' => $solar_noon + self::hour_angle_minutes( $latitude, $solar['declination'], 90.833 ),
+			'maghrib' => $maghrib_minutes,
 			'isha'    => isset( $method['isha_interval'] )
-				? $solar_noon + self::hour_angle_minutes( $latitude, $solar['declination'], 90.833 ) + $method['isha_interval']
+				? $maghrib_minutes + $method['isha_interval']
 				: $solar_noon + self::hour_angle_minutes( $latitude, $solar['declination'], 90 + $method['isha_angle'] ),
 		];
 		$times = $base_times;
@@ -257,10 +260,12 @@ final class ITMMS_Prayer_Times {
 
 		$latitude = (float) ( $settings['latitude'] ?? 0 );
 		$longitude = (float) ( $settings['longitude'] ?? 0 );
+		$hijri_adjustment = isset( $settings['hijri_adjustment'] ) ? (int) $settings['hijri_adjustment'] : 0;
 
 		return [
 			'date'        => $date->format( 'Y-m-d' ),
 			'timezone'    => $date->getTimezone()->getName(),
+			'hijri_date'  => ITMMS_Hijri::for_date( $date, $hijri_adjustment, 'en' ),
 			'prayers'     => array_values( $rows ),
 			'next_prayer' => $next,
 			'meta'        => [
@@ -273,6 +278,7 @@ final class ITMMS_Prayer_Times {
 				'fajr_angle'         => $method['fajr_angle'],
 				'isha_angle'         => $method['isha_angle'] ?? null,
 				'isha_interval'      => $method['isha_interval'] ?? null,
+				'maghrib_angle'      => $method['maghrib_angle'] ?? null,
 				'qibla_direction'    => self::qibla_direction( $latitude, $longitude ),
 			],
 		];
@@ -333,30 +339,93 @@ final class ITMMS_Prayer_Times {
 	}
 
 	/**
+	 * Available local calculation presets.
+	 *
+	 * These presets intentionally contain only data. Pro or site-specific code can
+	 * filter the UI later without changing the local calculation engine.
+	 *
+	 * @return array<string,array<string,mixed>>
+	 */
+	public static function calculation_methods(): array {
+		return [
+			'karachi'   => [
+				'label'      => __( 'Karachi', 'masjidos' ),
+				'fajr_angle' => 18.0,
+				'isha_angle' => 18.0,
+			],
+			'mwl'       => [
+				'label'      => __( 'Muslim World League', 'masjidos' ),
+				'fajr_angle' => 18.0,
+				'isha_angle' => 17.0,
+			],
+			'isna'      => [
+				'label'      => __( 'ISNA', 'masjidos' ),
+				'fajr_angle' => 15.0,
+				'isha_angle' => 15.0,
+			],
+			'egypt'     => [
+				'label'      => __( 'Egyptian Authority', 'masjidos' ),
+				'fajr_angle' => 19.5,
+				'isha_angle' => 17.5,
+			],
+			'makkah'    => [
+				'label'         => __( 'Umm al-Qura, Makkah', 'masjidos' ),
+				'fajr_angle'    => 18.5,
+				'isha_interval' => 90,
+			],
+			'dubai'     => [
+				'label'      => __( 'Dubai', 'masjidos' ),
+				'fajr_angle' => 18.2,
+				'isha_angle' => 18.2,
+			],
+			'qatar'     => [
+				'label'         => __( 'Qatar', 'masjidos' ),
+				'fajr_angle'    => 18.0,
+				'isha_interval' => 90,
+			],
+			'kuwait'    => [
+				'label'      => __( 'Kuwait', 'masjidos' ),
+				'fajr_angle' => 18.0,
+				'isha_angle' => 17.5,
+			],
+			'singapore' => [
+				'label'      => __( 'Singapore', 'masjidos' ),
+				'fajr_angle' => 20.0,
+				'isha_angle' => 18.0,
+			],
+			'tehran'    => [
+				'label'         => __( 'Tehran', 'masjidos' ),
+				'fajr_angle'    => 17.7,
+				'maghrib_angle' => 4.5,
+				'isha_angle'    => 14.0,
+			],
+			'jafari'    => [
+				'label'         => __( 'Jafari', 'masjidos' ),
+				'fajr_angle'    => 16.0,
+				'maghrib_angle' => 4.0,
+				'isha_angle'    => 14.0,
+			],
+		];
+	}
+
+	/**
+	 * @return array<int,string>
+	 */
+	public static function calculation_method_keys(): array {
+		return array_keys( self::calculation_methods() );
+	}
+
+	/**
 	 * @return array<string,mixed>
 	 */
 	private static function method( string $method ): array {
-		$methods = [
-			'karachi' => [ 'fajr_angle' => 18.0, 'isha_angle' => 18.0 ],
-			'mwl'     => [ 'fajr_angle' => 18.0, 'isha_angle' => 17.0 ],
-			'isna'    => [ 'fajr_angle' => 15.0, 'isha_angle' => 15.0 ],
-			'egypt'   => [ 'fajr_angle' => 19.5, 'isha_angle' => 17.5 ],
-			'makkah'  => [ 'fajr_angle' => 18.5, 'isha_interval' => 90 ],
-		];
-
+		$methods = self::calculation_methods();
 		return $methods[ $method ] ?? $methods['karachi'];
 	}
 
 	private static function method_label( string $method ): string {
-		$labels = [
-			'karachi' => 'Karachi',
-			'mwl'     => 'Muslim World League',
-			'isna'    => 'ISNA',
-			'egypt'   => 'Egyptian Authority',
-			'makkah'  => 'Umm al-Qura, Makkah',
-		];
-
-		return $labels[ $method ] ?? $labels['karachi'];
+		$methods = self::calculation_methods();
+		return (string) ( $methods[ $method ]['label'] ?? $methods['karachi']['label'] );
 	}
 
 	private static function timezone( string $timezone ): DateTimeZone {

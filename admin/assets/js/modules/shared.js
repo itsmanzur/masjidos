@@ -38,10 +38,10 @@
 			var settingsTab = url.searchParams.get( 'itmms_settings' );
 			var docsTab = url.searchParams.get( 'itmms_docs' );
 
-			if ( [ 'dashboard', 'announcements', 'events', 'modules', 'settings', 'docs' ].indexOf( activeTab ) !== -1 ) {
+			if ( [ 'dashboard', 'announcements', 'events', 'features', 'modules', 'settings', 'docs' ].indexOf( activeTab ) !== -1 ) {
 				values.activeTab = activeTab;
 			}
-			if ( [ 'profile', 'calculation', 'adjustments', 'iqamah', 'jumuah', 'public' ].indexOf( settingsTab ) !== -1 ) {
+			if ( [ 'profile', 'calculation', 'adjustments', 'iqamah', 'jumuah', 'tv', 'public' ].indexOf( settingsTab ) !== -1 ) {
 				values.settingsTab = settingsTab;
 			}
 			if ( [ 'overview', 'generators', 'prayer', 'jumuah', 'notices', 'pro', 'reference' ].indexOf( docsTab ) !== -1 ) {
@@ -101,7 +101,8 @@
 			megaphone: '<svg viewBox="0 0 24 24"><path d="M4 13h3l10 4V5L7 9H4zM7 13l1 6h3"></path></svg>',
 			ledger: '<svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h3"></path></svg>',
 			external: '<svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"></path><path d="M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5"></path></svg>',
-			settings: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.1 2.1-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V20h-3v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1L6.6 16.6l.1-.1A1.7 1.7 0 0 0 7 14.6a1.7 1.7 0 0 0-1.5-1H5v-3h.5A1.7 1.7 0 0 0 7 9.6a1.7 1.7 0 0 0-.3-1.9l-.1-.1 2.1-2.1.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V4h3v.4a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 2.1 2.1-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.1v3h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>'
+			settings: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.1 2.1-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V20h-3v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1L6.6 16.6l.1-.1A1.7 1.7 0 0 0 7 14.6a1.7 1.7 0 0 0-1.5-1H5v-3h.5A1.7 1.7 0 0 0 7 9.6a1.7 1.7 0 0 0-.3-1.9l-.1-.1 2.1-2.1.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V4h3v.4a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 2.1 2.1-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.1v3h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>',
+			star: '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>'
 		};
 		return icons[ name ] || icons.settings;
 	}

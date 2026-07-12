@@ -1,0 +1,564 @@
+/**
+ * Standalone Mosque TV Display Styles.
+ */
+
+/* ==========================================================================
+   1. RESET & VARIABLE DEFINITIONS
+   ========================================================================== */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	--tv-font-sans: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--tv-font-arabic: 'Cairo', sans-serif;
+	--tv-font-bengali: 'Noto Sans Bengali', sans-serif;
+}
+
+/* Theme: Dark Mode (Default) */
+.itmms-tv--theme-dark {
+	--tv-bg: radial-gradient(circle at 50% 50%, #171b26 0%, #0d0f16 100%);
+	--tv-surface: rgba(26, 32, 46, 0.7);
+	--tv-surface-hover: rgba(34, 42, 60, 0.85);
+	--tv-primary: #1e8571;
+	--tv-accent: #d8b248;
+	--tv-text: #ffffff;
+	--tv-muted: #9ba3b0;
+	--tv-border: rgba(255, 255, 255, 0.08);
+	--tv-current-bg: linear-gradient(135deg, rgba(30, 133, 113, 0.25) 0%, rgba(216, 178, 72, 0.1) 100%);
+	--tv-current-border: rgba(216, 178, 72, 0.45);
+	--tv-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Theme: Light Mode */
+.itmms-tv--theme-light {
+	--tv-bg: radial-gradient(circle at 50% 50%, #f4f6fa 0%, #e2e7f0 100%);
+	--tv-surface: rgba(255, 255, 255, 0.85);
+	--tv-surface-hover: rgba(255, 255, 255, 0.95);
+	--tv-primary: #1a6b5a;
+	--tv-accent: #c09b35;
+	--tv-text: #0f172a;
+	--tv-muted: #64748b;
+	--tv-border: rgba(15, 23, 42, 0.08);
+	--tv-current-bg: linear-gradient(135deg, rgba(26, 107, 90, 0.12) 0%, rgba(192, 155, 53, 0.08) 100%);
+	--tv-current-border: rgba(26, 107, 90, 0.4);
+	--tv-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+/* Theme: Green Mode */
+.itmms-tv--theme-green {
+	--tv-bg: radial-gradient(circle at 50% 50%, #0d382d 0%, #051a14 100%);
+	--tv-surface: rgba(14, 48, 39, 0.7);
+	--tv-surface-hover: rgba(20, 68, 56, 0.85);
+	--tv-primary: #1fb094;
+	--tv-accent: #e5be53;
+	--tv-text: #ffffff;
+	--tv-muted: #a3b8b3;
+	--tv-border: rgba(255, 255, 255, 0.08);
+	--tv-current-bg: linear-gradient(135deg, rgba(31, 176, 148, 0.25) 0%, rgba(229, 190, 83, 0.1) 100%);
+	--tv-current-border: rgba(229, 190, 83, 0.5);
+	--tv-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ==========================================================================
+   2. FONT SIZING SCALES
+   ========================================================================== */
+.itmms-tv--size-small {
+	--tv-scale: 0.85;
+}
+.itmms-tv--size-normal {
+	--tv-scale: 1;
+}
+.itmms-tv--size-large {
+	--tv-scale: 1.15;
+}
+.itmms-tv--size-xlarge {
+	--tv-scale: 1.3;
+}
+
+/* ==========================================================================
+   3. BASE LAYOUT & WRAPPER
+   ========================================================================== */
+body.itmms-tv {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	background: var(--tv-bg);
+	color: var(--tv-text);
+	font-family: var(--tv-font-sans);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Set local font fallbacks for translation keys */
+body.itmms-tv[lang="bn"] {
+	font-family: var(--tv-font-bengali);
+}
+body.itmms-tv[lang="ar"] {
+	font-family: var(--tv-font-arabic);
+}
+
+/* Geometric Islamic Background Pattern Overlay */
+.itmms-tv__bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	opacity: 0.045;
+	pointer-events: none;
+	background-image: radial-gradient(var(--tv-text) 1px, transparent 0), radial-gradient(var(--tv-text) 1px, transparent 0);
+	background-size: 24px 24px;
+	background-position: 0 0, 12px 12px;
+}
+
+.itmms-tv__wrapper {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	padding: calc(20px * var(--tv-scale)) calc(24px * var(--tv-scale));
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: calc(20px * var(--tv-scale));
+}
+
+/* ==========================================================================
+   4. HEADER SECTION
+   ========================================================================== */
+.itmms-tv__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 2px solid var(--tv-border);
+	padding-bottom: calc(16px * var(--tv-scale));
+}
+
+.itmms-tv__logo-area {
+	display: flex;
+	align-items: center;
+	gap: calc(16px * var(--tv-scale));
+}
+
+.itmms-tv__logo {
+	height: calc(64px * var(--tv-scale));
+	width: auto;
+	object-fit: contain;
+}
+
+.itmms-tv__header h1 {
+	font-size: calc(28px * var(--tv-scale));
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	line-height: 1.15;
+}
+
+.itmms-tv__subtitle {
+	font-size: calc(14px * var(--tv-scale));
+	color: var(--tv-muted);
+	font-weight: 500;
+	margin-top: calc(2px * var(--tv-scale));
+}
+
+.itmms-tv__date-time {
+	text-align: right;
+}
+
+.itmms-tv__time {
+	font-size: calc(36px * var(--tv-scale));
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.01em;
+	line-height: 1;
+}
+
+.itmms-tv__date {
+	font-size: calc(15px * var(--tv-scale));
+	color: var(--tv-muted);
+	font-weight: 600;
+	margin-top: calc(6px * var(--tv-scale));
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: calc(8px * var(--tv-scale));
+}
+
+.itmms-tv__hijri-dot {
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: var(--tv-accent);
+}
+
+/* ==========================================================================
+   5. MAIN GRID & TABLE
+   ========================================================================== */
+.itmms-tv__main {
+	flex: 1;
+	display: grid;
+	grid-template-columns: 1.2fr 0.8fr;
+	gap: calc(24px * var(--tv-scale));
+	min-height: 0; /* Important to keep nested items within layout height limits */
+}
+
+.itmms-tv__table-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+}
+
+.itmms-tv__table {
+	background: var(--tv-surface);
+	border: 1px solid var(--tv-border);
+	border-radius: calc(12px * var(--tv-scale));
+	box-shadow: var(--tv-shadow);
+	backdrop-filter: blur(10px);
+	padding: calc(10px * var(--tv-scale));
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	height: 100%;
+}
+
+.itmms-tv__table-header {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	padding: calc(10px * var(--tv-scale)) calc(24px * var(--tv-scale));
+	font-size: calc(13px * var(--tv-scale));
+	font-weight: 800;
+	text-transform: uppercase;
+	color: var(--tv-muted);
+	letter-spacing: 0.05em;
+	border-bottom: 1px dashed var(--tv-border);
+}
+
+.itmms-tv__table-row {
+	display: grid;
+	grid-template-columns: 1.1fr 0.9fr 1fr;
+	align-items: center;
+	padding: calc(12px * var(--tv-scale)) calc(24px * var(--tv-scale));
+	border-radius: calc(8px * var(--tv-scale));
+	transition: all 0.3s ease;
+	border: 1px solid transparent;
+}
+
+.itmms-tv__table-row:not(:last-child) {
+	margin-bottom: calc(4px * var(--tv-scale));
+}
+
+.itmms-tv__prayer-name {
+	font-size: calc(23px * var(--tv-scale));
+	font-weight: 700;
+}
+
+.itmms-tv__time-azan {
+	font-size: calc(21px * var(--tv-scale));
+	font-weight: 600;
+	color: var(--tv-muted);
+}
+
+.itmms-tv__time-iqamah {
+	font-size: calc(24px * var(--tv-scale));
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Sunrise special row style */
+.itmms-tv__table-row.is-sunrise {
+	opacity: 0.7;
+}
+
+.itmms-tv__table-row.is-sunrise .itmms-tv__prayer-name {
+	font-size: calc(20px * var(--tv-scale));
+	font-weight: 600;
+}
+
+.itmms-tv__table-row.is-sunrise .itmms-tv__time-iqamah {
+	color: var(--tv-muted);
+	font-weight: 500;
+	font-size: calc(20px * var(--tv-scale));
+}
+
+/* Current Highlighted Row */
+.itmms-tv__table-row.is-current {
+	background: var(--tv-current-bg);
+	border-color: var(--tv-current-border);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+	position: relative;
+}
+
+.itmms-tv__table-row.is-current .itmms-tv__prayer-name {
+	color: var(--tv-accent);
+}
+
+.itmms-tv__table-row.is-current .itmms-tv__time-azan {
+	color: var(--tv-text);
+}
+
+.itmms-tv__table-row.is-current::before {
+	content: "";
+	position: absolute;
+	left: calc(10px * var(--tv-scale));
+	top: 50%;
+	transform: translateY(-50%);
+	width: calc(6px * var(--tv-scale));
+	height: calc(6px * var(--tv-scale));
+	border-radius: 50%;
+	background: var(--tv-accent);
+	box-shadow: 0 0 10px var(--tv-accent);
+	animation: itmms-pulse 1.8s infinite;
+}
+
+/* ==========================================================================
+   6. SIDEBAR PANELS
+   ========================================================================== */
+.itmms-tv__sidebar {
+	display: flex;
+	flex-direction: column;
+	gap: calc(20px * var(--tv-scale));
+	height: 100%;
+}
+
+/* Countdown Widget */
+.itmms-tv__countdown-box {
+	flex: 1.2;
+	background: var(--tv-surface);
+	border: 1px solid var(--tv-border);
+	border-radius: calc(12px * var(--tv-scale));
+	box-shadow: var(--tv-shadow);
+	backdrop-filter: blur(10px);
+	padding: calc(20px * var(--tv-scale));
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	border-top: 4px solid var(--tv-accent);
+}
+
+.itmms-tv__countdown-label {
+	font-size: calc(13px * var(--tv-scale));
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--tv-accent);
+	margin-bottom: calc(4px * var(--tv-scale));
+}
+
+.itmms-tv__next-name {
+	font-size: calc(34px * var(--tv-scale));
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	margin-bottom: calc(10px * var(--tv-scale));
+	line-height: 1.1;
+}
+
+.itmms-tv__countdown-timer {
+	font-size: calc(60px * var(--tv-scale));
+	font-weight: 900;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.02em;
+	line-height: 1;
+	color: var(--tv-text);
+	text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.itmms-tv--theme-light .itmms-tv__countdown-timer {
+	text-shadow: none;
+}
+
+/* Jumuah Schedule Card */
+.itmms-tv__jumuah-box {
+	flex: 0.8;
+	background: var(--tv-surface);
+	border: 1px solid var(--tv-border);
+	border-radius: calc(12px * var(--tv-scale));
+	box-shadow: var(--tv-shadow);
+	backdrop-filter: blur(10px);
+	padding: calc(16px * var(--tv-scale)) calc(20px * var(--tv-scale));
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.itmms-tv__jumuah-header {
+	font-size: calc(13px * var(--tv-scale));
+	font-weight: 800;
+	text-transform: uppercase;
+	color: var(--tv-muted);
+	letter-spacing: 0.06em;
+	margin-bottom: calc(8px * var(--tv-scale));
+	border-bottom: 1px dashed var(--tv-border);
+	padding-bottom: calc(6px * var(--tv-scale));
+}
+
+.itmms-tv__jumuah-sessions {
+	display: flex;
+	flex-direction: column;
+	gap: calc(8px * var(--tv-scale));
+	flex: 1;
+	justify-content: center;
+}
+
+.itmms-tv__jumuah-session {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.itmms-tv__jumuah-label {
+	font-size: calc(16px * var(--tv-scale));
+	font-weight: 700;
+}
+
+.itmms-tv__jumuah-times {
+	text-align: right;
+	font-size: calc(15px * var(--tv-scale));
+	color: var(--tv-muted);
+}
+
+.itmms-tv__jumuah-times span {
+	margin-left: calc(10px * var(--tv-scale));
+}
+
+.itmms-tv__jumuah-times b {
+	color: var(--tv-text);
+	font-weight: 800;
+}
+
+/* ==========================================================================
+   7. FOOTER & TICKER BANNER
+   ========================================================================== */
+.itmms-tv__footer {
+	height: calc(56px * var(--tv-scale));
+	background: var(--tv-surface);
+	border: 1px solid var(--tv-border);
+	border-radius: calc(8px * var(--tv-scale));
+	box-shadow: var(--tv-shadow);
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+}
+
+.itmms-tv__ticker-label {
+	background: var(--tv-primary);
+	color: #ffffff;
+	font-weight: 800;
+	font-size: calc(13px * var(--tv-scale));
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	padding: 0 calc(20px * var(--tv-scale));
+	border-right: 1px solid var(--tv-border);
+	white-space: nowrap;
+	z-index: 10;
+}
+
+.itmms-tv__ticker-content {
+	flex: 1;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+/* Vertical Sliding announcements track */
+.itmms-tv__ticker-track {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: translateY(0);
+}
+
+.itmms-tv__ticker-item {
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+	display: flex;
+	align-items: center;
+	padding: 0 calc(20px * var(--tv-scale));
+	font-size: calc(17px * var(--tv-scale));
+	font-weight: 600;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.itmms-tv__ticker-bullet {
+	width: calc(8px * var(--tv-scale));
+	height: calc(8px * var(--tv-scale));
+	border-radius: 50%;
+	background: var(--tv-accent);
+	display: inline-block;
+	margin-right: calc(12px * var(--tv-scale));
+	flex-shrink: 0;
+}
+
+/* RTL layout fixes */
+[dir="rtl"] .itmms-tv__ticker-bullet {
+	margin-right: 0;
+	margin-left: calc(12px * var(--tv-scale));
+}
+[dir="rtl"] .itmms-tv__ticker-label {
+	border-right: 0;
+	border-left: 1px solid var(--tv-border);
+}
+[dir="rtl"] .itmms-tv__logo-area {
+	text-align: right;
+}
+[dir="rtl"] .itmms-tv__date-time {
+	text-align: left;
+}
+[dir="rtl"] .itmms-tv__date {
+	justify-content: flex-start;
+}
+[dir="rtl"] .itmms-tv__jumuah-times {
+	text-align: left;
+}
+[dir="rtl"] .itmms-tv__jumuah-times span {
+	margin-left: 0;
+	margin-right: calc(10px * var(--tv-scale));
+}
+[dir="rtl"] .itmms-tv__table-row.is-current::before {
+	left: auto;
+	right: calc(10px * var(--tv-scale));
+}
+
+/* ==========================================================================
+   8. KEYFRAME ANIMATIONS
+   ========================================================================== */
+@keyframes itmms-pulse {
+	0% {
+		box-shadow: 0 0 0 0 rgba(216, 178, 72, 0.7);
+	}
+	70% {
+		box-shadow: 0 0 0 10px rgba(216, 178, 72, 0);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba(216, 178, 72, 0);
+	}
+}
+
+/* Helper align classes */
+.text-center {
+	text-align: center;
+}
+.text-right {
+	text-align: right;
+}
+[dir="rtl"] .text-right {
+	text-align: left;
+}

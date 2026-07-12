@@ -12,7 +12,13 @@ defined( 'ABSPATH' ) || exit;
 		<div>
 			<span class="itmms-public-prayer__eyebrow"><?php echo esc_html( $meta['location'] ?: get_bloginfo( 'name' ) ); ?></span>
 			<h2><?php echo esc_html( $atts['title'] ); ?></h2>
-			<p><?php echo esc_html( $date_label ); ?> &middot; <?php echo esc_html( $meta['timezone'] ?? '' ); ?></p>
+			<p class="itmms-public-prayer__dates">
+				<span><?php echo esc_html( $date_label ); ?></span>
+				<?php if ( ! empty( $hijri_label ) ) : ?>
+					<span><?php echo esc_html( $hijri_label ); ?></span>
+				<?php endif; ?>
+				<span><?php echo esc_html( $meta['timezone'] ?? '' ); ?></span>
+			</p>
 		</div>
 		<div class="itmms-public-prayer__next">
 			<span><?php echo esc_html( $labels['next_prayer'] ); ?></span>
@@ -58,13 +64,24 @@ defined( 'ABSPATH' ) || exit;
 		<?php if ( $show_qibla || $show_meta ) : ?>
 			<aside class="itmms-public-prayer__side">
 				<?php if ( $show_qibla ) : ?>
-					<div class="itmms-public-qibla">
+					<div class="itmms-public-qibla" data-itmms-public-qibla="<?php echo esc_attr( (string) ( $meta['qibla_direction'] ?? 0 ) ); ?>" role="button" tabindex="0" title="<?php echo esc_attr( 'bn' === $language ? 'লাইভ কিবলা কম্পাস চালু করতে ট্যাপ করুন' : __( 'Tap to point live', 'masjidos' ) ); ?>" style="cursor: pointer;">
 						<div class="itmms-public-qibla__compass">
 							<span style="transform: rotate(<?php echo esc_attr( (string) ( $meta['qibla_direction'] ?? 0 ) ); ?>deg)"></span>
 						</div>
 						<div>
 							<span><?php echo esc_html( $labels['qibla'] ); ?></span>
 							<strong><?php echo esc_html( (string) ( $meta['qibla_direction'] ?? '0' ) ); ?>&deg;</strong>
+							<small class="itmms-public-qibla__prompt" style="display: block; font-size: 9px; margin-top: 4px; color: var(--itmms-public-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em;">
+								<?php
+								if ( 'bn' === $language ) {
+									echo 'লাইভ দেখতে ট্যাপ করুন';
+								} elseif ( 'ar' === $language ) {
+									echo 'انقر للقبلة المباشرة';
+								} else {
+									echo 'Tap to point live';
+								}
+								?>
+							</small>
 						</div>
 					</div>
 				<?php endif; ?>

@@ -95,6 +95,11 @@
 				__( 'Visitors can switch month and year without reloading the page', 'masjidos' ),
 				__( 'Includes Current Month and timetable-only Print actions', 'masjidos' )
 			] ) +
+			docInfoCard( __( 'Calculation Method', 'masjidos' ), __( 'Choose a local calculation preset from Settings > Calculation.', 'masjidos' ), [
+				__( 'Includes Karachi, MWL, ISNA, Egypt, Makkah, Gulf, Singapore, Tehran, and Jafari presets', 'masjidos' ),
+				__( 'Bangladesh often starts with Karachi + Hanafi', 'masjidos' ),
+				__( 'Use minute adjustments to match your official masjid timetable', 'masjidos' )
+			] ) +
 			docCard( __( 'Specific Month', 'masjidos' ), __( 'Show a fixed month and year timetable.', 'masjidos' ), '[masjidos_monthly_prayer_times month="6" year="2026"]', [
 				__( 'Useful for archive pages', 'masjidos' ),
 				__( 'Month uses 1 to 12', 'masjidos' )
@@ -125,6 +130,10 @@
 				__( 'Shows one prayer name only', 'masjidos' ),
 				__( 'Does not add Arabic beside the name', 'masjidos' ),
 				__( 'Works with classic and compact designs', 'masjidos' )
+			] ) +
+			docCard( __( 'Hide Hijri Date', 'masjidos' ), __( 'Use this when you only want the Gregorian date in the prayer widget header.', 'masjidos' ), '[masjidos_prayer_times hijri="no"]', [
+				__( 'Keeps the timezone visible', 'masjidos' ),
+				__( 'Hijri date can be adjusted from Settings > Calculation', 'masjidos' )
 			] ) +
 			docCard( __( 'Hide Qibla', 'masjidos' ), __( 'Use this when you want a compact prayer table only.', 'masjidos' ), '[masjidos_prayer_times qibla="no"]', [
 				__( 'Keeps next prayer countdown', 'masjidos' ),
@@ -214,7 +223,8 @@
 			'<div class="itmms-docs-checklist">' +
 				checkItem( __( 'Set Timezone', 'masjidos' ), __( 'For Bangladesh use Asia/Dhaka. Wrong timezone is the most common cause of wrong prayer times.', 'masjidos' ) ) +
 				checkItem( __( 'Set Coordinates', 'masjidos' ), __( 'Copy latitude and longitude from Google Maps for the exact masjid location.', 'masjidos' ) ) +
-				checkItem( __( 'Choose Method', 'masjidos' ), __( 'For Bangladesh, Karachi + Hanafi is a sensible default.', 'masjidos' ) ) +
+				checkItem( __( 'Choose Method', 'masjidos' ), __( 'Pick the method used by your local Islamic authority. For Bangladesh, Karachi + Hanafi is a sensible starting point.', 'masjidos' ) ) +
+				checkItem( __( 'Adjust Hijri Date', 'masjidos' ), __( 'Use Hijri Date Adjustment if your local moon-sighting calendar differs by one day.', 'masjidos' ) ) +
 				checkItem( __( 'Adjust Official Times', 'masjidos' ), __( 'Use Prayer Time Adjustments if the local committee timetable differs by a few minutes.', 'masjidos' ) ) +
 				checkItem( __( 'Set Iqamah Times', 'masjidos' ), __( 'Add jamaat start times for Fajr, Dhuhr, Asr, Maghrib, and Isha.', 'masjidos' ) ) +
 				checkItem( __( 'Set Jumuah Details', 'masjidos' ), __( 'Add sessions, topic, language, khatib profile, and notice from Settings > Jumuah Settings, then publish [masjidos_jumuah].', 'masjidos' ) ) +
@@ -234,6 +244,7 @@
 				docRow( 'meta', 'yes/no', 'yes', __( 'Shows or hides method, Asr, and timezone details.', 'masjidos' ) ) +
 				docRow( 'compact', 'yes/no', 'no', __( 'Legacy shortcut. Use design="compact" for new pages.', 'masjidos' ) ) +
 				docRow( 'iqamah', 'yes/no', 'yes', __( 'Shows or hides jamaat/Iqamah times.', 'masjidos' ) ) +
+				docRow( 'hijri', 'yes/no', 'yes', __( 'Shows or hides the Hijri date in the widget header.', 'masjidos' ) ) +
 			'</div>' +
 		'</section>';
 	}
@@ -297,6 +308,16 @@
 			'<div class="itmms-doc-card-head"><h3>' + esc( title ) + '</h3><button type="button" class="itmms-copy-btn" data-copy-shortcode="' + esc( shortcode ) + '">' + esc( __( 'Copy', 'masjidos' ) ) + '</button></div>' +
 			'<p>' + esc( description ) + '</p>' +
 			'<code>' + esc( shortcode ) + '</code>' +
+			'<ul>' + bullets.map( function ( bullet ) {
+				return '<li>' + esc( bullet ) + '</li>';
+			} ).join( '' ) + '</ul>' +
+		'</article>';
+	}
+
+	function docInfoCard( title, description, bullets ) {
+		return '<article class="itmms-doc-card">' +
+			'<div class="itmms-doc-card-head"><h3>' + esc( title ) + '</h3></div>' +
+			'<p>' + esc( description ) + '</p>' +
 			'<ul>' + bullets.map( function ( bullet ) {
 				return '<li>' + esc( bullet ) + '</li>';
 			} ).join( '' ) + '</ul>' +

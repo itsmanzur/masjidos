@@ -38,6 +38,7 @@ class ITMMS_Installer {
 		ITMMS_Roles::setup_roles();
 		ITMMS_Settings::install_defaults();
 		update_option( 'itmms_db_version', ITMMS_DB_VERSION, false );
+		flush_rewrite_rules();
 	}
 
 	/**

@@ -29,6 +29,7 @@ final class ITMMS_Settings {
 			'longitude'           => '90.4125',
 			'calculation_method'  => 'karachi',
 			'asr_method'          => 'hanafi',
+			'hijri_adjustment'    => 0,
 			'currency'            => 'BDT',
 			'public_transparency' => true,
 			'prayer_offsets'      => [
@@ -76,6 +77,10 @@ final class ITMMS_Settings {
 				'announcements' => true,
 				'events'        => false,
 			],
+			'tv_theme'              => 'dark',
+			'tv_announcement_speed' => 7,
+			'tv_logo_url'           => '',
+			'tv_font_size'          => 'normal',
 		];
 	}
 
@@ -114,14 +119,19 @@ final class ITMMS_Settings {
 			'timezone'            => isset( $input['timezone'] ) ? self::sanitize_timezone( $input['timezone'], $current['timezone'] ) : $current['timezone'],
 			'latitude'            => isset( $input['latitude'] ) ? self::sanitize_decimal( $input['latitude'], -90, 90 ) : $current['latitude'],
 			'longitude'           => isset( $input['longitude'] ) ? self::sanitize_decimal( $input['longitude'], -180, 180 ) : $current['longitude'],
-			'calculation_method'  => isset( $input['calculation_method'] ) ? self::sanitize_choice( $input['calculation_method'], [ 'karachi', 'mwl', 'isna', 'egypt', 'makkah' ], $current['calculation_method'] ) : $current['calculation_method'],
+			'calculation_method'  => isset( $input['calculation_method'] ) ? self::sanitize_choice( $input['calculation_method'], self::calculation_method_keys(), $current['calculation_method'] ) : $current['calculation_method'],
 			'asr_method'          => isset( $input['asr_method'] ) ? self::sanitize_choice( $input['asr_method'], [ 'standard', 'hanafi' ], $current['asr_method'] ) : $current['asr_method'],
+			'hijri_adjustment'    => isset( $input['hijri_adjustment'] ) ? self::sanitize_int_range( $input['hijri_adjustment'], -3, 3 ) : (int) $current['hijri_adjustment'],
 			'currency'            => isset( $input['currency'] ) ? self::sanitize_choice( $input['currency'], [ 'BDT', 'USD', 'GBP', 'EUR', 'SAR' ], $current['currency'] ) : $current['currency'],
 			'public_transparency' => isset( $input['public_transparency'] ) ? (bool) $input['public_transparency'] : (bool) $current['public_transparency'],
 			'prayer_offsets'      => self::sanitize_offsets( isset( $input['prayer_offsets'] ) && is_array( $input['prayer_offsets'] ) ? $input['prayer_offsets'] : ( $current['prayer_offsets'] ?? [] ) ),
 			'iqamah_times'        => self::sanitize_iqamah_times( isset( $input['iqamah_times'] ) && is_array( $input['iqamah_times'] ) ? $input['iqamah_times'] : ( $current['iqamah_times'] ?? [] ) ),
 			'jumuah'              => self::sanitize_jumuah_settings( isset( $input['jumuah'] ) && is_array( $input['jumuah'] ) ? $input['jumuah'] : ( $current['jumuah'] ?? [] ) ),
 			'modules'             => self::sanitize_modules( isset( $input['modules'] ) && is_array( $input['modules'] ) ? $input['modules'] : $current['modules'] ),
+			'tv_theme'              => isset( $input['tv_theme'] ) ? self::sanitize_choice( $input['tv_theme'], [ 'dark', 'light', 'green' ], $current['tv_theme'] ?? 'dark' ) : ( $current['tv_theme'] ?? 'dark' ),
+			'tv_announcement_speed' => isset( $input['tv_announcement_speed'] ) ? self::sanitize_int_range( $input['tv_announcement_speed'], 3, 30 ) : (int) ( $current['tv_announcement_speed'] ?? 7 ),
+			'tv_logo_url'           => isset( $input['tv_logo_url'] ) ? esc_url_raw( wp_unslash( $input['tv_logo_url'] ) ) : ( $current['tv_logo_url'] ?? '' ),
+			'tv_font_size'          => isset( $input['tv_font_size'] ) ? self::sanitize_choice( $input['tv_font_size'], [ 'small', 'normal', 'large', 'xlarge' ], $current['tv_font_size'] ?? 'normal' ) : ( $current['tv_font_size'] ?? 'normal' ),
 		];
 
 		update_option( self::OPTION_KEY, self::merge_defaults( $next ), false );
@@ -189,6 +199,13 @@ final class ITMMS_Settings {
 	}
 
 	/**
+	 * @return string[]
+	 */
+	private static function calculation_method_keys(): array {
+		return [ 'karachi', 'mwl', 'isna', 'egypt', 'makkah', 'dubai', 'qatar', 'kuwait', 'singapore', 'tehran', 'jafari' ];
+	}
+
+	/**
 	 * @param mixed $value Raw timezone.
 	 */
 	private static function sanitize_timezone( $value, string $fallback ): string {
@@ -223,6 +240,14 @@ final class ITMMS_Settings {
 		$number = (float) sanitize_text_field( wp_unslash( $value ) );
 		$number = max( $min, min( $max, $number ) );
 		return (string) $number;
+	}
+
+	/**
+	 * @param mixed $value Raw integer.
+	 */
+	private static function sanitize_int_range( $value, int $min, int $max ): int {
+		$number = (int) sanitize_text_field( wp_unslash( $value ) );
+		return max( $min, min( $max, $number ) );
 	}
 
 	/**

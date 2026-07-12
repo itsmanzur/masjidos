@@ -24,6 +24,7 @@
 		prayers: [],
 		nextPrayer: null,
 		prayerMeta: null,
+		hijriDate: null,
 		announcements: [],
 		dashboardAnnouncements: [],
 		editingAnnouncement: 0,
@@ -54,6 +55,8 @@
 	var announcementsHtml = window.itmms.announcements.announcementsHtml;
 	var docsHtml = window.itmms.docs.docsHtml;
 	var eventsHtml = window.itmms.events.eventsHtml;
+	var featuresHtml = window.itmms.features.featuresHtml;
+	var bindFeaturesEvents = window.itmms.features.bindFeaturesEvents;
 	
 	// Import sub-helpers
 	var prayerNameLabel = window.itmms.dashboard.prayerNameLabel;
@@ -72,6 +75,7 @@
 					navButton( 'dashboard', 'clock', __( 'Dashboard', 'masjidos' ), true ) +
 					( state.settings.modules.announcements ? navButton( 'announcements', 'megaphone', __( 'Notices', 'masjidos' ), false ) : '' ) +
 					( state.settings.modules.events ? navButton( 'events', 'calendar', __( 'Events', 'masjidos' ), false ) : '' ) +
+					navButton( 'features', 'star', __( 'Features', 'masjidos' ), false ) +
 					navButton( 'modules', 'settings', __( 'Modules', 'masjidos' ), false ) +
 					navButton( 'settings', 'settings', __( 'Settings', 'masjidos' ), false ) +
 					navButton( 'docs', 'book', __( 'Docs', 'masjidos' ), false ) +
@@ -90,6 +94,7 @@
 					'<div class="itmms-tab-content active" id="itmms-tab-dashboard">' + dashboardHtml() + '</div>' +
 					'<div class="itmms-tab-content" id="itmms-tab-announcements">' + announcementsHtml() + '</div>' +
 					'<div class="itmms-tab-content" id="itmms-tab-events">' + eventsHtml() + '</div>' +
+					'<div class="itmms-tab-content" id="itmms-tab-features">' + featuresHtml() + '</div>' +
 					'<div class="itmms-tab-content" id="itmms-tab-modules">' + modulesHtml() + '</div>' +
 					'<div class="itmms-tab-content" id="itmms-tab-settings">' + settingsHtml() + '</div>' +
 					'<div class="itmms-tab-content" id="itmms-tab-docs">' + docsHtml() + '</div>' +
@@ -98,6 +103,7 @@
 		'</div>';
 
 		bindEvents();
+		bindFeaturesEvents();
 		switchTab( state.activeTab );
 		activateSettingsTab( state.settingsTab );
 		activateDocsTab( state.docsTab );
@@ -400,10 +406,92 @@
 				activateSettingsTab( tab.getAttribute( 'data-settings-tab' ), 'push' );
 			} );
 		} );
+
+		var detectBtn = document.getElementById( 'itmms-detect-location' );
+		if ( detectBtn ) {
+			detectBtn.addEventListener( 'click', function () {
+				if ( ! navigator.geolocation ) {
+					window.alert( __( 'Geolocation is not supported by your browser.', 'masjidos' ) );
+					return;
+				}
+				detectBtn.disabled = true;
+				var originalText = detectBtn.innerHTML;
+				detectBtn.textContent = __( 'Detecting location...', 'masjidos' );
+
+				navigator.geolocation.getCurrentPosition(
+					function ( position ) {
+						var lat = position.coords.latitude.toFixed( 4 );
+						var lng = position.coords.longitude.toFixed( 4 );
+						var latInput = document.querySelector( 'input[name="latitude"]' );
+						var lngInput = document.querySelector( 'input[name="longitude"]' );
+						if ( latInput ) {
+							latInput.value = lat;
+							state.settings.latitude = lat;
+						}
+						if ( lngInput ) {
+							lngInput.value = lng;
+							state.settings.longitude = lng;
+						}
+
+						// Detect timezone based on browser if supported
+						try {
+							var detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+							var tzInput = document.querySelector( 'input[name="timezone"]' );
+							if ( detectedTimezone && tzInput ) {
+								tzInput.value = detectedTimezone;
+								state.settings.timezone = detectedTimezone;
+
+								// Clean up or update warnings
+								var warning = document.getElementById( 'itmms-timezone-mismatch-warning' );
+								if ( warning ) {
+									if ( window.itmmData && window.itmmData.siteTimezone && detectedTimezone === window.itmmData.siteTimezone ) {
+										warning.style.display = 'none';
+									} else {
+										warning.style.display = 'block';
+										var code = warning.querySelectorAll( 'code' );
+										if ( code.length >= 1 ) {
+											code[0].textContent = detectedTimezone;
+										}
+										if ( code.length >= 2 && window.itmmData.siteTimezone ) {
+											code[1].textContent = window.itmmData.siteTimezone;
+										}
+									}
+								}
+							}
+						} catch ( e ) {}
+
+						detectBtn.disabled = false;
+						detectBtn.innerHTML = originalText;
+						window.alert( __( 'Location detected and coordinates updated.', 'masjidos' ) );
+					},
+					function ( error ) {
+						detectBtn.disabled = false;
+						detectBtn.innerHTML = originalText;
+						window.alert( __( 'Unable to detect location. Please input coordinates manually.', 'masjidos' ) );
+					},
+					{ enableHighAccuracy: true, timeout: 8000 }
+				);
+			} );
+		}
+
+		app.querySelectorAll( '[data-copy-tv-url]' ).forEach( function ( btn ) {
+			btn.addEventListener( 'click', function () {
+				var url = btn.getAttribute( 'data-url' );
+				if ( navigator.clipboard && navigator.clipboard.writeText ) {
+					navigator.clipboard.writeText( url ).then( function () {
+						var originalText = btn.textContent;
+						btn.textContent = __( 'Copied!', 'masjidos' );
+						setTimeout( function () { btn.textContent = originalText; }, 2000 );
+					} );
+				} else {
+					window.alert( __( 'Copy failed. Please copy the URL manually.', 'masjidos' ) );
+				}
+			} );
+		} );
 	}
 
 	function activateSettingsTab( key, historyMode ) {
-		if ( [ 'profile', 'calculation', 'adjustments', 'iqamah', 'jumuah', 'public' ].indexOf( key ) === -1 ) {
+		if ( [ 'profile', 'calculation', 'adjustments', 'iqamah', 'jumuah', 'tv', 'public' ].indexOf( key ) === -1 ) {
 			key = 'profile';
 		}
 		state.settingsTab = key;
@@ -772,7 +860,7 @@
 	}
 
 	function switchTab( tab, historyMode ) {
-		if ( [ 'dashboard', 'announcements', 'events', 'modules', 'settings', 'docs' ].indexOf( tab ) === -1 ) {
+		if ( [ 'dashboard', 'announcements', 'events', 'features', 'modules', 'settings', 'docs' ].indexOf( tab ) === -1 ) {
 			tab = 'dashboard';
 		}
 		state.activeTab = tab;
@@ -788,6 +876,7 @@
 				dashboard: __( 'Dashboard', 'masjidos' ),
 				announcements: __( 'Notices', 'masjidos' ),
 				events: __( 'Events', 'masjidos' ),
+				features: __( 'Features', 'masjidos' ),
 				modules: __( 'Modules', 'masjidos' ),
 				settings: __( 'Settings', 'masjidos' ),
 				docs: __( 'Docs', 'masjidos' )
@@ -849,6 +938,7 @@
 			state.prayers = response.prayers || state.prayers;
 			state.nextPrayer = response.next_prayer || state.nextPrayer;
 			state.prayerMeta = response.prayer_meta || state.prayerMeta;
+			state.hijriDate = response.hijri_date || state.hijriDate;
 			state.dashboardAnnouncements = response.announcements || [];
 			state.dashboardEvents = response.events || [];
 			return Promise.all( [
@@ -867,15 +957,7 @@
 		if ( ! el ) {
 			return;
 		}
-		try {
-			el.textContent = new Intl.DateTimeFormat( String( data.locale || 'en_US' ).replace( '_', '-' ) + '-u-ca-islamic', {
-				day: 'numeric',
-				month: 'long',
-				year: 'numeric'
-			} ).format( new Date() );
-		} catch ( e ) {
-			el.textContent = __( 'Available soon', 'masjidos' );
-		}
+		el.textContent = state.hijriDate && state.hijriDate.label ? state.hijriDate.label : __( 'Available soon', 'masjidos' );
 	}
 
 	function tickCountdown() {

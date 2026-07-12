@@ -1,6 +1,6 @@
 # MasjidOS Project Memory
 
-Last updated: 2026-06-28
+Last updated: 2026-07-12
 
 ## Product Direction
 
@@ -50,6 +50,11 @@ Admin:
 Prayer Times:
 - Local calculation logic, no external prayer API.
 - Latitude, longitude, timezone, calculation method, Asr method.
+- Calculation method registry includes Karachi, MWL, ISNA, Egypt, Makkah, Dubai, Qatar, Kuwait, Singapore, Tehran, and Jafari presets.
+- Local engine supports method-specific Maghrib angle where needed.
+- Local Hijri date helper exists with `-3` to `+3` day adjustment for local moon-sighting differences.
+- Daily prayer widget can show Gregorian date, Hijri date, and timezone; `hijri="no"` hides the Hijri date.
+- Monthly timetable header shows a Hijri date range for the selected Gregorian month.
 - Per-prayer minute adjustments.
 - Iqamah times.
 - Qibla direction.

@@ -35,6 +35,16 @@ final class ITMMS_Public {
 		add_shortcode( 'masjidos_monthly_prayer_times', [ $this, 'render_monthly_prayer_times_shortcode' ] );
 		add_shortcode( 'masjidos_announcements', [ $this, 'render_announcements_shortcode' ] );
 		add_shortcode( 'masjidos_events', [ $this, 'render_events_shortcode' ] );
+		add_shortcode( 'masjidos_islamic_calendar', [ $this, 'render_islamic_calendar_shortcode' ] );
+
+		// Register Gutenberg blocks.
+		add_action( 'init', [ $this, 'register_blocks' ] );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
+
+		// Register TV Display rewrites and redirects.
+		add_action( 'init', [ $this, 'register_display_rewrites' ] );
+		add_filter( 'query_vars', [ $this, 'register_display_query_vars' ] );
+		add_action( 'template_redirect', [ $this, 'handle_display_template_redirect' ] );
 	}
 
 	/**
@@ -55,6 +65,7 @@ final class ITMMS_Public {
 				'meta'  => 'yes',
 				'compact' => 'no',
 				'iqamah' => 'yes',
+				'hijri' => 'yes',
 			],
 			$atts,
 			'masjidos_prayer_times'
@@ -70,11 +81,14 @@ final class ITMMS_Public {
 			$atts['title'] = $labels['title'];
 		}
 
+		$settings = ITMMS_Settings::get_all();
 		$data = ITMMS_Prayer_Times::today();
 		$meta = $data['meta'];
 		$next = $data['next_prayer'];
 		$next_name = isset( $next['key'] ) ? $this->prayer_label( (string) $next['key'], $language, (string) ( $next['name'] ?? '' ) ) : (string) ( $next['name'] ?? '' );
 		$date_label = date_i18n( get_option( 'date_format' ), strtotime( (string) ( $data['date'] ?? 'now' ) ) );
+		$show_hijri = 'no' !== strtolower( (string) $atts['hijri'] );
+		$hijri_label = $show_hijri ? $this->hijri_label_for_date( (string) ( $data['date'] ?? 'now' ), $settings, $language ) : '';
 		$show_qibla = 'yes' === strtolower( (string) $atts['qibla'] );
 		$show_meta = 'yes' === strtolower( (string) $atts['meta'] );
 		$is_compact = 'compact' === $design;
@@ -92,7 +106,7 @@ final class ITMMS_Public {
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_prayer_widget_design', '', $design, $data, $atts, $designs );
 			if ( is_string( $rendered ) && '' !== $rendered ) {
-				return wp_kses_post( $rendered );
+				return $this->safe_kses( $rendered );
 			}
 
 			return $this->render_locked_design_notice( $design, $designs[ $design ] ?? null );
@@ -103,7 +117,7 @@ final class ITMMS_Public {
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
-		return wp_kses_post( (string) ob_get_clean() );
+		return $this->safe_kses( (string) ob_get_clean() );
 	}
 
 	/**
@@ -151,11 +165,14 @@ final class ITMMS_Public {
 		$meta = $data['meta'] ?? [];
 		$prayer_keys = [ 'fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha' ];
 		$today = $now->format( 'Y-m-d' );
+		$month_start = new DateTimeImmutable( sprintf( '%04d-%02d-01 00:00:00', $year, $month ), $timezone );
+		$month_end = $month_start->modify( 'last day of this month' );
+		$hijri_range_label = ITMMS_Hijri::range_label( $month_start, $month_end, (int) ( $settings['hijri_adjustment'] ?? 0 ), $language );
 
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_monthly_prayer_widget_design', '', $design, $data, $atts, $designs );
 			if ( is_string( $rendered ) && '' !== $rendered ) {
-				return wp_kses_post( $rendered );
+				return $this->safe_kses( $rendered );
 			}
 
 			return $this->render_locked_monthly_design_notice( $design, $designs[ $design ] ?? null );
@@ -166,7 +183,94 @@ final class ITMMS_Public {
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
-		return wp_kses_post( (string) ob_get_clean() );
+		return $this->safe_kses( (string) ob_get_clean() );
+	}
+
+	/**
+	 * Render the public Islamic Calendar.
+	 *
+	 * @param array<string,mixed>|string $atts Shortcode attributes.
+	 * @return string Rendered calendar HTML.
+	 */
+	public function render_islamic_calendar_shortcode( $atts = [] ): string {
+		$atts = is_array( $atts ) ? $atts : [];
+		$has_custom_title = isset( $atts['title'] ) && '' !== trim( (string) $atts['title'] );
+		$atts = shortcode_atts(
+			[
+				'title'      => __( 'Islamic Calendar', 'masjidos' ),
+				'month'      => '',
+				'year'       => '',
+				'language'   => 'en',
+				'navigation' => 'yes',
+			],
+			$atts,
+			'masjidos_islamic_calendar'
+		);
+
+		$this->enqueue_assets();
+
+		$settings = ITMMS_Settings::get_all();
+		$timezone = new DateTimeZone( (string) ( $settings['timezone'] ?? wp_timezone_string() ) );
+		$now = new DateTimeImmutable( 'now', $timezone );
+		$year = '' === (string) $atts['year'] ? (int) $now->format( 'Y' ) : (int) $atts['year'];
+		$month = '' === (string) $atts['month'] ? (int) $now->format( 'n' ) : (int) $atts['month'];
+		$year = max( 1970, min( 2099, $year ) );
+		$month = max( 1, min( 12, $month ) );
+		$language = $this->normalize_language( (string) $atts['language'] );
+
+		$labels = [
+			'en' => [
+				'title'          => 'Islamic Calendar',
+				'navigation'     => 'Calendar Navigation',
+				'previous'       => 'Previous Month',
+				'next'           => 'Next Month',
+				'month'          => 'Month',
+				'year'           => 'Year',
+				'current_month'  => 'Current Month',
+				'today'          => 'Today',
+				'events'         => 'Mosque Events',
+				'no_events'      => 'No events scheduled',
+			],
+			'bn' => [
+				'title'          => 'ইসলামিক ক্যালেন্ডার',
+				'navigation'     => 'ক্যালেন্ডার নেভিগেশন',
+				'previous'       => 'পূর্ববর্তী মাস',
+				'next'           => 'পরবর্তী মাস',
+				'month'          => 'মাস',
+				'year'           => 'বছর',
+				'current_month'  => 'চলতি মাস',
+				'today'          => 'আজ',
+				'events'         => 'মসজিদের ইভেন্ট',
+				'no_events'      => 'কোনো ইভেন্ট নেই',
+			],
+			'ar' => [
+				'title'          => 'التقويم الإسلامي',
+				'navigation'     => 'تصفح التقويم',
+				'previous'       => 'الشهر السابق',
+				'next'           => 'الشهر التالي',
+				'month'          => 'الشهر',
+				'year'           => 'السنة',
+				'current_month'  => 'الشهر الحالي',
+				'today'          => 'اليوم',
+				'events'         => 'فعاليات المسجد',
+				'no_events'      => 'لا توجد فعاليات',
+			],
+		];
+
+		$active_labels = $labels[ $language ] ?? $labels['en'];
+		if ( ! $has_custom_title ) {
+			$atts['title'] = $active_labels['title'];
+		}
+
+		$show_navigation = 'no' !== strtolower( (string) $atts['navigation'] );
+		$today = $now->format( 'Y-m-d' );
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/islamic-calendar.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		return $this->safe_kses( (string) ob_get_clean() );
 	}
 
 	/**
@@ -214,7 +318,7 @@ final class ITMMS_Public {
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_announcement_widget_design', '', $design, $notices, $settings, $atts, $designs );
 			if ( is_string( $rendered ) && '' !== $rendered ) {
-				return wp_kses_post( $rendered );
+				return $this->safe_kses( $rendered );
 			}
 
 			return $this->render_locked_announcement_design_notice( $design, $designs[ $design ] ?? null );
@@ -233,7 +337,7 @@ final class ITMMS_Public {
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
-		return wp_kses_post( (string) ob_get_clean() );
+		return $this->safe_kses( (string) ob_get_clean() );
 	}
 
 	/**
@@ -285,7 +389,7 @@ final class ITMMS_Public {
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
-		return wp_kses_post( (string) ob_get_clean() );
+		return $this->safe_kses( (string) ob_get_clean() );
 	}
 
 	/**
@@ -329,7 +433,7 @@ final class ITMMS_Public {
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_jumuah_widget_design', '', $design, $jumuah, $settings, $atts, $designs );
 			if ( is_string( $rendered ) && '' !== $rendered ) {
-				return wp_kses_post( $rendered );
+				return $this->safe_kses( $rendered );
 			}
 
 			return $this->render_locked_jumuah_design_notice( $design, $designs[ $design ] ?? null );
@@ -364,7 +468,7 @@ final class ITMMS_Public {
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
-		return wp_kses_post( (string) ob_get_clean() );
+		return $this->safe_kses( (string) ob_get_clean() );
 	}
 
 	/**
@@ -735,6 +839,20 @@ final class ITMMS_Public {
 	}
 
 	/**
+	 * @param array<string,mixed> $settings Plugin settings.
+	 */
+	private function hijri_label_for_date( string $date, array $settings, string $language ): string {
+		try {
+			$timezone = new DateTimeZone( (string) ( $settings['timezone'] ?? wp_timezone_string() ) );
+			$day = new DateTimeImmutable( $date . ' 00:00:00', $timezone );
+			$hijri = ITMMS_Hijri::for_date( $day, (int) ( $settings['hijri_adjustment'] ?? 0 ), $language );
+			return (string) ( $hijri['label'] ?? '' );
+		} catch ( Exception $e ) {
+			return '';
+		}
+	}
+
+	/**
 	 * @return array<string,string>
 	 */
 	private function announcement_labels( string $language ): array {
@@ -911,5 +1029,228 @@ final class ITMMS_Public {
 			ITMMS_VERSION,
 			true
 		);
+	}
+
+	/**
+	 * Register Gutenberg blocks.
+	 */
+	public function register_blocks(): void {
+		register_block_type(
+			'masjidos/prayer-times',
+			[
+				'render_callback' => [ $this, 'render_prayer_times_block' ],
+				'attributes'      => [
+					'title'    => [
+						'type'    => 'string',
+						'default' => __( 'Prayer Times', 'masjidos' ),
+					],
+					'design'   => [
+						'type'    => 'string',
+						'default' => 'classic',
+					],
+					'language' => [
+						'type'    => 'string',
+						'default' => 'en',
+					],
+					'qibla'    => [
+						'type'    => 'string',
+						'default' => 'yes',
+					],
+					'meta'     => [
+						'type'    => 'string',
+						'default' => 'yes',
+					],
+					'iqamah'   => [
+						'type'    => 'string',
+						'default' => 'yes',
+					],
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/islamic-calendar',
+			[
+				'render_callback' => [ $this, 'render_islamic_calendar_block' ],
+				'attributes'      => [
+					'title'    => [
+						'type'    => 'string',
+						'default' => __( 'Islamic Calendar', 'masjidos' ),
+					],
+					'language' => [
+						'type'    => 'string',
+						'default' => 'en',
+					],
+				],
+			]
+		);
+	}
+
+	public function render_prayer_times_block( array $attributes ): string {
+		return $this->render_prayer_times_shortcode( $attributes );
+	}
+
+	/**
+	 * Render callback for masjidos/islamic-calendar block.
+	 *
+	 * @param array<string,mixed> $attributes Block attributes.
+	 * @return string Rendered block HTML.
+	 */
+	public function render_islamic_calendar_block( array $attributes ): string {
+		return $this->render_islamic_calendar_shortcode( $attributes );
+	}
+
+	/**
+	 * Enqueue Gutenberg block editor assets.
+	 */
+	public function enqueue_block_editor_assets(): void {
+		wp_enqueue_script(
+			'itmms-block-editor',
+			ITMMS_PLUGIN_URL . 'admin/assets/js/block-editor.js',
+			[ 'wp-blocks', 'wp-components', 'wp-block-editor', 'wp-element', 'wp-i18n' ],
+			ITMMS_VERSION,
+			true
+		);
+
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			wp_set_script_translations( 'itmms-block-editor', 'masjidos', ITMMS_PLUGIN_DIR . 'languages' );
+		}
+	}
+
+	/**
+	 * Register TV Display rewrite rules.
+	 */
+	public function register_display_rewrites(): void {
+		add_rewrite_rule( '^masjidos-display/?$', 'index.php?masjidos_display=1', 'top' );
+	}
+
+	/**
+	 * Register TV Display query vars.
+	 *
+	 * @param array<int,string> $vars Query variables.
+	 * @return array<int,string>
+	 */
+	public function register_display_query_vars( array $vars ): array {
+		$vars[] = 'masjidos_display';
+		return $vars;
+	}
+
+	public function handle_display_template_redirect(): void {
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$is_pretty_display = preg_match( '#/masjidos-display/?(\?.*)?$#', $request_uri );
+		$is_plain_display  = (int) get_query_var( 'masjidos_display' ) === 1;
+
+		if ( $is_pretty_display || $is_plain_display ) {
+			// Disable browser cache to keep prayer times accurate
+			nocache_headers();
+
+			$settings = ITMMS_Settings::get_all();
+			$template_path = ITMMS_PLUGIN_DIR . 'public/templates/tv-display.php';
+			if ( file_exists( $template_path ) ) {
+				include $template_path;
+				exit;
+			}
+		}
+	}
+
+	/**
+	 * Safe KSES wrapper that preserves select, option, and button tags for interactive widgets.
+	 *
+	 * @param string $html Raw HTML content.
+	 * @return string Sanitized HTML content.
+	 */
+	private function safe_kses( string $html ): string {
+		$allowed = wp_kses_allowed_html( 'post' );
+
+		$allowed['select'] = [
+			'class'                      => true,
+			'id'                         => true,
+			'name'                       => true,
+			'style'                      => true,
+			'data-itmms-monthly-month'   => true,
+			'data-itmms-monthly-year'    => true,
+			'data-itmms-calendar-month'  => true,
+			'data-itmms-calendar-year'   => true,
+			'aria-label'                 => true,
+		];
+
+		$allowed['label'] = [
+			'class' => true,
+			'for'   => true,
+			'style' => true,
+		];
+
+		$allowed['option'] = [
+			'value'    => true,
+			'selected' => true,
+			'style'    => true,
+		];
+
+		$allowed['button'] = [
+			'class'                        => true,
+			'id'                           => true,
+			'type'                         => true,
+			'style'                        => true,
+			'disabled'                     => true,
+			'data-itmms-monthly-step'      => true,
+			'data-itmms-monthly-current'   => true,
+			'data-itmms-monthly-print'     => true,
+			'data-itmms-ticker-toggle'     => true,
+			'data-play-label'              => true,
+			'data-pause-label'             => true,
+			'data-itmms-calendar-step'     => true,
+			'data-itmms-calendar-current'  => true,
+			'aria-label'                   => true,
+			'aria-pressed'                 => true,
+			'title'                        => true,
+		];
+
+		$allowed['div'] = array_merge(
+			$allowed['div'] ?? [],
+			[
+				'class'                    => true,
+				'id'                       => true,
+				'data-itmms-monthly'       => true,
+				'data-itmms-calendar'      => true,
+				'data-endpoint'            => true,
+				'data-month'               => true,
+				'data-year'                => true,
+				'data-current-month'       => true,
+				'data-current-year'        => true,
+				'data-design'              => true,
+				'data-language'            => true,
+				'data-iqamah'              => true,
+				'data-title'               => true,
+				'data-error'               => true,
+				'data-next-prayer'         => true,
+				'data-itmms-public-qibla'  => true,
+				'data-gregorian-date'      => true,
+				'data-hijri-date-label'    => true,
+				'style'                    => true,
+				'role'                     => true,
+				'tabindex'                 => true,
+				'title'                    => true,
+				'aria-label'               => true,
+				'aria-busy'                => true,
+			]
+		);
+
+		$allowed['span'] = array_merge(
+			$allowed['span'] ?? [],
+			[
+				'class' => true,
+				'style' => true,
+			]
+		);
+
+		$allowed['b'] = array_merge(
+			$allowed['b'] ?? [],
+			[
+				'class'                       => true,
+				'data-itmms-public-countdown' => true,
+			]
+		);
+
+		return wp_kses( $html, $allowed );
 	}
 }
