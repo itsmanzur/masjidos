@@ -1,6 +1,6 @@
 === MasjidOS ===
 Contributors: itsmanzur
-Tags: prayer times, mosque, islamic, jumuah, qibla
+Tags: prayer times, mosque, islamic, jumuah, qibla, hijri
 Requires at least: 6.0
 Tested up to: 7.0
 Stable tag: 1.0.0
@@ -8,7 +8,7 @@ Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Prayer times, Jumuah schedules, monthly timetables, Qibla direction, mosque notices, and community events without an external prayer API.
+Prayer times, Jumuah schedules, monthly timetables, Hijri calendar, TV display, Qibla direction, mosque notices, and events without an external prayer API.
 
 == Description ==
 
@@ -18,13 +18,16 @@ Current features include:
 
 * Local prayer-time calculation with configurable coordinates and timezone.
 * Multiple calculation methods, Hanafi or standard Asr, and per-prayer adjustments.
-* Iqamah times and Qibla direction.
+* Iqamah times, Hijri date display, and Qibla direction.
 * Responsive prayer-time widgets in English, Bangla, or Arabic.
 * Jumuah sessions, Khatib profile, topic, language, and notice.
-* Monthly prayer timetables with month navigation and print support.
+* Monthly prayer timetables with Hijri range, month navigation, current-month return, and print support.
+* Islamic calendar shortcode with Hijri + Gregorian dates, important Islamic days, and event markers.
+* Fullscreen TV display URL for mosque screens and lobby displays.
 * Scheduled mosque announcements with list and ticker designs.
 * Upcoming community events calendar with time, location, and description details.
-* Built-in shortcode documentation and generators.
+* Gutenberg blocks for Prayer Times and Islamic Calendar.
+* Built-in Features page, live previews, shortcode documentation, and generators.
 
 MasjidOS performs prayer calculations locally. It does not require an external prayer-time API and does not send telemetry or visitor data to MasjidOS.
 
@@ -41,11 +44,18 @@ Common shortcodes:
 * `[masjidos_prayer_times design="compact"]`
 * `[masjidos_jumuah]`
 * `[masjidos_monthly_prayer_times]`
+* `[masjidos_monthly_prayer_times design="compact"]`
+* `[masjidos_islamic_calendar]`
+* `[masjidos_islamic_calendar language="bn"]`
 * `[masjidos_announcements]`
 * `[masjidos_announcements design="ticker"]`
 * `[masjidos_events]`
 
-The complete shortcode reference and generators are available under MasjidOS > Docs.
+Fullscreen display:
+
+* `/masjidos-display/`
+
+The complete shortcode reference, generators, and live previews are available under MasjidOS > Docs and MasjidOS > Features.
 
 == Frequently Asked Questions ==
 
@@ -60,6 +70,22 @@ Open a map service, select the mosque location, and copy its latitude and longit
 = Why can local mosque times differ by a few minutes? =
 
 Calculation conventions and official local timetables can differ. Use Prayer Time Adjustments to match the mosque's published timetable.
+
+= Can I adjust the Hijri date? =
+
+Yes. Use Settings > Calculation > Hijri Date Adjustment if your local moon-sighting calendar differs by one or more days.
+
+= How do I use the Islamic calendar? =
+
+Add `[masjidos_islamic_calendar]` to a page. It shows Gregorian days with Hijri dates, highlights important Islamic dates, and can show mosque events.
+
+= How do I open the TV display? =
+
+Open `/masjidos-display/` on your site. Settings > TV Display controls the theme, logo, font size, and announcement speed.
+
+= Does MasjidOS include blocks? =
+
+Yes. In the WordPress block editor, search for MasjidOS Prayer Times or MasjidOS Islamic Calendar.
 
 = Why is an announcement not visible? =
 
@@ -81,6 +107,10 @@ Public widgets can display mosque location details, prayer settings, Khatib info
 
 * Initial public release on WordPress.org.
 * Local prayer-time calculation widget, monthly timetable widget, and Qibla compass.
+* Hijri date display and Hijri date adjustment.
+* Islamic Calendar shortcode and block.
+* TV Display mode for fullscreen mosque screens.
+* Features page with live previews and shortcode copying.
 * Jumuah sessions scheduler and Khatib profiles display.
 * Scheduled notices list and notice ticker modules.
 * Upcoming community events list module.

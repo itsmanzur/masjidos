@@ -131,14 +131,14 @@ function buildJson( entries ) {
 	const messages = {
 		'': { domain: 'messages', lang: 'bn_BD', 'plural-forms': pluralForms }
 	};
-	for ( const entry of entries.filter( ( item ) => item.references.some( ( reference ) => reference.startsWith( 'admin/assets/js/admin.js:' ) ) ) ) {
+	for ( const entry of entries.filter( ( item ) => item.references.some( ( reference ) => reference.startsWith( 'admin/assets/js/' ) ) ) ) {
 		const translated = translations[ entry.msgid ];
 		messages[ entry.msgid ] = entry.plural ? translated : [ translated ];
 	}
 	return {
 		'translation-revision-date': new Date().toISOString(),
 		generator: 'MasjidOS translation pack builder',
-		source: 'admin/assets/js/admin.js',
+		source: 'admin/assets/js/',
 		domain: 'messages',
 		locale_data: { messages }
 	};

@@ -30,20 +30,22 @@
 				docTabButton( 'generators', __( 'Generators', 'masjidos' ), false ) +
 				docTabButton( 'prayer', __( 'Prayer', 'masjidos' ), false ) +
 				docTabButton( 'jumuah', __( 'Jumuah', 'masjidos' ), false ) +
+				docTabButton( 'calendar', __( 'Calendar', 'masjidos' ), false ) +
 				docTabButton( 'notices', __( 'Notices', 'masjidos' ), false ) +
 				docTabButton( 'events', __( 'Events', 'masjidos' ), false ) +
 				docTabButton( 'pro', 'Pro', false ) +
 				docTabButton( 'reference', __( 'Reference', 'masjidos' ), false ) +
 			'</div>' +
 			'<div class="itmms-doc-tab-panels">' +
-				docPanel( 'overview', true, pasteShortcodeSection() + jumuahDataSection() + checklistSection() + roadmapSection() ) +
+				docPanel( 'overview', true, pasteShortcodeSection() + featureDiscoverySection() + displayAndBlocksSection() + jumuahDataSection() + checklistSection() + roadmapSection() ) +
 				docPanel( 'generators', false, shortcodeBuilderHtml() ) +
 				docPanel( 'prayer', false, prayerDocsSection() ) +
 				docPanel( 'jumuah', false, jumuahDocsSection() ) +
+				docPanel( 'calendar', false, calendarDocsSection() ) +
 				docPanel( 'notices', false, announcementDocsSection() ) +
 				docPanel( 'events', false, eventDocsSection() ) +
 				docPanel( 'pro', false, proDocsSection() ) +
-				docPanel( 'reference', false, prayerAttributesSection() + jumuahAttributesSection() + monthlyAttributesSection() + announcementAttributesSection() + eventAttributesSection() ) +
+				docPanel( 'reference', false, prayerAttributesSection() + jumuahAttributesSection() + monthlyAttributesSection() + calendarAttributesSection() + announcementAttributesSection() + eventAttributesSection() + tvDisplayReferenceSection() ) +
 			'</div>' +
 		'</div>';
 	}
@@ -64,6 +66,31 @@
 				pasteItem( __( 'Post or Article', 'masjidos' ), __( 'Posts > Add New, place the shortcode where the prayer widget should appear.', 'masjidos' ) ) +
 				pasteItem( __( 'Widget Area', 'masjidos' ), __( 'Appearance > Widgets, add a Shortcode block in a sidebar or footer area.', 'masjidos' ) ) +
 				pasteItem( 'Elementor', __( 'Drag the Shortcode widget into your layout and paste the shortcode there.', 'masjidos' ) ) +
+				pasteItem( __( 'Block Editor', 'masjidos' ), __( 'Search for MasjidOS blocks when you prefer a block instead of manually pasting a shortcode.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
+	function featureDiscoverySection() {
+		return '<section class="itmms-docs-section itmms-docs-paste">' +
+			'<h3>' + esc( __( 'Fastest way to choose a widget', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-paste-grid">' +
+				pasteItem( __( 'Features Page', 'masjidos' ), __( 'Open MasjidOS > Features to browse every public widget, change options, copy the shortcode, and open a live preview.', 'masjidos' ) ) +
+				pasteItem( __( 'Live Preview', 'masjidos' ), __( 'Use the preview buttons to compare desktop and mobile layouts before publishing a shortcode.', 'masjidos' ) ) +
+				pasteItem( __( 'Shortcode Generators', 'masjidos' ), __( 'Use the Generators tab when you want a form-based shortcode builder with copy buttons.', 'masjidos' ) ) +
+				pasteItem( __( 'Pro-safe Designs', 'masjidos' ), __( 'Free designs render from this plugin. Pro design keys are documented as placeholders and are rendered only when a Pro plugin is active.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
+	function displayAndBlocksSection() {
+		return '<section class="itmms-docs-section itmms-docs-paste">' +
+			'<h3>' + esc( __( 'Display modes and blocks', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-paste-grid">' +
+				pasteItem( __( 'TV Display', 'masjidos' ), __( 'Open /masjidos-display/ on the site to show a fullscreen mosque board with prayer times, Iqamah, Hijri date, Jumuah, and notices.', 'masjidos' ) ) +
+				pasteItem( __( 'TV Settings', 'masjidos' ), __( 'Go to Settings > TV Display to choose theme, logo, font size, and announcement rotation speed.', 'masjidos' ) ) +
+				pasteItem( __( 'Prayer Block', 'masjidos' ), __( 'In the block editor, add the MasjidOS Prayer Times block when you want visual controls instead of shortcode text.', 'masjidos' ) ) +
+				pasteItem( __( 'Calendar Block', 'masjidos' ), __( 'In the block editor, add the MasjidOS Islamic Calendar block for a Hijri + Gregorian calendar section.', 'masjidos' ) ) +
 			'</div>' +
 		'</section>';
 	}
@@ -150,6 +177,29 @@
 		'</div>';
 	}
 
+	function calendarDocsSection() {
+		return '<div class="itmms-docs-grid">' +
+			docCard( __( 'Islamic Calendar', 'masjidos' ), __( 'Show a Hijri + Gregorian calendar with Islamic dates, holy days, and mosque events.', 'masjidos' ), '[masjidos_islamic_calendar]', [
+				__( 'Highlights today and important Islamic dates', 'masjidos' ),
+				__( 'Shows mosque events on matching days', 'masjidos' ),
+				__( 'Visitors can switch month and year without reloading the page', 'masjidos' ),
+				__( 'Uses the Hijri Date Adjustment from Settings > Calculation', 'masjidos' )
+			] ) +
+			docCard( __( 'Bangla Islamic Calendar', 'masjidos' ), __( 'Show calendar labels and Hijri month names in Bangla.', 'masjidos' ), '[masjidos_islamic_calendar language="bn"]', [
+				__( 'Good for Bangla mosque websites', 'masjidos' ),
+				__( 'Keeps event titles and descriptions exactly as you entered them', 'masjidos' )
+			] ) +
+			docCard( __( 'Specific Calendar Month', 'masjidos' ), __( 'Show a fixed Gregorian month while still displaying Hijri dates inside each day.', 'masjidos' ), '[masjidos_islamic_calendar month="7" year="2026"]', [
+				__( 'Month uses 1 to 12', 'masjidos' ),
+				__( 'Useful for Ramadan, Eid, or event archive pages', 'masjidos' )
+			] ) +
+			docCard( __( 'Calendar Without Navigation', 'masjidos' ), __( 'Use this when you want a fixed embedded month.', 'masjidos' ), '[masjidos_islamic_calendar navigation="no"]', [
+				__( 'Hides month and year controls', 'masjidos' ),
+				__( 'Still shows Hijri dates and event markers', 'masjidos' )
+			] ) +
+		'</div>';
+	}
+
 	function announcementDocsSection() {
 		return '<div class="itmms-docs-grid">' +
 			docCard( __( 'Notice List', 'masjidos' ), __( 'Show active notices as a readable public notice board.', 'masjidos' ), '[masjidos_announcements]', [
@@ -228,6 +278,8 @@
 				checkItem( __( 'Adjust Official Times', 'masjidos' ), __( 'Use Prayer Time Adjustments if the local committee timetable differs by a few minutes.', 'masjidos' ) ) +
 				checkItem( __( 'Set Iqamah Times', 'masjidos' ), __( 'Add jamaat start times for Fajr, Dhuhr, Asr, Maghrib, and Isha.', 'masjidos' ) ) +
 				checkItem( __( 'Set Jumuah Details', 'masjidos' ), __( 'Add sessions, topic, language, khatib profile, and notice from Settings > Jumuah Settings, then publish [masjidos_jumuah].', 'masjidos' ) ) +
+				checkItem( __( 'Try Features Preview', 'masjidos' ), __( 'Open MasjidOS > Features to preview widgets before adding them to a public page.', 'masjidos' ) ) +
+				checkItem( __( 'Open TV Display', 'masjidos' ), __( 'Visit /masjidos-display/ on your site if you need a fullscreen board for mosque TVs.', 'masjidos' ) ) +
 				checkItem( __( 'Publish Shortcode', 'masjidos' ), __( 'Add [masjidos_prayer_times] to the masjid homepage or a dedicated prayer times page.', 'masjidos' ) ) +
 			'</div>' +
 		'</section>';
@@ -277,6 +329,19 @@
 		'</section>';
 	}
 
+	function calendarAttributesSection() {
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'Islamic calendar attributes', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-docs-table">' +
+				docRow( 'month', '1-12', __( 'current', 'masjidos' ), __( 'Shows a specific Gregorian month with Hijri dates inside the grid.', 'masjidos' ) ) +
+				docRow( 'year', 'YYYY', __( 'current', 'masjidos' ), __( 'Shows a specific Gregorian year.', 'masjidos' ) ) +
+				docRow( 'language', 'en/bn/ar', 'en', __( 'Changes calendar labels, month names, and number formatting.', 'masjidos' ) ) +
+				docRow( 'title', __( 'Text', 'masjidos' ), __( 'Islamic Calendar', 'masjidos' ), __( 'Changes the calendar heading.', 'masjidos' ) ) +
+				docRow( 'navigation', 'yes/no', 'yes', __( 'Shows or hides reload-free calendar controls.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
 	function announcementAttributesSection() {
 		return '<section class="itmms-docs-section">' +
 			'<h3>' + esc( __( 'Announcement shortcode attributes', 'masjidos' ) ) + '</h3>' +
@@ -295,10 +360,23 @@
 		return '<section class="itmms-docs-section">' +
 			'<h3>' + esc( __( 'What is coming next', 'masjidos' ) ) + '</h3>' +
 			'<div class="itmms-docs-roadmap">' +
-				'<span>' + esc( __( 'Prayer times block/widget presets', 'masjidos' ) ) + '</span>' +
+				'<span>' + esc( __( 'More Gutenberg blocks', 'masjidos' ) ) + '</span>' +
+				'<span>' + esc( __( 'More TV display layouts', 'masjidos' ) ) + '</span>' +
 				'<span>' + esc( __( 'Jumuah design presets', 'masjidos' ) ) + '</span>' +
-				'<span>' + esc( __( 'Monthly prayer timetable', 'masjidos' ) ) + '</span>' +
-				'<span>' + esc( __( 'PDF export for notice boards', 'masjidos' ) ) + '</span>' +
+				'<span>' + esc( __( 'PDF export for monthly timetables', 'masjidos' ) ) + '</span>' +
+			'</div>' +
+		'</section>';
+	}
+
+	function tvDisplayReferenceSection() {
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'TV display URL options', 'masjidos' ) ) + '</h3>' +
+			'<p class="itmms-docs-note">' + esc( __( 'The TV Display is a URL, not a shortcode. Open it in a browser on your mosque screen.', 'masjidos' ) ) + '</p>' +
+			'<div class="itmms-docs-table">' +
+				docRow( '/masjidos-display/', __( 'URL', 'masjidos' ), __( 'default', 'masjidos' ), __( 'Fullscreen board using saved TV Display settings.', 'masjidos' ) ) +
+				docRow( 'theme', 'dark/light/green', 'dark', __( 'Optional URL override, for example /masjidos-display/?theme=light.', 'masjidos' ) ) +
+				docRow( 'lang', 'en/bn/ar', 'en', __( 'Optional URL override for display labels.', 'masjidos' ) ) +
+				docRow( 'font_size', 'small/normal/large/xlarge', 'normal', __( 'Optional URL override for large screens.', 'masjidos' ) ) +
 			'</div>' +
 		'</section>';
 	}
@@ -359,6 +437,21 @@
 				'<label class="itmms-builder-check"><input type="checkbox" data-monthly-builder-navigation checked><span>' + esc( __( 'Month navigation', 'masjidos' ) ) + '</span></label>' +
 			'</div>' +
 			'<div class="itmms-builder-output"><code data-generated-monthly-shortcode>[masjidos_monthly_prayer_times]</code></div>' +
+		'</section>' +
+		'<section class="itmms-docs-section itmms-shortcode-builder">' +
+			'<div class="itmms-builder-head"><div><h3>' + esc( __( 'Islamic Calendar Generator', 'masjidos' ) ) + '</h3><p>' + esc( __( 'Create a Hijri + Gregorian calendar shortcode with optional month controls.', 'masjidos' ) ) + '</p></div><button type="button" class="itmms-btn itmms-btn-primary" data-copy-generated-calendar-shortcode>' + esc( __( 'Copy Shortcode', 'masjidos' ) ) + '</button></div>' +
+			'<div class="itmms-builder-grid">' +
+				'<label><span>' + esc( __( 'Month', 'masjidos' ) ) + '</span><select data-calendar-builder-month><option value="">' + esc( __( 'Current month', 'masjidos' ) ) + '</option>' + monthOptionsHtml() + '</select></label>' +
+				'<label><span>' + esc( __( 'Year', 'masjidos' ) ) + '</span><input type="number" min="1900" max="2100" data-calendar-builder-year placeholder="' + esc( __( 'Current year', 'masjidos' ) ) + '"></label>' +
+				'<label><span>' + esc( __( 'Language', 'masjidos' ) ) + '</span><select data-calendar-builder-language><option value="en">' + esc( __( 'English', 'masjidos' ) ) + '</option><option value="bn">' + esc( __( 'Bangla', 'masjidos' ) ) + '</option><option value="ar">' + esc( __( 'Arabic', 'masjidos' ) ) + '</option></select></label>' +
+				'<label><span>' + esc( __( 'Title', 'masjidos' ) ) + '</span><input type="text" data-calendar-builder-title placeholder="' + esc( __( 'Optional custom title', 'masjidos' ) ) + '"></label>' +
+				'<label class="itmms-builder-check"><input type="checkbox" data-calendar-builder-navigation checked><span>' + esc( __( 'Month navigation', 'masjidos' ) ) + '</span></label>' +
+			'</div>' +
+			'<div class="itmms-builder-output"><code data-generated-calendar-shortcode>[masjidos_islamic_calendar]</code></div>' +
+		'</section>' +
+		'<section class="itmms-docs-section itmms-shortcode-builder">' +
+			'<div class="itmms-builder-head"><div><h3>' + esc( __( 'TV Display URL', 'masjidos' ) ) + '</h3><p>' + esc( __( 'Copy this URL for a fullscreen mosque TV or lobby display.', 'masjidos' ) ) + '</p></div><button type="button" class="itmms-btn itmms-btn-primary" data-copy-shortcode="/masjidos-display/">' + esc( __( 'Copy URL', 'masjidos' ) ) + '</button></div>' +
+			'<div class="itmms-builder-output"><code>/masjidos-display/</code></div>' +
 		'</section>' +
 		'<section class="itmms-docs-section itmms-shortcode-builder">' +
 			'<div class="itmms-builder-head"><div><h3>' + esc( __( 'Notice Widget Generator', 'masjidos' ) ) + '</h3><p>' + esc( __( 'Create a public notice list or compact ticker from your active announcements.', 'masjidos' ) ) + '</p></div><button type="button" class="itmms-btn itmms-btn-primary" data-copy-generated-announcement-shortcode>' + esc( __( 'Copy Shortcode', 'masjidos' ) ) + '</button></div>' +
