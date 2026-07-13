@@ -65,6 +65,25 @@ final class ITMMS_Admin {
 			'dashicons-building',
 			80
 		);
+
+		add_submenu_page(
+			'masjidos',
+			__( 'Dashboard', 'masjidos' ),
+			__( 'Dashboard', 'masjidos' ),
+			$capability,
+			'masjidos',
+			[ $this, 'render_app' ]
+		);
+
+		if ( post_type_exists( ITMMS_Duas_Library::POST_TYPE ) ) {
+			add_submenu_page(
+				'masjidos',
+				__( 'Duas Library', 'masjidos' ),
+				__( 'Duas Library', 'masjidos' ),
+				'edit_posts',
+				'edit.php?post_type=' . ITMMS_Duas_Library::POST_TYPE
+			);
+		}
 	}
 
 	/**

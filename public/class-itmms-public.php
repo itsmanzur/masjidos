@@ -36,6 +36,7 @@ final class ITMMS_Public {
 		add_shortcode( 'masjidos_announcements', [ $this, 'render_announcements_shortcode' ] );
 		add_shortcode( 'masjidos_events', [ $this, 'render_events_shortcode' ] );
 		add_shortcode( 'masjidos_islamic_calendar', [ $this, 'render_islamic_calendar_shortcode' ] );
+		add_shortcode( 'masjidos_duas_azkar', [ $this, 'render_duas_azkar_shortcode' ] );
 
 		// Register Gutenberg blocks.
 		add_action( 'init', [ $this, 'register_blocks' ] );
@@ -267,6 +268,68 @@ final class ITMMS_Public {
 
 		ob_start();
 		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/islamic-calendar.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		return $this->safe_kses( (string) ob_get_clean() );
+	}
+
+	/**
+	 * Render a lightweight public Duas & Azkar widget.
+	 *
+	 * @param array<string,mixed>|string $atts Shortcode attributes.
+	 * @return string Rendered widget HTML.
+	 */
+	public function render_duas_azkar_shortcode( $atts = [] ): string {
+		$atts = is_array( $atts ) ? $atts : [];
+		$has_custom_title = isset( $atts['title'] ) && '' !== trim( (string) $atts['title'] );
+		$atts = shortcode_atts(
+			[
+				'title'    => __( 'Duas & Azkar', 'masjidos' ),
+				'category' => 'all',
+				'language' => 'en',
+				'limit'    => '4',
+				'design'   => 'cards',
+				'source'   => 'yes',
+				'counter'  => 'yes',
+				'share'    => 'yes',
+				'audio'    => 'yes',
+			],
+			$atts,
+			'masjidos_duas_azkar'
+		);
+
+		$settings = ITMMS_Settings::get_all();
+		if ( empty( $settings['modules']['duas_azkar'] ) ) {
+			return $this->render_announcement_empty_state(
+				__( 'Duas & Azkar is disabled', 'masjidos' ),
+				__( 'Enable the Duas & Azkar module before using this shortcode.', 'masjidos' )
+			);
+		}
+
+		$this->enqueue_assets();
+
+		$language = $this->normalize_language( (string) $atts['language'] );
+		$labels = ITMMS_Duas_Azkar::labels( $language );
+		if ( ! $has_custom_title ) {
+			$atts['title'] = $labels['title'];
+		}
+
+		$design = sanitize_key( (string) $atts['design'] ) ?: 'cards';
+		if ( ! in_array( $design, [ 'cards', 'compact' ], true ) ) {
+			$design = 'cards';
+		}
+
+		$category = sanitize_key( (string) $atts['category'] ) ?: 'all';
+		$limit = max( 1, min( 12, absint( $atts['limit'] ) ?: 4 ) );
+		$show_source = 'no' !== strtolower( (string) $atts['source'] );
+		$show_counter = 'no' !== strtolower( (string) $atts['counter'] );
+		$show_share = 'no' !== strtolower( (string) $atts['share'] );
+		$show_audio = 'no' !== strtolower( (string) $atts['audio'] );
+		$items = ITMMS_Duas_Azkar::items( $language, $category, $limit );
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/duas-azkar.php';
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -1200,6 +1263,10 @@ final class ITMMS_Public {
 			'data-pause-label'             => true,
 			'data-itmms-calendar-step'     => true,
 			'data-itmms-calendar-current'  => true,
+			'data-itmms-dua-count'         => true,
+			'data-itmms-dua-reset'         => true,
+			'data-itmms-dua-audio'         => true,
+			'data-itmms-dua-share'         => true,
 			'aria-label'                   => true,
 			'aria-pressed'                 => true,
 			'title'                        => true,
@@ -1243,11 +1310,21 @@ final class ITMMS_Public {
 			]
 		);
 
+		$allowed['article'] = array_merge(
+			$allowed['article'] ?? [],
+			[
+				'class'               => true,
+				'data-itmms-dua-key'  => true,
+				'data-itmms-dua-text' => true,
+			]
+		);
+
 		$allowed['b'] = array_merge(
 			$allowed['b'] ?? [],
 			[
 				'class'                       => true,
 				'data-itmms-public-countdown' => true,
+				'data-itmms-dua-count-value'  => true,
 			]
 		);
 

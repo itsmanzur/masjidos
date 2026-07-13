@@ -226,6 +226,38 @@ final class ITMMS_REST {
 
 		register_rest_route(
 			self::NAMESPACE,
+			'/duas-azkar-widget',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_duas_azkar_widget' ],
+				'permission_callback' => '__return_true',
+				'args'                => [
+					'design'   => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
+					],
+					'language' => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
+					],
+					'category' => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
+					],
+					'limit'    => [
+						'required'          => false,
+						'sanitize_callback' => 'absint',
+					],
+					'title'    => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
 			'/announcements',
 			[
 				[
@@ -596,6 +628,26 @@ final class ITMMS_REST {
 				'language' => sanitize_key( (string) $request->get_param( 'language' ) ),
 				'limit'    => (string) max( 1, min( 20, absint( $request->get_param( 'limit' ) ) ?: 5 ) ),
 				'title'    => $this->short_text_param( $request, 'title' ),
+			]
+		);
+
+		return rest_ensure_response( [ 'html' => $html ] );
+	}
+
+	/**
+	 * Return a public Duas & Azkar widget for the Features preview modal.
+	 */
+	public function get_duas_azkar_widget( WP_REST_Request $request ): WP_REST_Response {
+		$html = ITMMS_Public::get_instance()->render_duas_azkar_shortcode(
+			[
+				'design'   => sanitize_key( (string) $request->get_param( 'design' ) ),
+				'language' => sanitize_key( (string) $request->get_param( 'language' ) ),
+				'category' => sanitize_key( (string) $request->get_param( 'category' ) ),
+				'limit'    => (string) max( 1, min( 12, absint( $request->get_param( 'limit' ) ) ?: 4 ) ),
+				'title'    => $this->short_text_param( $request, 'title' ),
+				'counter'  => sanitize_key( (string) $request->get_param( 'counter' ) ) ?: 'yes',
+				'share'    => sanitize_key( (string) $request->get_param( 'share' ) ) ?: 'yes',
+				'audio'    => sanitize_key( (string) $request->get_param( 'audio' ) ) ?: 'yes',
 			]
 		);
 

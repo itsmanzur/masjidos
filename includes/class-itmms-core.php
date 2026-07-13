@@ -46,6 +46,7 @@ final class ITMMS_Core {
 			ITMMS_Admin::get_instance()->init();
 		}
 
+		ITMMS_Duas_Library::get_instance()->init();
 		ITMMS_Public::get_instance()->init();
 		( new ITMMS_REST() )->init();
 	}

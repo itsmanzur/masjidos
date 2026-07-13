@@ -75,6 +75,7 @@
 					navButton( 'dashboard', 'clock', __( 'Dashboard', 'masjidos' ), true ) +
 					( state.settings.modules.announcements ? navButton( 'announcements', 'megaphone', __( 'Notices', 'masjidos' ), false ) : '' ) +
 					( state.settings.modules.events ? navButton( 'events', 'calendar', __( 'Events', 'masjidos' ), false ) : '' ) +
+					( state.settings.modules.duas_azkar ? navLink( data.adminUrl + 'edit.php?post_type=itmms_dua', 'book', __( 'Duas Library', 'masjidos' ) ) : '' ) +
 					navButton( 'features', 'star', __( 'Features', 'masjidos' ), false ) +
 					navButton( 'modules', 'settings', __( 'Modules', 'masjidos' ), false ) +
 					navButton( 'settings', 'settings', __( 'Settings', 'masjidos' ), false ) +
@@ -115,6 +116,10 @@
 		return '<button class="itmms-nav-item' + ( active ? ' active' : '' ) + '" data-tab="' + esc( tab ) + '">' + icon( iconName ) + '<span>' + esc( label ) + '</span></button>';
 	}
 
+	function navLink( href, iconName, label ) {
+		return '<a class="itmms-nav-item" href="' + esc( href ) + '">' + icon( iconName ) + '<span>' + esc( label ) + '</span></a>';
+	}
+
 	function bindEvents() {
 		app.querySelectorAll( '[data-itmms-exit]' ).forEach( function ( link ) {
 			link.addEventListener( 'click', exitToWordPress );
@@ -125,7 +130,7 @@
 			adminbarExit.addEventListener( 'click', exitToWordPress );
 		}
 
-		app.querySelectorAll( '.itmms-nav-item' ).forEach( function ( btn ) {
+		app.querySelectorAll( '.itmms-nav-item[data-tab]' ).forEach( function ( btn ) {
 			btn.addEventListener( 'click', function () { switchTab( btn.getAttribute( 'data-tab' ), 'push' ); } );
 		} );
 
@@ -609,6 +614,7 @@
 		var jumuahOutput = app.querySelector( '[data-generated-jumuah-shortcode]' );
 		var monthlyOutput = app.querySelector( '[data-generated-monthly-shortcode]' );
 		var calendarOutput = app.querySelector( '[data-generated-calendar-shortcode]' );
+		var duasOutput = app.querySelector( '[data-generated-duas-shortcode]' );
 		var announcementOutput = app.querySelector( '[data-generated-announcement-shortcode]' );
 		var eventsOutput = app.querySelector( '[data-generated-events-shortcode]' );
 
@@ -625,6 +631,9 @@
 			if ( calendarOutput ) {
 				calendarOutput.textContent = generatedCalendarShortcode();
 			}
+			if ( duasOutput ) {
+				duasOutput.textContent = generatedDuasShortcode();
+			}
 			if ( announcementOutput ) {
 				announcementOutput.textContent = generatedAnnouncementShortcode();
 			}
@@ -633,7 +642,7 @@
 			}
 		}
 
-		app.querySelectorAll( '[data-builder-design], [data-builder-language], [data-builder-title], [data-builder-qibla], [data-builder-meta], [data-builder-iqamah], [data-jumuah-builder-design], [data-jumuah-builder-language], [data-jumuah-builder-title], [data-jumuah-builder-meta], [data-monthly-builder-design], [data-monthly-builder-month], [data-monthly-builder-year], [data-monthly-builder-language], [data-monthly-builder-title], [data-monthly-builder-iqamah], [data-monthly-builder-navigation], [data-calendar-builder-month], [data-calendar-builder-year], [data-calendar-builder-language], [data-calendar-builder-title], [data-calendar-builder-navigation], [data-announcement-builder-design], [data-announcement-builder-language], [data-announcement-builder-type], [data-announcement-builder-limit], [data-announcement-builder-title], [data-announcement-builder-date], [data-events-builder-design], [data-events-builder-language], [data-events-builder-limit], [data-events-builder-title]' ).forEach( function ( input ) {
+		app.querySelectorAll( '[data-builder-design], [data-builder-language], [data-builder-title], [data-builder-qibla], [data-builder-meta], [data-builder-iqamah], [data-jumuah-builder-design], [data-jumuah-builder-language], [data-jumuah-builder-title], [data-jumuah-builder-meta], [data-monthly-builder-design], [data-monthly-builder-month], [data-monthly-builder-year], [data-monthly-builder-language], [data-monthly-builder-title], [data-monthly-builder-iqamah], [data-monthly-builder-navigation], [data-calendar-builder-month], [data-calendar-builder-year], [data-calendar-builder-language], [data-calendar-builder-title], [data-calendar-builder-navigation], [data-duas-builder-design], [data-duas-builder-language], [data-duas-builder-category], [data-duas-builder-limit], [data-duas-builder-title], [data-duas-builder-source], [data-duas-builder-counter], [data-duas-builder-share], [data-duas-builder-audio], [data-announcement-builder-design], [data-announcement-builder-language], [data-announcement-builder-type], [data-announcement-builder-limit], [data-announcement-builder-title], [data-announcement-builder-date], [data-events-builder-design], [data-events-builder-language], [data-events-builder-limit], [data-events-builder-title]' ).forEach( function ( input ) {
 			input.addEventListener( 'input', update );
 			input.addEventListener( 'change', update );
 		} );
@@ -663,6 +672,13 @@
 		if ( calendarCopy && calendarOutput ) {
 			calendarCopy.addEventListener( 'click', function () {
 				copyText( calendarOutput.textContent, calendarCopy );
+			} );
+		}
+
+		var duasCopy = app.querySelector( '[data-copy-generated-duas-shortcode]' );
+		if ( duasCopy && duasOutput ) {
+			duasCopy.addEventListener( 'click', function () {
+				copyText( duasOutput.textContent, duasCopy );
 			} );
 		}
 
@@ -790,6 +806,45 @@
 		}
 
 		return '[masjidos_islamic_calendar' + ( attrs.length ? ' ' + attrs.join( ' ' ) : '' ) + ']';
+	}
+
+	function generatedDuasShortcode() {
+		var design = builderValue( '[data-duas-builder-design]', 'cards' );
+		var language = builderValue( '[data-duas-builder-language]', 'en' );
+		var category = builderValue( '[data-duas-builder-category]', 'all' );
+		var limit = builderValue( '[data-duas-builder-limit]', '4' );
+		var title = builderValue( '[data-duas-builder-title]', '' );
+		var attrs = [];
+
+		if ( 'cards' !== design ) {
+			attrs.push( 'design="' + design + '"' );
+		}
+		if ( 'en' !== language ) {
+			attrs.push( 'language="' + language + '"' );
+		}
+		if ( 'all' !== category ) {
+			attrs.push( 'category="' + category + '"' );
+		}
+		if ( limit && '4' !== limit ) {
+			attrs.push( 'limit="' + limit + '"' );
+		}
+		if ( title ) {
+			attrs.push( 'title="' + title.replace( /"/g, '&quot;' ) + '"' );
+		}
+		if ( ! builderChecked( '[data-duas-builder-source]' ) ) {
+			attrs.push( 'source="no"' );
+		}
+		if ( ! builderChecked( '[data-duas-builder-counter]' ) ) {
+			attrs.push( 'counter="no"' );
+		}
+		if ( ! builderChecked( '[data-duas-builder-share]' ) ) {
+			attrs.push( 'share="no"' );
+		}
+		if ( ! builderChecked( '[data-duas-builder-audio]' ) ) {
+			attrs.push( 'audio="no"' );
+		}
+
+		return '[masjidos_duas_azkar' + ( attrs.length ? ' ' + attrs.join( ' ' ) : '' ) + ']';
 	}
 
 	function generatedAnnouncementShortcode() {

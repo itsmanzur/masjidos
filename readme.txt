@@ -24,6 +24,7 @@ Current features include:
 * Monthly prayer timetables with Hijri range, month navigation, current-month return, and print support.
 * Islamic calendar shortcode with Hijri + Gregorian dates, important Islamic days, and event markers.
 * Fullscreen TV display URL for mosque screens and lobby displays.
+* Duas & Azkar widget with Arabic text, transliteration, Bangla/English meanings, source labels, local recitation counters, share buttons, and audio-ready pronunciation buttons.
 * Scheduled mosque announcements with list and ticker designs.
 * Upcoming community events calendar with time, location, and description details.
 * Gutenberg blocks for Prayer Times and Islamic Calendar.
@@ -47,6 +48,9 @@ Common shortcodes:
 * `[masjidos_monthly_prayer_times design="compact"]`
 * `[masjidos_islamic_calendar]`
 * `[masjidos_islamic_calendar language="bn"]`
+* `[masjidos_duas_azkar]`
+* `[masjidos_duas_azkar category="morning" design="compact"]`
+* `[masjidos_duas_azkar category="food" counter="yes" share="yes"]`
 * `[masjidos_announcements]`
 * `[masjidos_announcements design="ticker"]`
 * `[masjidos_events]`
@@ -87,6 +91,14 @@ Open `/masjidos-display/` on your site. Settings > TV Display controls the theme
 
 Yes. In the WordPress block editor, search for MasjidOS Prayer Times or MasjidOS Islamic Calendar.
 
+= How do I show Duas and Azkar? =
+
+Add `[masjidos_duas_azkar]` to a page. You can filter the built-in collection with `category="morning"`, `category="evening"`, `category="food"`, `category="sleep"`, `category="home"`, `category="masjid"`, `category="travel"`, `category="rain"`, `category="forgiveness"`, `category="quran"`, or `category="protection"`. Counters are stored in the visitor's browser with localStorage.
+
+= Can I add my own Duas and Azkar? =
+
+Yes. Open MasjidOS > Duas Library, add a new dua, assign one or more Dua Categories, and publish it. Published custom duas appear in `[masjidos_duas_azkar]` alongside the built-in collection and can be filtered by category slug.
+
 = Why is an announcement not visible? =
 
 The announcement must be published, its start time must have arrived, and its end time must be blank or in the future. Scheduling uses the MasjidOS timezone.
@@ -110,6 +122,7 @@ Public widgets can display mosque location details, prayer settings, Khatib info
 * Hijri date display and Hijri date adjustment.
 * Islamic Calendar shortcode and block.
 * TV Display mode for fullscreen mosque screens.
+* Duas & Azkar public widget with categories, counters, sharing, and audio-ready controls.
 * Features page with live previews and shortcode copying.
 * Jumuah sessions scheduler and Khatib profiles display.
 * Scheduled notices list and notice ticker modules.

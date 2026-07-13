@@ -140,13 +140,22 @@
 	font-size: 13px;
 	font-weight: 600;
 	text-align: start;
+	text-decoration: none;
 	cursor: pointer;
+}
+
+.itmms-nav-item:focus {
+	color: #fff;
+	outline: 2px solid rgba(201, 168, 76, 0.55);
+	outline-offset: 2px;
+	box-shadow: none;
 }
 
 .itmms-nav-item:hover,
 .itmms-nav-item.active {
 	background: rgba(26, 107, 90, 0.32);
 	color: #fff;
+	text-decoration: none;
 }
 
 .itmms-nav-item.active {
@@ -2507,4 +2516,3 @@
 		border-radius: 0;
 	}
 }
-

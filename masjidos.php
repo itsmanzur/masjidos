@@ -30,6 +30,8 @@ require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-installer.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-settings.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-hijri.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-prayer-times.php';
+require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-duas-azkar.php';
+require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-duas-library.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-announcements.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-events.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-rest.php';

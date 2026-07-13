@@ -31,6 +31,7 @@
 				docTabButton( 'prayer', __( 'Prayer', 'masjidos' ), false ) +
 				docTabButton( 'jumuah', __( 'Jumuah', 'masjidos' ), false ) +
 				docTabButton( 'calendar', __( 'Calendar', 'masjidos' ), false ) +
+				docTabButton( 'duas', __( 'Duas', 'masjidos' ), false ) +
 				docTabButton( 'notices', __( 'Notices', 'masjidos' ), false ) +
 				docTabButton( 'events', __( 'Events', 'masjidos' ), false ) +
 				docTabButton( 'pro', 'Pro', false ) +
@@ -42,10 +43,11 @@
 				docPanel( 'prayer', false, prayerDocsSection() ) +
 				docPanel( 'jumuah', false, jumuahDocsSection() ) +
 				docPanel( 'calendar', false, calendarDocsSection() ) +
+				docPanel( 'duas', false, duasDocsSection() ) +
 				docPanel( 'notices', false, announcementDocsSection() ) +
 				docPanel( 'events', false, eventDocsSection() ) +
 				docPanel( 'pro', false, proDocsSection() ) +
-				docPanel( 'reference', false, prayerAttributesSection() + jumuahAttributesSection() + monthlyAttributesSection() + calendarAttributesSection() + announcementAttributesSection() + eventAttributesSection() + tvDisplayReferenceSection() ) +
+				docPanel( 'reference', false, prayerAttributesSection() + jumuahAttributesSection() + monthlyAttributesSection() + calendarAttributesSection() + duasAttributesSection() + announcementAttributesSection() + eventAttributesSection() + tvDisplayReferenceSection() ) +
 			'</div>' +
 		'</div>';
 	}
@@ -200,6 +202,33 @@
 		'</div>';
 	}
 
+	function duasDocsSection() {
+		return '<div class="itmms-docs-grid">' +
+			docCard( __( 'Duas & Azkar Widget', 'masjidos' ), __( 'Show a curated set of daily duas and azkar on any public page.', 'masjidos' ), '[masjidos_duas_azkar]', [
+				__( 'Includes Arabic, transliteration, meaning, and source', 'masjidos' ),
+				__( 'No external API required', 'masjidos' ),
+				__( 'Good for homepages, sidebars, and learning pages', 'masjidos' )
+			] ) +
+			docCard( __( 'Morning Azkar', 'masjidos' ), __( 'Show only duas suitable for morning remembrance.', 'masjidos' ), '[masjidos_duas_azkar category="morning"]', [
+				__( 'Filters the built-in collection', 'masjidos' ),
+				__( 'Useful for daily rotation sections', 'masjidos' )
+			] ) +
+			docCard( __( 'Compact Duas', 'masjidos' ), __( 'Use a narrow layout for sidebars and mobile-first sections.', 'masjidos' ), '[masjidos_duas_azkar design="compact" limit="3"]', [
+				__( 'Hides transliteration to save space', 'masjidos' ),
+				__( 'Keeps Arabic and meaning visible', 'masjidos' )
+			] ) +
+			docCard( __( 'Bangla Duas', 'masjidos' ), __( 'Show widget labels and meanings in Bangla.', 'masjidos' ), '[masjidos_duas_azkar language="bn"]', [
+				__( 'Good for Bangla mosque websites', 'masjidos' ),
+				__( 'Arabic dua text remains unchanged', 'masjidos' )
+			] ) +
+			docCard( __( 'Duas Library', 'masjidos' ), __( 'Add your own duas from the native WordPress library screen.', 'masjidos' ), __( 'MasjidOS > Duas Library', 'masjidos' ), [
+				__( 'Publish a dua to include it in the public widget', 'masjidos' ),
+				__( 'Assign native Dua Categories such as morning, food, or travel', 'masjidos' ),
+				__( 'Use Select Audio to choose pronunciation audio from the Media Library', 'masjidos' )
+			] ) +
+		'</div>';
+	}
+
 	function announcementDocsSection() {
 		return '<div class="itmms-docs-grid">' +
 			docCard( __( 'Notice List', 'masjidos' ), __( 'Show active notices as a readable public notice board.', 'masjidos' ), '[masjidos_announcements]', [
@@ -342,6 +371,23 @@
 		'</section>';
 	}
 
+	function duasAttributesSection() {
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'Duas & Azkar attributes', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-docs-table">' +
+				docRow( 'title', __( 'Text', 'masjidos' ), __( 'Duas & Azkar', 'masjidos' ), __( 'Changes the widget heading.', 'masjidos' ) ) +
+				docRow( 'language', 'en/bn/ar', 'en', __( 'Changes widget labels and meanings.', 'masjidos' ) ) +
+				docRow( 'category', 'all/daily/morning/evening/food/sleep/home/masjid/travel/rain/forgiveness/quran/protection', 'all', __( 'Filters the built-in dua collection.', 'masjidos' ) ) +
+				docRow( 'design', 'cards/compact', 'cards', __( 'Selects the free design preset.', 'masjidos' ) ) +
+				docRow( 'limit', '1-12', '4', __( 'Controls how many duas appear.', 'masjidos' ) ) +
+				docRow( 'source', 'yes/no', 'yes', __( 'Shows or hides source labels.', 'masjidos' ) ) +
+				docRow( 'counter', 'yes/no', 'yes', __( 'Shows or hides local recitation counters.', 'masjidos' ) ) +
+				docRow( 'share', 'yes/no', 'yes', __( 'Shows or hides share buttons.', 'masjidos' ) ) +
+				docRow( 'audio', 'yes/no', 'yes', __( 'Shows audio buttons when an item has an audio URL.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
 	function announcementAttributesSection() {
 		return '<section class="itmms-docs-section">' +
 			'<h3>' + esc( __( 'Announcement shortcode attributes', 'masjidos' ) ) + '</h3>' +
@@ -452,6 +498,21 @@
 		'<section class="itmms-docs-section itmms-shortcode-builder">' +
 			'<div class="itmms-builder-head"><div><h3>' + esc( __( 'TV Display URL', 'masjidos' ) ) + '</h3><p>' + esc( __( 'Copy this URL for a fullscreen mosque TV or lobby display.', 'masjidos' ) ) + '</p></div><button type="button" class="itmms-btn itmms-btn-primary" data-copy-shortcode="/masjidos-display/">' + esc( __( 'Copy URL', 'masjidos' ) ) + '</button></div>' +
 			'<div class="itmms-builder-output"><code>/masjidos-display/</code></div>' +
+		'</section>' +
+		'<section class="itmms-docs-section itmms-shortcode-builder">' +
+			'<div class="itmms-builder-head"><div><h3>' + esc( __( 'Duas & Azkar Generator', 'masjidos' ) ) + '</h3><p>' + esc( __( 'Create a public duas and azkar widget shortcode.', 'masjidos' ) ) + '</p></div><button type="button" class="itmms-btn itmms-btn-primary" data-copy-generated-duas-shortcode>' + esc( __( 'Copy Shortcode', 'masjidos' ) ) + '</button></div>' +
+			'<div class="itmms-builder-grid">' +
+				'<label><span>' + esc( __( 'Design', 'masjidos' ) ) + '</span><select data-duas-builder-design><option value="cards">' + esc( __( 'Cards', 'masjidos' ) ) + '</option><option value="compact">' + esc( __( 'Compact', 'masjidos' ) ) + '</option></select></label>' +
+				'<label><span>' + esc( __( 'Language', 'masjidos' ) ) + '</span><select data-duas-builder-language><option value="en">' + esc( __( 'English', 'masjidos' ) ) + '</option><option value="bn">' + esc( __( 'Bangla', 'masjidos' ) ) + '</option><option value="ar">' + esc( __( 'Arabic', 'masjidos' ) ) + '</option></select></label>' +
+				'<label><span>' + esc( __( 'Category', 'masjidos' ) ) + '</span><select data-duas-builder-category><option value="all">' + esc( __( 'All', 'masjidos' ) ) + '</option><option value="daily">' + esc( __( 'Daily', 'masjidos' ) ) + '</option><option value="morning">' + esc( __( 'Morning', 'masjidos' ) ) + '</option><option value="evening">' + esc( __( 'Evening', 'masjidos' ) ) + '</option><option value="food">' + esc( __( 'Food', 'masjidos' ) ) + '</option><option value="sleep">' + esc( __( 'Sleep', 'masjidos' ) ) + '</option><option value="home">' + esc( __( 'Home', 'masjidos' ) ) + '</option><option value="masjid">' + esc( __( 'Masjid', 'masjidos' ) ) + '</option><option value="travel">' + esc( __( 'Travel', 'masjidos' ) ) + '</option><option value="rain">' + esc( __( 'Rain', 'masjidos' ) ) + '</option><option value="forgiveness">' + esc( __( 'Forgiveness', 'masjidos' ) ) + '</option><option value="quran">' + esc( __( 'Quranic', 'masjidos' ) ) + '</option><option value="protection">' + esc( __( 'Protection', 'masjidos' ) ) + '</option></select></label>' +
+				'<label><span>' + esc( __( 'Limit', 'masjidos' ) ) + '</span><input type="number" min="1" max="12" data-duas-builder-limit value="4"></label>' +
+				'<label><span>' + esc( __( 'Title', 'masjidos' ) ) + '</span><input type="text" data-duas-builder-title placeholder="' + esc( __( 'Optional custom title', 'masjidos' ) ) + '"></label>' +
+				'<label class="itmms-builder-check"><input type="checkbox" data-duas-builder-source checked><span>' + esc( __( 'Show Source', 'masjidos' ) ) + '</span></label>' +
+				'<label class="itmms-builder-check"><input type="checkbox" data-duas-builder-counter checked><span>' + esc( __( 'Show Counter', 'masjidos' ) ) + '</span></label>' +
+				'<label class="itmms-builder-check"><input type="checkbox" data-duas-builder-share checked><span>' + esc( __( 'Show Share Button', 'masjidos' ) ) + '</span></label>' +
+				'<label class="itmms-builder-check"><input type="checkbox" data-duas-builder-audio checked><span>' + esc( __( 'Show Audio Button', 'masjidos' ) ) + '</span></label>' +
+			'</div>' +
+			'<div class="itmms-builder-output"><code data-generated-duas-shortcode>[masjidos_duas_azkar]</code></div>' +
 		'</section>' +
 		'<section class="itmms-docs-section itmms-shortcode-builder">' +
 			'<div class="itmms-builder-head"><div><h3>' + esc( __( 'Notice Widget Generator', 'masjidos' ) ) + '</h3><p>' + esc( __( 'Create a public notice list or compact ticker from your active announcements.', 'masjidos' ) ) + '</p></div><button type="button" class="itmms-btn itmms-btn-primary" data-copy-generated-announcement-shortcode>' + esc( __( 'Copy Shortcode', 'masjidos' ) ) + '</button></div>' +

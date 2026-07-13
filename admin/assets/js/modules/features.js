@@ -16,6 +16,13 @@
 	};
 
 	// ── Feature Definitions ──────────────────────────────────────────
+	function languageOptions() {
+		return [
+			{ v: 'en', l: __( 'English', 'masjidos' ) },
+			{ v: 'bn', l: __( 'Bangla', 'masjidos' ) },
+			{ v: 'ar', l: __( 'Arabic', 'masjidos' ) }
+		];
+	}
 	function getFeatures() {
 		var data = window.itmms.data || {};
 		var tvUrl = ( data.siteUrl || '' ) + '/masjidos-display/';
@@ -29,7 +36,7 @@
 				desc: __( 'Displays today\'s prayer times with countdown to next prayer, Qibla compass, and Hijri date.', 'masjidos' ),
 				shortcode: '[masjidos_prayer_times]',
 				params: [
-					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' }, { v: 'ar', l: 'العربية' } ] },
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: languageOptions() },
 					{ key: 'design', label: __( 'Design', 'masjidos' ), type: 'select', options: [ { v: 'classic', l: __( 'Classic', 'masjidos' ) }, { v: 'compact', l: __( 'Compact', 'masjidos' ) } ] },
 					{ key: 'iqamah', label: __( 'Show Iqamah', 'masjidos' ), type: 'toggle', default: 'yes' },
 					{ key: 'qibla', label: __( 'Show Qibla', 'masjidos' ), type: 'toggle', default: 'yes' }
@@ -46,7 +53,7 @@
 				desc: __( 'Full month prayer timetable with Hijri dates, print support, and month navigation.', 'masjidos' ),
 				shortcode: '[masjidos_monthly_prayer_times]',
 				params: [
-					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' }, { v: 'ar', l: 'العربية' } ] },
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: languageOptions() },
 					{ key: 'iqamah', label: __( 'Show Iqamah', 'masjidos' ), type: 'toggle', default: 'no' }
 				],
 				restEndpoint: 'monthly-prayer-widget',
@@ -61,10 +68,29 @@
 				desc: __( 'Dual Hijri + Gregorian calendar with Islamic holy days highlighted and mosque events overlay.', 'masjidos' ),
 				shortcode: '[masjidos_islamic_calendar]',
 				params: [
-					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' }, { v: 'ar', l: 'العربية' } ] }
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: languageOptions() }
 				],
 				restEndpoint: 'calendar',
 				restQuery: function( opts ) { return '?language=' + opts.language; },
+				badge: 'New'
+			},
+			{
+				id: 'duas-azkar',
+				icon: 'ledger',
+				color: 'teal',
+				name: __( 'Duas & Azkar Widget', 'masjidos' ),
+				desc: __( 'Beautiful public cards for daily duas, morning and evening azkar, and Quranic supplications.', 'masjidos' ),
+				shortcode: '[masjidos_duas_azkar]',
+				params: [
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: languageOptions() },
+					{ key: 'design', label: __( 'Design', 'masjidos' ), type: 'select', options: [ { v: 'cards', l: __( 'Cards', 'masjidos' ) }, { v: 'compact', l: __( 'Compact', 'masjidos' ) } ] },
+					{ key: 'category', label: __( 'Category', 'masjidos' ), type: 'select', options: [ { v: 'all', l: __( 'All', 'masjidos' ) }, { v: 'daily', l: __( 'Daily', 'masjidos' ) }, { v: 'morning', l: __( 'Morning', 'masjidos' ) }, { v: 'evening', l: __( 'Evening', 'masjidos' ) }, { v: 'food', l: __( 'Food', 'masjidos' ) }, { v: 'sleep', l: __( 'Sleep', 'masjidos' ) }, { v: 'home', l: __( 'Home', 'masjidos' ) }, { v: 'masjid', l: __( 'Masjid', 'masjidos' ) }, { v: 'travel', l: __( 'Travel', 'masjidos' ) }, { v: 'rain', l: __( 'Rain', 'masjidos' ) }, { v: 'forgiveness', l: __( 'Forgiveness', 'masjidos' ) }, { v: 'quran', l: __( 'Quranic', 'masjidos' ) }, { v: 'protection', l: __( 'Protection', 'masjidos' ) } ] },
+					{ key: 'counter', label: __( 'Show Counter', 'masjidos' ), type: 'toggle', default: 'yes' },
+					{ key: 'share', label: __( 'Show Share Button', 'masjidos' ), type: 'toggle', default: 'yes' },
+					{ key: 'audio', label: __( 'Show Audio Button', 'masjidos' ), type: 'toggle', default: 'yes' }
+				],
+				restEndpoint: 'duas-azkar-widget',
+				restQuery: function( opts ) { return '?language=' + opts.language + '&design=' + opts.design + '&category=' + opts.category + '&counter=' + opts.counter + '&share=' + opts.share + '&audio=' + opts.audio; },
 				badge: 'New'
 			},
 			{
@@ -75,7 +101,7 @@
 				desc: __( 'Friday prayer schedule with Khutbah & Jamaat times, multiple sessions support.', 'masjidos' ),
 				shortcode: '[masjidos_jumuah]',
 				params: [
-					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' }, { v: 'ar', l: 'العربية' } ] }
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: languageOptions() }
 				],
 				restEndpoint: 'jumuah-widget',
 				restQuery: function( opts ) { return '?language=' + opts.language; },
@@ -89,7 +115,7 @@
 				desc: __( 'Scrolling or list-style mosque announcements with priority, types, and expiry dates.', 'masjidos' ),
 				shortcode: '[masjidos_announcements]',
 				params: [
-					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' }, { v: 'ar', l: 'العربية' } ] },
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: languageOptions() },
 					{ key: 'design', label: __( 'Design', 'masjidos' ), type: 'select', options: [ { v: 'list', l: __( 'List', 'masjidos' ) }, { v: 'ticker', l: __( 'Ticker', 'masjidos' ) } ] }
 				],
 				restEndpoint: 'announcements-widget',
@@ -104,7 +130,7 @@
 				desc: __( 'Upcoming mosque events list with date, time, location, and description.', 'masjidos' ),
 				shortcode: '[masjidos_events]',
 				params: [
-					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' }, { v: 'ar', l: 'العربية' } ] }
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: languageOptions() }
 				],
 				restEndpoint: 'events-widget',
 				restQuery: function( opts ) { return '?language=' + opts.language; },

@@ -369,10 +369,93 @@
 		drawer.style.display = 'block';
 	} );
 
+	function duaStorageKey( key ) {
+		return 'masjidos_dua_count_' + key;
+	}
+
+	function getDuaCount( key ) {
+		try {
+			return Number( window.localStorage.getItem( duaStorageKey( key ) ) || '0' );
+		} catch ( e ) {
+			return 0;
+		}
+	}
+
+	function setDuaCount( key, value ) {
+		try {
+			window.localStorage.setItem( duaStorageKey( key ), String( value ) );
+		} catch ( e ) {}
+	}
+
+	function removeDuaCount( key ) {
+		try {
+			window.localStorage.removeItem( duaStorageKey( key ) );
+		} catch ( e ) {}
+	}
+
+	function initDuasAzkar( root ) {
+		( root || document ).querySelectorAll( '.itmms-public-duas__item[data-itmms-dua-key]' ).forEach( function ( item ) {
+			var key = item.getAttribute( 'data-itmms-dua-key' );
+			var output = item.querySelector( '[data-itmms-dua-count-value]' );
+			if ( ! key || ! output ) {
+				return;
+			}
+
+			output.textContent = String( getDuaCount( key ) );
+		} );
+	}
+
+	document.addEventListener( 'click', function ( event ) {
+		var countButton = event.target.closest( '[data-itmms-dua-count]' );
+		if ( countButton ) {
+			var countKey = countButton.getAttribute( 'data-itmms-dua-count' );
+			var countOutput = countButton.querySelector( '[data-itmms-dua-count-value]' );
+			var nextCount = getDuaCount( countKey ) + 1;
+			setDuaCount( countKey, nextCount );
+			if ( countOutput ) {
+				countOutput.textContent = String( nextCount );
+			}
+			return;
+		}
+
+		var resetButton = event.target.closest( '[data-itmms-dua-reset]' );
+		if ( resetButton ) {
+			var resetKey = resetButton.getAttribute( 'data-itmms-dua-reset' );
+			var resetItem = resetButton.closest( '.itmms-public-duas__item' );
+			var resetOutput = resetItem ? resetItem.querySelector( '[data-itmms-dua-count-value]' ) : null;
+			removeDuaCount( resetKey );
+			if ( resetOutput ) {
+				resetOutput.textContent = '0';
+			}
+			return;
+		}
+
+		var audioButton = event.target.closest( '[data-itmms-dua-audio]' );
+		if ( audioButton ) {
+			var audioUrl = audioButton.getAttribute( 'data-itmms-dua-audio' );
+			if ( audioUrl ) {
+				new window.Audio( audioUrl ).play();
+			}
+			return;
+		}
+
+		var shareButton = event.target.closest( '[data-itmms-dua-share]' );
+		if ( shareButton ) {
+			var shareItem = shareButton.closest( '.itmms-public-duas__item' );
+			var shareText = shareItem ? shareItem.getAttribute( 'data-itmms-dua-text' ) : '';
+			if ( navigator.share ) {
+				navigator.share( { text: shareText } ).catch( function () {} );
+			} else if ( navigator.clipboard && shareText ) {
+				navigator.clipboard.writeText( shareText );
+			}
+		}
+	} );
+
 	// Initialize on page load
 	window.itmmsPublicRefresh = function ( root ) {
 		initPrayerCountdowns( root || document );
 		initQiblaCompass( root || document );
+		initDuasAzkar( root || document );
 	};
 
 	if ( document.readyState === 'loading' ) {

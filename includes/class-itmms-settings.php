@@ -76,6 +76,7 @@ final class ITMMS_Settings {
 				'prayer_times'  => true,
 				'announcements' => true,
 				'events'        => false,
+				'duas_azkar'    => true,
 			],
 			'tv_theme'              => 'dark',
 			'tv_announcement_speed' => 7,
@@ -148,6 +149,7 @@ final class ITMMS_Settings {
 			[ 'key' => 'prayer_times', 'name' => __( 'Prayer Times', 'masjidos' ), 'description' => __( 'Auto location, Azan countdown, Qibla', 'masjidos' ), 'icon' => 'clock', 'color' => 'teal' ],
 			[ 'key' => 'announcements', 'name' => __( 'Announcements', 'masjidos' ), 'description' => __( 'Scheduled notices, public list, ticker', 'masjidos' ), 'icon' => 'megaphone', 'color' => 'orange' ],
 			[ 'key' => 'events', 'name' => __( 'Events', 'masjidos' ), 'description' => __( 'Events calendar, timings, and location registration', 'masjidos' ), 'icon' => 'calendar', 'color' => 'blue' ],
+			[ 'key' => 'duas_azkar', 'name' => __( 'Duas & Azkar', 'masjidos' ), 'description' => __( 'Daily duas, azkar counters, sharing, and audio-ready cards', 'masjidos' ), 'icon' => 'ledger', 'color' => 'teal' ],
 		];
 	}
 

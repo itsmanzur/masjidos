@@ -44,7 +44,7 @@
 			if ( [ 'profile', 'calculation', 'adjustments', 'iqamah', 'jumuah', 'tv', 'public' ].indexOf( settingsTab ) !== -1 ) {
 				values.settingsTab = settingsTab;
 			}
-			if ( [ 'overview', 'generators', 'prayer', 'jumuah', 'calendar', 'notices', 'events', 'pro', 'reference' ].indexOf( docsTab ) !== -1 ) {
+			if ( [ 'overview', 'generators', 'prayer', 'jumuah', 'calendar', 'duas', 'notices', 'events', 'pro', 'reference' ].indexOf( docsTab ) !== -1 ) {
 				values.docsTab = docsTab;
 			}
 		} catch ( e ) {}
