@@ -1,11 +1,116 @@
 # MasjidOS Implementation Plan
 
-Last updated: 2026-07-12
+Last updated: 2026-07-14
 
 Source notes:
 - `_future/MasjidOS-Free-Enrichment-Plan.docx`
 - `_future/MasjidOS-Pro-Research-Report.docx`
 - Current free plugin release state and WordPress.org approval feedback
+- Post-WordPress.org approval product polish discussion on making existing modules richer, more accurate, and more eye-catching before adding more new modules.
+
+## 0. Current Polish Strategy: Rich, Accurate, Eye-Catching
+
+This section is the active near-term direction after the WordPress.org approval
+and the 1.1.0 release update.
+
+The next product goal is **not** to keep adding unrelated modules. The priority
+is to make the already-built free modules feel trustworthy, polished, fast, and
+beautiful enough that mosque admins can use them immediately on real public
+websites.
+
+### Product Principles
+
+- **Trust first:** Prayer and timetable data must explain where it came from:
+  location, timezone, calculation method, Asr method, Hijri adjustment, and
+  saved offsets.
+- **Beauty without weight:** Public widgets should look premium while staying
+  vanilla CSS/JS, lightweight, theme-friendly, and shortcode-safe.
+- **No duplicate code:** Live previews, docs previews, and frontend widgets
+  should share the same render paths and assets wherever possible.
+- **Free stays generous:** Free designs can be polished and practical. Pro
+  design names may be referenced as locked/informational, but no Pro business
+  logic or Pro-only implementation code belongs in the free plugin.
+- **Bangla/English parity:** Bangla labels must be first-class, not an afterthought.
+  Date/number formatting can be phased in, but labels and layout must not break.
+- **Release safety remains continuous:** Every polish pass should end with PHP
+  lint, JS syntax check, translation rebuild when strings change, and a quick
+  shortcode/manual QA checklist.
+
+### Accuracy & Trust Polish
+
+1. Prayer Times accuracy panel and data confidence:
+   - Show current calculation source: Local or optional Aladhan.
+   - Validate latitude/longitude and timezone.
+   - Show calculation method, Asr method, offsets, and Hijri adjustment together.
+   - Add a next-7-days preview in admin or a compact trust summary.
+   - Keep local calculation as default; optional API source must remain explicit.
+
+2. Monthly Timetable trust layer:
+   - Show "Generated using" metadata: location, timezone, method, Asr method,
+     Hijri adjustment, and source.
+   - Keep print layout clean and mosque-notice-board friendly.
+   - Make current day, Friday, and Jumuah context visually useful without clutter.
+
+3. Hijri consistency:
+   - Prayer widget, Monthly Timetable, Islamic Calendar, dashboard, and TV Display
+     should use the same Hijri helper and same adjustment setting.
+   - Public UI should explain that local moon sighting can differ.
+
+### Visual Richness Polish
+
+1. Prayer Times widget:
+   - Preserve `classic` and `compact`.
+   - Improve next prayer prominence.
+   - Make Iqamah visually distinct from calculated prayer time.
+   - Add a clean trust/meta area that can be shown or hidden.
+   - Improve mobile spacing and Bangla rendering.
+
+2. Monthly Timetable:
+   - Preserve `table` and `compact`.
+   - Improve compact cards so times never crowd.
+   - Improve table mode for desktop scanning and mobile usability.
+   - Add print-only polish for mosque boards.
+   - Highlight today and Fridays with restrained visual treatment.
+
+3. Jumuah, Announcements, Events, Duas/Education:
+   - Polish after Prayer/Monthly because Prayer/Monthly are the signature public
+     experience.
+   - Focus on clarity, source/reference visibility, and mobile-first design.
+
+### Admin UX Polish
+
+1. Settings:
+   - Keep tab structure.
+   - Add small summary cards per tab.
+   - Add unsaved-change awareness later.
+   - Add calculation/test preview for prayer settings.
+
+2. Features and Docs:
+   - Keep shortcode generators synced with actual shortcode attributes.
+   - Improve copy button states.
+   - Add common usage recipes:
+     - Homepage prayer widget.
+     - Sidebar compact prayer widget.
+     - Jumuah page.
+     - Monthly timetable page.
+     - Notice board page.
+
+### Immediate Implementation Sequence
+
+Start with **Prayer Times + Monthly Timetable polish**.
+
+Order:
+
+1. Audit existing render paths and attributes:
+   - `[masjidos_prayer_times]`
+   - `[masjidos_prayer_times design="compact" language="bn"]`
+   - `[masjidos_monthly_prayer_times]`
+   - `[masjidos_monthly_prayer_times design="compact"]`
+2. Add/adjust trust metadata without clutter.
+3. Polish responsive spacing and visual hierarchy.
+4. Improve print styles for monthly timetable.
+5. Rebuild translations if strings change.
+6. Verify PHP lint, JS syntax, and `git diff --check`.
 
 ## 1. Product Direction
 

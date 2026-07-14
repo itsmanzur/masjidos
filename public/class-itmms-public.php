@@ -110,6 +110,15 @@ final class ITMMS_Public {
 			)
 		);
 		$show_iqamah_column = $show_iqamah && $has_iqamah;
+		$source_label = 'aladhan' === (string) ( $settings['prayer_source'] ?? 'local' ) ? $labels['auto_api'] : $labels['local_calculation'];
+		$hijri_adjustment = (int) ( $settings['hijri_adjustment'] ?? 0 );
+		$hijri_adjustment_label = 0 === $hijri_adjustment ? '0' : ( ( $hijri_adjustment > 0 ? '+' : '' ) . (string) $hijri_adjustment );
+		$trust_items = [
+			[ $labels['source'], $source_label ],
+			[ $labels['method'], (string) ( $meta['calculation_method'] ?? '' ) ],
+			[ $labels['asr'], (string) ( $meta['asr_method'] ?? '' ) ],
+			[ $labels['hijri_adjustment'], $hijri_adjustment_label ],
+		];
 
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_prayer_widget_design', '', $design, $data, $atts, $designs );
@@ -176,6 +185,15 @@ final class ITMMS_Public {
 		$month_start = new DateTimeImmutable( sprintf( '%04d-%02d-01 00:00:00', $year, $month ), $timezone );
 		$month_end = $month_start->modify( 'last day of this month' );
 		$hijri_range_label = ITMMS_Hijri::range_label( $month_start, $month_end, (int) ( $settings['hijri_adjustment'] ?? 0 ), $language );
+		$source_label = 'aladhan' === (string) ( $settings['prayer_source'] ?? 'local' ) ? $labels['auto_api'] : $labels['local_calculation'];
+		$hijri_adjustment = (int) ( $settings['hijri_adjustment'] ?? 0 );
+		$hijri_adjustment_label = 0 === $hijri_adjustment ? '0' : ( ( $hijri_adjustment > 0 ? '+' : '' ) . (string) $hijri_adjustment );
+		$trust_items = [
+			[ $labels['source'], $source_label ],
+			[ $labels['method'], (string) ( $meta['calculation_method'] ?? '' ) ],
+			[ $labels['asr'], (string) ( $meta['asr_method'] ?? '' ) ],
+			[ $labels['hijri_adjustment'], $hijri_adjustment_label ],
+		];
 
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_monthly_prayer_widget_design', '', $design, $data, $atts, $designs );
@@ -742,6 +760,11 @@ final class ITMMS_Public {
 				'asr'         => __( 'Asr', 'masjidos' ),
 				'timezone'    => __( 'Timezone', 'masjidos' ),
 				'qibla'       => __( 'Qibla', 'masjidos' ),
+				'source'      => __( 'Source', 'masjidos' ),
+				'local_calculation' => __( 'Local calculation', 'masjidos' ),
+				'auto_api'    => __( 'Auto API', 'masjidos' ),
+				'hijri_adjustment' => __( 'Hijri adjustment', 'masjidos' ),
+				'qibla_prompt' => __( 'Tap to point live', 'masjidos' ),
 			],
 			'bn' => [
 				'title'       => 'নামাজের সময়সূচি',
@@ -753,6 +776,11 @@ final class ITMMS_Public {
 				'asr'         => 'আসর',
 				'timezone'    => 'টাইমজোন',
 				'qibla'       => 'কিবলা',
+				'source'      => 'উৎস',
+				'local_calculation' => 'লোকাল হিসাব',
+				'auto_api'    => 'অটো API',
+				'hijri_adjustment' => 'হিজরি সমন্বয়',
+				'qibla_prompt' => 'লাইভ কিবলার জন্য ট্যাপ করুন',
 			],
 			'ar' => [
 				'title'       => 'مواقيت الصلاة',
@@ -764,6 +792,11 @@ final class ITMMS_Public {
 				'asr'         => 'العصر',
 				'timezone'    => 'المنطقة الزمنية',
 				'qibla'       => 'القبلة',
+				'source'      => 'المصدر',
+				'local_calculation' => 'حساب محلي',
+				'auto_api'    => 'واجهة API تلقائية',
+				'hijri_adjustment' => 'تعديل هجري',
+				'qibla_prompt' => 'اضغط لتوجيه القبلة مباشرة',
 			],
 		];
 
@@ -782,7 +815,7 @@ final class ITMMS_Public {
 			],
 			'bn' => [
 				'fajr'    => 'ফজর',
-				'sunrise' => 'সূর্যোদয়',
+				'sunrise' => 'সূর্যোদয়',
 				'dhuhr'   => 'যোহর',
 				'asr'     => 'আসর',
 				'maghrib' => 'মাগরিব',
@@ -876,6 +909,12 @@ final class ITMMS_Public {
 				'error' => __( 'The timetable could not be loaded. Please try again.', 'masjidos' ),
 				'current_month' => __( 'Current Month', 'masjidos' ),
 				'print' => __( 'Print', 'masjidos' ),
+				'source' => __( 'Source', 'masjidos' ),
+				'local_calculation' => __( 'Local calculation', 'masjidos' ),
+				'auto_api' => __( 'Auto API', 'masjidos' ),
+				'method' => __( 'Method', 'masjidos' ),
+				'asr' => __( 'Asr', 'masjidos' ),
+				'hijri_adjustment' => __( 'Hijri adjustment', 'masjidos' ),
 			],
 			'bn' => [
 				'title'  => 'মাসিক নামাজের সময়সূচি',
@@ -889,6 +928,12 @@ final class ITMMS_Public {
 				'error' => 'সময়সূচি লোড করা যায়নি। আবার চেষ্টা করুন।',
 				'current_month' => 'বর্তমান মাস',
 				'print' => 'প্রিন্ট',
+				'source' => 'উৎস',
+				'local_calculation' => 'লোকাল হিসাব',
+				'auto_api' => 'অটো API',
+				'method' => 'পদ্ধতি',
+				'asr' => 'আসর',
+				'hijri_adjustment' => 'হিজরি সমন্বয়',
 			],
 			'ar' => [
 				'title'  => 'جدول الصلاة الشهري',
@@ -902,6 +947,12 @@ final class ITMMS_Public {
 				'error' => 'تعذر تحميل الجدول. يرجى المحاولة مرة أخرى.',
 				'current_month' => 'الشهر الحالي',
 				'print' => 'طباعة',
+				'source' => 'المصدر',
+				'local_calculation' => 'حساب محلي',
+				'auto_api' => 'واجهة API تلقائية',
+				'method' => 'الطريقة',
+				'asr' => 'العصر',
+				'hijri_adjustment' => 'تعديل هجري',
 			],
 		];
 

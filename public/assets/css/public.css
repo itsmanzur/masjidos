@@ -1,21 +1,23 @@
 .itmms-public-prayer {
 	--itmms-public-primary: #1a6b5a;
 	--itmms-public-primary-dark: #134e42;
+	--itmms-public-primary-deep: #0f3f36;
 	--itmms-public-accent: #c9a84c;
 	--itmms-public-bg: #f7f8f6;
 	--itmms-public-surface: #ffffff;
 	--itmms-public-border: #e4e7ec;
 	--itmms-public-text: #111827;
 	--itmms-public-muted: #667085;
+	--itmms-public-ring: rgba(201, 168, 76, 0.35);
 	width: 100%;
 	max-width: 920px;
 	margin: 24px auto;
 	overflow: hidden;
-	border: 1px solid var(--itmms-public-border);
+	border: 1px solid rgba(26, 107, 90, 0.14);
 	border-radius: 8px;
 	background: var(--itmms-public-surface);
 	color: var(--itmms-public-text);
-	box-shadow: 0 8px 30px rgba(16, 24, 40, 0.08);
+	box-shadow: 0 18px 46px rgba(16, 24, 40, 0.12), 0 2px 0 rgba(255, 255, 255, 0.9) inset;
 	container-type: inline-size;
 	font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -70,17 +72,35 @@
 }
 
 .itmms-public-prayer__hero {
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 24px;
-	padding: 24px 26px;
-	background: linear-gradient(135deg, var(--itmms-public-primary-dark), var(--itmms-public-primary));
+	padding: 26px 28px;
+	background:
+		linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 42%),
+		linear-gradient(155deg, var(--itmms-public-primary-deep), var(--itmms-public-primary-dark) 45%, var(--itmms-public-primary));
 	color: #fff;
 }
 
+.itmms-public-prayer__hero::after,
+.itmms-public-monthly__header::after {
+	position: absolute;
+	right: -80px;
+	bottom: -120px;
+	width: 240px;
+	height: 240px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 50%;
+	content: "";
+	pointer-events: none;
+}
+
 .itmms-public-prayer__hero > div:first-child {
+	position: relative;
 	min-width: 0;
+	z-index: 1;
 }
 
 .itmms-public-prayer__eyebrow {
@@ -96,8 +116,9 @@
 .itmms-public-prayer h2 {
 	margin: 0;
 	color: #fff;
-	font-size: 26px;
-	line-height: 1.15;
+	font-size: 28px;
+	font-weight: 780;
+	line-height: 1.08;
 }
 
 .itmms-public-prayer__hero p {
@@ -132,13 +153,48 @@
 	opacity: 0.55;
 }
 
+.itmms-public-prayer__trust,
+.itmms-public-monthly__trust {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 12px;
+}
+
+.itmms-public-prayer__trust span,
+.itmms-public-monthly__trust span {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 24px;
+	padding: 4px 8px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.09);
+	color: rgba(255, 255, 255, 0.82);
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.itmms-public-prayer__trust b,
+.itmms-public-monthly__trust b {
+	color: rgba(255, 255, 255, 0.62);
+	font-size: 9px;
+	font-weight: 900;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+}
+
 .itmms-public-prayer__next {
+	position: relative;
+	z-index: 1;
 	min-width: 196px;
-	padding: 13px 15px;
-	border: 1px solid rgba(255, 255, 255, 0.16);
+	padding: 15px 16px;
+	border: 1px solid rgba(255, 255, 255, 0.2);
 	border-radius: 8px;
-	background: rgba(255, 255, 255, 0.08);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.06));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 14px 32px rgba(0, 0, 0, 0.12);
 	text-align: right;
 }
 
@@ -163,8 +219,10 @@
 .itmms-public-prayer__next b {
 	margin-top: 6px;
 	color: var(--itmms-public-accent);
-	font-size: 23px;
+	font-size: 25px;
+	font-weight: 760;
 	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.02em;
 }
 
 .itmms-public-prayer__grid {
@@ -178,23 +236,25 @@
 }
 
 .itmms-public-prayer__table {
-	padding: 17px 16px;
+	padding: 18px 18px;
 }
 
 .itmms-public-prayer__row {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) 96px auto;
+	grid-template-columns: minmax(0, 1fr) minmax(92px, 108px) minmax(112px, auto);
 	align-items: center;
-	gap: 14px;
+	gap: 16px;
 	min-height: 50px;
 	padding: 12px 14px;
 	border-radius: 8px;
 	border: 1px solid transparent;
+	transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .itmms-public-prayer__row.is-current {
-	background: rgba(26, 107, 90, 0.08);
-	border-color: rgba(26, 107, 90, 0.14);
+	background: linear-gradient(90deg, rgba(26, 107, 90, 0.11), rgba(26, 107, 90, 0.055));
+	border-color: rgba(26, 107, 90, 0.2);
+	box-shadow: inset 4px 0 0 var(--itmms-public-primary), 0 8px 18px rgba(26, 107, 90, 0.08);
 }
 
 .itmms-public-prayer__name {
@@ -247,8 +307,9 @@
 	align-items: center;
 	justify-content: flex-end;
 	gap: 8px;
+	min-width: 108px;
 	color: var(--itmms-public-text);
-	font-size: 15px;
+	font-size: 16px;
 	font-weight: 900;
 	font-variant-numeric: tabular-nums;
 	white-space: nowrap;
@@ -256,26 +317,34 @@
 
 .itmms-public-prayer__iqamah {
 	display: grid;
+	justify-self: end;
 	gap: 2px;
 	min-height: 30px;
+	min-width: 84px;
+	padding: 5px 8px;
+	border: 1px solid rgba(26, 107, 90, 0.1);
+	border-radius: 8px;
+	background: rgba(26, 107, 90, 0.045);
 	text-align: right;
 }
 
 .itmms-public-prayer__iqamah:empty {
 	display: block;
+	visibility: hidden;
 }
 
 .itmms-public-prayer__iqamah small {
 	color: var(--itmms-public-muted);
-	font-size: 8px;
+	font-size: 9px;
 	font-weight: 900;
 	letter-spacing: 0.02em;
+	line-height: 1.1;
 	text-transform: uppercase;
 }
 
 .itmms-public-prayer__iqamah b {
 	color: var(--itmms-public-primary-dark);
-	font-size: 13px;
+	font-size: 14px;
 	font-weight: 900;
 	font-variant-numeric: tabular-nums;
 }
@@ -283,9 +352,9 @@
 .itmms-public-prayer--compact {
 	width: min(100%, 440px);
 	max-width: 440px;
-	border-color: rgba(26, 107, 90, 0.16);
-	background: #fbfcfb;
-	box-shadow: 0 10px 28px rgba(16, 24, 40, 0.07);
+	border-color: rgba(26, 107, 90, 0.18);
+	background: #f8faf8;
+	box-shadow: 0 16px 40px rgba(16, 24, 40, 0.1);
 }
 
 .wp-site-blocks .itmms-public-prayer.itmms-public-prayer--compact,
@@ -296,11 +365,13 @@
 }
 
 .itmms-public-prayer--compact .itmms-public-prayer__hero {
+	position: relative;
 	display: grid;
 	gap: 10px;
-	padding: 15px 16px;
+	padding: 17px 18px;
 	background:
-		linear-gradient(135deg, rgba(19, 78, 66, 0.98), rgba(26, 107, 90, 0.96)),
+		linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 44%),
+		linear-gradient(135deg, rgba(15, 63, 54, 0.99), rgba(26, 107, 90, 0.97)),
 		var(--itmms-public-primary);
 }
 
@@ -318,6 +389,16 @@
 .itmms-public-prayer--compact .itmms-public-prayer__hero p {
 	margin-top: 4px;
 	font-size: 12px;
+}
+
+.itmms-public-prayer--compact .itmms-public-prayer__trust {
+	margin-top: 9px;
+}
+
+.itmms-public-prayer--compact .itmms-public-prayer__trust span {
+	min-height: 22px;
+	padding: 3px 7px;
+	font-size: 10px;
 }
 
 .itmms-public-prayer--compact .itmms-public-prayer__next {
@@ -367,11 +448,11 @@
 	grid-template-columns: minmax(0, 1fr) auto;
 	gap: 5px 12px;
 	min-height: 0;
-	padding: 10px 12px;
+	padding: 11px 13px;
 	border-radius: 8px;
 	background: #fff;
-	border-color: transparent;
-	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+	border-color: rgba(16, 24, 40, 0.035);
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 18px rgba(16, 24, 40, 0.035);
 }
 
 .itmms-public-prayer--compact .itmms-public-prayer__row:last-child {
@@ -379,9 +460,9 @@
 }
 
 .itmms-public-prayer--compact .itmms-public-prayer__row.is-current {
-	border-color: rgba(26, 107, 90, 0.18);
-	background: rgba(26, 107, 90, 0.08);
-	box-shadow: none;
+	border-color: rgba(26, 107, 90, 0.22);
+	background: linear-gradient(90deg, rgba(26, 107, 90, 0.12), rgba(26, 107, 90, 0.055));
+	box-shadow: inset 4px 0 0 var(--itmms-public-primary);
 }
 
 .itmms-public-prayer--compact .itmms-public-prayer__name {
@@ -424,13 +505,23 @@
 	justify-content: space-between;
 	gap: 10px;
 	min-height: 0;
+	min-width: 0;
 	padding-top: 5px;
+	padding-right: 0;
+	padding-bottom: 0;
+	padding-left: 0;
+	border-right: 0;
+	border-bottom: 0;
+	border-left: 0;
 	border-top: 1px dashed rgba(102, 112, 133, 0.22);
+	border-radius: 0;
+	background: transparent;
 	text-align: left;
 }
 
 .itmms-public-prayer--compact .itmms-public-prayer__iqamah:empty {
 	display: none;
+	visibility: visible;
 }
 
 .itmms-public-prayer--compact .itmms-public-prayer__iqamah small {
@@ -454,7 +545,7 @@
 	}
 
 	.itmms-public-prayer__row {
-		grid-template-columns: minmax(0, 1fr) 104px auto;
+		grid-template-columns: minmax(0, 1fr) minmax(88px, 104px) minmax(104px, auto);
 	}
 }
 
@@ -499,6 +590,7 @@
 	border: 1px solid rgba(26, 107, 90, 0.14);
 	border-radius: 8px;
 	background: #fff;
+	cursor: pointer;
 	transition: all 0.2s ease-in-out;
 }
 
@@ -567,6 +659,17 @@
 .itmms-public-qibla strong {
 	color: var(--itmms-public-primary);
 	font-size: 25px;
+}
+
+.itmms-public-qibla__prompt {
+	display: block;
+	margin-top: 4px;
+	color: var(--itmms-public-muted);
+	font-size: 9px;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	line-height: 1.25;
+	text-transform: uppercase;
 }
 
 .itmms-public-prayer__meta {
@@ -923,6 +1026,7 @@
 .itmms-public-monthly {
 	--itmms-public-primary: #1a6b5a;
 	--itmms-public-primary-dark: #134e42;
+	--itmms-public-primary-deep: #0f3f36;
 	--itmms-public-accent: #c9a84c;
 	--itmms-public-bg: #f7f8f6;
 	--itmms-public-surface: #ffffff;
@@ -933,11 +1037,11 @@
 	max-width: 1080px;
 	margin: 24px auto;
 	overflow: hidden;
-	border: 1px solid var(--itmms-public-border);
+	border: 1px solid rgba(26, 107, 90, 0.14);
 	border-radius: 8px;
 	background: var(--itmms-public-surface);
 	color: var(--itmms-public-text);
-	box-shadow: 0 8px 30px rgba(16, 24, 40, 0.08);
+	box-shadow: 0 18px 46px rgba(16, 24, 40, 0.12), 0 2px 0 rgba(255, 255, 255, 0.9) inset;
 	font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	container: itmms-monthly / inline-size;
 }
@@ -956,9 +1060,31 @@
 	justify-content: space-between;
 	gap: 18px;
 	position: relative;
-	padding: 22px 24px;
-	background: linear-gradient(135deg, var(--itmms-public-primary-dark), var(--itmms-public-primary));
+	padding: 24px 26px;
+	background:
+		linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 42%),
+		linear-gradient(155deg, var(--itmms-public-primary-deep), var(--itmms-public-primary-dark) 45%, var(--itmms-public-primary));
 	color: #fff;
+}
+
+.itmms-public-monthly__trust {
+	margin: 0;
+	padding: 12px 24px;
+	border-bottom: 1px solid var(--itmms-public-border);
+	background:
+		linear-gradient(90deg, rgba(26, 107, 90, 0.07), rgba(201, 168, 76, 0.08)),
+		#fbfcfb;
+}
+
+.itmms-public-monthly__trust span {
+	border-color: rgba(26, 107, 90, 0.14);
+	background: #fff;
+	color: var(--itmms-public-text);
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.035);
+}
+
+.itmms-public-monthly__trust b {
+	color: var(--itmms-public-muted);
 }
 
 .itmms-public-monthly__nav {
@@ -992,7 +1118,7 @@
 	margin: 0;
 	border: 1px solid rgba(255, 255, 255, 0.24);
 	border-radius: 6px;
-	background: rgba(255, 255, 255, 0.1);
+	background: rgba(255, 255, 255, 0.12);
 	color: #fff;
 	font: inherit;
 	font-size: 12px;
@@ -1041,7 +1167,8 @@
 .itmms-public-monthly__nav select:hover,
 .itmms-public-monthly__nav select:focus-visible {
 	border-color: rgba(255, 255, 255, 0.62);
-	background: rgba(255, 255, 255, 0.18);
+	background: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
 	outline: none;
 }
 
@@ -1072,6 +1199,10 @@
 		grid-template-columns: 36px minmax(0, 1fr) 86px 36px auto auto;
 		width: 100%;
 	}
+
+	.itmms-public-monthly__trust {
+		padding: 10px 14px;
+	}
 }
 
 @container itmms-monthly (max-width: 520px) {
@@ -1087,6 +1218,12 @@
 	.itmms-public-monthly__nav .itmms-public-monthly__print {
 		grid-column: 4;
 		width: 100%;
+	}
+
+	.itmms-public-monthly__trust span,
+	.itmms-public-prayer__trust span {
+		flex: 1 1 calc(50% - 6px);
+		justify-content: space-between;
 	}
 }
 
@@ -1108,8 +1245,9 @@
 .itmms-public-monthly__header h2 {
 	margin-top: 6px;
 	color: #fff;
-	font-size: 26px;
-	line-height: 1.15;
+	font-size: 28px;
+	font-weight: 780;
+	line-height: 1.08;
 }
 
 .itmms-public-monthly__header p {
@@ -1120,7 +1258,9 @@
 
 .itmms-public-monthly__scroll {
 	overflow-x: auto;
-	background: #fff;
+	background:
+		linear-gradient(90deg, rgba(26, 107, 90, 0.025), transparent 22px),
+		#fff;
 	-webkit-overflow-scrolling: touch;
 }
 
@@ -1134,7 +1274,7 @@
 
 .itmms-public-monthly__table th,
 .itmms-public-monthly__table td {
-	padding: 10px 8px;
+	padding: 12px 10px;
 	border-bottom: 1px solid var(--itmms-public-border);
 	text-align: left;
 	white-space: nowrap;
@@ -1143,20 +1283,25 @@
 .itmms-public-monthly__table th {
 	position: sticky;
 	top: 0;
-	background: var(--itmms-public-bg);
+	background: #f4f8f6;
 	color: var(--itmms-public-muted);
 	font-size: 11px;
 	font-weight: 900;
 	text-transform: uppercase;
+	box-shadow: inset 0 -1px 0 rgba(26, 107, 90, 0.08);
 }
 
 .itmms-public-monthly__table tbody tr:nth-child(even) {
 	background: rgba(26, 107, 90, 0.025);
 }
 
+.itmms-public-monthly__table tbody tr.is-friday {
+	background: rgba(26, 107, 90, 0.06);
+}
+
 .itmms-public-monthly__table tbody tr.is-today {
-	background: rgba(201, 168, 76, 0.16);
-	box-shadow: inset 4px 0 0 var(--itmms-public-accent);
+	background: linear-gradient(90deg, rgba(201, 168, 76, 0.2), rgba(201, 168, 76, 0.09));
+	box-shadow: inset 5px 0 0 var(--itmms-public-accent);
 }
 
 .itmms-public-monthly__table td {
@@ -1185,25 +1330,33 @@
 .itmms-public-monthly__cards {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 10px;
-	padding: 14px;
-	background: var(--itmms-public-bg);
+	gap: 12px;
+	padding: 16px;
+	background:
+		linear-gradient(180deg, rgba(26, 107, 90, 0.04), rgba(26, 107, 90, 0)),
+		var(--itmms-public-bg);
 }
 
 .itmms-public-monthly__card {
 	display: grid;
 	gap: 12px;
-	padding: 13px;
-	border: 1px solid var(--itmms-public-border);
+	padding: 14px;
+	border: 1px solid rgba(16, 24, 40, 0.08);
 	border-radius: 8px;
 	background: #fff;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 10px 22px rgba(16, 24, 40, 0.035);
 	container: itmms-monthly-card / inline-size;
 }
 
 .itmms-public-monthly__card.is-today {
 	border-color: rgba(201, 168, 76, 0.42);
-	background: rgba(201, 168, 76, 0.12);
-	box-shadow: inset 4px 0 0 var(--itmms-public-accent);
+	background: linear-gradient(135deg, rgba(201, 168, 76, 0.16), rgba(255, 255, 255, 0.96));
+	box-shadow: inset 5px 0 0 var(--itmms-public-accent), 0 12px 24px rgba(201, 168, 76, 0.12);
+}
+
+.itmms-public-monthly__card.is-friday:not(.is-today) {
+	border-color: rgba(26, 107, 90, 0.2);
+	background: linear-gradient(135deg, rgba(26, 107, 90, 0.06), #fff);
 }
 
 .itmms-public-monthly__card header {
@@ -1211,7 +1364,7 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
-	padding-bottom: 9px;
+	padding-bottom: 10px;
 	border-bottom: 1px dashed rgba(102, 112, 133, 0.22);
 }
 
@@ -1222,7 +1375,8 @@
 
 .itmms-public-monthly__card header strong {
 	color: var(--itmms-public-primary-dark);
-	font-size: 15px;
+	font-size: 16px;
+	font-weight: 780;
 }
 
 .itmms-public-monthly__card header span {
@@ -1247,7 +1401,7 @@
 .itmms-public-monthly__card > div {
 	display: grid;
 	grid-template-columns: repeat(5, minmax(0, 1fr));
-	gap: 12px;
+	gap: 12px 14px;
 }
 
 .itmms-public-monthly__card > div span {
@@ -2148,6 +2302,22 @@
 		display: none !important;
 	}
 
+	.itmms-public-monthly__trust {
+		padding: 8px 16px;
+		background: #fff !important;
+		border-bottom: 1px solid #d0d5dd;
+	}
+
+	.itmms-public-monthly__trust span {
+		border-color: #d0d5dd;
+		background: #fff;
+		color: #111827;
+	}
+
+	.itmms-public-monthly__trust b {
+		color: #344054;
+	}
+
 	.itmms-public-monthly__header span,
 	.itmms-public-monthly__header h2,
 	.itmms-public-monthly__header p {
@@ -2176,6 +2346,7 @@
 	}
 
 	.itmms-public-monthly__table tbody tr:nth-child(even),
+	.itmms-public-monthly__table tbody tr.is-friday,
 	.itmms-public-monthly__table tbody tr.is-today {
 		background: #fff !important;
 		box-shadow: none;
@@ -2216,8 +2387,23 @@
 	}
 
 	.itmms-public-prayer__iqamah {
-		order: 3;
+		grid-column: 1 / -1;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		min-width: 0;
+		padding: 5px 0 0;
+		border: 0;
+		border-top: 1px dashed rgba(102, 112, 133, 0.22);
+		border-radius: 0;
+		background: transparent;
 		text-align: left;
+	}
+
+	.itmms-public-prayer__iqamah:empty {
+		display: none;
+		visibility: visible;
 	}
 
 	.itmms-public-prayer__time {
@@ -2282,6 +2468,10 @@
 	.itmms-public-prayer__time {
 		justify-content: space-between;
 		text-align: left;
+	}
+
+	.itmms-public-prayer__iqamah {
+		grid-column: auto;
 	}
 
 	.itmms-public-jumuah__times {

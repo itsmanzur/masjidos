@@ -64,24 +64,14 @@ defined( 'ABSPATH' ) || exit;
 		<?php if ( $show_qibla || $show_meta ) : ?>
 			<aside class="itmms-public-prayer__side">
 				<?php if ( $show_qibla ) : ?>
-					<div class="itmms-public-qibla" data-itmms-public-qibla="<?php echo esc_attr( (string) ( $meta['qibla_direction'] ?? 0 ) ); ?>" role="button" tabindex="0" title="<?php echo esc_attr( 'bn' === $language ? 'লাইভ কিবলা কম্পাস চালু করতে ট্যাপ করুন' : __( 'Tap to point live', 'masjidos' ) ); ?>" style="cursor: pointer;">
+					<div class="itmms-public-qibla" data-itmms-public-qibla="<?php echo esc_attr( (string) ( $meta['qibla_direction'] ?? 0 ) ); ?>" role="button" tabindex="0" title="<?php echo esc_attr( $labels['qibla_prompt'] ); ?>">
 						<div class="itmms-public-qibla__compass">
 							<span style="transform: rotate(<?php echo esc_attr( (string) ( $meta['qibla_direction'] ?? 0 ) ); ?>deg)"></span>
 						</div>
 						<div>
 							<span><?php echo esc_html( $labels['qibla'] ); ?></span>
 							<strong><?php echo esc_html( (string) ( $meta['qibla_direction'] ?? '0' ) ); ?>&deg;</strong>
-							<small class="itmms-public-qibla__prompt" style="display: block; font-size: 9px; margin-top: 4px; color: var(--itmms-public-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em;">
-								<?php
-								if ( 'bn' === $language ) {
-									echo 'লাইভ দেখতে ট্যাপ করুন';
-								} elseif ( 'ar' === $language ) {
-									echo 'انقر للقبلة المباشرة';
-								} else {
-									echo 'Tap to point live';
-								}
-								?>
-							</small>
+							<small class="itmms-public-qibla__prompt"><?php echo esc_html( $labels['qibla_prompt'] ); ?></small>
 						</div>
 					</div>
 				<?php endif; ?>
@@ -92,6 +82,7 @@ defined( 'ABSPATH' ) || exit;
 						<span><b><?php echo esc_html( $labels['method'] ); ?></b><?php echo esc_html( $meta['calculation_method'] ?? '' ); ?></span>
 						<span><b><?php echo esc_html( $labels['asr'] ); ?></b><?php echo esc_html( $meta['asr_method'] ?? '' ); ?></span>
 						<span><b><?php echo esc_html( $labels['timezone'] ); ?></b><?php echo esc_html( $meta['timezone'] ?? '' ); ?></span>
+						<span><b><?php echo esc_html( $labels['source'] ); ?></b><?php echo esc_html( $source_label ); ?></span>
 					</div>
 				<?php endif; ?>
 			</aside>
