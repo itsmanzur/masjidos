@@ -7,6 +7,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
+
 // Fetch settings and calculations
 $settings = ITMMS_Settings::get_all();
 $data     = ITMMS_Prayer_Times::today();
@@ -15,8 +18,11 @@ $prayers  = $data['prayers'] ?? [];
 $next     = $data['next_prayer'] ?? [];
 
 // Resolve URL overrides or default settings
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $theme      = sanitize_key( $_GET['theme'] ?? $settings['tv_theme'] ?? 'dark' );
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $lang       = sanitize_key( $_GET['lang'] ?? $settings['language'] ?? 'en' );
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $font_size  = sanitize_key( $_GET['font_size'] ?? $settings['tv_font_size'] ?? 'normal' );
 $logo_url   = esc_url( $settings['tv_logo_url'] ?: '' );
 $masjid_name = esc_html( $settings['masjid_name'] ?: get_bloginfo( 'name' ) );
@@ -129,9 +135,11 @@ $js_url  = ITMMS_PLUGIN_URL . 'public/assets/js/tv-display.js';
 	<!-- Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;700;800&display=swap" rel="stylesheet">
 	
 	<!-- Style -->
+	<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
 	<link rel="stylesheet" href="<?php echo esc_url( $css_url ); ?>?ver=<?php echo esc_attr( $assets_version ); ?>">
 </head>
 <body class="itmms-tv itmms-tv--theme-<?php echo esc_attr( $theme ); ?> itmms-tv--size-<?php echo esc_attr( $font_size ); ?>">
@@ -226,7 +234,10 @@ $js_url  = ITMMS_PLUGIN_URL . 'public/assets/js/tv-display.js';
 								<?php if ( ! empty( $session['jamaat_time'] ) ) : ?>
 									<div class="itmms-tv__jumuah-session">
 										<div class="itmms-tv__jumuah-label">
-											<?php echo esc_html( $session['label'] ?: sprintf( __( 'Jumuah %d', 'masjidos' ), $index + 1 ) ); ?>
+											<?php
+											/* translators: %d: session number index */
+											echo esc_html( $session['label'] ?: sprintf( __( 'Jumuah %d', 'masjidos' ), $index + 1 ) );
+											?>
 										</div>
 										<div class="itmms-tv__jumuah-times">
 											<?php if ( ! empty( $session['khutbah_time'] ) ) : ?>
@@ -289,6 +300,7 @@ $js_url  = ITMMS_PLUGIN_URL . 'public/assets/js/tv-display.js';
 	</script>
 
 	<!-- Script -->
+	<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
 	<script src="<?php echo esc_url( $js_url ); ?>?ver=<?php echo esc_attr( $assets_version ); ?>"></script>
 </body>
 </html>

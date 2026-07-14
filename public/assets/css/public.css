@@ -2694,3 +2694,518 @@
 		background: #f0fdf4;
 	}
 }
+
+/* ==========================================================================
+   EVENTS & KHUTBAH ARCHIVE EXTENSIONS
+   ========================================================================== */
+
+/* ── Featured Image & Card Layout ────────────────────────────────────── */
+.itmms-public-events__item--has-thumb {
+	display: grid;
+	grid-template-columns: 140px 1fr;
+	gap: 16px;
+	align-items: start;
+}
+
+.itmms-public-events__thumb {
+	width: 140px;
+	height: 120px;
+	border-radius: 6px;
+	overflow: hidden;
+	background: #f6f7f9;
+}
+
+.itmms-public-events__thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* ── Reminder & Status Badges ────────────────────────────────────────── */
+.itmms-public-events__item-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.itmms-public-events__reminder-badge {
+	font-size: 10px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	padding: 2px 8px;
+	border-radius: 12px;
+	background: rgba(26, 107, 90, 0.1);
+	color: #1a6b5a;
+}
+
+/* ── iCal Actions ────────────────────────────────────────────────────── */
+.itmms-public-events__actions {
+	margin-top: 10px;
+}
+
+.itmms-public-events__ical-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	background: #f6f7f9;
+	border: 1px solid #e4e7ec;
+	border-radius: 6px;
+	color: #667085;
+	font-size: 11px;
+	font-weight: 700;
+	text-decoration: none;
+	transition: background 0.15s, color 0.15s;
+}
+
+.itmms-public-events__ical-btn svg {
+	width: 14px;
+	height: 14px;
+}
+
+.itmms-public-events__ical-btn:hover {
+	background: #1a6b5a;
+	border-color: #1a6b5a;
+	color: #ffffff;
+}
+
+/* ── Khutbah Archive Widget ──────────────────────────────────────────── */
+.itmms-public-archive {
+	background: #ffffff;
+	border: 1px solid #e4e7ec;
+	border-radius: 10px;
+	padding: 24px;
+}
+
+.itmms-public-archive__header h2 {
+	margin: 0 0 16px 0;
+	font-size: 20px;
+	font-weight: 800;
+	color: #111827;
+}
+
+.itmms-public-archive__form {
+	margin-bottom: 20px;
+}
+
+.itmms-public-archive__search-group {
+	display: grid;
+	grid-template-columns: 1fr auto auto;
+	gap: 10px;
+}
+
+.itmms-public-archive__search-group input[type="text"] {
+	height: 40px;
+	padding: 0 12px;
+	border: 1px solid #e4e7ec;
+	border-radius: 6px;
+	font-size: 13px;
+	background: #f9fafb;
+}
+
+.itmms-public-archive__search-group input[type="date"] {
+	height: 40px;
+	padding: 0 8px;
+	border: 1px solid #e4e7ec;
+	border-radius: 6px;
+	font-size: 13px;
+	background: #f9fafb;
+}
+
+.itmms-public-archive__list {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.itmms-public-archive__item {
+	background: #f9fafb;
+	border: 1px solid #e4e7ec;
+	border-radius: 8px;
+	padding: 16px;
+}
+
+.itmms-public-archive__meta-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+
+.itmms-public-archive__meta-top time {
+	font-size: 12px;
+	color: #667085;
+	font-weight: 600;
+}
+
+.itmms-public-archive__lang-badge {
+	font-size: 9px;
+	font-weight: 700;
+	text-transform: uppercase;
+	padding: 2px 6px;
+	background: #e4e7ec;
+	border-radius: 4px;
+	color: #475467;
+}
+
+.itmms-public-archive__item h3 {
+	margin: 0 0 8px 0;
+	font-size: 15px;
+	font-weight: 750;
+	color: #111827;
+}
+
+.itmms-public-archive__khatib-info {
+	font-size: 13px;
+	color: #475467;
+	margin-bottom: 8px;
+}
+
+.itmms-public-archive__summary {
+	font-size: 13px;
+	color: #667085;
+	line-height: 1.5;
+	margin-bottom: 12px;
+}
+
+.itmms-public-archive__audio-player {
+	margin-top: 10px;
+}
+
+.itmms-public-archive__audio-player audio {
+	width: 100%;
+}
+
+@media (max-width: 600px) {
+	.itmms-public-events__item--has-thumb {
+		grid-template-columns: 1fr;
+	}
+
+	.itmms-public-events__thumb {
+		width: 100%;
+		height: 180px;
+	}
+
+	.itmms-public-archive__search-group {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ==========================================================================
+   ANNOUNCEMENTS EXTENSIONS (BANNER, POPUP, RAMADAN GOLD)
+   ========================================================================== */
+
+/* ── Banner Style ────────────────────────────────────────────────────── */
+.itmms-public-announcements--banner {
+	background: #1a6b5a;
+	color: #ffffff;
+	padding: 12px 20px;
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	font-weight: 550;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.itmms-public-announcements--banner.is-ramadan {
+	background: linear-gradient(135deg, #d4af37, #aa7c11);
+	color: #111827;
+}
+
+.itmms-public-announcements__banner-content {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.itmms-public-announcements__ramadan-icon {
+	font-size: 18px;
+}
+
+/* ── Popup Style (Modal Notice) ──────────────────────────────────────── */
+.itmms-public-popup-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.6);
+	z-index: 999999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	backdrop-filter: blur(4px);
+}
+
+.itmms-public-popup-content {
+	background: #ffffff;
+	padding: 32px 28px;
+	border-radius: 12px;
+	max-width: 500px;
+	width: 100%;
+	position: relative;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+	animation: itmmsPopupFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes itmmsPopupFadeIn {
+	from { transform: scale(0.95); opacity: 0; }
+	to { transform: scale(1); opacity: 1; }
+}
+
+.itmms-public-popup-content.is-ramadan {
+	border: 3px solid #d4af37;
+	box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+}
+
+.itmms-public-popup-close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: #f3f4f6;
+	border: none;
+	color: #6b7280;
+	font-size: 18px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.15s, color 0.15s;
+}
+
+.itmms-public-popup-close:hover {
+	background: #e5e7eb;
+	color: #111827;
+}
+
+.itmms-public-popup-ramadan-badge {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: #aa7c11;
+	background: rgba(212, 175, 55, 0.1);
+	padding: 4px 10px;
+	border-radius: 12px;
+	margin-bottom: 12px;
+}
+
+.itmms-public-popup-content h2 {
+	margin: 0 0 12px 0;
+	font-size: 22px;
+	font-weight: 850;
+	color: #111827;
+}
+
+.itmms-public-popup-body {
+	font-size: 14px;
+	color: #4b5563;
+	line-height: 1.6;
+}
+
+/* ── Ramadan Gold Ticker Style ───────────────────────────────────────── */
+.itmms-public-announcements--ticker.is-ramadan {
+	background: linear-gradient(135deg, #d4af37, #aa7c11);
+	border: 1px solid #aa7c11;
+}
+
+.itmms-public-announcements--ticker.is-ramadan .itmms-public-announcements__ticker-label {
+	background: #111827;
+	color: #d4af37;
+	font-weight: 800;
+}
+
+.itmms-public-announcements--ticker.is-ramadan .itmms-public-announcements__ticker-label button {
+	color: #d4af37;
+}
+
+.itmms-public-announcements--ticker.is-ramadan .itmms-public-announcements__ticker-group span {
+	color: #111827;
+	font-weight: 650;
+}
+
+.itmms-public-announcements--ticker.is-ramadan .itmms-public-announcements__ticker-group span b {
+	color: #000000;
+}
+
+/* ==========================================================================
+   EDUCATION & CONTENT MODULE STYLES (QURAN, HADITH, NAMES, AUDIO)
+   ========================================================================== */
+
+/* ── Quran Verse & Hadith Widget ──────────────────────────────────────── */
+.itmms-public-verse, .itmms-public-hadith {
+	background: linear-gradient(135deg, #ffffff, #f9fafb);
+	border: 1px solid #e4e7ec;
+	border-radius: 10px;
+	padding: 24px;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+	margin-bottom: 20px;
+}
+
+.itmms-public-verse__header h2, .itmms-public-hadith__header h2 {
+	margin: 0 0 16px 0;
+	font-size: 18px;
+	font-weight: 800;
+	color: #111827;
+	border-bottom: 2px solid #f3f4f6;
+	padding-bottom: 10px;
+}
+
+.itmms-public-verse__arabic, .itmms-public-hadith__arabic {
+	font-family: "Amiri", "Scheherazade", serif;
+	font-size: 26px;
+	line-height: 1.8;
+	text-align: right;
+	color: #1a6b5a;
+	margin-bottom: 16px;
+	direction: rtl;
+}
+
+.itmms-public-verse__translation, .itmms-public-hadith__translation {
+	font-size: 14px;
+	line-height: 1.6;
+	color: #4b5563;
+	margin-bottom: 16px;
+}
+
+.itmms-public-verse__ref, .itmms-public-hadith__ref {
+	font-size: 12px;
+	color: #9ca3af;
+	font-weight: 600;
+	margin-bottom: 16px;
+}
+
+.itmms-public-verse__actions, .itmms-public-hadith__actions {
+	display: flex;
+	gap: 10px;
+}
+
+/* ── 99 Names of Allah Grid ──────────────────────────────────────────── */
+.itmms-public-names {
+	background: #ffffff;
+	border: 1px solid #e4e7ec;
+	border-radius: 10px;
+	padding: 24px;
+	margin-bottom: 20px;
+}
+
+.itmms-public-names__header h2 {
+	margin: 0 0 20px 0;
+	font-size: 18px;
+	font-weight: 800;
+	color: #111827;
+}
+
+.itmms-public-names__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 16px;
+}
+
+.itmms-public-names__item {
+	background: #f9fafb;
+	border: 1px solid #e4e7ec;
+	border-radius: 8px;
+	padding: 16px;
+	text-align: center;
+	position: relative;
+	transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.itmms-public-names__item:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+	border-color: #aa7c11;
+}
+
+.itmms-public-names__number {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	font-size: 10px;
+	font-weight: 700;
+	color: #9ca3af;
+	background: #e5e7eb;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.itmms-public-names__arabic {
+	font-family: "Amiri", serif;
+	font-size: 24px;
+	color: #aa7c11;
+	margin-bottom: 8px;
+	margin-top: 10px;
+}
+
+.itmms-public-names__trans {
+	font-size: 13px;
+	font-weight: 700;
+	color: #111827;
+	margin-bottom: 4px;
+}
+
+.itmms-public-names__meaning {
+	font-size: 12px;
+	color: #6b7280;
+}
+
+/* ── Audio Quran Player ──────────────────────────────────────────────── */
+.itmms-public-audio-quran {
+	background: #ffffff;
+	border: 1px solid #e4e7ec;
+	border-radius: 10px;
+	padding: 24px;
+	margin-bottom: 20px;
+}
+
+.itmms-public-audio-quran__header h2 {
+	margin: 0 0 20px 0;
+	font-size: 18px;
+	font-weight: 800;
+	color: #111827;
+}
+
+.itmms-public-audio-quran__player-container {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	align-items: center;
+}
+
+.itmms-public-audio-quran__selector {
+	width: 100%;
+}
+
+.itmms-public-audio-quran__selector select {
+	width: 100%;
+	height: 42px;
+	border: 1px solid #e4e7ec;
+	border-radius: 6px;
+	padding: 0 12px;
+	font-size: 14px;
+	background: #f9fafb;
+}
+
+.itmms-public-audio-quran__audio-element {
+	width: 100%;
+}
+
+.itmms-public-audio-quran__audio-element audio {
+	width: 100%;
+}

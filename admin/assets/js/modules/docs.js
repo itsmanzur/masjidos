@@ -34,6 +34,7 @@
 				docTabButton( 'duas', __( 'Duas', 'masjidos' ), false ) +
 				docTabButton( 'notices', __( 'Notices', 'masjidos' ), false ) +
 				docTabButton( 'events', __( 'Events', 'masjidos' ), false ) +
+				docTabButton( 'education', __( 'Education', 'masjidos' ), false ) +
 				docTabButton( 'pro', 'Pro', false ) +
 				docTabButton( 'reference', __( 'Reference', 'masjidos' ), false ) +
 			'</div>' +
@@ -46,8 +47,9 @@
 				docPanel( 'duas', false, duasDocsSection() ) +
 				docPanel( 'notices', false, announcementDocsSection() ) +
 				docPanel( 'events', false, eventDocsSection() ) +
+				docPanel( 'education', false, educationDocsSection() ) +
 				docPanel( 'pro', false, proDocsSection() ) +
-				docPanel( 'reference', false, prayerAttributesSection() + jumuahAttributesSection() + monthlyAttributesSection() + calendarAttributesSection() + duasAttributesSection() + announcementAttributesSection() + eventAttributesSection() + tvDisplayReferenceSection() ) +
+				docPanel( 'reference', false, prayerAttributesSection() + jumuahAttributesSection() + monthlyAttributesSection() + calendarAttributesSection() + duasAttributesSection() + announcementAttributesSection() + eventAttributesSection() + khutbahArchiveAttributesSection() + quranVerseAttributesSection() + hadithAttributesSection() + allahNamesAttributesSection() + audioQuranAttributesSection() + tvDisplayReferenceSection() ) +
 			'</div>' +
 		'</div>';
 	}
@@ -124,8 +126,9 @@
 				__( 'Visitors can switch month and year without reloading the page', 'masjidos' ),
 				__( 'Includes Current Month and timetable-only Print actions', 'masjidos' )
 			] ) +
-			docInfoCard( __( 'Calculation Method', 'masjidos' ), __( 'Choose a local calculation preset from Settings > Calculation.', 'masjidos' ), [
+			docInfoCard( __( 'Calculation Method', 'masjidos' ), __( 'Choose a local calculation preset or Auto API from Settings > Calculation.', 'masjidos' ), [
 				__( 'Includes Karachi, MWL, ISNA, Egypt, Makkah, Gulf, Singapore, Tehran, and Jafari presets', 'masjidos' ),
+				__( 'Supports Auto API (Aladhan.com) integration for city-based automatic timing retrieval with robust offline fallback', 'masjidos' ),
 				__( 'Bangladesh often starts with Karachi + Hanafi', 'masjidos' ),
 				__( 'Use minute adjustments to match your official masjid timetable', 'masjidos' )
 			] ) +
@@ -246,6 +249,14 @@
 				__( 'Accepted types: all, general, urgent, jumuah', 'masjidos' ),
 				__( 'Create and schedule notices from the Notices screen', 'masjidos' )
 			] ) +
+			docCard( __( 'Notice Banner', 'masjidos' ), __( 'Use a slim banner notice layout at page header or top.', 'masjidos' ), '[masjidos_announcements design="banner"]', [
+				__( 'Displays the highest priority notice as a slim strip banner', 'masjidos' ),
+				__( 'Golden style auto-applied during Ramadan', 'masjidos' )
+			] ) +
+			docCard( __( 'Popup Notice', 'masjidos' ), __( 'Show urgent announcements inside a dismissible popup window.', 'masjidos' ), '[masjidos_announcements design="popup"]', [
+				__( 'Presents notice inside a modal popup overlay', 'masjidos' ),
+				__( 'Saves dismissal status in session storage to avoid repeating', 'masjidos' )
+			] ) +
 			docCard( __( 'Hide Dates', 'masjidos' ), __( 'Show a cleaner list without start dates.', 'masjidos' ), '[masjidos_announcements show_date="no"]', [
 				__( 'Useful for evergreen notices', 'masjidos' ),
 				__( 'Expiry rules still apply in the background', 'masjidos' )
@@ -269,6 +280,11 @@
 			docCard( __( 'Bangla Jumuah', 'masjidos' ), __( 'Show the Jumuah widget labels in Bangla.', 'masjidos' ), '[masjidos_jumuah language="bn"]', [
 				__( 'Translates widget title and labels', 'masjidos' ),
 				__( 'Keeps your configured topic and khatib text unchanged', 'masjidos' )
+			] ) +
+			docCard( __( 'Khutbah Archive', 'masjidos' ), __( 'Show Jumuah khutbah archive list with search and date filters.', 'masjidos' ), '[masjidos_khutbah_archive]', [
+				__( 'Allows searching by topic, khatib name, or summary', 'masjidos' ),
+				__( 'Filter archive entries by specific date', 'masjidos' ),
+				__( 'Embed downloadable and playable audio recordings easily', 'masjidos' )
 			] ) +
 			docCard( __( 'Jumuah Without Meta', 'masjidos' ), __( 'Show only the public Jumuah session times and header.', 'masjidos' ), '[masjidos_jumuah meta="no"]', [
 				__( 'Hides khatib profile, topic, language, and location', 'masjidos' ),
@@ -589,9 +605,12 @@
 		return '<div class="itmms-docs-grid">' +
 			docCard( __( 'Events List', 'masjidos' ), __( 'Show upcoming community gatherings, lectures, and special prayers.', 'masjidos' ), '[masjidos_events]', [
 				__( 'First create and schedule an event from MasjidOS > Events', 'masjidos' ),
-				__( 'Automatically hides past events based on their end time', 'masjidos' ),
-				__( 'Sorted chronologically by event start date', 'masjidos' ),
-				__( 'Displays location, date range, and descriptions', 'masjidos' )
+				__( 'Islamic holidays automatically calculated and merged using local Hijri engine', 'masjidos' ),
+				__( 'Recurring Jumuah automatically calculated and added dynamically', 'masjidos' ),
+				__( 'Includes Add to Calendar action (.ics files) supporting Google & Apple Calendar', 'masjidos' ),
+				__( 'Shows dynamic X days remaining reminder badges', 'masjidos' ),
+				__( 'Displays event featured image at card header side', 'masjidos' ),
+				__( 'Automatically hides past events based on their end time', 'masjidos' )
 			] ) +
 			docCard( __( 'Limit Events', 'masjidos' ), __( 'Limit the number of events displayed on the page.', 'masjidos' ), '[masjidos_events limit="3"]', [
 				__( 'Defaults to 5 events', 'masjidos' ),
@@ -612,6 +631,78 @@
 				docRow( 'design', 'list', 'list', __( 'Selects the layout style.', 'masjidos' ) ) +
 				docRow( 'language', 'en/bn/ar', 'en', __( 'Changes public widget labels.', 'masjidos' ) ) +
 				docRow( 'limit', '1-20', '5', __( 'Limits the number of events shown.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
+	function khutbahArchiveAttributesSection() {
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'Khutbah Archive shortcode attributes', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-docs-table">' +
+				docRow( 'title', __( 'Text', 'masjidos' ), __( 'Jumuah Khutbah Archive', 'masjidos' ), __( 'Changes the archive heading.', 'masjidos' ) ) +
+				docRow( 'language', 'en/bn/ar', 'en', __( 'Changes public widget labels.', 'masjidos' ) ) +
+				docRow( 'limit', '1-100', '12', __( 'Limits the number of khutbahs shown.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
+	function educationDocsSection() {
+		return '<div class="itmms-docs-grid">' +
+			docCard( __( 'Quran Verse', 'masjidos' ), __( 'Daily random verse from the Quran in Arabic, English, and Bangla.', 'masjidos' ), '[masjidos_quran_verse]', [
+				__( 'Refreshes every day automatically', 'masjidos' ),
+				__( 'Includes share button and Tafsir reference link', 'masjidos' )
+			] ) +
+			docCard( __( 'Hadith of Day', 'masjidos' ), __( 'Daily random Hadith from authentic collections.', 'masjidos' ), '[masjidos_hadith]', [
+				__( 'Refreshes every day automatically', 'masjidos' ),
+				__( 'Includes share button and source references', 'masjidos' )
+			] ) +
+			docCard( __( '99 Names of Allah', 'masjidos' ), __( 'Show 99 Names of Allah (Asmaul Husna) in a responsive grid.', 'masjidos' ), '[masjidos_allah_names]', [
+				__( 'Displays Arabic, transliteration, and meanings', 'masjidos' ),
+				__( 'Includes hover highlights and responsive structure', 'masjidos' )
+			] ) +
+			docCard( __( 'Audio Quran Player', 'masjidos' ), __( 'Audio player to stream beautiful recitations of Surahs.', 'masjidos' ), '[masjidos_audio_quran]', [
+				__( 'Stream high quality Surah recitations directly', 'masjidos' ),
+				__( 'Choose from a selector dropdown in public widgets', 'masjidos' )
+			] ) +
+		'</div>';
+	}
+
+	function quranVerseAttributesSection() {
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'Quran Verse shortcode attributes', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-docs-table">' +
+				docRow( 'title', __( 'Text', 'masjidos' ), __( 'Quran Verse of the Day', 'masjidos' ), __( 'Changes the widget heading.', 'masjidos' ) ) +
+				docRow( 'language', 'en/bn', 'en', __( 'Changes public widget translations.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
+	function hadithAttributesSection() {
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'Hadith shortcode attributes', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-docs-table">' +
+				docRow( 'title', __( 'Text', 'masjidos' ), __( 'Hadith of the Day', 'masjidos' ), __( 'Changes the widget heading.', 'masjidos' ) ) +
+				docRow( 'language', 'en/bn', 'en', __( 'Changes public widget translations.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
+	function allahNamesAttributesSection() {
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'Names of Allah shortcode attributes', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-docs-table">' +
+				docRow( 'title', __( 'Text', 'masjidos' ), __( '99 Names of Allah', 'masjidos' ), __( 'Changes the widget heading.', 'masjidos' ) ) +
+				docRow( 'language', 'en/bn', 'en', __( 'Changes translation meaning labels.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
+	function audioQuranAttributesSection() {
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'Audio Quran shortcode attributes', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-docs-table">' +
+				docRow( 'title', __( 'Text', 'masjidos' ), __( 'Audio Quran Player', 'masjidos' ), __( 'Changes the player heading.', 'masjidos' ) ) +
+				docRow( 'language', 'en/bn/ar', 'en', __( 'Changes player option labels.', 'masjidos' ) ) +
 			'</div>' +
 		'</section>';
 	}

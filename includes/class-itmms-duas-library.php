@@ -35,6 +35,8 @@ final class ITMMS_Duas_Library {
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
 		add_action( 'save_post_' . self::POST_TYPE, [ $this, 'save_meta' ], 10, 2 );
+		add_action( 'save_post_' . self::POST_TYPE, [ $this, 'clear_items_cache' ] );
+		add_action( 'before_delete_post', [ $this, 'clear_items_cache_for_post' ] );
 		add_filter( 'manage_' . self::POST_TYPE . '_posts_columns', [ $this, 'posts_columns' ] );
 		add_action( 'manage_' . self::POST_TYPE . '_posts_custom_column', [ $this, 'render_post_column' ], 10, 2 );
 	}
@@ -157,6 +159,7 @@ final class ITMMS_Duas_Library {
 		}
 
 		foreach ( $this->meta_fields() as $key => $field ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$raw = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : '';
 			if ( 'url' === $field['type'] ) {
 				$value = esc_url_raw( $raw );
@@ -175,6 +178,12 @@ final class ITMMS_Duas_Library {
 	 * @return array<int,array<string,mixed>>
 	 */
 	public static function items(): array {
+		$transient_key = 'itmms_duas_library_items';
+		$cached = get_transient( $transient_key );
+		if ( false !== $cached && is_array( $cached ) ) {
+			return $cached;
+		}
+
 		$query = new WP_Query(
 			[
 				'post_type'      => self::POST_TYPE,
@@ -214,7 +223,26 @@ final class ITMMS_Duas_Library {
 		}
 
 		wp_reset_postdata();
+		set_transient( $transient_key, $items, HOUR_IN_SECONDS );
 		return $items;
+	}
+
+	/**
+	 * Clear the items cache when a dua is saved.
+	 */
+	public function clear_items_cache(): void {
+		delete_transient( 'itmms_duas_library_items' );
+	}
+
+	/**
+	 * Clear the items cache before a dua post is deleted.
+	 *
+	 * @param int $post_id Post ID being deleted.
+	 */
+	public function clear_items_cache_for_post( int $post_id ): void {
+		if ( get_post_type( $post_id ) === self::POST_TYPE ) {
+			delete_transient( 'itmms_duas_library_items' );
+		}
 	}
 
 	/**

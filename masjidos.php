@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MasjidOS
  * Description: Prayer times, Jumuah schedules, monthly timetables, Qibla, and mosque notices for WordPress.
- * Version:     1.0.0
+ * Version:     1.1.0
  * Author:      MasjidOS Team
  * Author URI:  https://profiles.wordpress.org/itsmanzur/
  * License:     GPL-2.0-or-later
@@ -17,12 +17,12 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ITMMS_VERSION', '1.0.0' );
+define( 'ITMMS_VERSION', '1.1.0' );
 define( 'ITMMS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ITMMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'ITMMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 // Internal database/capability schema version. This does not need to match the public plugin version.
-define( 'ITMMS_DB_VERSION', '1.2' );
+define( 'ITMMS_DB_VERSION', '1.3' );
 
 // Load classes immediately because activation hooks run early.
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-roles.php';
@@ -34,6 +34,7 @@ require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-duas-azkar.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-duas-library.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-announcements.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-events.php';
+require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-education.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-rest.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-core.php';
 require_once ITMMS_PLUGIN_DIR . 'admin/class-itmms-admin.php';
@@ -41,6 +42,7 @@ require_once ITMMS_PLUGIN_DIR . 'public/class-itmms-public.php';
 
 register_activation_hook( __FILE__, [ 'ITMMS_Installer', 'activate' ] );
 register_deactivation_hook( __FILE__, [ 'ITMMS_Installer', 'deactivate' ] );
+add_action( 'init', [ 'ITMMS_Education', 'register_post_type' ] );
 
 add_action(
 	'init',

@@ -211,9 +211,13 @@
 
 	initTicker();
 
-	// Auto reload page every 1 hour to fetch new calculations and updates
+	// Auto reload page every 15 minutes to fetch new calculations and updates
 	setTimeout( function () {
 		window.location.reload();
-	}, 3600 * 1000 );
+	}, 15 * 60 * 1000 );
 
+	// Auto-reload when internet connection status changes to online
+	window.addEventListener( 'online', function () {
+		window.location.reload();
+	} );
 } )();

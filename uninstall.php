@@ -19,6 +19,7 @@ function itmms_uninstall_site(): void {
 	$tables = [
 		$wpdb->prefix . 'itmms_announcements',
 		$wpdb->prefix . 'itmms_events',
+		$wpdb->prefix . 'itmms_khutbah_archive',
 	];
 
 	foreach ( $tables as $table ) {

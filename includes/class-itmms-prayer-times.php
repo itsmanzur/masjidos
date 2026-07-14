@@ -35,6 +35,8 @@ final class ITMMS_Prayer_Times {
 	public static function for_date( DateTimeImmutable $date, array $settings, bool $refresh_dynamic = true ): array {
 		$timezone = self::timezone( $settings['timezone'] ?? '' );
 		$date = $date->setTimezone( $timezone );
+
+		$source = (string) ( $settings['prayer_source'] ?? 'local' );
 		$cache_key = 'itmms_prayers_' . md5(
 			$date->format( 'Y-m-d' ) . '|' .
 			wp_json_encode(
@@ -47,7 +49,10 @@ final class ITMMS_Prayer_Times {
 					$settings['prayer_offsets'] ?? [],
 					$settings['iqamah_times'] ?? [],
 					$settings['hijri_adjustment'] ?? 0,
-					'calculation-registry-v2',
+					$source,
+					$settings['city'] ?? '',
+					$settings['country'] ?? '',
+					'calculation-registry-v3',
 				]
 			)
 		);
@@ -61,13 +66,50 @@ final class ITMMS_Prayer_Times {
 			}
 		}
 
-		$latitude = (float) ( $settings['latitude'] ?? 23.8103 );
-		$longitude = (float) ( $settings['longitude'] ?? 90.4125 );
-		$method_key = (string) ( $settings['calculation_method'] ?? 'karachi' );
-		$method = self::method( $method_key );
-		$asr_factor = ( 'hanafi' === ( $settings['asr_method'] ?? 'hanafi' ) ) ? 2.0 : 1.0;
 		$offsets = self::offsets( $settings['prayer_offsets'] ?? [] );
 		$iqamah_times = self::iqamah_times( $settings['iqamah_times'] ?? [] );
+		$method_key = (string) ( $settings['calculation_method'] ?? 'karachi' );
+		$method = self::method( $method_key );
+
+		// Use Aladhan API if enabled
+		if ( 'aladhan' === $source ) {
+			$year = (int) $date->format( 'Y' );
+			$month = (int) $date->format( 'n' );
+			$aladhan_month = self::fetch_aladhan_month( $year, $month, $settings );
+
+			if ( is_array( $aladhan_month ) ) {
+				$day_index = (int) $date->format( 'j' ) - 1;
+				if ( isset( $aladhan_month[ $day_index ]['timings'] ) ) {
+					$timings = $aladhan_month[ $day_index ]['timings'];
+					$base_times = [
+						'fajr'    => self::time_to_minutes( (string) $timings['Fajr'] ),
+						'sunrise' => self::time_to_minutes( (string) $timings['Sunrise'] ),
+						'dhuhr'   => self::time_to_minutes( (string) $timings['Dhuhr'] ),
+						'asr'     => self::time_to_minutes( (string) $timings['Asr'] ),
+						'maghrib' => self::time_to_minutes( (string) $timings['Maghrib'] ),
+						'isha'    => self::time_to_minutes( (string) $timings['Isha'] ),
+					];
+
+					$times = $base_times;
+					foreach ( $times as $key => $minutes ) {
+						$times[ $key ] = $minutes + ( $offsets[ $key ] ?? 0 );
+					}
+
+					$result = self::format_result( $date, $times, $base_times, $offsets, $iqamah_times, $settings, $method, $method_key );
+					$result['meta']['calculation_method'] = 'Auto API (' . self::method_label( $method_key ) . ')';
+
+					if ( $cacheable ) {
+						set_transient( $cache_key, $result, 12 * HOUR_IN_SECONDS );
+					}
+					return $refresh_dynamic ? self::refresh_dynamic_state( $result, $date ) : $result;
+				}
+			}
+		}
+
+		// Fallback/Default local calculation
+		$latitude = (float) ( $settings['latitude'] ?? 23.8103 );
+		$longitude = (float) ( $settings['longitude'] ?? 90.4125 );
+		$asr_factor = ( 'hanafi' === ( $settings['asr_method'] ?? 'hanafi' ) ) ? 2.0 : 1.0;
 
 		$day = (int) $date->format( 'z' ) + 1;
 		$tz_offset = $timezone->getOffset( $date ) / HOUR_IN_SECONDS;
@@ -492,5 +534,90 @@ final class ITMMS_Prayer_Times {
 
 		[ $hour, $minute ] = array_map( 'intval', explode( ':', $time ) );
 		return $date->setTime( $hour, $minute, 0 )->format( 'g:i A' );
+	}
+
+	/**
+	 * Fetch monthly calendar from Aladhan API.
+	 *
+	 * External service: https://aladhan.com — only called when prayer_source === 'aladhan'.
+	 *
+	 * @param int $year Gregorian year.
+	 * @param int $month Gregorian month.
+	 * @param array<string,mixed> $settings Plugin settings.
+	 * @return array<int,array<string,mixed>>|null
+	 */
+	public static function fetch_aladhan_month( int $year, int $month, array $settings ): ?array {
+		$city = trim( (string) ( $settings['city'] ?? 'Dhaka' ) );
+		$country = trim( (string) ( $settings['country'] ?? 'Bangladesh' ) );
+		$method_key = (string) ( $settings['calculation_method'] ?? 'karachi' );
+		$method_id = self::map_to_aladhan_method( $method_key );
+		$school = ( 'hanafi' === ( $settings['asr_method'] ?? 'hanafi' ) ) ? 1 : 0;
+
+		$cache_key = 'itmms_aladhan_' . md5( sprintf( '%d-%d-%s-%s-%d-%d', $year, $month, strtolower( $city ), strtolower( $country ), $method_id, $school ) );
+		$cached = get_transient( $cache_key );
+		if ( is_array( $cached ) ) {
+			return $cached;
+		}
+
+		$url = sprintf(
+			'https://api.aladhan.com/v1/calendarByCity/%d/%d?city=%s&country=%s&method=%d&school=%d',
+			$year,
+			$month,
+			rawurlencode( $city ),
+			rawurlencode( $country ),
+			$method_id,
+			$school
+		);
+
+		$response = wp_remote_get( $url, [ 'timeout' => 10 ] );
+		if ( is_wp_error( $response ) ) {
+			return null;
+		}
+
+		$code = wp_remote_retrieve_response_code( $response );
+		if ( 200 !== $code ) {
+			return null;
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
+		if ( empty( $data['data'] ) || ! is_array( $data['data'] ) ) {
+			return null;
+		}
+
+		set_transient( $cache_key, $data['data'], 30 * DAY_IN_SECONDS );
+		return $data['data'];
+	}
+
+	/**
+	 * Map local calculation method keys to Aladhan method IDs.
+	 */
+	public static function map_to_aladhan_method( string $method ): int {
+		$map = [
+			'karachi'   => 1,
+			'mwl'       => 3,
+			'isna'      => 2,
+			'egypt'     => 5,
+			'makkah'    => 4,
+			'dubai'     => 8,
+			'qatar'     => 10,
+			'kuwait'    => 9,
+			'singapore' => 11,
+			'tehran'    => 7,
+			'jafari'    => 16,
+		];
+		return $map[ $method ] ?? 1;
+	}
+
+	/**
+	 * Clean and convert time strings (e.g. "04:18 (EEST)" or "04:18") to minutes after midnight.
+	 */
+	private static function time_to_minutes( string $time_str ): float {
+		$time_str = preg_replace( '/\s*\(.*?\)/', '', $time_str );
+		$parts = explode( ':', $time_str );
+		if ( count( $parts ) < 2 ) {
+			return 0.0;
+		}
+		return ( (int) $parts[0] ) * 60 + ( (int) $parts[1] );
 	}
 }

@@ -20,6 +20,7 @@ class ITMMS_Installer {
 		self::create_tables();
 		ITMMS_Roles::setup_roles();
 		ITMMS_Settings::install_defaults();
+		ITMMS_Education::install_defaults();
 
 		update_option( 'itmms_db_version', ITMMS_DB_VERSION, false );
 		flush_rewrite_rules();
@@ -37,6 +38,7 @@ class ITMMS_Installer {
 		self::create_tables();
 		ITMMS_Roles::setup_roles();
 		ITMMS_Settings::install_defaults();
+		ITMMS_Education::install_defaults();
 		update_option( 'itmms_db_version', ITMMS_DB_VERSION, false );
 		flush_rewrite_rules();
 	}
@@ -107,10 +109,23 @@ class ITMMS_Installer {
 			start_time          DATETIME NOT NULL,
 			end_time            DATETIME NULL DEFAULT NULL,
 			location            VARCHAR(255) NULL DEFAULT NULL,
+			image_url           VARCHAR(255) NULL DEFAULT NULL,
 			created_by          BIGINT(20) UNSIGNED NOT NULL,
 			created_at          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			PRIMARY KEY  (id),
 			KEY start_time (start_time)
+		) $charset;" );
+
+		dbDelta( "CREATE TABLE {$wpdb->prefix}itmms_khutbah_archive (
+			id                  BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			date                DATE NOT NULL,
+			topic               VARCHAR(255) NOT NULL,
+			khatib              VARCHAR(255) NOT NULL,
+			language            VARCHAR(100) NULL DEFAULT NULL,
+			summary             TEXT NULL DEFAULT NULL,
+			audio_url           VARCHAR(255) NULL DEFAULT NULL,
+			PRIMARY KEY  (id),
+			KEY date (date)
 		) $charset;" );
 	}
 }

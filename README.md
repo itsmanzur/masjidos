@@ -2,17 +2,19 @@
 
 MasjidOS is a WordPress plugin for mosques and Islamic centers.
 
-It provides local prayer time calculation, Qibla direction, Jumuah schedules, monthly prayer timetables, public announcements, and basic event listings without requiring an external prayer-time API.
+It provides local prayer time calculation (with optional Auto Aladhan API), Qibla direction, Jumuah schedules, monthly prayer timetables, public announcements, and event listings.
 
 ## Features
 
-- Local prayer-time calculation from saved coordinates and timezone
-- Qibla direction
+- Local prayer-time calculation with optional Auto Aladhan.com API integration
+- Qibla direction (device compass integration)
 - Iqamah times
-- Jumuah sessions and Khatib profile
+- Jumuah sessions, Khatib profile, and recurring Friday Jumuah auto-creation
 - Monthly prayer timetable
-- Public announcements and ticker
-- Basic events
+- Public announcements (Ticker, Banner, and Popup Modal styles)
+- Ramadan special gold ticker theme auto-activation
+- Basic events, Featured Images, dynamic remaining days badges, and iCal exports
+- Searchable Friday Jumuah Khutbah Archive with audio playback
 - Shortcode documentation and generators
 - Bangla translation pack
 
@@ -23,6 +25,11 @@ It provides local prayer time calculation, Qibla direction, Jumuah schedules, mo
 - `[masjidos_monthly_prayer_times]`
 - `[masjidos_announcements]`
 - `[masjidos_events]`
+- `[masjidos_khutbah_archive]`
+- `[masjidos_quran_verse]`
+- `[masjidos_hadith]`
+- `[masjidos_allah_names]`
+- `[masjidos_audio_quran]`
 
 ## Requirements
 

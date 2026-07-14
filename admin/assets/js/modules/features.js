@@ -116,7 +116,7 @@
 				shortcode: '[masjidos_announcements]',
 				params: [
 					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: languageOptions() },
-					{ key: 'design', label: __( 'Design', 'masjidos' ), type: 'select', options: [ { v: 'list', l: __( 'List', 'masjidos' ) }, { v: 'ticker', l: __( 'Ticker', 'masjidos' ) } ] }
+					{ key: 'design', label: __( 'Design', 'masjidos' ), type: 'select', options: [ { v: 'list', l: __( 'List', 'masjidos' ) }, { v: 'ticker', l: __( 'Ticker', 'masjidos' ) }, { v: 'banner', l: __( 'Banner', 'masjidos' ) }, { v: 'popup', l: __( 'Popup Modal', 'masjidos' ) } ] }
 				],
 				restEndpoint: 'announcements-widget',
 				restQuery: function( opts ) { return '?language=' + opts.language + '&design=' + opts.design; },
@@ -135,6 +135,83 @@
 				restEndpoint: 'events-widget',
 				restQuery: function( opts ) { return '?language=' + opts.language; },
 				badge: 'Core'
+			},
+			{
+				id: 'duas-azkar',
+				icon: 'book',
+				color: 'teal',
+				name: __( 'Duas & Azkar', 'masjidos' ),
+				desc: __( 'Daily supplications & remembrances with Arabic text, transliteration, meaning, recitation counter, and audio support.', 'masjidos' ),
+				shortcode: '[masjidos_duas_azkar]',
+				params: [
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' }, { v: 'ar', l: 'العربية' } ] },
+					{ key: 'design', label: __( 'Design', 'masjidos' ), type: 'select', options: [ { v: 'cards', l: __( 'Cards', 'masjidos' ) }, { v: 'compact', l: __( 'Compact', 'masjidos' ) } ] },
+					{ key: 'counter', label: __( 'Counter', 'masjidos' ), type: 'toggle', default: 'yes' },
+					{ key: 'share', label: __( 'Share', 'masjidos' ), type: 'toggle', default: 'yes' }
+				],
+				restEndpoint: 'duas-azkar-widget',
+				restQuery: function( opts ) { return '?language=' + opts.language + '&design=' + opts.design + '&counter=' + opts.counter + '&share=' + opts.share; },
+				badge: 'New'
+			},
+			{
+				id: 'khutbah-archive',
+				icon: 'book',
+				color: 'gold',
+				name: __( 'Jumuah Khutbah Archive', 'masjidos' ),
+				desc: __( 'Searchable public archive list of Friday khutbah details, khatibs, topics, and downloadable/playable audio files.', 'masjidos' ),
+				shortcode: '[masjidos_khutbah_archive]',
+				params: [
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' }, { v: 'ar', l: 'العربية' } ] }
+				],
+				badge: 'New'
+			},
+			{
+				id: 'quran-verse',
+				icon: 'book',
+				color: 'teal',
+				name: __( 'Quran Verse of the Day', 'masjidos' ),
+				desc: __( 'A daily verse from the Holy Quran in Arabic with English or Bangla meanings and dynamic Tafsir references.', 'masjidos' ),
+				shortcode: '[masjidos_quran_verse]',
+				params: [
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' } ] }
+				],
+				badge: 'New'
+			},
+			{
+				id: 'hadith',
+				icon: 'ledger',
+				color: 'purple',
+				name: __( 'Hadith of the Day', 'masjidos' ),
+				desc: __( 'A daily Hadith from authentic collections in Arabic with English or Bangla meanings and sharing buttons.', 'masjidos' ),
+				shortcode: '[masjidos_hadith]',
+				params: [
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' } ] }
+				],
+				badge: 'New'
+			},
+			{
+				id: 'allah-names',
+				icon: 'star',
+				color: 'gold',
+				name: __( '99 Names of Allah', 'masjidos' ),
+				desc: __( 'Displays the beautiful 99 names of Allah (Asmaul Husna) in a grid with transliteration and meanings.', 'masjidos' ),
+				shortcode: '[masjidos_allah_names]',
+				params: [
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' } ] }
+				],
+				badge: 'New'
+			},
+			{
+				id: 'audio-quran',
+				icon: 'volume',
+				color: 'blue',
+				name: __( 'Audio Quran Player', 'masjidos' ),
+				desc: __( 'An embedded HTML5 audio player allowing visitors to listen to beautiful recitations of Surahs.', 'masjidos' ),
+				shortcode: '[masjidos_audio_quran]',
+				params: [
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: [ { v: 'en', l: 'English' }, { v: 'bn', l: 'বাংলা' }, { v: 'ar', l: 'العربية' } ] }
+				],
+				badge: 'New'
 			},
 			{
 				id: 'tv-display',
@@ -405,6 +482,14 @@
 		}
 
 		// Build REST URL
+		if ( ! f.restEndpoint ) {
+			loading.style.display = 'none';
+			content.innerHTML = '<div class="itmms-preview-error"><p>' +
+				'Live preview is not supported for this widget. Simply copy the shortcode above and paste it on any WordPress page.' +
+				'</p></div>';
+			return;
+		}
+
 		var params = featState[ featId ] || {};
 		var queryString = f.restQuery ? f.restQuery( params ) : '';
 		var restBase = ( data.restUrl || '' ).replace( /\/$/, '' );

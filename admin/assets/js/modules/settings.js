@@ -45,6 +45,10 @@
 		].join( '' ) );
 
 		var prayerPanel = settingsPanel( __( 'Prayer Calculation', 'masjidos' ), __( 'Choose the calculation rules used by local prayer time logic.', 'masjidos' ), [
+			selectField( __( 'Prayer Time Source', 'masjidos' ), 'prayer_source', s.prayer_source || 'local', [
+				[ 'local', __( 'Local Calculation (Offline)', 'masjidos' ) ],
+				[ 'aladhan', __( 'Auto API (Aladhan.com)', 'masjidos' ) ]
+			] ),
 			selectField( __( 'Calculation Method', 'masjidos' ), 'calculation_method', s.calculation_method, [
 				[ 'karachi', 'Karachi' ],
 				[ 'mwl', __( 'Muslim World League', 'masjidos' ) ],

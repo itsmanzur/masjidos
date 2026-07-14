@@ -42,6 +42,47 @@ final class ITMMS_Events {
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$events = array_map( [ self::class, 'normalize' ], is_array( $rows ) ? $rows : [] );
+
+		// Merge Islamic auto-events
+		$current_year = (int) gmdate( 'Y' );
+		$islamic = self::get_islamic_events( $current_year );
+		$islamic = array_merge( $islamic, self::get_islamic_events( $current_year + 1 ) );
+		$islamic = array_merge( $islamic, self::get_islamic_events( $current_year - 1 ) );
+
+		$now = self::now();
+		foreach ( $islamic as $ie ) {
+			if ( $ie['start_time'] > $now ) {
+				$ie['status'] = 'upcoming';
+			} elseif ( $ie['end_time'] >= $now && $ie['start_time'] <= $now ) {
+				$ie['status'] = 'ongoing';
+			} else {
+				$ie['status'] = 'past';
+			}
+			$events[] = $ie;
+		}
+
+		// Merge Jumuah recurring events
+		$jumuahs = self::get_recurring_jumuah_events( $current_year );
+		$jumuahs = array_merge( $jumuahs, self::get_recurring_jumuah_events( $current_year + 1 ) );
+		$jumuahs = array_merge( $jumuahs, self::get_recurring_jumuah_events( $current_year - 1 ) );
+
+		foreach ( $jumuahs as $je ) {
+			if ( $je['start_time'] > $now ) {
+				$je['status'] = 'upcoming';
+			} elseif ( $je['end_time'] >= $now && $je['start_time'] <= $now ) {
+				$je['status'] = 'ongoing';
+			} else {
+				$je['status'] = 'past';
+			}
+			$events[] = $je;
+		}
+
+		// Sort all by start_time DESC
+		usort( $events, static function( $a, $b ) {
+			return strcmp( $b['start_time'], $a['start_time'] );
+		} );
+
+		$events = array_slice( $events, 0, $limit );
 		wp_cache_set( $cache_key, $events, self::CACHE_GROUP, MINUTE_IN_SECONDS );
 
 		return $events;
@@ -79,6 +120,44 @@ final class ITMMS_Events {
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$events = array_map( [ self::class, 'normalize' ], is_array( $rows ) ? $rows : [] );
+
+		// Merge Islamic auto-events
+		$current_year = (int) gmdate( 'Y' );
+		$islamic = self::get_islamic_events( $current_year );
+		$islamic = array_merge( $islamic, self::get_islamic_events( $current_year + 1 ) );
+
+		foreach ( $islamic as $ie ) {
+			if ( $ie['start_time'] > $now ) {
+				$ie['status'] = 'upcoming';
+			} elseif ( $ie['end_time'] >= $now && $ie['start_time'] <= $now ) {
+				$ie['status'] = 'ongoing';
+			} else {
+				continue;
+			}
+			$events[] = $ie;
+		}
+
+		// Merge Jumuah recurring events
+		$jumuahs = self::get_recurring_jumuah_events( $current_year );
+		$jumuahs = array_merge( $jumuahs, self::get_recurring_jumuah_events( $current_year + 1 ) );
+
+		foreach ( $jumuahs as $je ) {
+			if ( $je['start_time'] > $now ) {
+				$je['status'] = 'upcoming';
+			} elseif ( $je['end_time'] >= $now && $je['start_time'] <= $now ) {
+				$je['status'] = 'ongoing';
+			} else {
+				continue;
+			}
+			$events[] = $je;
+		}
+
+		// Sort by start_time ASC
+		usort( $events, static function( $a, $b ) {
+			return strcmp( $a['start_time'], $b['start_time'] );
+		} );
+
+		$events = array_slice( $events, 0, $limit );
 		wp_cache_set( $cache_key, $events, self::CACHE_GROUP, MINUTE_IN_SECONDS );
 
 		return $events;
@@ -168,7 +247,7 @@ final class ITMMS_Events {
 		$inserted = $wpdb->insert(
 			self::table(),
 			$data,
-			[ '%s', '%s', '%s', '%s', '%s', '%d' ]
+			[ '%s', '%s', '%s', '%s', '%s', '%s', '%d' ]
 		);
 
 		if ( false === $inserted ) {
@@ -208,7 +287,7 @@ final class ITMMS_Events {
 			self::table(),
 			$data,
 			[ 'id' => $id ],
-			[ '%s', '%s', '%s', '%s', '%s' ],
+			[ '%s', '%s', '%s', '%s', '%s', '%s' ],
 			[ '%d' ]
 		);
 
@@ -270,6 +349,7 @@ final class ITMMS_Events {
 			'start_time'  => $start,
 			'end_time'    => '' === $end ? null : $end,
 			'location'    => sanitize_text_field( wp_unslash( (string) ( $input['location'] ?? '' ) ) ),
+			'image_url'   => esc_url_raw( wp_unslash( (string) ( $input['image_url'] ?? '' ) ) ),
 		];
 	}
 
@@ -309,6 +389,7 @@ final class ITMMS_Events {
 			'start_time'  => (string) $row['start_time'],
 			'end_time'    => empty( $row['end_time'] ) ? '' : (string) $row['end_time'],
 			'location'    => (string) ( $row['location'] ?? '' ),
+			'image_url'   => (string) ( $row['image_url'] ?? '' ),
 			'status'      => $status,
 			'created_by'  => (int) ( $row['created_by'] ?? 0 ),
 			'created_at'  => (string) ( $row['created_at'] ?? '' ),
@@ -326,5 +407,146 @@ final class ITMMS_Events {
 		} catch ( Exception $e ) {
 			return wp_timezone();
 		}
+	}
+
+	/**
+	 * Get Islamic holy days for a specific Gregorian year.
+	 *
+	 * @param int $gregorian_year Year to fetch events for.
+	 * @return array<int,array<string,mixed>>
+	 */
+	public static function get_islamic_events( int $gregorian_year ): array {
+		$events = [];
+
+		$start_hijri = 1440;
+		$end_hijri = 1460;
+		if ( class_exists( 'ITMMS_Hijri' ) ) {
+			try {
+				$settings = ITMMS_Settings::get_all();
+				$adj = isset( $settings['hijri_adjustment'] ) ? (int) $settings['hijri_adjustment'] : 0;
+				$tz = self::timezone();
+
+				$jan_1 = new DateTimeImmutable( sprintf( '%d-01-01 00:00:00', $gregorian_year ), $tz );
+				$dec_31 = new DateTimeImmutable( sprintf( '%d-12-31 23:59:59', $gregorian_year ), $tz );
+
+				$start_hijri_data = ITMMS_Hijri::for_date( $jan_1, $adj );
+				$end_hijri_data = ITMMS_Hijri::for_date( $dec_31, $adj );
+
+				$start_hijri = (int) $start_hijri_data['year'];
+				$end_hijri = (int) $end_hijri_data['year'];
+			} catch ( Exception $e ) {
+				$start_hijri = $gregorian_year - 579;
+				$end_hijri = $start_hijri + 1;
+			}
+		}
+
+		$holy_days = [
+			[ 1, 10, 'Ashura (10 Muharram)', 'আশুরা (১০ মুহাররম)', 'عاشوراء (١٠ محرم)' ],
+			[ 3, 12, 'Mawlid an-Nabi ﷺ (12 Rabi al-awwal)', 'ঈদে মিলাদুন্নবী ﷺ (১২ রবিউল আউয়াল)', 'المولد النبوي ﷺ (١٢ ربيع الأول)' ],
+			[ 8, 15, 'Shab-e-Barat (15 Shaban)', 'শবে বরাত (১৫ শাবান)', 'ليلة البراءة (١٥ شعبان)' ],
+			[ 9, 27, 'Laylat al-Qadr (27 Ramadan)', 'শবে কদর (২৭ রমজান)', 'ليلة القدر (٢٧ رمضان)' ],
+			[ 10, 1, 'Eid al-Fitr (1 Shawwal)', 'ঈদুল ফিতর (১ শাওয়াল)', 'عيد الفطر (١ شوال)' ],
+			[ 12, 10, 'Eid al-Adha (10 Dhu al-Hijjah)', 'ঈদুল আযহা (১০ জিলহজ)', 'عيد الأضحى (١٠ ذو الحجة)' ],
+		];
+
+		$id_counter = 90000;
+		$locale = determine_locale();
+		$lang = 'en';
+		if ( 0 === strpos( $locale, 'bn' ) ) {
+			$lang = 'bn';
+		} elseif ( 0 === strpos( $locale, 'ar' ) ) {
+			$lang = 'ar';
+		}
+
+		for ( $hy = $start_hijri - 1; $hy <= $end_hijri + 1; $hy++ ) {
+			foreach ( $holy_days as $day_data ) {
+				$h_month = $day_data[0];
+				$h_day = $day_data[1];
+
+				$g_parts = ITMMS_Hijri::hijri_to_gregorian( $hy, $h_month, $h_day );
+
+				if ( (int) $g_parts['year'] === $gregorian_year ) {
+					$title = $day_data[2];
+					if ( 'bn' === $lang ) {
+						$title = $day_data[3];
+					} elseif ( 'ar' === $lang ) {
+						$title = $day_data[4];
+					}
+
+					$date_str = sprintf( '%04d-%02d-%02d', $g_parts['year'], $g_parts['month'], $g_parts['day'] );
+
+					$events[] = [
+						'id'          => $id_counter++,
+						'title'       => $title,
+						'description' => __( 'Islamic holy day automatically calculated from the Hijri calendar.', 'masjidos' ),
+						'start_time'  => $date_str . ' 00:00:00',
+						'end_time'    => $date_str . ' 23:59:59',
+						'location'    => __( 'Mosque', 'masjidos' ),
+						'image_url'   => '',
+						'status'      => 'upcoming',
+						'created_by'  => 0,
+						'created_at'  => $date_str . ' 00:00:00',
+						'is_islamic'  => true,
+					];
+				}
+			}
+		}
+
+		return $events;
+	}
+
+	/**
+	 * Get recurring Friday Jumuah events for a specific year.
+	 *
+	 * @param int $year Gregorian year.
+	 * @return array<int,array<string,mixed>>
+	 */
+	public static function get_recurring_jumuah_events( int $year ): array {
+		$events = [];
+		$settings = ITMMS_Settings::get_all();
+
+		if ( empty( $settings['jumuah']['enabled'] ) ) {
+			return $events;
+		}
+
+		$khutbah_time = isset( $settings['jumuah']['khutbah_time'] ) ? $settings['jumuah']['khutbah_time'] : '13:00';
+		$jamaat_time = isset( $settings['jumuah']['jamaat_time'] ) ? $settings['jumuah']['jamaat_time'] : '13:30';
+		$topic = isset( $settings['jumuah']['topic'] ) ? $settings['jumuah']['topic'] : '';
+		$khatib_name = $settings['jumuah']['khatib']['name'] ?? '';
+
+		$tz = self::timezone();
+		$start_date = new DateTime( sprintf( '%d-01-01', $year ), $tz );
+		if ( '5' !== $start_date->format( 'w' ) ) {
+			$start_date->modify( 'next friday' );
+		}
+
+		$id_counter = 80000;
+
+		while ( (int) $start_date->format( 'Y' ) === $year ) {
+			$date_str = $start_date->format( 'Y-m-d' );
+			/* translators: %s: Khatib name */
+			$title = $khatib_name ? sprintf( __( 'Jumuah Khutbah by %s', 'masjidos' ), $khatib_name ) : __( 'Friday Jumuah Prayer', 'masjidos' );
+			if ( $topic ) {
+				$title .= ': ' . $topic;
+			}
+
+			$events[] = [
+				'id'          => $id_counter++,
+				'title'       => $title,
+				'description' => __( 'Weekly Friday congregational prayer and khutbah.', 'masjidos' ),
+				'start_time'  => $date_str . ' ' . $khutbah_time . ':00',
+				'end_time'    => $date_str . ' ' . $jamaat_time . ':00',
+				'location'    => __( 'Mosque Main Hall', 'masjidos' ),
+				'image_url'   => '',
+				'status'      => 'upcoming',
+				'created_by'  => 0,
+				'created_at'  => $date_str . ' 00:00:00',
+				'is_jumuah'   => true,
+			];
+
+			$start_date->modify( '+7 days' );
+		}
+
+		return $events;
 	}
 }

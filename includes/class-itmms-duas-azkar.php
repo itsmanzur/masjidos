@@ -43,6 +43,7 @@ final class ITMMS_Duas_Azkar {
 		];
 
 		$extra_labels = [
+			/* translators: %d: number of repetitions */
 			'repeat'       => __( 'Read %d times', 'masjidos' ),
 			'counter'      => __( 'Track recitation count', 'masjidos' ),
 			'read'         => __( 'Read', 'masjidos' ),
@@ -65,6 +66,20 @@ final class ITMMS_Duas_Azkar {
 				'listen'       => 'উচ্চারণ শুনুন',
 				'listen_short' => 'অডিও',
 				'copied'       => 'কপি হয়েছে',
+			];
+		}
+
+		if ( 'ar' === $language ) {
+			$extra_labels = [
+				'repeat'       => 'اقرأ %d مرات',
+				'counter'      => 'تتبع عدد التلاوات',
+				'read'         => 'قرأت',
+				'reset'        => 'إعادة العداد',
+				'reset_short'  => 'إعادة',
+				'share'        => 'مشاركة',
+				'listen'       => 'استماع للنطق',
+				'listen_short' => 'صوت',
+				'copied'       => 'تم النسخ',
 			];
 		}
 

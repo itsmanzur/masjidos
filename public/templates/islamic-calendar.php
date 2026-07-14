@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 // Fetch settings
 $settings = ITMMS_Settings::get_all();
 $timezone = new DateTimeZone( (string) ( $settings['timezone'] ?? wp_timezone_string() ) );

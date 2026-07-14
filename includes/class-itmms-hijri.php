@@ -175,4 +175,23 @@ final class ITMMS_Hijri {
 
 		return strtr( $value, $digits );
 	}
+
+	/**
+	 * Convert Hijri date to Gregorian parts.
+	 */
+	public static function hijri_to_gregorian( int $year, int $month, int $day ): array {
+		$jdn = self::hijri_to_jdn( $year, $month, $day );
+		$l = $jdn + 68569;
+		$n = intdiv( 4 * $l, 146097 );
+		$l = $l - intdiv( 146097 * $n + 3, 4 );
+		$i = intdiv( 4000 * ( $l + 1 ), 1461001 );
+		$l = $l - intdiv( 1461 * $i, 4 ) + 31;
+		$j = intdiv( 80 * $l, 2447 );
+		$day_g = $l - intdiv( 2447 * $j, 80 );
+		$l = intdiv( $j, 11 );
+		$month_g = $j + 2 - ( 12 * $l );
+		$year_g = 100 * ( $n - 49 ) + $i + $l;
+
+		return [ 'year' => $year_g, 'month' => $month_g, 'day' => $day_g ];
+	}
 }

@@ -246,7 +246,22 @@ final class ITMMS_REST {
 					],
 					'limit'    => [
 						'required'          => false,
+						'validate_callback' => function( $param ) {
+							return is_numeric( $param ) || empty( $param );
+						},
 						'sanitize_callback' => 'absint',
+					],
+					'counter'  => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
+					],
+					'share'    => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
+					],
+					'audio'    => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
 					],
 					'title'    => [
 						'required'          => false,

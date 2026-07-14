@@ -36,7 +36,13 @@ final class ITMMS_Public {
 		add_shortcode( 'masjidos_announcements', [ $this, 'render_announcements_shortcode' ] );
 		add_shortcode( 'masjidos_events', [ $this, 'render_events_shortcode' ] );
 		add_shortcode( 'masjidos_islamic_calendar', [ $this, 'render_islamic_calendar_shortcode' ] );
+		add_shortcode( 'itmms_calendar', [ $this, 'render_islamic_calendar_shortcode' ] );
 		add_shortcode( 'masjidos_duas_azkar', [ $this, 'render_duas_azkar_shortcode' ] );
+		add_shortcode( 'masjidos_khutbah_archive', [ $this, 'render_khutbah_archive_shortcode' ] );
+		add_shortcode( 'masjidos_quran_verse', [ $this, 'render_quran_verse_shortcode' ] );
+		add_shortcode( 'masjidos_hadith', [ $this, 'render_hadith_shortcode' ] );
+		add_shortcode( 'masjidos_allah_names', [ $this, 'render_allah_names_shortcode' ] );
+		add_shortcode( 'masjidos_audio_quran', [ $this, 'render_audio_quran_shortcode' ] );
 
 		// Register Gutenberg blocks.
 		add_action( 'init', [ $this, 'register_blocks' ] );
@@ -46,6 +52,7 @@ final class ITMMS_Public {
 		add_action( 'init', [ $this, 'register_display_rewrites' ] );
 		add_filter( 'query_vars', [ $this, 'register_display_query_vars' ] );
 		add_action( 'template_redirect', [ $this, 'handle_display_template_redirect' ] );
+		add_action( 'template_redirect', [ $this, 'handle_ical_export_redirect' ] );
 	}
 
 	/**
@@ -1234,7 +1241,25 @@ final class ITMMS_Public {
 			'data-itmms-monthly-year'    => true,
 			'data-itmms-calendar-month'  => true,
 			'data-itmms-calendar-year'   => true,
+			'data-itmms-quran-surah'     => true,
 			'aria-label'                 => true,
+		];
+
+		$allowed['form'] = [
+			'action' => true,
+			'class'  => true,
+			'method' => true,
+			'role'   => true,
+		];
+
+		$allowed['input'] = [
+			'aria-label'  => true,
+			'class'       => true,
+			'id'          => true,
+			'name'        => true,
+			'placeholder' => true,
+			'type'        => true,
+			'value'       => true,
 		];
 
 		$allowed['label'] = [
@@ -1267,6 +1292,10 @@ final class ITMMS_Public {
 			'data-itmms-dua-reset'         => true,
 			'data-itmms-dua-audio'         => true,
 			'data-itmms-dua-share'         => true,
+			'data-itmms-education-share'   => true,
+			'data-itmms-popup-close'       => true,
+			'data-itmms-share-success'     => true,
+			'data-itmms-share-text'        => true,
 			'aria-label'                   => true,
 			'aria-pressed'                 => true,
 			'title'                        => true,
@@ -1291,6 +1320,7 @@ final class ITMMS_Public {
 				'data-error'               => true,
 				'data-next-prayer'         => true,
 				'data-itmms-public-qibla'  => true,
+				'data-itmms-popup-id'      => true,
 				'data-gregorian-date'      => true,
 				'data-hijri-date-label'    => true,
 				'style'                    => true,
@@ -1319,6 +1349,19 @@ final class ITMMS_Public {
 			]
 		);
 
+		$allowed['audio'] = [
+			'class'    => true,
+			'controls' => true,
+			'id'       => true,
+			'preload'  => true,
+			'src'      => true,
+		];
+
+		$allowed['time'] = [
+			'class'    => true,
+			'datetime' => true,
+		];
+
 		$allowed['b'] = array_merge(
 			$allowed['b'] ?? [],
 			[
@@ -1329,5 +1372,248 @@ final class ITMMS_Public {
 		);
 
 		return wp_kses( $html, $allowed );
+	}
+
+	/**
+	 * Handle iCal export template redirect when 'masjidos_ical' URL parameter is present.
+	 */
+	public function handle_ical_export_redirect(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! isset( $_GET['masjidos_ical'] ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$id = absint( $_GET['masjidos_ical'] );
+		$event = null;
+
+		if ( $id >= 90000 ) {
+			$current_year = (int) gmdate( 'Y' );
+			$islamic = ITMMS_Events::get_islamic_events( $current_year );
+			$islamic = array_merge( $islamic, ITMMS_Events::get_islamic_events( $current_year + 1 ) );
+			$islamic = array_merge( $islamic, ITMMS_Events::get_islamic_events( $current_year - 1 ) );
+			foreach ( $islamic as $ie ) {
+				if ( (int) $ie['id'] === $id ) {
+					$event = $ie;
+					break;
+				}
+			}
+		} else {
+			$event = ITMMS_Events::find( $id );
+		}
+
+		if ( ! $event ) {
+			wp_die( esc_html__( 'Event not found.', 'masjidos' ), esc_html__( 'Error', 'masjidos' ), [ 'response' => 404 ] );
+		}
+
+		$dt_start = new DateTime( $event['start_time'] );
+		$dt_end = ! empty( $event['end_time'] ) ? new DateTime( $event['end_time'] ) : ( clone $dt_start )->modify( '+1 hour' );
+
+		$dt_start_utc = $dt_start->setTimezone( new DateTimeZone( 'UTC' ) )->format( 'Ymd\THis\Z' );
+		$dt_end_utc = $dt_end->setTimezone( new DateTimeZone( 'UTC' ) )->format( 'Ymd\THis\Z' );
+		$dt_stamp = ( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) )->format( 'Ymd\THis\Z' );
+
+		$title = html_entity_decode( $event['title'], ENT_QUOTES, 'UTF-8' );
+		$description = html_entity_decode( wp_strip_all_tags( $event['description'] ), ENT_QUOTES, 'UTF-8' );
+		$location = html_entity_decode( $event['location'], ENT_QUOTES, 'UTF-8' );
+
+		header( 'Content-Type: text/calendar; charset=utf-8' );
+		header( 'Content-Disposition: attachment; filename="event-' . $id . '.ics"' );
+
+		echo "BEGIN:VCALENDAR\r\n";
+		echo "VERSION:2.0\r\n";
+		echo "PRODID:-//MasjidOS//WordPress Plugin//EN\r\n";
+		echo "CALSCALE:GREGORIAN\r\n";
+		echo "BEGIN:VEVENT\r\n";
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Calendar files require unescaped plain text formatting.
+		echo "UID:itmms-event-" . $id . "@" . wp_parse_url( home_url(), PHP_URL_HOST ) . "\r\n";
+		echo "DTSTAMP:" . $dt_stamp . "\r\n";
+		echo "DTSTART:" . $dt_start_utc . "\r\n";
+		echo "DTEND:" . $dt_end_utc . "\r\n";
+		echo "SUMMARY:" . str_replace( [ "\r", "\n" ], ' ', $title ) . "\r\n";
+		echo "DESCRIPTION:" . str_replace( [ "\r", "\n" ], ' ', $description ) . "\r\n";
+		echo "LOCATION:" . str_replace( [ "\r", "\n" ], ' ', $location ) . "\r\n";
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo "END:VEVENT\r\n";
+		echo "END:VCALENDAR\r\n";
+		exit;
+	}
+
+	/**
+	 * Render public Jumuah Khutbah Archive widget.
+	 */
+	public function render_khutbah_archive_shortcode( $atts = [] ): string {
+		global $wpdb;
+
+		$atts = is_array( $atts ) ? $atts : [];
+		$atts = shortcode_atts(
+			[
+				'title'    => __( 'Jumuah Khutbah Archive', 'masjidos' ),
+				'language' => 'en',
+				'limit'    => 12,
+			],
+			$atts,
+			'masjidos_khutbah_archive'
+		);
+
+		$this->enqueue_assets();
+		$language = $this->normalize_language( (string) $atts['language'] );
+		$limit = max( 1, min( 100, (int) $atts['limit'] ) );
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$search = isset( $_GET['itmms_khutbah_search'] ) ? sanitize_text_field( wp_unslash( $_GET['itmms_khutbah_search'] ) ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$date_filter = isset( $_GET['itmms_khutbah_date'] ) ? sanitize_text_field( wp_unslash( $_GET['itmms_khutbah_date'] ) ) : '';
+
+		$table = $wpdb->prefix . 'itmms_khutbah_archive';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table ) ) !== $table ) {
+			$khutbahs = [];
+		} else {
+			$where = [ '1=1' ];
+			$params = [];
+
+			if ( ! empty( $search ) ) {
+				$where[] = '(topic LIKE %s OR khatib LIKE %s OR summary LIKE %s)';
+				$like = '%' . $wpdb->esc_like( $search ) . '%';
+				$params[] = $like;
+				$params[] = $like;
+				$params[] = $like;
+			}
+
+			if ( ! empty( $date_filter ) ) {
+				$where[] = 'date = %s';
+				$params[] = $date_filter;
+			}
+
+			$query = "SELECT * FROM {$table} WHERE " . implode( ' AND ', $where ) . " ORDER BY date DESC LIMIT %d";
+			$params[] = $limit;
+
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
+			$rows = $wpdb->get_results( $wpdb->prepare( $query, $params ), ARRAY_A );
+			$khutbahs = is_array( $rows ) ? $rows : [];
+		}
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/khutbah-archive.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		$html = ob_get_clean();
+
+		return $this->safe_kses( $html );
+	}
+
+	/**
+	 * Render public Quran Verse shortcode.
+	 */
+	public function render_quran_verse_shortcode( $atts = [] ): string {
+		$atts = is_array( $atts ) ? $atts : [];
+		$atts = shortcode_atts(
+			[
+				'title'    => __( 'Quran Verse of the Day', 'masjidos' ),
+				'language' => 'en',
+			],
+			$atts,
+			'masjidos_quran_verse'
+		);
+
+		$this->enqueue_assets();
+		$language = $this->normalize_language( (string) $atts['language'] );
+		$verse = ITMMS_Education::get_verse_of_day();
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/quran-verse.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		$html = ob_get_clean();
+
+		return $this->safe_kses( $html );
+	}
+
+	/**
+	 * Render public Hadith shortcode.
+	 */
+	public function render_hadith_shortcode( $atts = [] ): string {
+		$atts = is_array( $atts ) ? $atts : [];
+		$atts = shortcode_atts(
+			[
+				'title'    => __( 'Hadith of the Day', 'masjidos' ),
+				'language' => 'en',
+			],
+			$atts,
+			'masjidos_hadith'
+		);
+
+		$this->enqueue_assets();
+		$language = $this->normalize_language( (string) $atts['language'] );
+		$hadith = ITMMS_Education::get_hadith_of_day();
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/hadith.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		$html = ob_get_clean();
+
+		return $this->safe_kses( $html );
+	}
+
+	/**
+	 * Render public Names of Allah shortcode.
+	 */
+	public function render_allah_names_shortcode( $atts = [] ): string {
+		$atts = is_array( $atts ) ? $atts : [];
+		$atts = shortcode_atts(
+			[
+				'title'    => __( '99 Names of Allah', 'masjidos' ),
+				'language' => 'en',
+			],
+			$atts,
+			'masjidos_allah_names'
+		);
+
+		$this->enqueue_assets();
+		$language = $this->normalize_language( (string) $atts['language'] );
+		$names = ITMMS_Education::get_allah_names();
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/allah-names.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		$html = ob_get_clean();
+
+		return $this->safe_kses( $html );
+	}
+
+	/**
+	 * Render public Audio Quran Embed shortcode.
+	 */
+	public function render_audio_quran_shortcode( $atts = [] ): string {
+		$atts = is_array( $atts ) ? $atts : [];
+		$atts = shortcode_atts(
+			[
+				'title'    => __( 'Audio Quran Player', 'masjidos' ),
+				'language' => 'en',
+			],
+			$atts,
+			'masjidos_audio_quran'
+		);
+
+		$this->enqueue_assets();
+		$language = $this->normalize_language( (string) $atts['language'] );
+		$surahs = ITMMS_Education::get_surahs();
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/audio-quran.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		$html = ob_get_clean();
+
+		return $this->safe_kses( $html );
 	}
 }
