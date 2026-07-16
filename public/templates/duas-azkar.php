@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 			<span><?php echo esc_html( $labels['eyebrow'] ); ?></span>
 			<h2><?php echo esc_html( (string) $atts['title'] ); ?></h2>
 		</div>
-		<b><?php echo esc_html( $labels['category'] ); ?>: <?php echo esc_html( 'all' === $category ? __( 'All', 'masjidos' ) : ucfirst( $category ) ); ?></b>
+		<b><?php echo esc_html( $labels['category'] ); ?>: <?php echo esc_html( $category_label ); ?></b>
 	</header>
 
 	<div class="itmms-public-duas__list">
@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
 			?>
 			<article class="itmms-public-duas__item" data-itmms-dua-key="<?php echo esc_attr( $itmms_dua_key ); ?>" data-itmms-dua-text="<?php echo esc_attr( $itmms_share_text ); ?>">
 				<div class="itmms-public-duas__meta">
-					<div>
+					<div class="itmms-public-duas__title">
 						<span><?php echo esc_html( (string) $itmms_dua['title'] ); ?></span>
 						<?php if ( $show_source && ! empty( $itmms_dua['source'] ) ) : ?>
 							<small><?php echo esc_html( $labels['source'] ); ?>: <?php echo esc_html( (string) $itmms_dua['source'] ); ?></small>
@@ -38,6 +38,14 @@ defined( 'ABSPATH' ) || exit;
 						<b><?php echo esc_html( sprintf( $labels['repeat'], (int) $itmms_dua['repeat'] ) ); ?></b>
 					<?php endif; ?>
 				</div>
+				<?php if ( ! empty( $itmms_dua['categories'] ) && is_array( $itmms_dua['categories'] ) ) : ?>
+					<div class="itmms-public-duas__badges" aria-label="<?php echo esc_attr( $labels['category'] ); ?>">
+						<?php foreach ( array_slice( $itmms_dua['categories'], 0, 3 ) as $itmms_dua_category ) : ?>
+							<?php $itmms_dua_category_key = sanitize_key( (string) $itmms_dua_category ); ?>
+							<span><?php echo esc_html( $category_labels[ $itmms_dua_category_key ] ?? ucwords( str_replace( '-', ' ', $itmms_dua_category_key ) ) ); ?></span>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
 				<p class="itmms-public-duas__arabic" dir="rtl" lang="ar"><?php echo esc_html( (string) $itmms_dua['arabic'] ); ?></p>
 				<?php if ( 'compact' !== $design ) : ?>
 					<p class="itmms-public-duas__latin"><?php echo esc_html( (string) $itmms_dua['latin'] ); ?></p>

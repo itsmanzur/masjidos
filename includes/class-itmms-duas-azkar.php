@@ -87,6 +87,63 @@ final class ITMMS_Duas_Azkar {
 	}
 
 	/**
+	 * Human-readable labels for bundled dua category keys.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function category_labels( string $language ): array {
+		$labels = [
+			'en' => [
+				'all'        => __( 'All', 'masjidos' ),
+				'daily'      => __( 'Daily', 'masjidos' ),
+				'morning'    => __( 'Morning', 'masjidos' ),
+				'evening'    => __( 'Evening', 'masjidos' ),
+				'food'       => __( 'Food', 'masjidos' ),
+				'sleep'      => __( 'Sleep', 'masjidos' ),
+				'home'       => __( 'Home', 'masjidos' ),
+				'masjid'     => __( 'Masjid', 'masjidos' ),
+				'travel'     => __( 'Travel', 'masjidos' ),
+				'rain'       => __( 'Rain', 'masjidos' ),
+				'forgiveness' => __( 'Forgiveness', 'masjidos' ),
+				'quran'      => __( 'Quranic', 'masjidos' ),
+				'protection' => __( 'Protection', 'masjidos' ),
+			],
+			'bn' => [
+				'all'        => 'সব',
+				'daily'      => 'দৈনিক',
+				'morning'    => 'সকাল',
+				'evening'    => 'সন্ধ্যা',
+				'food'       => 'খাবার',
+				'sleep'      => 'ঘুম',
+				'home'       => 'বাড়ি',
+				'masjid'     => 'মসজিদ',
+				'travel'     => 'সফর',
+				'rain'       => 'বৃষ্টি',
+				'forgiveness' => 'ক্ষমা',
+				'quran'      => 'কুরআনিক',
+				'protection' => 'সুরক্ষা',
+			],
+			'ar' => [
+				'all'        => 'الكل',
+				'daily'      => 'يومي',
+				'morning'    => 'الصباح',
+				'evening'    => 'المساء',
+				'food'       => 'الطعام',
+				'sleep'      => 'النوم',
+				'home'       => 'البيت',
+				'masjid'     => 'المسجد',
+				'travel'     => 'السفر',
+				'rain'       => 'المطر',
+				'forgiveness' => 'المغفرة',
+				'quran'      => 'قرآني',
+				'protection' => 'الحفظ',
+			],
+		];
+
+		return $labels[ $language ] ?? $labels['en'];
+	}
+
+	/**
 	 * Return bundled Duas & Azkar items for the public widget.
 	 *
 	 * @param string $language Active widget language.
@@ -366,11 +423,66 @@ final class ITMMS_Duas_Azkar {
 				'source'     => __( 'Bukhari', 'masjidos' ),
 				'repeat'     => 1,
 			],
+			[
+				'key'        => 'morning-protection',
+				'categories' => [ 'morning', 'evening', 'protection' ],
+				'title'      => [
+					'en' => __( 'Protection from harm', 'masjidos' ),
+					'bn' => 'ক্ষতি থেকে সুরক্ষা',
+					'ar' => __( 'Protection from harm', 'masjidos' ),
+				],
+				'arabic'     => 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ',
+				'latin'      => 'Bismillahil-ladhi la yadurru ma‘a ismihi shay’un fil-ardi wa la fis-sama’i wa huwas-sami‘ul-‘alim.',
+				'meaning'    => [
+					'en' => __( 'In the name of Allah, with whose name nothing on earth or in heaven can cause harm, and He is the All-Hearing, All-Knowing.', 'masjidos' ),
+					'bn' => 'আল্লাহর নামে, যার নামের সাথে আসমান ও জমিনের কোনো কিছু ক্ষতি করতে পারে না; তিনি সর্বশ্রোতা, সর্বজ্ঞ।',
+					'ar' => __( 'In the name of Allah, with whose name nothing on earth or in heaven can cause harm, and He is the All-Hearing, All-Knowing.', 'masjidos' ),
+				],
+				'source'     => __( 'Abu Dawud and Tirmidhi', 'masjidos' ),
+				'repeat'     => 3,
+			],
+			[
+				'key'        => 'anxiety-relief',
+				'categories' => [ 'daily', 'protection', 'forgiveness' ],
+				'title'      => [
+					'en' => __( 'Relief from anxiety and sadness', 'masjidos' ),
+					'bn' => 'চিন্তা ও দুঃখ থেকে মুক্তি',
+					'ar' => __( 'Relief from anxiety and sadness', 'masjidos' ),
+				],
+				'arabic'     => 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ',
+				'latin'      => 'Allahumma inni a‘udhu bika minal-hammi wal-hazan.',
+				'meaning'    => [
+					'en' => __( 'O Allah, I seek refuge in You from anxiety and sadness.', 'masjidos' ),
+					'bn' => 'হে আল্লাহ, আমি আপনার কাছে চিন্তা ও দুঃখ থেকে আশ্রয় চাই।',
+					'ar' => __( 'O Allah, I seek refuge in You from anxiety and sadness.', 'masjidos' ),
+				],
+				'source'     => __( 'Bukhari', 'masjidos' ),
+				'repeat'     => 1,
+			],
+			[
+				'key'        => 'entering-home',
+				'categories' => [ 'home', 'daily' ],
+				'title'      => [
+					'en' => __( 'Entering home', 'masjidos' ),
+					'bn' => 'ঘরে প্রবেশের সময়',
+					'ar' => __( 'Entering home', 'masjidos' ),
+				],
+				'arabic'     => 'بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا',
+				'latin'      => 'Bismillahi walajna wa bismillahi kharajna wa ‘ala Allahi Rabbina tawakkalna.',
+				'meaning'    => [
+					'en' => __( 'In the name of Allah we enter, in the name of Allah we leave, and upon Allah our Lord we rely.', 'masjidos' ),
+					'bn' => 'আল্লাহর নামে আমরা প্রবেশ করি, আল্লাহর নামে আমরা বের হই এবং আমাদের রব আল্লাহর ওপরই ভরসা করি।',
+					'ar' => __( 'In the name of Allah we enter, in the name of Allah we leave, and upon Allah our Lord we rely.', 'masjidos' ),
+				],
+				'source'     => __( 'Abu Dawud', 'masjidos' ),
+				'repeat'     => 1,
+			],
 		];
 
 		if ( class_exists( 'ITMMS_Duas_Library' ) ) {
 			$items = array_merge( $items, ITMMS_Duas_Library::items() );
 		}
+		$items = self::unique_items( $items );
 
 		$filtered = 'all' === $category ? $items : array_values(
 			array_filter(
@@ -397,6 +509,45 @@ final class ITMMS_Duas_Azkar {
 			0,
 			$limit
 		);
+	}
+
+	/**
+	 * Remove duplicate duas after bundled and custom library items are merged.
+	 *
+	 * @param array<int,array<string,mixed>> $items Dua items.
+	 * @return array<int,array<string,mixed>>
+	 */
+	private static function unique_items( array $items ): array {
+		$seen = [];
+		$unique = [];
+
+		foreach ( $items as $item ) {
+			$title = is_array( $item['title'] ?? null ) ? (string) ( $item['title']['en'] ?? reset( $item['title'] ) ) : (string) ( $item['title'] ?? '' );
+			$arabic = self::normalize_signature_text( (string) ( $item['arabic'] ?? '' ) );
+			$signature_text = '' !== $arabic ? $arabic : self::normalize_signature_text( $title . ' ' . (string) ( $item['latin'] ?? '' ) );
+			$signature = sanitize_key( remove_accents( wp_strip_all_tags( strtolower( $signature_text ) ) ) );
+
+			if ( '' === $signature ) {
+				$signature = sanitize_key( (string) ( $item['key'] ?? '' ) );
+			}
+
+			if ( isset( $seen[ $signature ] ) ) {
+				continue;
+			}
+
+			$seen[ $signature ] = true;
+			$unique[] = $item;
+		}
+
+		return $unique;
+	}
+
+	private static function normalize_signature_text( string $text ): string {
+		$text = wp_strip_all_tags( html_entity_decode( $text, ENT_QUOTES, 'UTF-8' ) );
+		$text = preg_replace( '/[\x{064B}-\x{065F}\x{0670}]/u', '', $text );
+		$text = preg_replace( '/\s+/u', ' ', trim( (string) $text ) );
+
+		return (string) $text;
 	}
 
 }

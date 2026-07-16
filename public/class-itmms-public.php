@@ -352,6 +352,8 @@ final class ITMMS_Public {
 		$show_share = 'no' !== strtolower( (string) $atts['share'] );
 		$show_audio = 'no' !== strtolower( (string) $atts['audio'] );
 		$items = ITMMS_Duas_Azkar::items( $language, $category, $limit );
+		$category_labels = ITMMS_Duas_Azkar::category_labels( $language );
+		$category_label = $category_labels[ $category ] ?? ucwords( str_replace( '-', ' ', $category ) );
 
 		ob_start();
 		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/duas-azkar.php';
