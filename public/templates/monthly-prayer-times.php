@@ -83,10 +83,7 @@ defined( 'ABSPATH' ) || exit;
 					<tr>
 						<th scope="col"><?php echo esc_html( $labels['date'] ); ?></th>
 						<?php foreach ( $prayer_keys as $itmms_key ) : ?>
-							<th scope="col"><?php echo esc_html( $this->prayer_label( $itmms_key, $language, ucfirst( $itmms_key ) ) ); ?></th>
-							<?php if ( $show_iqamah && 'sunrise' !== $itmms_key ) : ?>
-								<th scope="col"><?php echo esc_html( $labels['iqamah'] ); ?></th>
-							<?php endif; ?>
+							<th scope="col" class="itmms-public-monthly__time-heading"><?php echo esc_html( $this->prayer_label( $itmms_key, $language, ucfirst( $itmms_key ) ) ); ?></th>
 						<?php endforeach; ?>
 					</tr>
 				</thead>
@@ -99,10 +96,12 @@ defined( 'ABSPATH' ) || exit;
 								<span><?php echo esc_html( date_i18n( 'D', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ); ?></span>
 							</td>
 							<?php foreach ( $prayer_keys as $itmms_key ) : ?>
-								<td><?php echo esc_html( (string) ( $itmms_prayers[ $itmms_key ]['time'] ?? '' ) ); ?></td>
-								<?php if ( $show_iqamah && 'sunrise' !== $itmms_key ) : ?>
-									<td><?php echo esc_html( (string) ( $itmms_prayers[ $itmms_key ]['iqamah'] ?? '' ) ); ?></td>
-								<?php endif; ?>
+								<td class="itmms-public-monthly__time-cell">
+									<time><?php echo esc_html( (string) ( $itmms_prayers[ $itmms_key ]['time'] ?? '' ) ); ?></time>
+									<?php if ( $show_iqamah && 'sunrise' !== $itmms_key && ! empty( $itmms_prayers[ $itmms_key ]['iqamah'] ) ) : ?>
+										<small><?php echo esc_html( $labels['iqamah'] . ' ' . (string) $itmms_prayers[ $itmms_key ]['iqamah'] ); ?></small>
+									<?php endif; ?>
+								</td>
 							<?php endforeach; ?>
 						</tr>
 					<?php endforeach; ?>

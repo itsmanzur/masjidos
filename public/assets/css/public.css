@@ -241,9 +241,9 @@
 
 .itmms-public-prayer__row {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(92px, 108px) minmax(112px, auto);
+	grid-template-columns: minmax(0, 1fr) minmax(96px, 112px) minmax(112px, auto);
 	align-items: center;
-	gap: 16px;
+	gap: 18px;
 	min-height: 50px;
 	padding: 12px 14px;
 	border-radius: 8px;
@@ -320,8 +320,8 @@
 	justify-self: end;
 	gap: 2px;
 	min-height: 30px;
-	min-width: 84px;
-	padding: 5px 8px;
+	min-width: 88px;
+	padding: 6px 9px;
 	border: 1px solid rgba(26, 107, 90, 0.1);
 	border-radius: 8px;
 	background: rgba(26, 107, 90, 0.045);
@@ -337,7 +337,7 @@
 	color: var(--itmms-public-muted);
 	font-size: 9px;
 	font-weight: 900;
-	letter-spacing: 0.02em;
+	letter-spacing: 0.04em;
 	line-height: 1.1;
 	text-transform: uppercase;
 }
@@ -545,7 +545,7 @@
 	}
 
 	.itmms-public-prayer__row {
-		grid-template-columns: minmax(0, 1fr) minmax(88px, 104px) minmax(104px, auto);
+		grid-template-columns: minmax(0, 1fr) minmax(92px, 108px) minmax(104px, auto);
 	}
 }
 
@@ -1225,6 +1225,20 @@
 		flex: 1 1 calc(50% - 6px);
 		justify-content: space-between;
 	}
+
+	.itmms-public-monthly__table {
+		font-size: 10px;
+	}
+
+	.itmms-public-monthly__table th,
+	.itmms-public-monthly__table td {
+		padding-right: 4px;
+		padding-left: 4px;
+	}
+
+	.itmms-public-monthly__table td:first-child {
+		width: 62px;
+	}
 }
 
 .itmms-public-monthly__header span,
@@ -1257,7 +1271,7 @@
 }
 
 .itmms-public-monthly__scroll {
-	overflow-x: auto;
+	overflow-x: hidden;
 	background:
 		linear-gradient(90deg, rgba(26, 107, 90, 0.025), transparent 22px),
 		#fff;
@@ -1268,16 +1282,16 @@
 	width: 100%;
 	min-width: 100%;
 	border-collapse: collapse;
-	font-size: 13px;
-	table-layout: auto;
+	font-size: clamp(11px, 1.25vw, 13px);
+	table-layout: fixed;
 }
 
 .itmms-public-monthly__table th,
 .itmms-public-monthly__table td {
-	padding: 12px 10px;
+	padding: 11px 8px;
 	border-bottom: 1px solid var(--itmms-public-border);
 	text-align: left;
-	white-space: nowrap;
+	vertical-align: middle;
 }
 
 .itmms-public-monthly__table th {
@@ -1285,8 +1299,8 @@
 	top: 0;
 	background: #f4f8f6;
 	color: var(--itmms-public-muted);
-	font-size: 11px;
-	font-weight: 900;
+	font-size: 10px;
+	font-weight: 700;
 	text-transform: uppercase;
 	box-shadow: inset 0 -1px 0 rgba(26, 107, 90, 0.08);
 }
@@ -1306,12 +1320,12 @@
 
 .itmms-public-monthly__table td {
 	color: var(--itmms-public-text);
-	font-weight: 700;
+	font-weight: 500;
 	font-variant-numeric: tabular-nums;
 }
 
 .itmms-public-monthly__table td:first-child {
-	width: 92px;
+	width: 78px;
 	color: var(--itmms-public-primary-dark);
 }
 
@@ -1324,7 +1338,33 @@
 	margin-top: 2px;
 	color: var(--itmms-public-muted);
 	font-size: 11px;
-	font-weight: 700;
+	font-weight: 500;
+}
+
+.itmms-public-monthly__table .itmms-public-monthly__time-heading,
+.itmms-public-monthly__table .itmms-public-monthly__time-cell {
+	width: auto;
+}
+
+.itmms-public-monthly__table .itmms-public-monthly__time-cell time,
+.itmms-public-monthly__table .itmms-public-monthly__time-cell small {
+	display: block;
+	white-space: nowrap;
+}
+
+.itmms-public-monthly__table .itmms-public-monthly__time-cell time {
+	color: var(--itmms-public-text);
+	font-weight: 650;
+	line-height: 1.25;
+}
+
+.itmms-public-monthly__table .itmms-public-monthly__time-cell small {
+	margin-top: 3px;
+	color: var(--itmms-public-primary-dark);
+	font-size: 10px;
+	font-weight: 550;
+	line-height: 1.25;
+	opacity: 0.82;
 }
 
 .itmms-public-monthly__cards {
@@ -1400,7 +1440,7 @@
 
 .itmms-public-monthly__card > div {
 	display: grid;
-	grid-template-columns: repeat(5, minmax(0, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(74px, 1fr));
 	gap: 12px 14px;
 }
 
@@ -1422,7 +1462,7 @@
 
 .itmms-public-monthly__card time {
 	color: var(--itmms-public-text);
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 900;
 	font-variant-numeric: tabular-nums;
 	white-space: nowrap;
@@ -2352,6 +2392,11 @@
 		box-shadow: none;
 	}
 
+	.itmms-public-monthly__table .itmms-public-monthly__time-cell small {
+		color: #111827;
+		font-size: 8px;
+	}
+
 	.itmms-public-monthly__table tr.is-today td:first-child strong::after {
 		border: 1px solid #111827;
 		background: #fff;
@@ -2419,10 +2464,6 @@
 	.itmms-public-jumuah__times {
 		display: grid;
 		grid-template-columns: 1fr;
-	}
-
-	.itmms-public-monthly__table {
-		min-width: 720px;
 	}
 
 	.itmms-public-monthly__cards {
