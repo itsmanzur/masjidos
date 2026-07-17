@@ -39,10 +39,14 @@ final class ITMMS_Public {
 		add_shortcode( 'itmms_calendar', [ $this, 'render_islamic_calendar_shortcode' ] );
 		add_shortcode( 'masjidos_duas_azkar', [ $this, 'render_duas_azkar_shortcode' ] );
 		add_shortcode( 'masjidos_khutbah_archive', [ $this, 'render_khutbah_archive_shortcode' ] );
+		add_shortcode( 'masjidos_khatib_this_week', [ $this, 'render_khatib_this_week_shortcode' ] );
+		add_shortcode( 'masjidos_upcoming_khutbah', [ $this, 'render_upcoming_khutbah_shortcode' ] );
+		add_shortcode( 'masjidos_khutbah_search', [ $this, 'render_khutbah_search_shortcode' ] );
 		add_shortcode( 'masjidos_quran_verse', [ $this, 'render_quran_verse_shortcode' ] );
 		add_shortcode( 'masjidos_hadith', [ $this, 'render_hadith_shortcode' ] );
 		add_shortcode( 'masjidos_allah_names', [ $this, 'render_allah_names_shortcode' ] );
 		add_shortcode( 'masjidos_audio_quran', [ $this, 'render_audio_quran_shortcode' ] );
+		add_shortcode( 'masjidos_articles', [ $this, 'render_articles_shortcode' ] );
 
 		// Register Gutenberg blocks.
 		add_action( 'init', [ $this, 'register_blocks' ] );
@@ -68,7 +72,7 @@ final class ITMMS_Public {
 			[
 				'title' => __( 'Prayer Times', 'masjidos' ),
 				'design' => 'classic',
-				'language' => 'en',
+				'language' => ITMMS_Settings::ui_language(),
 				'qibla' => 'yes',
 				'meta'  => 'yes',
 				'compact' => 'no',
@@ -94,7 +98,10 @@ final class ITMMS_Public {
 		$meta = $data['meta'];
 		$next = $data['next_prayer'];
 		$next_name = isset( $next['key'] ) ? $this->prayer_label( (string) $next['key'], $language, (string) ( $next['name'] ?? '' ) ) : (string) ( $next['name'] ?? '' );
-		$date_label = date_i18n( get_option( 'date_format' ), strtotime( (string) ( $data['date'] ?? 'now' ) ) );
+		$date_label = ITMMS_Hijri::format_label(
+			date_i18n( get_option( 'date_format' ), strtotime( (string) ( $data['date'] ?? 'now' ) ) ),
+			$language
+		);
 		$show_hijri = 'no' !== strtolower( (string) $atts['hijri'] );
 		$hijri_label = $show_hijri ? $this->hijri_label_for_date( (string) ( $data['date'] ?? 'now' ), $settings, $language ) : '';
 		$show_qibla = 'yes' === strtolower( (string) $atts['qibla'] );
@@ -110,15 +117,9 @@ final class ITMMS_Public {
 			)
 		);
 		$show_iqamah_column = $show_iqamah && $has_iqamah;
-		$source_label = 'aladhan' === (string) ( $settings['prayer_source'] ?? 'local' ) ? $labels['auto_api'] : $labels['local_calculation'];
-		$hijri_adjustment = (int) ( $settings['hijri_adjustment'] ?? 0 );
-		$hijri_adjustment_label = 0 === $hijri_adjustment ? '0' : ( ( $hijri_adjustment > 0 ? '+' : '' ) . (string) $hijri_adjustment );
-		$trust_items = [
-			[ $labels['source'], $source_label ],
-			[ $labels['method'], (string) ( $meta['calculation_method'] ?? '' ) ],
-			[ $labels['asr'], (string) ( $meta['asr_method'] ?? '' ) ],
-			[ $labels['hijri_adjustment'], $hijri_adjustment_label ],
-		];
+		$source_label = $this->prayer_source_label( $settings, $meta, $labels );
+		$trust_items = $this->build_prayer_trust_items( $settings, $meta, $labels );
+		$trust_note = (string) ( $labels['moon_note'] ?? '' );
 
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_prayer_widget_design', '', $design, $data, $atts, $designs );
@@ -150,7 +151,7 @@ final class ITMMS_Public {
 				'title'    => __( 'Monthly Prayer Timetable', 'masjidos' ),
 				'month'    => '',
 				'year'     => '',
-				'language' => 'en',
+				'language' => ITMMS_Settings::ui_language(),
 				'iqamah'   => 'no',
 				'design'   => 'table',
 				'navigation' => 'yes',
@@ -181,19 +182,30 @@ final class ITMMS_Public {
 		$show_navigation = 'no' !== strtolower( (string) $atts['navigation'] );
 		$meta = $data['meta'] ?? [];
 		$prayer_keys = [ 'fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha' ];
+		if ( ! array_key_exists( 'show_ishraq', $settings ) || ! empty( $settings['show_ishraq'] ) ) {
+			array_splice( $prayer_keys, 2, 0, [ 'ishraq' ] );
+		}
+		if ( ! array_key_exists( 'show_zawal', $settings ) || ! empty( $settings['show_zawal'] ) ) {
+			$dhuhr_index = array_search( 'dhuhr', $prayer_keys, true );
+			if ( false !== $dhuhr_index ) {
+				array_splice( $prayer_keys, (int) $dhuhr_index, 0, [ 'zawal' ] );
+			}
+		}
 		$today = $now->format( 'Y-m-d' );
 		$month_start = new DateTimeImmutable( sprintf( '%04d-%02d-01 00:00:00', $year, $month ), $timezone );
 		$month_end = $month_start->modify( 'last day of this month' );
 		$hijri_range_label = ITMMS_Hijri::range_label( $month_start, $month_end, (int) ( $settings['hijri_adjustment'] ?? 0 ), $language );
-		$source_label = 'aladhan' === (string) ( $settings['prayer_source'] ?? 'local' ) ? $labels['auto_api'] : $labels['local_calculation'];
-		$hijri_adjustment = (int) ( $settings['hijri_adjustment'] ?? 0 );
-		$hijri_adjustment_label = 0 === $hijri_adjustment ? '0' : ( ( $hijri_adjustment > 0 ? '+' : '' ) . (string) $hijri_adjustment );
-		$trust_items = [
-			[ $labels['source'], $source_label ],
-			[ $labels['method'], (string) ( $meta['calculation_method'] ?? '' ) ],
-			[ $labels['asr'], (string) ( $meta['asr_method'] ?? '' ) ],
-			[ $labels['hijri_adjustment'], $hijri_adjustment_label ],
-		];
+		$source_label = $this->prayer_source_label( $settings, $meta, $labels );
+		$trust_items = $this->build_prayer_trust_items( $settings, $meta, $labels );
+		$trust_note = (string) ( $labels['generated_using'] ?? '' );
+		if ( '' !== $trust_note ) {
+			$trust_note = sprintf(
+				/* translators: 1: source label, 2: location */
+				$trust_note,
+				$source_label,
+				(string) ( $meta['location'] ?? '' )
+			);
+		}
 
 		if ( empty( $designs[ $design ] ) || 'free' !== ( $designs[ $design ]['tier'] ?? 'free' ) ) {
 			$rendered = apply_filters( 'masjidos_render_monthly_prayer_widget_design', '', $design, $data, $atts, $designs );
@@ -226,7 +238,7 @@ final class ITMMS_Public {
 				'title'      => __( 'Islamic Calendar', 'masjidos' ),
 				'month'      => '',
 				'year'       => '',
-				'language'   => 'en',
+				'language'   => ITMMS_Settings::ui_language(),
 				'navigation' => 'yes',
 			],
 			$atts,
@@ -312,7 +324,7 @@ final class ITMMS_Public {
 			[
 				'title'    => __( 'Duas & Azkar', 'masjidos' ),
 				'category' => 'all',
-				'language' => 'en',
+				'language' => ITMMS_Settings::ui_language(),
 				'limit'    => '4',
 				'design'   => 'cards',
 				'source'   => 'yes',
@@ -375,7 +387,7 @@ final class ITMMS_Public {
 			[
 				'title'     => __( 'Masjid Notices', 'masjidos' ),
 				'design'    => 'list',
-				'language'  => 'en',
+				'language'  => ITMMS_Settings::ui_language(),
 				'type'      => 'all',
 				'limit'     => '5',
 				'show_date' => 'yes',
@@ -442,7 +454,7 @@ final class ITMMS_Public {
 			[
 				'title'     => __( 'Upcoming Events', 'masjidos' ),
 				'design'    => 'list',
-				'language'  => 'en',
+				'language'  => ITMMS_Settings::ui_language(),
 				'limit'     => '5',
 			],
 			$atts,
@@ -495,7 +507,7 @@ final class ITMMS_Public {
 			[
 				'title'    => __( 'Jumuah Prayer', 'masjidos' ),
 				'design'   => 'classic',
-				'language' => 'en',
+				'language' => ITMMS_Settings::ui_language(),
 				'meta'     => 'yes',
 			],
 			$atts,
@@ -706,6 +718,16 @@ final class ITMMS_Public {
 				'tier'        => 'free',
 				'description' => __( 'Compact scrolling announcement strip.', 'masjidos' ),
 			],
+			'banner' => [
+				'label'       => __( 'Notice Banner', 'masjidos' ),
+				'tier'        => 'free',
+				'description' => __( 'Slim top banner for the highest-priority notice.', 'masjidos' ),
+			],
+			'popup' => [
+				'label'       => __( 'Popup Modal', 'masjidos' ),
+				'tier'        => 'free',
+				'description' => __( 'Dismissible modal for urgent announcements.', 'masjidos' ),
+			],
 			'digital-board' => [
 				'label'       => __( 'Digital Board', 'masjidos' ),
 				'tier'        => 'pro',
@@ -765,7 +787,11 @@ final class ITMMS_Public {
 				'source'      => __( 'Source', 'masjidos' ),
 				'local_calculation' => __( 'Local calculation', 'masjidos' ),
 				'auto_api'    => __( 'Auto API', 'masjidos' ),
+				'csv_timetable' => __( 'Masjid CSV Timetable', 'masjidos' ),
 				'hijri_adjustment' => __( 'Hijri adjustment', 'masjidos' ),
+				'offsets'     => __( 'Offsets', 'masjidos' ),
+				'coordinates' => __( 'Coordinates', 'masjidos' ),
+				'moon_note'   => __( 'Hijri dates may differ by one day based on local moon sighting.', 'masjidos' ),
 				'qibla_prompt' => __( 'Tap to point live', 'masjidos' ),
 			],
 			'bn' => [
@@ -781,7 +807,11 @@ final class ITMMS_Public {
 				'source'      => 'উৎস',
 				'local_calculation' => 'লোকাল হিসাব',
 				'auto_api'    => 'অটো API',
+				'csv_timetable' => 'মসজিদ CSV সময়সূচি',
 				'hijri_adjustment' => 'হিজরি সমন্বয়',
+				'offsets'     => 'সমন্বয়',
+				'coordinates' => 'কোঅর্ডিনেট',
+				'moon_note'   => 'স্থানীয় চাঁদ দেখার কারণে হিজরি তারিখ একদিন এদিক-ওদিক হতে পারে।',
 				'qibla_prompt' => 'লাইভ কিবলার জন্য ট্যাপ করুন',
 			],
 			'ar' => [
@@ -797,7 +827,11 @@ final class ITMMS_Public {
 				'source'      => 'المصدر',
 				'local_calculation' => 'حساب محلي',
 				'auto_api'    => 'واجهة API تلقائية',
+				'csv_timetable' => 'جدول CSV للمسجد',
 				'hijri_adjustment' => 'تعديل هجري',
+				'offsets'     => 'التعديلات',
+				'coordinates' => 'الإحداثيات',
+				'moon_note'   => 'قد تختلف التواريخ الهجرية يوماً واحداً حسب الرؤية المحلية للهلال.',
 				'qibla_prompt' => 'اضغط لتوجيه القبلة مباشرة',
 			],
 		];
@@ -810,6 +844,8 @@ final class ITMMS_Public {
 			'en' => [
 				'fajr'    => 'Fajr',
 				'sunrise' => 'Sunrise',
+				'ishraq'  => 'Ishraq',
+				'zawal'   => 'Zawal',
 				'dhuhr'   => 'Dhuhr',
 				'asr'     => 'Asr',
 				'maghrib' => 'Maghrib',
@@ -818,6 +854,8 @@ final class ITMMS_Public {
 			'bn' => [
 				'fajr'    => 'ফজর',
 				'sunrise' => 'সূর্যোদয়',
+				'ishraq'  => 'ইশরাক',
+				'zawal'   => 'যাওয়াল',
 				'dhuhr'   => 'যোহর',
 				'asr'     => 'আসর',
 				'maghrib' => 'মাগরিব',
@@ -826,6 +864,8 @@ final class ITMMS_Public {
 			'ar' => [
 				'fajr'    => 'الفجر',
 				'sunrise' => 'الشروق',
+				'ishraq'  => 'الإشراق',
+				'zawal'   => 'الزوال',
 				'dhuhr'   => 'الظهر',
 				'asr'     => 'العصر',
 				'maghrib' => 'المغرب',
@@ -914,9 +954,14 @@ final class ITMMS_Public {
 				'source' => __( 'Source', 'masjidos' ),
 				'local_calculation' => __( 'Local calculation', 'masjidos' ),
 				'auto_api' => __( 'Auto API', 'masjidos' ),
+				'csv_timetable' => __( 'Masjid CSV Timetable', 'masjidos' ),
 				'method' => __( 'Method', 'masjidos' ),
 				'asr' => __( 'Asr', 'masjidos' ),
 				'hijri_adjustment' => __( 'Hijri adjustment', 'masjidos' ),
+				'offsets' => __( 'Offsets', 'masjidos' ),
+				'coordinates' => __( 'Coordinates', 'masjidos' ),
+				/* translators: 1: calculation source label, 2: location string (city/country). */
+				'generated_using' => __( 'Generated using %1$s for %2$s. Hijri dates may differ by local moon sighting.', 'masjidos' ),
 			],
 			'bn' => [
 				'title'  => 'মাসিক নামাজের সময়সূচি',
@@ -933,9 +978,13 @@ final class ITMMS_Public {
 				'source' => 'উৎস',
 				'local_calculation' => 'লোকাল হিসাব',
 				'auto_api' => 'অটো API',
+				'csv_timetable' => 'মসজিদ CSV সময়সূচি',
 				'method' => 'পদ্ধতি',
 				'asr' => 'আসর',
 				'hijri_adjustment' => 'হিজরি সমন্বয়',
+				'offsets' => 'সমন্বয়',
+				'coordinates' => 'কোঅর্ডিনেট',
+				'generated_using' => '%2$s এর জন্য %1$s দিয়ে তৈরি। স্থানীয় চাঁদ দেখার কারণে হিজরি তারিখ ভিন্ন হতে পারে।',
 			],
 			'ar' => [
 				'title'  => 'جدول الصلاة الشهري',
@@ -952,13 +1001,82 @@ final class ITMMS_Public {
 				'source' => 'المصدر',
 				'local_calculation' => 'حساب محلي',
 				'auto_api' => 'واجهة API تلقائية',
+				'csv_timetable' => 'جدول CSV للمسجد',
 				'method' => 'الطريقة',
 				'asr' => 'العصر',
 				'hijri_adjustment' => 'تعديل هجري',
+				'offsets' => 'التعديلات',
+				'coordinates' => 'الإحداثيات',
+				'generated_using' => 'تم الإنشاء باستخدام %1$s لـ %2$s. قد تختلف التواريخ الهجرية حسب الرؤية المحلية.',
 			],
 		];
 
 		return $labels[ $language ] ?? $labels['en'];
+	}
+
+	/**
+	 * Build compact trust chips for prayer / monthly widgets.
+	 *
+	 * @param array<string,mixed>  $settings Plugin settings.
+	 * @param array<string,mixed>  $meta Prayer result meta.
+	 * @param array<string,string> $labels Localized labels.
+	 * @return array<int,array{0:string,1:string}>
+	 */
+	private function build_prayer_trust_items( array $settings, array $meta, array $labels ): array {
+		$source_label = $this->prayer_source_label( $settings, $meta, $labels );
+
+		$hijri_adjustment = (int) ( $settings['hijri_adjustment'] ?? $meta['hijri_adjustment'] ?? 0 );
+		$hijri_adjustment_label = 0 === $hijri_adjustment ? '0' : ( ( $hijri_adjustment > 0 ? '+' : '' ) . (string) $hijri_adjustment );
+
+		$latitude  = (float) ( $meta['latitude'] ?? $settings['latitude'] ?? 0 );
+		$longitude = (float) ( $meta['longitude'] ?? $settings['longitude'] ?? 0 );
+		$coords    = ( abs( $latitude ) > 0.0001 || abs( $longitude ) > 0.0001 )
+			? number_format( $latitude, 4, '.', '' ) . ', ' . number_format( $longitude, 4, '.', '' )
+			: '';
+
+		$offsets = is_array( $meta['offsets'] ?? null ) ? $meta['offsets'] : ( $settings['prayer_offsets'] ?? [] );
+		$offset_parts = [];
+		if ( is_array( $offsets ) ) {
+			foreach ( [ 'fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha' ] as $key ) {
+				$value = isset( $offsets[ $key ] ) ? (int) $offsets[ $key ] : 0;
+				if ( 0 === $value ) {
+					continue;
+				}
+				$offset_parts[] = ucfirst( $key ) . ' ' . ( $value > 0 ? '+' : '' ) . $value . 'm';
+			}
+		}
+
+		$items = [
+			[ (string) ( $labels['source'] ?? __( 'Source', 'masjidos' ) ), $source_label ],
+			[ (string) ( $labels['method'] ?? __( 'Method', 'masjidos' ) ), (string) ( $meta['calculation_method'] ?? '' ) ],
+			[ (string) ( $labels['asr'] ?? __( 'Asr', 'masjidos' ) ), (string) ( $meta['asr_method'] ?? '' ) ],
+			[ (string) ( $labels['hijri_adjustment'] ?? __( 'Hijri adjustment', 'masjidos' ) ), $hijri_adjustment_label ],
+		];
+
+		if ( '' !== $coords ) {
+			$items[] = [ (string) ( $labels['coordinates'] ?? __( 'Coordinates', 'masjidos' ) ), $coords ];
+		}
+
+		if ( ! empty( $offset_parts ) ) {
+			$items[] = [ (string) ( $labels['offsets'] ?? __( 'Offsets', 'masjidos' ) ), implode( ', ', $offset_parts ) ];
+		}
+
+		return $items;
+	}
+
+	/**
+	 * @param array<string,mixed>  $settings Plugin settings.
+	 * @param array<string,mixed>  $meta Prayer result meta.
+	 * @param array<string,string> $labels Localized labels.
+	 */
+	private function prayer_source_label( array $settings, array $meta, array $labels ): string {
+		if ( 'csv' === (string) ( $meta['prayer_source'] ?? '' ) ) {
+			return (string) ( $labels['csv_timetable'] ?? __( 'Masjid CSV Timetable', 'masjidos' ) );
+		}
+
+		return 'aladhan' === (string) ( $settings['prayer_source'] ?? 'local' )
+			? (string) ( $labels['auto_api'] ?? __( 'Auto API', 'masjidos' ) )
+			: (string) ( $labels['local_calculation'] ?? __( 'Local calculation', 'masjidos' ) );
 	}
 
 	/**
@@ -1047,16 +1165,16 @@ final class ITMMS_Public {
 		return $indexed;
 	}
 
-	private function format_time( string $time, string $timezone ): string {
+	private function format_time( string $time, string $timezone, string $language = 'en' ): string {
 		if ( ! preg_match( '/^(?:[01]\d|2[0-3]):[0-5]\d$/', $time ) ) {
 			return '';
 		}
 
 		try {
 			$date = new DateTimeImmutable( 'today ' . $time, new DateTimeZone( $timezone ) );
-			return $date->format( 'g:i A' );
+			return ITMMS_Hijri::format_clock( $date->format( 'g:i A' ), $language );
 		} catch ( Exception $e ) {
-			return $time;
+			return ITMMS_Hijri::format_clock( $time, $language );
 		}
 	}
 
@@ -1139,9 +1257,16 @@ final class ITMMS_Public {
 	 */
 	private function enqueue_assets(): void {
 		wp_enqueue_style(
+			'itmms-fonts',
+			ITMMS_PLUGIN_URL . 'public/assets/css/tv-fonts.css',
+			[],
+			ITMMS_VERSION
+		);
+
+		wp_enqueue_style(
 			'itmms-public',
 			ITMMS_PLUGIN_URL . 'public/assets/css/public.css',
-			[],
+			[ 'itmms-fonts' ],
 			ITMMS_VERSION
 		);
 
@@ -1158,35 +1283,28 @@ final class ITMMS_Public {
 	 * Register Gutenberg blocks.
 	 */
 	public function register_blocks(): void {
+		$language_attr = [
+			'type'    => 'string',
+			'default' => 'en',
+		];
+		$title_attr = static function ( string $default ): array {
+			return [
+				'type'    => 'string',
+				'default' => $default,
+			];
+		};
+
 		register_block_type(
 			'masjidos/prayer-times',
 			[
 				'render_callback' => [ $this, 'render_prayer_times_block' ],
 				'attributes'      => [
-					'title'    => [
-						'type'    => 'string',
-						'default' => __( 'Prayer Times', 'masjidos' ),
-					],
-					'design'   => [
-						'type'    => 'string',
-						'default' => 'classic',
-					],
-					'language' => [
-						'type'    => 'string',
-						'default' => 'en',
-					],
-					'qibla'    => [
-						'type'    => 'string',
-						'default' => 'yes',
-					],
-					'meta'     => [
-						'type'    => 'string',
-						'default' => 'yes',
-					],
-					'iqamah'   => [
-						'type'    => 'string',
-						'default' => 'yes',
-					],
+					'title'    => $title_attr( __( 'Prayer Times', 'masjidos' ) ),
+					'design'   => [ 'type' => 'string', 'default' => 'classic' ],
+					'language' => $language_attr,
+					'qibla'    => [ 'type' => 'string', 'default' => 'yes' ],
+					'meta'     => [ 'type' => 'string', 'default' => 'yes' ],
+					'iqamah'   => [ 'type' => 'string', 'default' => 'yes' ],
 				],
 			]
 		);
@@ -1196,14 +1314,180 @@ final class ITMMS_Public {
 			[
 				'render_callback' => [ $this, 'render_islamic_calendar_block' ],
 				'attributes'      => [
-					'title'    => [
-						'type'    => 'string',
-						'default' => __( 'Islamic Calendar', 'masjidos' ),
-					],
-					'language' => [
-						'type'    => 'string',
-						'default' => 'en',
-					],
+					'title'    => $title_attr( __( 'Islamic Calendar', 'masjidos' ) ),
+					'language' => $language_attr,
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/monthly-prayer-times',
+			[
+				'render_callback' => [ $this, 'render_monthly_prayer_times_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Monthly Prayer Timetable', 'masjidos' ) ),
+					'language' => $language_attr,
+					'design'   => [ 'type' => 'string', 'default' => 'table' ],
+					'iqamah'   => [ 'type' => 'string', 'default' => 'no' ],
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/jumuah',
+			[
+				'render_callback' => [ $this, 'render_jumuah_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Jumuah Prayer', 'masjidos' ) ),
+					'language' => $language_attr,
+					'design'   => [ 'type' => 'string', 'default' => 'classic' ],
+					'meta'     => [ 'type' => 'string', 'default' => 'yes' ],
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/announcements',
+			[
+				'render_callback' => [ $this, 'render_announcements_block' ],
+				'attributes'      => [
+					'title'     => $title_attr( __( 'Masjid Notices', 'masjidos' ) ),
+					'language'  => $language_attr,
+					'design'    => [ 'type' => 'string', 'default' => 'list' ],
+					'limit'     => [ 'type' => 'string', 'default' => '5' ],
+					'show_date' => [ 'type' => 'string', 'default' => 'yes' ],
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/events',
+			[
+				'render_callback' => [ $this, 'render_events_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Upcoming Events', 'masjidos' ) ),
+					'language' => $language_attr,
+					'limit'    => [ 'type' => 'string', 'default' => '5' ],
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/duas-azkar',
+			[
+				'render_callback' => [ $this, 'render_duas_azkar_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Duas & Azkar', 'masjidos' ) ),
+					'language' => $language_attr,
+					'category' => [ 'type' => 'string', 'default' => 'all' ],
+					'limit'    => [ 'type' => 'string', 'default' => '4' ],
+					'design'   => [ 'type' => 'string', 'default' => 'cards' ],
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/khutbah-archive',
+			[
+				'render_callback' => [ $this, 'render_khutbah_archive_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Jumuah Khutbah Archive', 'masjidos' ) ),
+					'language' => $language_attr,
+					'limit'    => [ 'type' => 'string', 'default' => '12' ],
+					'category' => [ 'type' => 'string', 'default' => '' ],
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/khatib-this-week',
+			[
+				'render_callback' => [ $this, 'render_khatib_this_week_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'This Week\'s Khatib', 'masjidos' ) ),
+					'language' => $language_attr,
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/upcoming-khutbah',
+			[
+				'render_callback' => [ $this, 'render_upcoming_khutbah_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Upcoming Khutbahs', 'masjidos' ) ),
+					'language' => $language_attr,
+					'limit'    => [ 'type' => 'string', 'default' => '5' ],
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/khutbah-search',
+			[
+				'render_callback' => [ $this, 'render_khutbah_search_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Search Khutbah Archive', 'masjidos' ) ),
+					'language' => $language_attr,
+					'limit'    => [ 'type' => 'string', 'default' => '6' ],
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/quran-verse',
+			[
+				'render_callback' => [ $this, 'render_quran_verse_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Quran Verse of the Day', 'masjidos' ) ),
+					'language' => $language_attr,
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/hadith',
+			[
+				'render_callback' => [ $this, 'render_hadith_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Hadith of the Day', 'masjidos' ) ),
+					'language' => $language_attr,
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/allah-names',
+			[
+				'render_callback' => [ $this, 'render_allah_names_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( '99 Names of Allah', 'masjidos' ) ),
+					'language' => $language_attr,
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/audio-quran',
+			[
+				'render_callback' => [ $this, 'render_audio_quran_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Audio Quran Player', 'masjidos' ) ),
+					'language' => $language_attr,
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/articles',
+			[
+				'render_callback' => [ $this, 'render_articles_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Islamic Articles', 'masjidos' ) ),
+					'language' => $language_attr,
+					'category' => [ 'type' => 'string', 'default' => '' ],
+					'limit'    => [ 'type' => 'string', 'default' => '6' ],
+					'excerpt'  => [ 'type' => 'string', 'default' => 'yes' ],
 				],
 			]
 		);
@@ -1213,14 +1497,64 @@ final class ITMMS_Public {
 		return $this->render_prayer_times_shortcode( $attributes );
 	}
 
-	/**
-	 * Render callback for masjidos/islamic-calendar block.
-	 *
-	 * @param array<string,mixed> $attributes Block attributes.
-	 * @return string Rendered block HTML.
-	 */
 	public function render_islamic_calendar_block( array $attributes ): string {
 		return $this->render_islamic_calendar_shortcode( $attributes );
+	}
+
+	public function render_monthly_prayer_times_block( array $attributes ): string {
+		return $this->render_monthly_prayer_times_shortcode( $attributes );
+	}
+
+	public function render_jumuah_block( array $attributes ): string {
+		return $this->render_jumuah_shortcode( $attributes );
+	}
+
+	public function render_announcements_block( array $attributes ): string {
+		return $this->render_announcements_shortcode( $attributes );
+	}
+
+	public function render_events_block( array $attributes ): string {
+		return $this->render_events_shortcode( $attributes );
+	}
+
+	public function render_duas_azkar_block( array $attributes ): string {
+		return $this->render_duas_azkar_shortcode( $attributes );
+	}
+
+	public function render_khutbah_archive_block( array $attributes ): string {
+		return $this->render_khutbah_archive_shortcode( $attributes );
+	}
+
+	public function render_khatib_this_week_block( array $attributes ): string {
+		return $this->render_khatib_this_week_shortcode( $attributes );
+	}
+
+	public function render_upcoming_khutbah_block( array $attributes ): string {
+		return $this->render_upcoming_khutbah_shortcode( $attributes );
+	}
+
+	public function render_khutbah_search_block( array $attributes ): string {
+		return $this->render_khutbah_search_shortcode( $attributes );
+	}
+
+	public function render_quran_verse_block( array $attributes ): string {
+		return $this->render_quran_verse_shortcode( $attributes );
+	}
+
+	public function render_hadith_block( array $attributes ): string {
+		return $this->render_hadith_shortcode( $attributes );
+	}
+
+	public function render_allah_names_block( array $attributes ): string {
+		return $this->render_allah_names_shortcode( $attributes );
+	}
+
+	public function render_audio_quran_block( array $attributes ): string {
+		return $this->render_audio_quran_shortcode( $attributes );
+	}
+
+	public function render_articles_block( array $attributes ): string {
+		return $this->render_articles_shortcode( $attributes );
 	}
 
 	/**
@@ -1238,6 +1572,14 @@ final class ITMMS_Public {
 		if ( function_exists( 'wp_set_script_translations' ) ) {
 			wp_set_script_translations( 'itmms-block-editor', 'masjidos', ITMMS_PLUGIN_DIR . 'languages' );
 		}
+
+		wp_localize_script(
+			'itmms-block-editor',
+			'itmmsBlockData',
+			[
+				'defaultLanguage' => ITMMS_Settings::ui_language(),
+			]
+		);
 	}
 
 	/**
@@ -1496,14 +1838,13 @@ final class ITMMS_Public {
 	 * Render public Jumuah Khutbah Archive widget.
 	 */
 	public function render_khutbah_archive_shortcode( $atts = [] ): string {
-		global $wpdb;
-
 		$atts = is_array( $atts ) ? $atts : [];
 		$atts = shortcode_atts(
 			[
 				'title'    => __( 'Jumuah Khutbah Archive', 'masjidos' ),
-				'language' => 'en',
+				'language' => ITMMS_Settings::ui_language(),
 				'limit'    => 12,
+				'category' => '',
 			],
 			$atts,
 			'masjidos_khutbah_archive'
@@ -1511,42 +1852,21 @@ final class ITMMS_Public {
 
 		$this->enqueue_assets();
 		$language = $this->normalize_language( (string) $atts['language'] );
-		$limit = max( 1, min( 100, (int) $atts['limit'] ) );
+		$limit    = max( 1, min( 100, (int) $atts['limit'] ) );
+		$category = sanitize_key( (string) $atts['category'] );
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$search = isset( $_GET['itmms_khutbah_search'] ) ? sanitize_text_field( wp_unslash( $_GET['itmms_khutbah_search'] ) ) : '';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$date_filter = isset( $_GET['itmms_khutbah_date'] ) ? sanitize_text_field( wp_unslash( $_GET['itmms_khutbah_date'] ) ) : '';
-
-		$table = $wpdb->prefix . 'itmms_khutbah_archive';
-
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table ) ) !== $table ) {
-			$khutbahs = [];
-		} else {
-			$where = [ '1=1' ];
-			$params = [];
-
-			if ( ! empty( $search ) ) {
-				$where[] = '(topic LIKE %s OR khatib LIKE %s OR summary LIKE %s)';
-				$like = '%' . $wpdb->esc_like( $search ) . '%';
-				$params[] = $like;
-				$params[] = $like;
-				$params[] = $like;
-			}
-
-			if ( ! empty( $date_filter ) ) {
-				$where[] = 'date = %s';
-				$params[] = $date_filter;
-			}
-
-			$query = "SELECT * FROM {$table} WHERE " . implode( ' AND ', $where ) . " ORDER BY date DESC LIMIT %d";
-			$params[] = $limit;
-
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
-			$rows = $wpdb->get_results( $wpdb->prepare( $query, $params ), ARRAY_A );
-			$khutbahs = is_array( $rows ) ? $rows : [];
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['itmms_khutbah_category'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$category = sanitize_key( wp_unslash( (string) $_GET['itmms_khutbah_category'] ) );
 		}
+
+		$khutbahs = ITMMS_Khutbah::query( $limit, $search, $date_filter, $category, true );
+		$categories = ITMMS_Khutbah::categories();
 
 		ob_start();
 		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/khutbah-archive.php';
@@ -1559,6 +1879,114 @@ final class ITMMS_Public {
 	}
 
 	/**
+	 * This week's scheduled khatib + topic.
+	 *
+	 * @param array<string,mixed>|string $atts Shortcode attributes.
+	 */
+	public function render_khatib_this_week_shortcode( $atts = [] ): string {
+		$atts = is_array( $atts ) ? $atts : [];
+		$atts = shortcode_atts(
+			[
+				'title'    => __( 'This Week\'s Khatib', 'masjidos' ),
+				'language' => ITMMS_Settings::ui_language(),
+			],
+			$atts,
+			'masjidos_khatib_this_week'
+		);
+
+		$this->enqueue_assets();
+		$language = $this->normalize_language( (string) $atts['language'] );
+		$entry    = ITMMS_Minbar::this_week();
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/khatib-this-week.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		return $this->safe_kses( (string) ob_get_clean() );
+	}
+
+	/**
+	 * Upcoming planned / scheduled khutbah topics.
+	 *
+	 * @param array<string,mixed>|string $atts Shortcode attributes.
+	 */
+	public function render_upcoming_khutbah_shortcode( $atts = [] ): string {
+		$atts = is_array( $atts ) ? $atts : [];
+		$atts = shortcode_atts(
+			[
+				'title'    => __( 'Upcoming Khutbahs', 'masjidos' ),
+				'language' => ITMMS_Settings::ui_language(),
+				'limit'    => 5,
+			],
+			$atts,
+			'masjidos_upcoming_khutbah'
+		);
+
+		$this->enqueue_assets();
+		$language = $this->normalize_language( (string) $atts['language'] );
+		$limit    = max( 1, min( 20, (int) $atts['limit'] ) );
+		$items    = ITMMS_Minbar::schedule_upcoming( $limit );
+		if ( count( $items ) < $limit ) {
+			$plans = ITMMS_Minbar::get_plans();
+			$today = ( new DateTimeImmutable( 'now', wp_timezone() ) )->format( 'Y-m-d' );
+			foreach ( $plans as $plan ) {
+				if ( ( $plan['date'] ?? '' ) < $today ) {
+					continue;
+				}
+				$items[] = [
+					'scheduled_date' => (string) ( $plan['date'] ?? '' ),
+					'topic'          => (string) ( $plan['topic'] ?? '' ),
+					'khatib_name'    => '',
+					'status'         => 'planned',
+				];
+				if ( count( $items ) >= $limit ) {
+					break;
+				}
+			}
+		}
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/upcoming-khutbah.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		return $this->safe_kses( (string) ob_get_clean() );
+	}
+
+	/**
+	 * Compact public search widget for the archive.
+	 *
+	 * @param array<string,mixed>|string $atts Shortcode attributes.
+	 */
+	public function render_khutbah_search_shortcode( $atts = [] ): string {
+		$atts = is_array( $atts ) ? $atts : [];
+		$atts = shortcode_atts(
+			[
+				'title'    => __( 'Search Khutbah Archive', 'masjidos' ),
+				'language' => ITMMS_Settings::ui_language(),
+				'limit'    => 6,
+			],
+			$atts,
+			'masjidos_khutbah_search'
+		);
+
+		$this->enqueue_assets();
+		$language = $this->normalize_language( (string) $atts['language'] );
+		$limit    = max( 1, min( 50, (int) $atts['limit'] ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$search = isset( $_GET['itmms_khutbah_search'] ) ? sanitize_text_field( wp_unslash( $_GET['itmms_khutbah_search'] ) ) : '';
+		$khutbahs = '' !== $search ? ITMMS_Khutbah::query( $limit, $search, '', '', true ) : [];
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/khutbah-search.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		return $this->safe_kses( (string) ob_get_clean() );
+	}
+
+	/**
 	 * Render public Quran Verse shortcode.
 	 */
 	public function render_quran_verse_shortcode( $atts = [] ): string {
@@ -1566,7 +1994,7 @@ final class ITMMS_Public {
 		$atts = shortcode_atts(
 			[
 				'title'    => __( 'Quran Verse of the Day', 'masjidos' ),
-				'language' => 'en',
+				'language' => ITMMS_Settings::ui_language(),
 			],
 			$atts,
 			'masjidos_quran_verse'
@@ -1594,7 +2022,7 @@ final class ITMMS_Public {
 		$atts = shortcode_atts(
 			[
 				'title'    => __( 'Hadith of the Day', 'masjidos' ),
-				'language' => 'en',
+				'language' => ITMMS_Settings::ui_language(),
 			],
 			$atts,
 			'masjidos_hadith'
@@ -1622,7 +2050,7 @@ final class ITMMS_Public {
 		$atts = shortcode_atts(
 			[
 				'title'    => __( '99 Names of Allah', 'masjidos' ),
-				'language' => 'en',
+				'language' => ITMMS_Settings::ui_language(),
 			],
 			$atts,
 			'masjidos_allah_names'
@@ -1650,7 +2078,7 @@ final class ITMMS_Public {
 		$atts = shortcode_atts(
 			[
 				'title'    => __( 'Audio Quran Player', 'masjidos' ),
-				'language' => 'en',
+				'language' => ITMMS_Settings::ui_language(),
 			],
 			$atts,
 			'masjidos_audio_quran'
@@ -1668,5 +2096,53 @@ final class ITMMS_Public {
 		$html = ob_get_clean();
 
 		return $this->safe_kses( $html );
+	}
+
+	/**
+	 * Render Islamic Articles list shortcode.
+	 *
+	 * @param array<string,mixed>|string $atts Shortcode attributes.
+	 */
+	public function render_articles_shortcode( $atts = [] ): string {
+		$atts = is_array( $atts ) ? $atts : [];
+		$atts = shortcode_atts(
+			[
+				'title'    => __( 'Islamic Articles', 'masjidos' ),
+				'language' => ITMMS_Settings::ui_language(),
+				'category' => '',
+				'limit'    => '6',
+				'excerpt'  => 'yes',
+			],
+			$atts,
+			'masjidos_articles'
+		);
+
+		$this->enqueue_assets();
+		$language = $this->normalize_language( (string) $atts['language'] );
+		$limit = max( 1, min( 24, absint( $atts['limit'] ) ?: 6 ) );
+		$show_excerpt = 'no' !== strtolower( (string) $atts['excerpt'] );
+		$category = sanitize_title( (string) $atts['category'] );
+		$articles = ITMMS_Education::get_articles( $limit, $category );
+
+		$labels = [
+			'title'   => ( 'bn' === $language ) ? 'ইসলামিক আর্টিকেল' : ( ( 'ar' === $language ) ? 'مقالات إسلامية' : __( 'Islamic Articles', 'masjidos' ) ),
+			'empty'   => ( 'bn' === $language ) ? 'এখনও কোনো আর্টিকেল নেই।' : __( 'No articles published yet.', 'masjidos' ),
+			'read'    => ( 'bn' === $language ) ? 'পড়ুন' : ( ( 'ar' === $language ) ? 'اقرأ' : __( 'Read', 'masjidos' ) ),
+			'uncat'   => ( 'bn' === $language ) ? 'সাধারণ' : __( 'General', 'masjidos' ),
+			'source'  => ( 'bn' === $language ) ? 'সূত্র' : ( ( 'ar' === $language ) ? 'المصدر' : __( 'Source', 'masjidos' ) ),
+			'lang_en' => ( 'bn' === $language ) ? 'ইংরেজি' : ( ( 'ar' === $language ) ? 'الإنجليزية' : __( 'English', 'masjidos' ) ),
+			'lang_bn' => ( 'bn' === $language ) ? 'বাংলা' : ( ( 'ar' === $language ) ? 'البنغالية' : __( 'Bangla', 'masjidos' ) ),
+			'lang_ar' => ( 'bn' === $language ) ? 'আরবি' : ( ( 'ar' === $language ) ? 'العربية' : __( 'Arabic', 'masjidos' ) ),
+		];
+		if ( '' === trim( (string) $atts['title'] ) || __( 'Islamic Articles', 'masjidos' ) === (string) $atts['title'] ) {
+			$atts['title'] = $labels['title'];
+		}
+
+		ob_start();
+		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/articles.php';
+		if ( file_exists( $template_path ) ) {
+			include $template_path;
+		}
+		return $this->safe_kses( (string) ob_get_clean() );
 	}
 }

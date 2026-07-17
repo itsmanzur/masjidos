@@ -36,6 +36,12 @@ final class ITMMS_Prayer_Times {
 		$timezone = self::timezone( $settings['timezone'] ?? '' );
 		$date = $date->setTimezone( $timezone );
 
+		$timetable_row = ITMMS_Prayer_Timetable::for_date( $date->format( 'Y-m-d' ) );
+		if ( is_array( $timetable_row ) ) {
+			$result = self::from_timetable_row( $date, $timetable_row, $settings );
+			return $refresh_dynamic ? self::refresh_dynamic_state( $result, $date ) : $result;
+		}
+
 		$source = (string) ( $settings['prayer_source'] ?? 'local' );
 		$cache_key = 'itmms_prayers_' . md5(
 			$date->format( 'Y-m-d' ) . '|' .
@@ -48,11 +54,15 @@ final class ITMMS_Prayer_Times {
 					$settings['asr_method'] ?? '',
 					$settings['prayer_offsets'] ?? [],
 					$settings['iqamah_times'] ?? [],
+					$settings['iqamah_rules'] ?? [],
 					$settings['hijri_adjustment'] ?? 0,
+					$settings['show_ishraq'] ?? true,
+					$settings['show_zawal'] ?? true,
+					$settings['ishraq_minutes'] ?? 15,
 					$source,
 					$settings['city'] ?? '',
 					$settings['country'] ?? '',
-					'calculation-registry-v3',
+					'calculation-registry-v5',
 				]
 			)
 		);
@@ -67,7 +77,6 @@ final class ITMMS_Prayer_Times {
 		}
 
 		$offsets = self::offsets( $settings['prayer_offsets'] ?? [] );
-		$iqamah_times = self::iqamah_times( $settings['iqamah_times'] ?? [] );
 		$method_key = (string) ( $settings['calculation_method'] ?? 'karachi' );
 		$method = self::method( $method_key );
 
@@ -95,7 +104,7 @@ final class ITMMS_Prayer_Times {
 						$times[ $key ] = $minutes + ( $offsets[ $key ] ?? 0 );
 					}
 
-					$result = self::format_result( $date, $times, $base_times, $offsets, $iqamah_times, $settings, $method, $method_key );
+					$result = self::format_result( $date, $times, $base_times, $offsets, $settings, $method, $method_key );
 					$result['meta']['calculation_method'] = 'Auto API (' . self::method_label( $method_key ) . ')';
 
 					if ( $cacheable ) {
@@ -134,7 +143,7 @@ final class ITMMS_Prayer_Times {
 			$times[ $key ] = $minutes + ( $offsets[ $key ] ?? 0 );
 		}
 
-		$result = self::format_result( $date, $times, $base_times, $offsets, $iqamah_times, $settings, $method, $method_key );
+		$result = self::format_result( $date, $times, $base_times, $offsets, $settings, $method, $method_key );
 		if ( $cacheable ) {
 			set_transient( $cache_key, $result, 12 * HOUR_IN_SECONDS );
 		}
@@ -243,7 +252,7 @@ final class ITMMS_Prayer_Times {
 	 * @param array<string,mixed> $method Method settings.
 	 * @return array<string,mixed>
 	 */
-	private static function format_result( DateTimeImmutable $date, array $times, array $base_times, array $offsets, array $iqamah_times, array $settings, array $method, string $method_key ): array {
+	private static function format_result( DateTimeImmutable $date, array $times, array $base_times, array $offsets, array $settings, array $method, string $method_key, array $iqamah_overrides = [] ): array {
 		$labels = [
 			'fajr'    => [ 'name' => 'Fajr', 'arabic' => '&#1601;&#1580;&#1585;' ],
 			'sunrise' => [ 'name' => 'Sunrise', 'arabic' => '&#1588;&#1585;&#1608;&#1602;' ],
@@ -253,10 +262,18 @@ final class ITMMS_Prayer_Times {
 			'isha'    => [ 'name' => 'Isha', 'arabic' => '&#1593;&#1588;&#1575;&#1569;' ],
 		];
 
+		$iqamah_times = ITMMS_Iqamah_Rules::resolve_all( $date, $times, $settings );
+		foreach ( $iqamah_overrides as $key => $value ) {
+			if ( '' !== (string) $value && isset( $iqamah_times[ $key ] ) ) {
+				$iqamah_times[ $key ] = (string) $value;
+			}
+		}
+
 		$now = new DateTimeImmutable( 'now', $date->getTimezone() );
 		$rows = [];
 		$next = null;
 		$previous_key = null;
+		$fard_keys = [ 'fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha' ];
 
 		foreach ( $labels as $key => $label ) {
 			$time = self::date_with_minutes( $date, $times[ $key ] );
@@ -265,12 +282,13 @@ final class ITMMS_Prayer_Times {
 				'name'      => $label['name'],
 				'arabic'    => html_entity_decode( $label['arabic'], ENT_QUOTES, 'UTF-8' ),
 				'time'      => $time->format( 'g:i A' ),
-				'iqamah'    => self::format_iqamah_time( $iqamah_times[ $key ] ?? '', $date ),
+				'iqamah'    => 'sunrise' === $key ? '' : self::format_iqamah_time( $iqamah_times[ $key ] ?? '', $date ),
 				'base_time' => self::date_with_minutes( $date, $base_times[ $key ] )->format( 'g:i A' ),
 				'offset'    => $offsets[ $key ] ?? 0,
 				'raw'       => $time->format( DATE_ATOM ),
 				'timestamp' => $time->getTimestamp(),
 				'current'   => false,
+				'kind'      => 'fard',
 			];
 
 			if ( null === $next && $time->getTimestamp() > $now->getTimestamp() ) {
@@ -293,11 +311,66 @@ final class ITMMS_Prayer_Times {
 				'raw'       => $fajr->format( DATE_ATOM ),
 				'timestamp' => $fajr->getTimestamp(),
 				'current'   => false,
+				'kind'      => 'fard',
 			];
 		}
 
 		if ( $previous_key && isset( $rows[ $previous_key ] ) ) {
 			$rows[ $previous_key ]['current'] = true;
+		}
+
+		$ishraq_minutes = max( 5, min( 45, (int) ( $settings['ishraq_minutes'] ?? 15 ) ) );
+		$show_ishraq = ! array_key_exists( 'show_ishraq', $settings ) || ! empty( $settings['show_ishraq'] );
+		$show_zawal = ! array_key_exists( 'show_zawal', $settings ) || ! empty( $settings['show_zawal'] );
+
+		$ishraq_row = null;
+		if ( $show_ishraq && isset( $times['sunrise'] ) ) {
+			$ishraq_time = self::date_with_minutes( $date, (float) $times['sunrise'] + $ishraq_minutes );
+			$ishraq_row = [
+				'key'       => 'ishraq',
+				'name'      => 'Ishraq',
+				'arabic'    => html_entity_decode( '&#1573;&#1588;&#1585;&#1575;&#1602;', ENT_QUOTES, 'UTF-8' ),
+				'time'      => $ishraq_time->format( 'g:i A' ),
+				'iqamah'    => '',
+				'base_time' => $ishraq_time->format( 'g:i A' ),
+				'offset'    => $ishraq_minutes,
+				'raw'       => $ishraq_time->format( DATE_ATOM ),
+				'timestamp' => $ishraq_time->getTimestamp(),
+				'current'   => false,
+				'kind'      => 'extra',
+			];
+		}
+
+		$zawal_row = null;
+		if ( $show_zawal && isset( $base_times['dhuhr'] ) ) {
+			// True solar noon (before Dhuhr offsets) — start of the zawal/makruh window.
+			$zawal_time = self::date_with_minutes( $date, (float) $base_times['dhuhr'] );
+			$zawal_row = [
+				'key'       => 'zawal',
+				'name'      => 'Zawal',
+				'arabic'    => html_entity_decode( '&#1586;&#1608;&#1575;&#1604;', ENT_QUOTES, 'UTF-8' ),
+				'time'      => $zawal_time->format( 'g:i A' ),
+				'iqamah'    => '',
+				'base_time' => $zawal_time->format( 'g:i A' ),
+				'offset'    => 0,
+				'raw'       => $zawal_time->format( DATE_ATOM ),
+				'timestamp' => $zawal_time->getTimestamp(),
+				'current'   => false,
+				'kind'      => 'extra',
+			];
+		}
+
+		$display = [];
+		foreach ( $fard_keys as $key ) {
+			if ( 'dhuhr' === $key && $zawal_row ) {
+				$display[] = $zawal_row;
+			}
+			if ( isset( $rows[ $key ] ) ) {
+				$display[] = $rows[ $key ];
+			}
+			if ( 'sunrise' === $key && $ishraq_row ) {
+				$display[] = $ishraq_row;
+			}
 		}
 
 		$latitude = (float) ( $settings['latitude'] ?? 0 );
@@ -308,7 +381,7 @@ final class ITMMS_Prayer_Times {
 			'date'        => $date->format( 'Y-m-d' ),
 			'timezone'    => $date->getTimezone()->getName(),
 			'hijri_date'  => ITMMS_Hijri::for_date( $date, $hijri_adjustment, 'en' ),
-			'prayers'     => array_values( $rows ),
+			'prayers'     => $display,
 			'next_prayer' => $next,
 			'meta'        => [
 				'location'           => trim( (string) ( $settings['city'] ?? '' ) . ', ' . (string) ( $settings['country'] ?? '' ), ' ,' ),
@@ -317,6 +390,12 @@ final class ITMMS_Prayer_Times {
 				'timezone'           => $date->getTimezone()->getName(),
 				'calculation_method' => self::method_label( $method_key ),
 				'asr_method'         => ucfirst( (string) ( $settings['asr_method'] ?? 'hanafi' ) ),
+				'prayer_source'      => (string) ( $settings['prayer_source'] ?? 'local' ),
+				'hijri_adjustment'   => $hijri_adjustment,
+				'offsets'            => $offsets,
+				'ishraq_minutes'     => $ishraq_minutes,
+				'show_ishraq'        => $show_ishraq,
+				'show_zawal'         => $show_zawal,
 				'fajr_angle'         => $method['fajr_angle'],
 				'isha_angle'         => $method['isha_angle'] ?? null,
 				'isha_interval'      => $method['isha_interval'] ?? null,
@@ -352,6 +431,11 @@ final class ITMMS_Prayer_Times {
 
 		foreach ( $result['prayers'] as $index => $prayer ) {
 			$result['prayers'][ $index ]['current'] = false;
+			$kind = (string) ( $prayer['kind'] ?? 'fard' );
+			if ( 'extra' === $kind ) {
+				continue;
+			}
+
 			$timestamp = isset( $prayer['timestamp'] ) ? (int) $prayer['timestamp'] : 0;
 
 			if ( null === $next && $timestamp > $now->getTimestamp() ) {
@@ -367,13 +451,17 @@ final class ITMMS_Prayer_Times {
 			$result['prayers'][ $previous_index ]['current'] = true;
 		}
 
-		if ( null === $next && isset( $result['prayers'][0] ) && is_array( $result['prayers'][0] ) ) {
-			$first = $result['prayers'][0];
-			$raw = new DateTimeImmutable( (string) ( $first['raw'] ?? 'now' ) );
-			$raw = $raw->setTimezone( $date->getTimezone() )->modify( '+1 day' );
-			$first['raw'] = $raw->format( DATE_ATOM );
-			$first['timestamp'] = $raw->getTimestamp();
-			$next = $first;
+		if ( null === $next ) {
+			foreach ( $result['prayers'] as $prayer ) {
+				if ( 'fajr' === ( $prayer['key'] ?? '' ) && is_array( $prayer ) ) {
+					$raw = new DateTimeImmutable( (string) ( $prayer['raw'] ?? 'now' ) );
+					$raw = $raw->setTimezone( $date->getTimezone() )->modify( '+1 day' );
+					$prayer['raw'] = $raw->format( DATE_ATOM );
+					$prayer['timestamp'] = $raw->getTimestamp();
+					$next = $prayer;
+					break;
+				}
+			}
 		}
 
 		$result['next_prayer'] = $next;
@@ -619,5 +707,149 @@ final class ITMMS_Prayer_Times {
 			return 0.0;
 		}
 		return ( (int) $parts[0] ) * 60 + ( (int) $parts[1] );
+	}
+
+	/**
+	 * Build prayer result from an imported CSV timetable row.
+	 *
+	 * @param array<string,mixed> $row Stored timetable row.
+	 * @param array<string,mixed> $settings Plugin settings.
+	 * @return array<string,mixed>
+	 */
+	private static function from_timetable_row( DateTimeImmutable $date, array $row, array $settings ): array {
+		$azan = is_array( $row['azan'] ?? null ) ? $row['azan'] : [];
+		$csv_iqamah = is_array( $row['iqamah'] ?? null ) ? $row['iqamah'] : [];
+		$iqamah_overrides = [];
+		foreach ( $csv_iqamah as $key => $time ) {
+			$parsed = ITMMS_Prayer_Timetable::parse_time( (string) $time );
+			if ( '' !== $parsed ) {
+				$iqamah_overrides[ (string) $key ] = $parsed;
+			}
+		}
+
+		$fallback = self::for_date_without_timetable( $date, $settings, false );
+		$fallback_times = [];
+		$fallback_base = [];
+		foreach ( (array) ( $fallback['prayers'] ?? [] ) as $prayer ) {
+			if ( empty( $prayer['key'] ) ) {
+				continue;
+			}
+			$key = (string) $prayer['key'];
+			$fallback_times[ $key ] = ITMMS_Prayer_Timetable::time_to_minutes( (string) ( $prayer['time'] ?? '' ) );
+			$fallback_base[ $key ] = ITMMS_Prayer_Timetable::time_to_minutes( (string) ( $prayer['base_time'] ?? $prayer['time'] ?? '' ) );
+		}
+
+		$keys = [ 'fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha' ];
+		$times = [];
+		$base_times = [];
+		foreach ( $keys as $key ) {
+			if ( ! empty( $azan[ $key ] ) ) {
+				$minutes = ITMMS_Prayer_Timetable::time_to_minutes( (string) $azan[ $key ] );
+				$times[ $key ] = $minutes;
+				$base_times[ $key ] = $minutes;
+				continue;
+			}
+			$times[ $key ] = $fallback_times[ $key ] ?? 0.0;
+			$base_times[ $key ] = $fallback_base[ $key ] ?? $times[ $key ];
+		}
+
+		$method_key = (string) ( $settings['calculation_method'] ?? 'karachi' );
+		$method = self::method( $method_key );
+		$offsets = array_fill_keys( $keys, 0 );
+		$result = self::format_result( $date, $times, $base_times, $offsets, $settings, $method, $method_key, $iqamah_overrides );
+		$result['meta']['calculation_method'] = __( 'Masjid CSV Timetable', 'masjidos' );
+		$result['meta']['prayer_source'] = 'csv';
+		$result['meta']['offsets'] = $offsets;
+
+		return $result;
+	}
+
+	/**
+	 * Calculate prayer times while skipping imported CSV overrides.
+	 */
+	private static function for_date_without_timetable( DateTimeImmutable $date, array $settings, bool $refresh_dynamic = true ): array {
+		$timezone = self::timezone( $settings['timezone'] ?? '' );
+		$date = $date->setTimezone( $timezone );
+		$source = (string) ( $settings['prayer_source'] ?? 'local' );
+		$offsets = self::offsets( $settings['prayer_offsets'] ?? [] );
+		$method_key = (string) ( $settings['calculation_method'] ?? 'karachi' );
+		$method = self::method( $method_key );
+
+		if ( 'aladhan' === $source ) {
+			$year = (int) $date->format( 'Y' );
+			$month = (int) $date->format( 'n' );
+			$aladhan_month = self::fetch_aladhan_month( $year, $month, $settings );
+
+			if ( is_array( $aladhan_month ) ) {
+				$day_index = (int) $date->format( 'j' ) - 1;
+				if ( isset( $aladhan_month[ $day_index ]['timings'] ) ) {
+					$timings = $aladhan_month[ $day_index ]['timings'];
+					$base_times = [
+						'fajr'    => self::time_to_minutes( (string) $timings['Fajr'] ),
+						'sunrise' => self::time_to_minutes( (string) $timings['Sunrise'] ),
+						'dhuhr'   => self::time_to_minutes( (string) $timings['Dhuhr'] ),
+						'asr'     => self::time_to_minutes( (string) $timings['Asr'] ),
+						'maghrib' => self::time_to_minutes( (string) $timings['Maghrib'] ),
+						'isha'    => self::time_to_minutes( (string) $timings['Isha'] ),
+					];
+					$times = $base_times;
+					foreach ( $times as $key => $minutes ) {
+						$times[ $key ] = $minutes + ( $offsets[ $key ] ?? 0 );
+					}
+					$result = self::format_result( $date, $times, $base_times, $offsets, $settings, $method, $method_key );
+					$result['meta']['calculation_method'] = 'Auto API (' . self::method_label( $method_key ) . ')';
+					return $refresh_dynamic ? self::refresh_dynamic_state( $result, $date ) : $result;
+				}
+			}
+		}
+
+		$latitude = (float) ( $settings['latitude'] ?? 23.8103 );
+		$longitude = (float) ( $settings['longitude'] ?? 90.4125 );
+		$asr_factor = ( 'hanafi' === ( $settings['asr_method'] ?? 'hanafi' ) ) ? 2.0 : 1.0;
+		$day = (int) $date->format( 'z' ) + 1;
+		$tz_offset = $timezone->getOffset( $date ) / HOUR_IN_SECONDS;
+		$solar = self::solar_position( $day );
+		$solar_noon = 720 - ( $solar['equation'] + ( 4 * $longitude ) - ( 60 * $tz_offset ) );
+		$maghrib_zenith = isset( $method['maghrib_angle'] ) ? 90 + (float) $method['maghrib_angle'] : 90.833;
+		$maghrib_minutes = $solar_noon + self::hour_angle_minutes( $latitude, $solar['declination'], $maghrib_zenith );
+		$base_times = [
+			'fajr'    => $solar_noon - self::hour_angle_minutes( $latitude, $solar['declination'], 90 + $method['fajr_angle'] ),
+			'sunrise' => $solar_noon - self::hour_angle_minutes( $latitude, $solar['declination'], 90.833 ),
+			'dhuhr'   => $solar_noon,
+			'asr'     => $solar_noon + self::asr_minutes( $latitude, $solar['declination'], $asr_factor ),
+			'maghrib' => $maghrib_minutes,
+			'isha'    => isset( $method['isha_interval'] )
+				? $maghrib_minutes + $method['isha_interval']
+				: $solar_noon + self::hour_angle_minutes( $latitude, $solar['declination'], 90 + $method['isha_angle'] ),
+		];
+		$times = $base_times;
+		foreach ( $times as $key => $minutes ) {
+			$times[ $key ] = $minutes + ( $offsets[ $key ] ?? 0 );
+		}
+
+		$result = self::format_result( $date, $times, $base_times, $offsets, $settings, $method, $method_key );
+		return $refresh_dynamic ? self::refresh_dynamic_state( $result, $date ) : $result;
+	}
+
+	/**
+	 * Calculate prayer times without applying imported CSV overrides.
+	 *
+	 * @param array<string,mixed> $settings Plugin settings.
+	 * @return array<string,mixed>
+	 */
+	public static function calculated_for_date( DateTimeImmutable $date, array $settings, bool $refresh_dynamic = true ): array {
+		return self::for_date_without_timetable( $date, $settings, $refresh_dynamic );
+	}
+
+	/**
+	 * Clear cached daily prayer calculations.
+	 */
+	public static function flush_cache(): void {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Prayer cache transients must be purged after timetable imports.
+		$wpdb->query(
+			"DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_itmms_prayers_%' OR option_name LIKE '_transient_timeout_itmms_prayers_%'"
+		);
 	}
 }

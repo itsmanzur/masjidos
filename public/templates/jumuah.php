@@ -20,8 +20,8 @@ defined( 'ABSPATH' ) || exit;
 			<?php foreach ( $sessions as $itmms_index => $itmms_session ) : ?>
 				<?php
 				$itmms_session = is_array( $itmms_session ) ? $itmms_session : [];
-				$itmms_khutbah = $this->format_time( (string) ( $itmms_session['khutbah_time'] ?? '' ), $timezone );
-				$itmms_jamaat  = $this->format_time( (string) ( $itmms_session['jamaat_time'] ?? '' ), $timezone );
+				$itmms_khutbah = $this->format_time( (string) ( $itmms_session['khutbah_time'] ?? '' ), $timezone, $language );
+				$itmms_jamaat  = $this->format_time( (string) ( $itmms_session['jamaat_time'] ?? '' ), $timezone, $language );
 				?>
 				<div class="itmms-public-jumuah__session">
 					<span><?php echo esc_html( $this->jumuah_session_label( (string) ( $itmms_session['label'] ?? '' ), $language, (int) $itmms_index ) ); ?></span>

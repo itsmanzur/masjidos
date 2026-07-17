@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8" />
+<title>MasjidOS Screenshot 8</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 800px; overflow: hidden;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: #f4f1ea; color: #111827;
+  }
+  .frame {
+    width: 1280px; height: 800px; position: relative;
+    background:
+      radial-gradient(ellipse 50% 40% at 85% 15%, rgba(201,168,76,0.12), transparent 60%),
+      radial-gradient(ellipse 40% 50% at 10% 90%, rgba(26,107,90,0.08), transparent 55%),
+      #f4f1ea;
+  }
+  .frame::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(17,24,39,0.07) 1px, transparent 1px);
+    background-size: 18px 18px; pointer-events: none;
+  }
+  .inner {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 420px 1fr; gap: 36px;
+    height: 100%; padding: 56px 52px 56px 60px; align-items: center;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .mark {
+    width: 40px; height: 40px; border-radius: 10px; background: #134e42;
+    display: grid; place-items: center;
+  }
+  .mark svg { width: 22px; height: 22px; }
+  .brand-name { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: #134e42; }
+  .brand-name span { color: #c9a84c; }
+  .eyebrow {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    color: #c9a84c; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .eyebrow i { display: block; width: 28px; height: 2px; background: #c9a84c; }
+  h1 {
+    font-size: 52px; line-height: 1.05; font-weight: 800;
+    letter-spacing: -0.035em; color: #134e42; margin-bottom: 16px;
+  }
+  h1 em { font-style: normal; color: #c9a84c; }
+  .sub { font-size: 17px; line-height: 1.5; color: #667085; max-width: 34ch; font-weight: 500; }
+  .card {
+    background: #fff; border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(15, 61, 52, 0.14);
+    border: 1px solid rgba(26,107,90,0.08);
+    overflow: hidden; min-height: 500px;
+  }
+
+  .card { padding:22px; background:#f6f7f9; }
+  .ht { font-size:18px; font-weight:800; color:#134e42; margin-bottom:14px; }
+  .arts { display:flex; flex-direction:column; gap:12px; }
+  .art { display:grid; grid-template-columns:96px 1fr; gap:14px; background:#fff; border:1px solid #e4e7ec; border-radius:12px; padding:12px; }
+  .thumb { border-radius:10px; background:linear-gradient(145deg,#1a6b5a,#0f3d34); }
+  .art .cat { font-size:11px; font-weight:800; color:#c9a84c; letter-spacing:.04em; text-transform:uppercase; }
+  .art .tt { margin-top:4px; font-size:15px; font-weight:800; color:#111827; }
+  .art .meta { margin-top:6px; font-size:12px; color:#667085; }
+  .art .btn { margin-top:8px; display:inline-block; padding:6px 12px; border-radius:8px; background:#1a6b5a; color:#fff; font-size:12px; font-weight:700; }
+</style></head>
+<body><div class="frame"><div class="inner">
+  <div class="copy">
+    <div class="brand">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8"><path d="M4 20h16M6 20V10l6-5 6 5v10M10 20v-5h4v5"/></svg></div>
+      <div class="brand-name">Masjid<span>OS</span></div>
+    </div>
+    <div class="eyebrow"><i></i>08 · ARTICLES</div>
+    <h1>Islamic<br><em>Articles</em></h1>
+    <p class="sub">Publish articles with category, language, author, source, and takeaway — then list them on any page.</p>
+  </div>
+  <div class="card"><div class="ht">Islamic Articles · Madani Masjid</div>
+  <div class="arts">
+    <div class="art"><div class="thumb"></div><div><div class="cat">Fiqh · Bangla</div><div class="tt">সালাতের খুশু কীভাবে বাড়াবেন</div><div class="meta">Author: Imam Madani · 4 min read</div><span class="btn">Read</span></div></div>
+    <div class="art"><div class="thumb" style="background:linear-gradient(145deg,#c9a84c,#8a6d1d)"></div><div><div class="cat">Akhlaq · English</div><div class="tt">Good character in the marketplace</div><div class="meta">Source: Riyadh as-Salihin · 3 min read</div><span class="btn">Read</span></div></div>
+    <div class="art"><div class="thumb" style="background:linear-gradient(145deg,#134e42,#1a6b5a)"></div><div><div class="cat">Seerah · Bangla</div><div class="tt">মক্কা বিজয়ের শিক্ষা</div><div class="meta">Key takeaway included · 5 min read</div><span class="btn">Read</span></div></div>
+  </div>
+</div>
+</div></div></body></html>

@@ -177,6 +177,36 @@ final class ITMMS_Hijri {
 	}
 
 	/**
+	 * Localize a 12-hour clock string (e.g. "5:30 AM") for bn/ar display.
+	 */
+	public static function format_clock( string $time, string $language ): string {
+		$time = trim( $time );
+		if ( '' === $time || ! in_array( $language, [ 'bn', 'ar' ], true ) ) {
+			return $time;
+		}
+
+		$meridiem = [
+			'bn' => [ 'AM' => 'পূর্বাহ্ন', 'PM' => 'অপরাহ্ন' ],
+			'ar' => [ 'AM' => 'ص', 'PM' => 'م' ],
+		];
+
+		$replaced = str_ireplace(
+			[ 'AM', 'PM' ],
+			[ $meridiem[ $language ]['AM'], $meridiem[ $language ]['PM'] ],
+			$time
+		);
+
+		return self::number( $replaced, $language );
+	}
+
+	/**
+	 * Localize digits inside a Gregorian date label for bn/ar.
+	 */
+	public static function format_label( string $label, string $language ): string {
+		return self::number( $label, $language );
+	}
+
+	/**
 	 * Convert Hijri date to Gregorian parts.
 	 */
 	public static function hijri_to_gregorian( int $year, int $month, int $day ): array {

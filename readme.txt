@@ -1,291 +1,274 @@
-=== MasjidOS ===
+=== MasjidOS — Mosque Management Plugin for WordPress ===
 Contributors: itsmanzur
-Tags: prayer times, mosque, islamic calendar, quran, hijri
-Requires at least: 6.0
+Tags: prayer times, mosque, islamic calendar, duas, quran
+Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Complete mosque management plugin: prayer times, Jumuah, Islamic calendar, Duas & Azkar, Quran, Hadith, events, announcements, TV display, and more.
+Mosque management plugin: prayer times, Jumuah & Minbar, Duas, Quran, Islamic calendar, TV display, events, and notices for mosques.
 
 == Description ==
 
-**MasjidOS** is an all-in-one mosque management plugin for WordPress. It gives your mosque a dedicated admin dashboard and a full set of public shortcodes — covering everything from daily prayer times to a fullscreen TV display, Duas & Azkar, Quran verses, Hadith of the Day, Islamic calendar, community events, and scheduled announcements.
+**MasjidOS** is the all-in-one mosque management plugin for WordPress.
 
-Designed for mosques of all sizes, MasjidOS performs prayer time calculations **locally on your server** — no external prayer API required by default. Everything runs offline, with no telemetry or visitor tracking.
+It helps mosque committees, imams, and volunteers publish accurate prayer times, Friday (Jumuah) information, notices, events, and Islamic learning content — without coding and without depending on an external prayer API by default.
+
+Activate MasjidOS, follow the **Welcome** guide, set your location once, then paste a shortcode (or use a Gutenberg block). Visitors see live prayer times; your lobby TV can open a fullscreen board; your website stays yours.
+
+**Who it is for**
+
+* Local mosques and Islamic centers that need a reliable public prayer timetable
+* Committees that publish Friday khatib, topic, and notices every week
+* Volunteers who want Bangla, English, or Arabic admin screens without hiring a developer
+* Mosques that want a simple TV / lobby display URL for a dedicated screen
+
+**Why mosques choose MasjidOS**
+
+* **Local-first prayer times** — calculated on your server from coordinates, timezone, and method (optional Aladhan API if you prefer)
+* **Welcome + Docs for ordinary users** — first-run Welcome screen, Features previews, and plain-language Docs so non-technical admins can succeed
+* **Admin UI language** — switch MasjidOS menus between English, Bangla, and Arabic (visitor content is never auto-translated)
+* **Public widgets in en / bn / ar** — shortcode `language` attribute, or follow your admin language default
+* **No telemetry** — no MasjidOS analytics, ads, or forced cloud lock-in
+
+---
+
+= Multilingual (built-in) =
+
+MasjidOS ships with **three** built-in languages for the admin UI and public widgets:
+
+* **English** (`en`) — default source language
+* **Bangla / Bengali** (`bn`, Bangladesh pack `bn_BD`) — full translation pack
+* **Arabic** (`ar`) — built-in pack with RTL support
+
+Switch the MasjidOS admin language from the top-bar dropdown (or Settings → Profile). For public pages, use the shortcode `language="en|bn|ar"` attribute, or omit it to follow the admin default. Your own content (article titles, notices, khutbah topics, khatib names) is never auto-translated.
+
+The plugin is also translation-ready (`.pot` included) for community contributions of additional locales.
 
 ---
 
-**🕌 Prayer Times**
+= 🕌 Prayer Times & Monthly Timetable =
 
-* Local, offline prayer-time calculation using saved coordinates, timezone, and calculation method
-* Optional Aladhan.com API integration for cloud-sourced monthly timetables
-* Supports all major calculation methods (Karachi, ISNA, MWL, Egypt, Makkah, Tehran, Kuwait, Qatar, Singapore, and more)
-* Hanafi and standard Asr methods
-* Per-prayer minute adjustments to match your local mosque timetable
-* Iqamah (Jamaat) times display
-* Qibla direction with live browser compass API
-* Hijri date display with adjustable offset for local moon-sighting calendars
-* Responsive widgets in English, Bangla, and Arabic
+* Offline calculation with major methods (Karachi, ISNA, MWL, Egypt, Makkah, Tehran, Kuwait, Qatar, Singapore, and more)
+* Hanafi or standard Asr; per-prayer minute adjustments to match your printed board
+* Iqamah (Jamaat) times, Qibla direction, Hijri date with moon-sighting offset
+* Monthly timetable with navigation, print-friendly view, and compact designs
+* Shortcodes and Gutenberg **Prayer Times** block
 
-**📅 Monthly Timetable**
+**Use case:** Publish `[masjidos_prayer_times]` on the homepage and `[masjidos_monthly_prayer_times]` on a dedicated timetable page. Adjust +2 minutes on Maghrib if your committee board differs.
 
-* Full month prayer timetable with Hijri date column
-* Month navigation, current-month return button, and print support
-* Compact and classic layout designs
+= 🕋 Jumuah, Minbar & Friday Tools =
 
-**🗓️ Islamic Calendar**
+* Jumuah sessions (first / second), khatib profile (name, photo, bio), topic, language tag, and notice pill
+* **Minbar** admin: Overview, Schedule, Planner, Archive, Sermon Builder, and References
+* Public widgets: this week's khatib, upcoming khutbahs, searchable archive, and compact search
+* Audio / PDF links when you add them to archive entries
 
-* Gregorian calendar with Hijri dates overlaid on every day
-* Highlights important Islamic dates (Ramadan, Eid, Laylat al-Qadr, and more)
-* Shows mosque community events as calendar markers
-* Supports Bangla and English languages
-* Available as a shortcode and as a Gutenberg block
+**Use case:** Update Friday's khatib in Minbar → Schedule, then show `[masjidos_khatib_this_week]` under your Jumuah widget.
 
-**📺 TV Display (Fullscreen Mosque Screen)**
+= 📺 TV Display (Mosque Screen) =
 
-* Dedicated fullscreen display at `/masjidos-display/`
-* Shows live prayer times, upcoming prayer countdown, Hijri date, announcements ticker, and mosque name
-* Multiple themes (Dark, Light, Green)
-* Configurable font size and announcement scroll speed
-* Custom logo support
+* Fullscreen board at `/masjidos-display/`
+* Live times, next-prayer countdown, Hijri date, notices, and mosque branding
+* Themes, layouts, font size, and logo via Settings → TV Display
+* Self-hosted fonts (no Google Fonts request at runtime)
 
-**🤲 Duas & Azkar**
+**Use case:** Bookmark the TV URL on a lobby Chromebox or smart TV browser and leave it on all day.
 
-* Built-in collection of authentic Duas and Azkar with Arabic text, transliteration, and Bangla/English meanings
-* Source labels (Quran reference or Hadith source) for every dua
-* Filter by category: Morning, Evening, Food, Sleep, Home, Masjid, Travel, Rain, Forgiveness, Quran, Protection
-* Local recitation counter stored in the visitor's browser
-* Share button for each dua
-* Custom Duas Library: add your own Duas from the admin and assign categories
+= 📢 Notices, Events & Community =
 
-**📖 Quran & Hadith**
+* Scheduled announcements: list, ticker, banner, and popup designs
+* Events with dates, location, images, remaining-days badges, and iCal download
+* Islamic calendar with Hijri overlay, highlighted dates, and event markers
 
-* Daily Quran verse shortcode with Arabic, English, and Bangla translation
-* Daily Hadith widget with source reference
-* Audio Quran shortcode — play any Surah directly on the page (streamed from QuranicAudio.com)
-* 99 Names of Allah shortcode with Arabic, transliteration, and meaning
+= 🤲 Duas, Quran, Hadith & Articles =
 
-**🕋 Jumuah Management**
+* Duas & Azkar with categories, counters, share buttons, and optional custom Duas Library
+* Quran verse of the day, Hadith of the day, 99 Names of Allah, and Audio Quran player
+* **Islamic Articles** — title, content, featured image, categories, plus language, author, translator, source, takeaway, external URL, and audio fields
+* List articles on any page with `[masjidos_articles]`
 
-* Multiple Jumuah sessions per Friday (first Jumuah, second Jumuah)
-* Khatib profile with name, photo, and bio
-* Khutbah topic, language, and special notice fields
-* Recurring auto-creation of Friday Jumuah entries
-* Jumuah Khutbah Archive with audio player and date filtering
+**Use case:** Publish a Bangla article in Articles → Add New, then show `[masjidos_articles language="bn"]` on an Education page.
 
-**📢 Mosque Announcements**
+= ⚙️ Administration That Feels Friendly =
 
-* Scheduled notices with start and end dates/times
-* Display styles: Ticker, Banner, List, and Popup Modal
-* Priority ordering for notices
-* Ramadan gold ticker theme auto-activates during Ramadan
-
-**📆 Community Events**
-
-* Upcoming events list with title, date, location, description, and featured image
-* "Remaining days" badge for each event
-* iCal download so visitors can add events to their personal calendars
-* Islamic recurring events (Eid, Ramadan, Milad, Muharram) generated automatically with Hijri date conversion
-
-**⚙️ Administration**
-
-* Dedicated MasjidOS dashboard in the WordPress admin
-* Role-based access: Imam and Muazzin roles with tailored capabilities
-* REST API under `masjidos/v1` with capability-based permission checks
-* Built-in Features page with live shortcode previews and a shortcode generator
-* Full shortcode documentation under MasjidOS > Docs
-* Multisite compatible (uninstall cleans all sites)
-
-**🌐 Multilingual**
-
-* Translation-ready (.pot file included)
-* Built-in Bangla (Bangladesh) translation
-* Shortcode `language` attribute supports `en`, `bn`, and `ar`
+* Dedicated MasjidOS dashboard (not buried in Settings alone)
+* **Welcome** first-run experience with live prayer preview and three clear paths
+* **Features** — browse widgets, tweak options, copy shortcodes, open previews
+* **Docs** — beginner checklist, paste guides, generators, and attribute reference
+* Roles: Imam and Muazzin with capability-based access
+* REST API under `masjidos/v1`
+* Multisite-aware uninstall
 
 ---
+
+**Quick start (about 5 minutes)**
+
+1. Activate MasjidOS and open the Welcome screen (or MasjidOS → Welcome).
+2. Choose admin language from the top bar if you prefer Bangla or Arabic menus.
+3. Open Prayer Settings: timezone, coordinates, calculation method → Save.
+4. Open Features → Prayer Times → Copy shortcode → paste on a page.
+5. Optional: open `/masjidos-display/` for the mosque TV.
+
+Need deeper help later? MasjidOS → Docs. Prefer clicking options over memorizing attributes? Use Features or the Docs Generators tab.
 
 == Installation ==
 
-1. Upload the `masjidos` folder to `/wp-content/plugins/`, or install the plugin ZIP via **Plugins > Add New > Upload Plugin**.
+1. Upload the `masjidos` folder to `/wp-content/plugins/`, or install via **Plugins → Add New → Upload Plugin**.
 2. Activate **MasjidOS**.
-3. Go to **MasjidOS > Settings** and enter your mosque's timezone, latitude, longitude, calculation method, and Asr method.
-4. Add any shortcode to a WordPress page or post.
+3. Follow the **Welcome** guide, or go to **MasjidOS → Settings** and set timezone, latitude, longitude, calculation method, and Asr method.
+4. Paste a shortcode on any page, or add a MasjidOS block in the block editor.
 
-**Common shortcodes:**
+**Most-used shortcodes**
 
 `[masjidos_prayer_times]`
-`[masjidos_prayer_times design="compact"]`
-`[masjidos_jumuah]`
+`[masjidos_prayer_times design="compact" language="bn"]`
 `[masjidos_monthly_prayer_times]`
-`[masjidos_islamic_calendar]`
-`[masjidos_islamic_calendar language="bn"]`
-`[masjidos_duas_azkar]`
-`[masjidos_duas_azkar category="morning" counter="yes" share="yes"]`
-`[masjidos_announcements design="ticker"]`
-`[masjidos_announcements design="popup"]`
-`[masjidos_events]`
+`[masjidos_jumuah]`
+`[masjidos_khatib_this_week]`
+`[masjidos_upcoming_khutbah]`
 `[masjidos_khutbah_archive]`
+`[masjidos_khutbah_search]`
+`[masjidos_islamic_calendar]`
+`[masjidos_duas_azkar]`
+`[masjidos_announcements design="ticker"]`
+`[masjidos_events]`
+`[masjidos_articles]`
 `[masjidos_quran_verse]`
 `[masjidos_hadith]`
 `[masjidos_allah_names]`
 `[masjidos_audio_quran]`
 
-**Fullscreen TV display:**
-Open `/masjidos-display/` in your browser.
+**Mosque TV URL:** `/masjidos-display/`
 
-The complete shortcode reference, live previews, and a shortcode generator are available under **MasjidOS > Docs** and **MasjidOS > Features** in your WordPress admin.
+Full attribute lists, paste locations (Page, Elementor, widgets), and generators: **MasjidOS → Docs** and **MasjidOS → Features**.
 
 == External Services ==
 
-MasjidOS connects to the following third-party services in specific situations:
+MasjidOS connects to third-party services only in specific, optional situations:
 
 = Aladhan Prayer Times API =
-When the prayer source is set to "Aladhan" in Settings, the plugin fetches
-monthly prayer timetables from api.aladhan.com. The city, country, calculation
-method, and Asr school are sent as query parameters. This setting defaults to
-"Local" (offline calculation); the API is only contacted when you explicitly
-choose "Aladhan" as the source.
+
+When prayer source is set to Aladhan / Auto API in Settings, monthly timetables are fetched from api.aladhan.com (city, country, method, and Asr school sent as query parameters). Default remains local offline calculation.
 Service: https://aladhan.com | Privacy: https://aladhan.com/privacy
 
-= Google Fonts (TV Display) =
-The TV Display page loads Cairo, Outfit, and Noto Sans Bengali fonts from
-Google Fonts CDN (fonts.googleapis.com). This request is made in the visitor's
-browser when the TV Display page is opened.
-Service: https://fonts.google.com | Privacy: https://policies.google.com/privacy
+= Quranic Audio (Audio Quran Widget) =
 
-= Quranic Audio (Audio Quran widget) =
-The Audio Quran widget generates playback URLs pointing to
-download.quranicaudio.com. The audio file is streamed directly in the
-visitor's browser; no data is sent from your server.
+The Audio Quran widget streams Surah recitation files from download.quranicaudio.com directly in the visitor's browser. No visitor data is uploaded from your server to that service.
 Service: https://quranicaudio.com
+
+TV Display and admin UI use self-hosted Outfit, Cairo, and Noto Sans Bengali fonts (SIL Open Font License). They do not call Google Fonts at runtime.
 
 == Frequently Asked Questions ==
 
-= Does MasjidOS use an external prayer-time API? =
+= I am not technical. Can I still set this up? =
 
-By default, no. Prayer times are calculated locally from saved coordinates,
-timezone, and calculation settings. Optionally, you can switch the prayer
-source to "Aladhan" in Settings, which fetches timetables from api.aladhan.com.
-See the External Services section above for details.
+Yes. After activation, the Welcome screen shows a live preview and three clear paths: set prayer times, put a widget on the website, or open the TV board. Features lets you copy shortcodes without memorizing attributes. Docs includes a beginner checklist in plain language.
 
-= How do I find latitude and longitude for my mosque? =
+= Does MasjidOS require an external prayer API? =
 
-Open Google Maps or any map service, right-click on the mosque location, and
-copy the coordinates. MasjidOS includes this guidance directly on the Settings
-screen.
+No, by default. Prayer times are calculated locally on your server from your coordinates and settings. You may optionally enable Aladhan / Auto API in Settings if you prefer cloud-sourced timetables.
 
-= Why do local mosque times differ by a few minutes from MasjidOS? =
+= How do I switch the admin language to Bangla or Arabic? =
 
-Calculation conventions and officially published timetables can differ slightly.
-Use Prayer Time Adjustments under Settings to add or subtract minutes per prayer
-to match your mosque's published timetable exactly.
+Use the language dropdown at the top of any MasjidOS screen, or set it under Settings → Profile. This changes MasjidOS menus and Docs labels only. Article titles, notices, and khutbah topics stay exactly as you typed them.
 
-= Can I adjust the Hijri date? =
+= What is the difference between admin language and widget language? =
 
-Yes. Go to Settings > Calculation > Hijri Date Adjustment. Enter +1 or -1 days
-if your local moon-sighting calendar differs from the calculated Hijri date.
+Admin language controls the MasjidOS dashboard. Public widget language controls visitor-facing labels via `language="bn"` (or `en` / `ar`), or follows the admin default when you omit the attribute. Jumuah "khutbah language" is a public label for the sermon (for example "Bangla"), not the UI language.
 
-= How do I display the Islamic calendar? =
+= How do I match our printed mosque timetable? =
 
-Add `[masjidos_islamic_calendar]` to any page. It shows Gregorian days with
-Hijri dates alongside, highlights important Islamic dates, and marks community
-events on the calendar. A Gutenberg block version is also available.
+Use Settings → Adjustments to add or subtract minutes per prayer. Wrong timezone is the most common cause — use your real city timezone (for Bangladesh, typically Asia/Dhaka), not UTC.
+
+= How do I show this Friday's khatib on the website? =
+
+Add the khatib and date under Minbar → Schedule, then place `[masjidos_khatib_this_week]` on your Jumuah or homepage. For past sermons, use `[masjidos_khutbah_archive]` and optionally `[masjidos_khutbah_search]`.
+
+= How do I publish Islamic articles? =
+
+Go to Articles → Add New under MasjidOS. Add title, content, featured image, and category. Fill Article Details (language, author, source, takeaway, optional audio). Publish, then use `[masjidos_articles]` on any page.
 
 = How do I open the TV display? =
 
-Open `/masjidos-display/` on your WordPress site. Configure the theme, logo,
-font size, and announcement speed under MasjidOS > Settings > TV Display.
+Visit `/masjidos-display/` on your site. Configure theme, logo, font size, and notice rotation under Settings → TV Display.
 
-= How do I show Duas and Azkar? =
+= Why is my announcement not showing? =
 
-Add `[masjidos_duas_azkar]` to any page. Filter the built-in collection with
-`category="morning"`, `category="evening"`, `category="food"`, `category="sleep"`,
-`category="home"`, `category="masjid"`, `category="travel"`, `category="rain"`,
-`category="forgiveness"`, `category="quran"`, or `category="protection"`.
-Recitation counters are stored in the visitor's browser.
-
-= Can I add my own custom Duas? =
-
-Yes. Open MasjidOS > Duas Library in the admin, add a new dua, assign one or
-more Dua Categories, and publish it. Your custom duas appear in
-`[masjidos_duas_azkar]` alongside the built-in collection.
-
-= How does the Audio Quran widget work? =
-
-Add `[masjidos_audio_quran]` to a page. A Surah selector and an audio player
-appear. Selecting a Surah streams the recitation by Sheikh Mishary Alafasy
-directly from QuranicAudio.com in the visitor's browser.
-
-= How do community event iCal downloads work? =
-
-Each event in `[masjidos_events]` includes a download button. Clicking it
-downloads a standard .ics file that visitors can add to Google Calendar,
-Apple Calendar, Outlook, or any calendar app.
-
-= Why is an announcement not showing? =
-
-The announcement must be published, its start date/time must have passed, and
-its end date/time must be blank or in the future. Scheduling uses the timezone
-configured in MasjidOS > Settings.
+It must be published; start time must have arrived; end time must be empty or still in the future. Scheduling uses the MasjidOS timezone.
 
 = Does MasjidOS include Gutenberg blocks? =
 
-Yes. In the WordPress block editor, search for "MasjidOS" to find the Prayer
-Times block and the Islamic Calendar block.
+Yes. Search for "MasjidOS" in the block editor to find the Prayer Times block, Islamic Calendar block, and other registered MasjidOS blocks.
 
-= What is removed when I delete the plugin? =
+= Is there a free / Pro difference? =
 
-Deleting MasjidOS through WordPress removes its settings, custom roles (Imam,
-Muazzin), cached prayer calculations, and custom database tables
-(announcements, events, khutbah archive). Content stored as WordPress posts,
-such as custom Duas and Islamic Articles, follows WordPress content behavior.
-Back up any data you need before deleting.
+The free plugin includes the full mosque toolkit described here. Some design presets are documented as Pro placeholders and render only when a Pro add-on is active. All free designs always work from this plugin alone.
 
-= Is MasjidOS compatible with multisite? =
+= What is removed on uninstall? =
 
-Yes. The uninstall routine runs per-site and cleans data from every site in the
-network.
+Settings, custom roles (Imam, Muazzin), prayer caches, and MasjidOS custom database tables (announcements, events, khutbah archive, khatib profiles, schedules). WordPress post content such as custom Duas and Islamic Articles follows normal WordPress behavior. Back up first if you need to keep that data.
+
+= Is multisite supported? =
+
+Yes. Uninstall runs per site across the entire network.
 
 == Privacy ==
 
-MasjidOS does not include analytics, telemetry, advertising, or any automatic
-requests to a MasjidOS-owned service. See the External Services section above
-for third-party services that may be contacted under specific conditions.
+MasjidOS does not ship analytics, telemetry, advertising, or automatic calls to a MasjidOS-owned service. See the External Services section above for optional third-party services.
 
-Public widgets display only information that an administrator has explicitly
-configured: prayer settings, Khatib profiles, announcements, and events.
+Public widgets display only what an administrator has explicitly configured: prayer settings, khatib profiles, notices, events, articles, and related content.
+
+== Screenshots ==
+
+1. Welcome — first-run guide with live prayer preview (Madani Masjid)
+2. TV Display — fullscreen mosque board with countdown and notices
+3. Dashboard — next prayer countdown and mosque overview
+4. Features — browse widgets and copy shortcodes
+5. Docs — beginner checklist and First 5 minutes guide
+6. Prayer Times — public widget with Iqamah and current prayer
+7. Jumuah — Friday sessions, khatib profile, and topic
+8. Islamic Articles — published article list with Read buttons
+9. Duas & Learning — duas, Quran verse, and Hadith widgets
+10. Notices & Events — scheduled notices and community events
 
 == Changelog ==
 
+= 1.2.0 =
+* **Welcome experience** — first-run screen with live prayer preview, setup pulse, and clear paths to Settings, Features, and TV display.
+* **Admin UI language switcher** — English, Bangla, and Arabic for MasjidOS menus with reload-friendly toggle and clearer Docs guidance on admin vs. public vs. content language.
+* **Islamic Articles** — richer article details (language, author, translator, source, takeaway, URLs, audio) and public `[masjidos_articles]` list widget.
+* **Minbar docs and public Friday widgets** — this week's khatib, upcoming khutbahs, archive, and search, documented for ordinary mosque admins.
+* **Docs polish** — First 5 minutes guide, setup checklist updates, Articles and Minbar tabs, and beginner-friendly wording throughout.
+* **Self-hosted fonts** — shared Outfit, Cairo, and Noto Sans Bengali fonts for admin and public widgets; no Google Fonts request at runtime.
+* Plugin Check and coding standards cleanups for WordPress.org compliance.
+
 = 1.1.0 =
-* Content & Education module: Islamic Articles post type, Quran Verse, Hadith of the Day, 99 Names of Allah, and Audio Quran widgets.
-* Jumuah and Events upgrades: Khutbah Archive with audio, recurring Friday Jumuah generation, featured event images, remaining-days badges, and iCal exports.
-* Announcement styles: Banner and Popup Modal layouts, plus Ramadan ticker styling.
-* TV Display improvements: geometric background patterns and faster reconnect/refresh behavior.
-* Shortcodes and docs: added [itmms_calendar] as an Islamic Calendar alias and expanded admin documentation.
-* Privacy documentation: added External Services disclosures for optional third-party services.
+* **Content & Education** — Islamic Articles CPT, Quran Verse of the Day, Hadith of the Day, 99 Names of Allah, and Audio Quran widgets.
+* **Jumuah and Events upgrades** — Khutbah Archive with audio player, virtual recurring Friday generation, community event featured images, remaining-days badges, and iCal exports.
+* **Announcement styles** — slim Banner layout, session-controlled dismissible Popup Modal, and Ramadan Gold ticker theme (auto-activates during Ramadan).
+* **TV Display improvements** — Islamic Geometric SVG patterns, 15-minute auto-reload, and instant refresh on browser reconnect.
+* External Services privacy disclosures added to readme.txt.
 
 = 1.0.0 =
 * Initial public release on WordPress.org.
-* Prayer Times with local offline calculation, adjustments, Iqamah times, Hijri date, and Qibla compass.
-* Monthly Timetable with month navigation and print support.
-* Jumuah schedule widget with Khatib profile and public shortcode.
-* Announcements and Events modules for mosque communication.
-* Duas & Azkar widget with counters and sharing.
-* Gutenberg blocks for Prayer Times and Islamic Calendar.
-* Imam and Muazzin roles with capability-based admin access.
-* Built-in Bangla (Bangladesh) translation and translation-ready POT file.
-* REST API under masjidos/v1 with capability-based permission checks.
-* Features page with live shortcode previews and shortcode generator.
-* Full shortcode documentation under MasjidOS > Docs.
+* Local prayer-time calculation, per-prayer adjustments, Iqamah times, Hijri date, and Qibla compass.
+* Monthly timetable, Jumuah sessions, Duas & Azkar, scheduled announcements, and community events.
+* Gutenberg Prayer Times and Islamic Calendar blocks.
+* Imam and Muazzin roles with capability-based access.
+* Built-in Bangla (Bangladesh) translation pack and Arabic pack.
+* REST API under `masjidos/v1`.
+* Features page with live shortcode previews and Docs with shortcode generators.
 
 == Upgrade Notice ==
 
+= 1.2.0 =
+Welcome screen, admin language switcher (English / Bangla / Arabic), Islamic Articles improvements, Minbar public widget docs, self-hosted fonts, and Docs polish for everyday mosque admins. Recommended update for all users.
+
 = 1.1.0 =
-This update adds the Content & Education module, Jumuah sermon archive, announcements styles, TV geometric templates, and major bug fixes. Highly recommended for all mosques.
+Adds education widgets (Quran Verse, Hadith, Audio Quran, 99 Names), Khutbah Archive, new announcement styles, and TV Display improvements.
 
 = 1.0.0 =
 Initial public release of MasjidOS.

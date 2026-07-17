@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8" />
+<title>MasjidOS Screenshot 4</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 800px; overflow: hidden;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: #f4f1ea; color: #111827;
+  }
+  .frame {
+    width: 1280px; height: 800px; position: relative;
+    background:
+      radial-gradient(ellipse 50% 40% at 85% 15%, rgba(201,168,76,0.12), transparent 60%),
+      radial-gradient(ellipse 40% 50% at 10% 90%, rgba(26,107,90,0.08), transparent 55%),
+      #f4f1ea;
+  }
+  .frame::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(17,24,39,0.07) 1px, transparent 1px);
+    background-size: 18px 18px; pointer-events: none;
+  }
+  .inner {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 420px 1fr; gap: 36px;
+    height: 100%; padding: 56px 52px 56px 60px; align-items: center;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .mark {
+    width: 40px; height: 40px; border-radius: 10px; background: #134e42;
+    display: grid; place-items: center;
+  }
+  .mark svg { width: 22px; height: 22px; }
+  .brand-name { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: #134e42; }
+  .brand-name span { color: #c9a84c; }
+  .eyebrow {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    color: #c9a84c; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .eyebrow i { display: block; width: 28px; height: 2px; background: #c9a84c; }
+  h1 {
+    font-size: 52px; line-height: 1.05; font-weight: 800;
+    letter-spacing: -0.035em; color: #134e42; margin-bottom: 16px;
+  }
+  h1 em { font-style: normal; color: #c9a84c; }
+  .sub { font-size: 17px; line-height: 1.5; color: #667085; max-width: 34ch; font-weight: 500; }
+  .card {
+    background: #fff; border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(15, 61, 52, 0.14);
+    border: 1px solid rgba(26,107,90,0.08);
+    overflow: hidden; min-height: 500px;
+  }
+
+  .card { padding:22px; background:#f6f7f9; }
+  .title { font-size:20px; font-weight:800; color:#134e42; margin-bottom:14px; }
+  .feats { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .feat { background:#fff; border:1px solid #e4e7ec; border-radius:12px; padding:14px; }
+  .feat .t { font-size:14px; font-weight:800; color:#134e42; }
+  .feat .d { margin-top:4px; font-size:12px; color:#667085; line-height:1.4; }
+  .feat code { display:block; margin-top:10px; padding:8px 10px; border-radius:8px; background:rgba(26,107,90,.08);
+    color:#1a6b5a; font-size:12px; font-weight:700; }
+  .feat .btn { margin-top:8px; display:inline-block; padding:6px 10px; border-radius:8px; background:#1a6b5a; color:#fff; font-size:11px; font-weight:700; }
+</style></head>
+<body><div class="frame"><div class="inner">
+  <div class="copy">
+    <div class="brand">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8"><path d="M4 20h16M6 20V10l6-5 6 5v10M10 20v-5h4v5"/></svg></div>
+      <div class="brand-name">Masjid<span>OS</span></div>
+    </div>
+    <div class="eyebrow"><i></i>04 · FEATURES</div>
+    <h1>Copy<br><em>Shortcodes</em></h1>
+    <p class="sub">Browse widgets, tweak options, preview, and copy a ready shortcode — no memorizing attributes.</p>
+  </div>
+  <div class="card"><div class="title">Features · Madani Masjid</div>
+  <div class="feats">
+    <div class="feat"><div class="t">Prayer Times</div><div class="d">Today’s times with countdown and Qibla.</div><code>[masjidos_prayer_times]</code><span class="btn">Copy</span></div>
+    <div class="feat"><div class="t">Monthly Timetable</div><div class="d">Full month with print support.</div><code>[masjidos_monthly_prayer_times]</code><span class="btn">Copy</span></div>
+    <div class="feat"><div class="t">Jumuah</div><div class="d">Sessions, khatib, topic, and notice.</div><code>[masjidos_jumuah]</code><span class="btn">Copy</span></div>
+    <div class="feat"><div class="t">Islamic Articles</div><div class="d">Publish and list mosque articles.</div><code>[masjidos_articles]</code><span class="btn">Copy</span></div>
+  </div>
+</div>
+</div></div></body></html>

@@ -1,0 +1,3723 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MasjidOS 1.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/masjidos/\n"
+"Language: ar\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);\n"
+"X-Domain: masjidos\n"
+"\n"
+
+#: admin/assets/js/block-editor.js:235
+msgid "[Renders live dual calendar on frontend]"
+msgstr "[Renders live dual calendar on frontend]"
+
+#: admin/assets/js/block-editor.js:147
+msgid "[Renders live widget on frontend]"
+msgstr "[Renders live widget on frontend]"
+
+#. translators: %d: Number of currently active notices.
+#: public/class-itmms-public.php:990
+msgid "%d active notices"
+msgstr "%d active notices"
+
+#. translators: %d: number of days remaining
+#: public/templates/events.php:18
+msgid "%d days left"
+msgstr "%d days left"
+
+#. translators: %d: Number of active public events.
+#: public/templates/events.php:32
+msgid "%d events"
+msgstr "%d events"
+
+#. translators: %s: Formatted Hijri date.
+#: includes/class-itmms-hijri.php:35
+msgid "%s adjusted"
+msgstr "%s adjusted"
+
+#: admin/assets/js/modules/settings.js:236
+msgid "%s Iqamah"
+msgstr "%s Iqamah"
+
+#: admin/assets/js/modules/settings.js:232
+msgid "%s offset"
+msgstr "%s offset"
+
+#: public/class-itmms-public.php:988
+msgid "1 active notice"
+msgstr "1 active notice"
+
+#: public/templates/events.php:19
+msgid "1 day left"
+msgstr "1 day left"
+
+#: admin/assets/js/modules/docs.js:659 admin/assets/js/modules/docs.js:694 admin/assets/js/modules/features.js:196 public/class-itmms-public.php:1624
+msgid "99 Names of Allah"
+msgstr "99 Names of Allah"
+
+#: admin/assets/js/modules/features.js:185
+msgid "A daily Hadith from authentic collections in Arabic with English or Bangla meanings and sharing buttons."
+msgstr "A daily Hadith from authentic collections in Arabic with English or Bangla meanings and sharing buttons."
+
+#: admin/assets/js/modules/features.js:173
+msgid "A daily verse from the Holy Quran in Arabic with English or Bangla meanings and dynamic Tafsir references."
+msgstr "A daily verse from the Holy Quran in Arabic with English or Bangla meanings and dynamic Tafsir references."
+
+#: admin/assets/js/modules/docs.js:275
+msgid "A narrow Jumuah card for sidebars, footers, or mobile-first layouts."
+msgstr "A narrow Jumuah card for sidebars, footers, or mobile-first layouts."
+
+#: includes/class-itmms-duas-azkar.php:477
+msgid "Abu Dawud"
+msgstr "Abu Dawud"
+
+#: includes/class-itmms-duas-azkar.php:279 includes/class-itmms-duas-azkar.php:297 includes/class-itmms-duas-azkar.php:351 includes/class-itmms-duas-azkar.php:441
+msgid "Abu Dawud and Tirmidhi"
+msgstr "Abu Dawud and Tirmidhi"
+
+#: admin/assets/js/modules/docs.js:249
+msgid "Accepted types: all, general, urgent, jumuah"
+msgstr "Accepted types: all, general, urgent, jumuah"
+
+#: admin/assets/js/modules/announcements.js:79
+msgid "Active"
+msgstr "نشط"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "active announcement"
+msgid_plural "active announcements"
+msgstr[0] "active announcement"
+msgstr[1] "active announcements"
+msgstr[2] "active announcements"
+msgstr[3] "active announcements"
+msgstr[4] "active announcements"
+msgstr[5] "active announcements"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "active event"
+msgid_plural "active events"
+msgstr[0] "active event"
+msgstr[1] "active events"
+msgstr[2] "active events"
+msgstr[3] "active events"
+msgstr[4] "active events"
+msgstr[5] "active events"
+
+#: admin/assets/js/modules/dashboard.js:96
+msgid "Active Events"
+msgstr "Active Events"
+
+#: admin/assets/js/modules/dashboard.js:95
+msgid "Active Notices"
+msgstr "إعلانات نشطة"
+
+#: admin/assets/js/modules/docs.js:328
+msgid "Add [masjidos_prayer_times] to the masjid homepage or a dedicated prayer times page."
+msgstr "Add [masjidos_prayer_times] to the masjid homepage or a dedicated prayer times page."
+
+#: admin/assets/js/modules/events.js:34
+msgid "Add an event"
+msgstr "Add an event"
+
+#: admin/assets/js/modules/events.js:36
+msgid "Add event details, schedule, or prerequisites..."
+msgstr "Add event details, schedule, or prerequisites..."
+
+#: admin/assets/js/modules/docs.js:324
+msgid "Add jamaat start times for Fajr, Dhuhr, Asr, Maghrib, and Isha."
+msgstr "Add jamaat start times for Fajr, Dhuhr, Asr, Maghrib, and Isha."
+
+#: admin/assets/js/modules/docs.js:107
+msgid "Add khatib name, short bio, and use Select Photo to choose an image from WordPress Media Library."
+msgstr "Add khatib name, short bio, and use Select Photo to choose an image from WordPress Media Library."
+
+#: includes/class-itmms-education.php:63
+msgid "Add New Category"
+msgstr "Add New Category"
+
+#: includes/class-itmms-duas-library.php:51
+msgid "Add New Dua"
+msgstr "Add New Dua"
+
+#: includes/class-itmms-duas-library.php:81
+msgid "Add New Dua Category"
+msgstr "Add New Dua Category"
+
+#: includes/class-itmms-education.php:25
+msgid "Add New Islamic Article"
+msgstr "Add New Islamic Article"
+
+#: admin/assets/js/modules/docs.js:325
+msgid "Add sessions, topic, language, khatib profile, and notice from Settings > Jumuah Settings, then publish [masjidos_jumuah]."
+msgstr "Add sessions, topic, language, khatib profile, and notice from Settings > Jumuah Settings, then publish [masjidos_jumuah]."
+
+#: admin/assets/js/modules/announcements.js:37
+msgid "Add the useful details visitors need."
+msgstr "Add the useful details visitors need."
+
+#: public/templates/events.php:16
+msgid "Add to Calendar"
+msgstr "Add to Calendar"
+
+#: admin/assets/js/modules/docs.js:227
+msgid "Add your own duas from the native WordPress library screen."
+msgstr "Add your own duas from the native WordPress library screen."
+
+#: admin/assets/js/modules/docs.js:371
+msgid "Adds Iqamah columns beside prayer times."
+msgstr "Adds Iqamah columns beside prayer times."
+
+#: admin/assets/js/modules/docs.js:322
+msgid "Adjust Hijri Date"
+msgstr "Adjust Hijri Date"
+
+#: admin/assets/js/modules/docs.js:323
+msgid "Adjust Official Times"
+msgstr "Adjust Official Times"
+
+#: admin/assets/js/modules/settings.js:131
+msgid "Adjustments"
+msgstr "التعديلات"
+
+#: admin/assets/js/app.js:84
+msgid "Administrator"
+msgstr "المسؤول"
+
+#: includes/class-itmms-duas-azkar.php:286 includes/class-itmms-duas-azkar.php:288
+msgid "After eating"
+msgstr "After eating"
+
+#: includes/class-itmms-duas-azkar.php:322 includes/class-itmms-duas-azkar.php:324
+msgid "After waking up"
+msgstr "After waking up"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:97
+msgid "All"
+msgstr "All"
+
+#: includes/class-itmms-education.php:29
+msgid "All Articles"
+msgstr "All Articles"
+
+#: includes/class-itmms-education.php:58
+msgid "All Categories"
+msgstr "All Categories"
+
+#: includes/class-itmms-duas-library.php:78
+msgid "All Dua Categories"
+msgstr "All Dua Categories"
+
+#: admin/assets/js/modules/features.js:296
+msgid "All Features"
+msgstr "كل الميزات"
+
+#: admin/assets/js/modules/docs.js:539
+msgid "All notices"
+msgstr "All notices"
+
+#: includes/class-itmms-duas-azkar.php:293 includes/class-itmms-duas-azkar.php:295
+msgid "All praise is for Allah who fed me this and provided it for me."
+msgstr "All praise is for Allah who fed me this and provided it for me."
+
+#: includes/class-itmms-duas-azkar.php:329 includes/class-itmms-duas-azkar.php:331
+msgid "All praise is for Allah who gave us life after causing us to die, and to Him is the resurrection."
+msgstr "All praise is for Allah who gave us life after causing us to die, and to Him is the resurrection."
+
+#: includes/class-itmms-duas-azkar.php:257
+msgid "Allah is sufficient for us, and He is the best disposer of affairs."
+msgstr "Allah is sufficient for us, and He is the best disposer of affairs."
+
+#: admin/assets/js/modules/docs.js:285
+msgid "Allows searching by topic, khatib name, or summary"
+msgstr "Allows searching by topic, khatib name, or summary"
+
+#: admin/assets/js/modules/features.js:209
+msgid "An embedded HTML5 audio player allowing visitors to listen to beautiful recitations of Surahs."
+msgstr "An embedded HTML5 audio player allowing visitors to listen to beautiful recitations of Surahs."
+
+#: admin/assets/js/modules/settings.js:122
+msgid "Announcement Scroll Speed"
+msgstr "Announcement Scroll Speed"
+
+#: admin/assets/js/modules/docs.js:409
+msgid "Announcement shortcode attributes"
+msgstr "Announcement shortcode attributes"
+
+#: admin/assets/js/modules/announcements.js:30 includes/class-itmms-settings.php:152
+msgid "Announcements"
+msgstr "الإعلانات"
+
+#: public/class-itmms-public.php:390
+msgid "Announcements are disabled"
+msgstr "Announcements are disabled"
+
+#: admin/assets/js/modules/docs.js:71
+msgid "Appearance > Widgets, add a Shortcode block in a sidebar or footer area."
+msgstr "Appearance > Widgets, add a Shortcode block in a sidebar or footer area."
+
+#: admin/assets/js/modules/docs.js:563
+msgid "April"
+msgstr "April"
+
+#: admin/assets/js/block-editor.js:202 admin/assets/js/block-editor.js:98 admin/assets/js/modules/docs.js:472 admin/assets/js/modules/docs.js:484 admin/assets/js/modules/docs.js:496 admin/assets/js/modules/docs.js:508 admin/assets/js/modules/docs.js:522 admin/assets/js/modules/docs.js:538 admin/assets/js/modules/docs.js:550 admin/assets/js/modules/features.js:23
+msgid "Arabic"
+msgstr "العربية"
+
+#: admin/assets/js/modules/docs.js:225
+msgid "Arabic dua text remains unchanged"
+msgstr "Arabic dua text remains unchanged"
+
+#: includes/class-itmms-duas-library.php:259
+msgid "Arabic Meaning"
+msgstr "Arabic Meaning"
+
+#: includes/class-itmms-duas-library.php:255
+msgid "Arabic Text"
+msgstr "Arabic Text"
+
+#: includes/class-itmms-duas-library.php:254
+msgid "Arabic Title"
+msgstr "Arabic Title"
+
+#: includes/class-itmms-education.php:90
+msgid "Articles related to Islamic creed."
+msgstr "Articles related to Islamic creed."
+
+#: includes/class-itmms-education.php:91
+msgid "Articles related to Islamic jurisprudence."
+msgstr "Articles related to Islamic jurisprudence."
+
+#: includes/class-itmms-education.php:92
+msgid "Articles related to the biography of Prophet Muhammad (peace be upon him)."
+msgstr "Articles related to the biography of Prophet Muhammad (peace be upon him)."
+
+#: includes/class-itmms-duas-azkar.php:214
+msgid "Ask for pardon"
+msgstr "Ask for pardon"
+
+#: admin/assets/js/modules/dashboard.js:144 admin/assets/js/modules/dashboard.js:38 admin/assets/js/modules/dashboard.js:62 admin/assets/js/modules/settings.js:84 admin/assets/js/modules/settings.js:92 public/class-itmms-public.php:762 public/class-itmms-public.php:918
+msgid "Asr"
+msgstr "العصر"
+
+#: admin/assets/js/modules/dashboard.js:98 admin/assets/js/modules/settings.js:66
+msgid "Asr Method"
+msgstr "Asr Method"
+
+#: admin/assets/js/modules/dashboard.js:91
+msgid "Assalamu Alaikum"
+msgstr "السلام عليكم"
+
+#: admin/assets/js/modules/docs.js:229
+msgid "Assign native Dua Categories such as morning, food, or travel"
+msgstr "Assign native Dua Categories such as morning, food, or travel"
+
+#: includes/class-itmms-duas-azkar.php:54 includes/class-itmms-duas-library.php:306
+msgid "Audio"
+msgstr "Audio"
+
+#: includes/class-itmms-duas-library.php:334
+msgid "Audio available"
+msgstr "Audio available"
+
+#: admin/assets/js/modules/docs.js:663
+msgid "Audio player to stream beautiful recitations of Surahs."
+msgstr "Audio player to stream beautiful recitations of Surahs."
+
+#: admin/assets/js/modules/docs.js:663 admin/assets/js/modules/docs.js:704 admin/assets/js/modules/features.js:208 public/class-itmms-public.php:1652
+msgid "Audio Quran Player"
+msgstr "Audio Quran Player"
+
+#: admin/assets/js/modules/docs.js:702
+msgid "Audio Quran shortcode attributes"
+msgstr "Audio Quran shortcode attributes"
+
+#: includes/class-itmms-duas-library.php:262
+msgid "Audio URL"
+msgstr "Audio URL"
+
+#: admin/assets/js/modules/docs.js:567
+msgid "August"
+msgstr "August"
+
+#: public/class-itmms-public.php:767 public/class-itmms-public.php:916
+msgid "Auto API"
+msgstr "Auto API"
+
+#: admin/assets/js/modules/settings.js:50
+msgid "Auto API (Aladhan.com)"
+msgstr "Auto API (Aladhan.com)"
+
+#: includes/class-itmms-settings.php:151
+msgid "Auto location, Azan countdown, Qibla"
+msgstr "Auto location, Azan countdown, Qibla"
+
+#: admin/assets/js/modules/docs.js:613
+msgid "Automatically hides past events based on their end time"
+msgstr "Automatically hides past events based on their end time"
+
+#: public/class-itmms-public.php:585 public/class-itmms-public.php:590 public/class-itmms-public.php:595 public/class-itmms-public.php:629 public/class-itmms-public.php:634 public/class-itmms-public.php:668 public/class-itmms-public.php:673 public/class-itmms-public.php:678 public/class-itmms-public.php:712 public/class-itmms-public.php:717
+msgid "Available in MasjidOS Pro."
+msgstr "Available in MasjidOS Pro."
+
+#: admin/assets/js/app.js:1052
+msgid "Available soon"
+msgstr "Available soon"
+
+#: admin/assets/js/modules/docs.js:586
+msgid "Available when MasjidOS Pro is installed and active."
+msgstr "Available when MasjidOS Pro is installed and active."
+
+#: public/class-itmms-public.php:575
+msgid "Balanced prayer times card with Qibla and meta panel."
+msgstr "Balanced prayer times card with Qibla and meta panel."
+
+#: admin/assets/js/block-editor.js:201 admin/assets/js/block-editor.js:97 admin/assets/js/modules/docs.js:472 admin/assets/js/modules/docs.js:484 admin/assets/js/modules/docs.js:496 admin/assets/js/modules/docs.js:508 admin/assets/js/modules/docs.js:522 admin/assets/js/modules/docs.js:538 admin/assets/js/modules/docs.js:550 admin/assets/js/modules/features.js:22
+msgid "Bangla"
+msgstr "البنغالية"
+
+#: admin/assets/js/modules/docs.js:223
+msgid "Bangla Duas"
+msgstr "Bangla Duas"
+
+#: admin/assets/js/modules/docs.js:619
+msgid "Bangla Events"
+msgstr "Bangla Events"
+
+#: admin/assets/js/modules/docs.js:193
+msgid "Bangla Islamic Calendar"
+msgstr "Bangla Islamic Calendar"
+
+#: admin/assets/js/modules/docs.js:280
+msgid "Bangla Jumuah"
+msgstr "Bangla Jumuah"
+
+#: includes/class-itmms-duas-library.php:258
+msgid "Bangla Meaning"
+msgstr "Bangla Meaning"
+
+#: includes/class-itmms-duas-library.php:253
+msgid "Bangla Title"
+msgstr "Bangla Title"
+
+#: admin/assets/js/modules/docs.js:161
+msgid "Bangla Widget"
+msgstr "Bangla Widget"
+
+#: admin/assets/js/modules/docs.js:132
+msgid "Bangladesh often starts with Karachi + Hanafi"
+msgstr "Bangladesh often starts with Karachi + Hanafi"
+
+#: admin/assets/js/modules/features.js:119
+msgid "Banner"
+msgstr "Banner"
+
+#. translators: %s: Prayer time before the configured minute offset is applied.
+#: admin/assets/js/modules/dashboard.js:46 public/templates/prayer-times.php:50
+msgid "Base time: %s"
+msgstr "Base time: %s"
+
+#: admin/assets/js/modules/features.js:82
+msgid "Beautiful public cards for daily duas, morning and evening azkar, and Quranic supplications."
+msgstr "Beautiful public cards for daily duas, morning and evening azkar, and Quranic supplications."
+
+#: includes/class-itmms-duas-azkar.php:268 includes/class-itmms-duas-azkar.php:270
+msgid "Before eating"
+msgstr "Before eating"
+
+#: includes/class-itmms-duas-azkar.php:304 includes/class-itmms-duas-azkar.php:306
+msgid "Before sleeping"
+msgstr "Before sleeping"
+
+#: admin/assets/js/modules/docs.js:535
+msgid "Before testing this shortcode, publish at least one notice from the Notices screen and make sure its start time has arrived."
+msgstr "Before testing this shortcode, publish at least one notice from the Notices screen and make sure its start time has arrived."
+
+#: admin/assets/js/modules/docs.js:116
+msgid "Best default for a public prayer times page or homepage section."
+msgstr "Best default for a public prayer times page or homepage section."
+
+#: admin/assets/js/modules/docs.js:73
+msgid "Block Editor"
+msgstr "Block Editor"
+
+#: includes/class-itmms-duas-azkar.php:207 includes/class-itmms-duas-azkar.php:315 includes/class-itmms-duas-azkar.php:333 includes/class-itmms-duas-azkar.php:423 includes/class-itmms-duas-azkar.php:459
+msgid "Bukhari"
+msgstr "Bukhari"
+
+#: includes/class-itmms-duas-azkar.php:243
+msgid "Bukhari and Muslim"
+msgstr "Bukhari and Muslim"
+
+#: admin/assets/js/modules/docs.js:123
+msgid "Calculates every day locally"
+msgstr "Calculates every day locally"
+
+#: admin/assets/js/modules/dashboard.js:85
+msgid "Calculating..."
+msgstr "Calculating..."
+
+#: admin/assets/js/modules/settings.js:130
+msgid "Calculation"
+msgstr "الحساب"
+
+#: admin/assets/js/modules/docs.js:129 admin/assets/js/modules/settings.js:52
+msgid "Calculation Method"
+msgstr "Calculation Method"
+
+#: admin/assets/js/modules/docs.js:33
+msgid "Calendar"
+msgstr "Calendar"
+
+#: admin/assets/js/modules/docs.js:97
+msgid "Calendar Block"
+msgstr "Calendar Block"
+
+#: admin/assets/js/block-editor.js:190
+msgid "Calendar Settings"
+msgstr "Calendar Settings"
+
+#: admin/assets/js/modules/docs.js:201
+msgid "Calendar Without Navigation"
+msgstr "Calendar Without Navigation"
+
+#: admin/assets/js/modules/docs.js:272
+msgid "Can show khatib photo, name, bio, topic, and language"
+msgstr "Can show khatib photo, name, bio, topic, and language"
+
+#: admin/assets/js/modules/announcements.js:45 admin/assets/js/modules/events.js:42
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: public/class-itmms-public.php:663
+msgid "Card-style monthly timetable for narrower sections."
+msgstr "Card-style monthly timetable for narrower sections."
+
+#: admin/assets/js/modules/docs.js:521 admin/assets/js/modules/features.js:148 admin/assets/js/modules/features.js:86
+msgid "Cards"
+msgstr "Cards"
+
+#: includes/class-itmms-duas-library.php:303 includes/class-itmms-education.php:65
+msgid "Categories"
+msgstr "Categories"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:27
+msgid "Category"
+msgstr "Category"
+
+#: admin/assets/js/modules/docs.js:152
+msgid "Change the widget heading for a homepage or masjid page."
+msgstr "Change the widget heading for a homepage or masjid page."
+
+#: admin/assets/js/modules/docs.js:383
+msgid "Changes calendar labels, month names, and number formatting."
+msgstr "Changes calendar labels, month names, and number formatting."
+
+#: admin/assets/js/modules/docs.js:620
+msgid "Changes headers, dates, and location prefixes"
+msgstr "Changes headers, dates, and location prefixes"
+
+#: admin/assets/js/modules/docs.js:705
+msgid "Changes player option labels."
+msgstr "Changes player option labels."
+
+#: admin/assets/js/modules/docs.js:355
+msgid "Changes public Jumuah labels."
+msgstr "Changes public Jumuah labels."
+
+#: admin/assets/js/modules/docs.js:369
+msgid "Changes public labels and prayer names."
+msgstr "Changes public labels and prayer names."
+
+#: admin/assets/js/modules/docs.js:339
+msgid "Changes public widget labels and prayer names."
+msgstr "Changes public widget labels and prayer names."
+
+#: admin/assets/js/modules/docs.js:632 admin/assets/js/modules/docs.js:643
+msgid "Changes public widget labels."
+msgstr "Changes public widget labels."
+
+#: admin/assets/js/modules/docs.js:675 admin/assets/js/modules/docs.js:685
+msgid "Changes public widget translations."
+msgstr "Changes public widget translations."
+
+#: admin/assets/js/modules/docs.js:642
+msgid "Changes the archive heading."
+msgstr "Changes the archive heading."
+
+#: admin/assets/js/modules/docs.js:384
+msgid "Changes the calendar heading."
+msgstr "Changes the calendar heading."
+
+#: admin/assets/js/modules/docs.js:630
+msgid "Changes the events list heading."
+msgstr "Changes the events list heading."
+
+#: admin/assets/js/modules/docs.js:415
+msgid "Changes the list design heading."
+msgstr "Changes the list design heading."
+
+#: admin/assets/js/modules/docs.js:704
+msgid "Changes the player heading."
+msgstr "Changes the player heading."
+
+#: admin/assets/js/modules/docs.js:370
+msgid "Changes the table heading."
+msgstr "Changes the table heading."
+
+#: admin/assets/js/modules/docs.js:337 admin/assets/js/modules/docs.js:356 admin/assets/js/modules/docs.js:394 admin/assets/js/modules/docs.js:674 admin/assets/js/modules/docs.js:684 admin/assets/js/modules/docs.js:694
+msgid "Changes the widget heading."
+msgstr "Changes the widget heading."
+
+#: admin/assets/js/modules/docs.js:695
+msgid "Changes translation meaning labels."
+msgstr "Changes translation meaning labels."
+
+#: admin/assets/js/modules/docs.js:395
+msgid "Changes widget labels and meanings."
+msgstr "Changes widget labels and meanings."
+
+#: admin/assets/js/modules/docs.js:412
+msgid "Changes widget labels."
+msgstr "Changes widget labels."
+
+#: public/class-itmms-public.php:472
+msgid "Check back later for community lectures, prayers, and charity events."
+msgstr "Check back later for community lectures, prayers, and charity events."
+
+#: admin/assets/js/modules/docs.js:129
+msgid "Choose a local calculation preset or Auto API from Settings > Calculation."
+msgstr "Choose a local calculation preset or Auto API from Settings > Calculation."
+
+#: admin/assets/js/modules/docs.js:665
+msgid "Choose from a selector dropdown in public widgets"
+msgstr "Choose from a selector dropdown in public widgets"
+
+#: admin/assets/js/modules/docs.js:321
+msgid "Choose Method"
+msgstr "Choose Method"
+
+#: admin/assets/js/modules/settings.js:47
+msgid "Choose the calculation rules used by local prayer time logic."
+msgstr "Choose the calculation rules used by local prayer time logic."
+
+#: admin/assets/js/modules/settings.js:33
+msgid "City"
+msgstr "المدينة"
+
+#: admin/assets/js/block-editor.js:87 admin/assets/js/modules/docs.js:471 admin/assets/js/modules/docs.js:483 admin/assets/js/modules/features.js:40 public/class-itmms-public.php:573 public/class-itmms-public.php:617
+msgid "Classic"
+msgstr "Classic"
+
+#: admin/assets/js/modules/docs.js:148
+msgid "Classic Design"
+msgstr "Classic Design"
+
+#: public/class-itmms-public.php:658
+msgid "Clean monthly prayer timetable table."
+msgstr "Clean monthly prayer timetable table."
+
+#: admin/assets/js/modules/settings.js:198
+msgid "Click the first number pair, for example %s, to copy it."
+msgstr "Click the first number pair, for example %s, to copy it."
+
+#: admin/assets/js/modules/dashboard.js:138
+msgid "Clockwise from true north"
+msgstr "Clockwise from true north"
+
+#: public/templates/announcements.php:31
+msgid "Close popup"
+msgstr "Close popup"
+
+#: admin/assets/js/modules/features.js:319
+msgid "Close preview"
+msgstr "Close preview"
+
+#: admin/assets/js/block-editor.js:88 admin/assets/js/modules/docs.js:471 admin/assets/js/modules/docs.js:483 admin/assets/js/modules/docs.js:493 admin/assets/js/modules/docs.js:521 admin/assets/js/modules/features.js:148 admin/assets/js/modules/features.js:40 admin/assets/js/modules/features.js:86 public/class-itmms-public.php:578 public/class-itmms-public.php:622 public/class-itmms-public.php:661
+msgid "Compact"
+msgstr "Compact"
+
+#: admin/assets/js/modules/docs.js:156
+msgid "Compact Design"
+msgstr "Compact Design"
+
+#: admin/assets/js/modules/docs.js:219
+msgid "Compact Duas"
+msgstr "Compact Duas"
+
+#: admin/assets/js/modules/docs.js:275
+msgid "Compact Jumuah"
+msgstr "Compact Jumuah"
+
+#: public/class-itmms-public.php:707
+msgid "Compact scrolling announcement strip."
+msgstr "Compact scrolling announcement strip."
+
+#: admin/assets/js/app.js:92 admin/assets/js/modules/dashboard.js:114 admin/assets/js/modules/dashboard.js:135
+msgid "Configure"
+msgstr "تهيئة"
+
+#: admin/assets/js/modules/settings.js:110
+msgid "Configure fullscreen mosque display layout, theme, and font size options."
+msgstr "Configure fullscreen mosque display layout, theme, and font size options."
+
+#: admin/assets/js/modules/docs.js:398
+msgid "Controls how many duas appear."
+msgstr "Controls how many duas appear."
+
+#: admin/assets/js/modules/dashboard.js:142
+msgid "Coordinates"
+msgstr "Coordinates"
+
+#: admin/assets/js/modules/settings.js:201
+msgid "Coordinates are more accurate than city name. If your timetable is still 1-3 minutes different, use Prayer Time Adjustments below."
+msgstr "Coordinates are more accurate than city name. If your timetable is still 1-3 minutes different, use Prayer Time Adjustments below."
+
+#: admin/assets/js/app.js:916 includes/class-itmms-duas-azkar.php:55
+msgid "Copied"
+msgstr "تم النسخ"
+
+#: admin/assets/js/app.js:488 public/templates/hadith.php:12 public/templates/quran-verse.php:13
+msgid "Copied!"
+msgstr "تم النسخ!"
+
+#: admin/assets/js/modules/docs.js:448
+msgid "Copy"
+msgstr "Copy"
+
+#: admin/assets/js/modules/docs.js:25
+msgid "Copy a shortcode, paste it into a WordPress page, and keep this page as your built-in memory."
+msgstr "Copy a shortcode, paste it into a WordPress page, and keep this page as your built-in memory."
+
+#: admin/assets/js/app.js:492
+msgid "Copy failed. Please copy the URL manually."
+msgstr "Copy failed. Please copy the URL manually."
+
+#: admin/assets/js/modules/docs.js:320
+msgid "Copy latitude and longitude from Google Maps for the exact masjid location."
+msgstr "Copy latitude and longitude from Google Maps for the exact masjid location."
+
+#: admin/assets/js/modules/settings.js:280
+msgid "Copy Link"
+msgstr "Copy Link"
+
+#: admin/assets/js/modules/features.js:270
+msgid "Copy shortcode"
+msgstr "نسخ الشورت كود"
+
+#: admin/assets/js/modules/docs.js:469 admin/assets/js/modules/docs.js:481 admin/assets/js/modules/docs.js:491 admin/assets/js/modules/docs.js:504 admin/assets/js/modules/docs.js:519 admin/assets/js/modules/docs.js:534 admin/assets/js/modules/docs.js:547
+msgid "Copy Shortcode"
+msgstr "نسخ الشورت كود"
+
+#: admin/assets/js/modules/docs.js:515
+msgid "Copy this URL for a fullscreen mosque TV or lobby display."
+msgstr "Copy this URL for a fullscreen mosque TV or lobby display."
+
+#: admin/assets/js/modules/docs.js:515 admin/assets/js/modules/features.js:266
+msgid "Copy URL"
+msgstr "Copy URL"
+
+#: admin/assets/js/modules/settings.js:31
+msgid "Core identity, location, and timezone details used across widgets."
+msgstr "تفاصيل الهوية والموقع والمنطقة الزمنية المستخدمة في الويدجات."
+
+#: admin/assets/js/app.js:1017
+msgid "Could not save. Please try again."
+msgstr "تعذر الحفظ. يرجى المحاولة مرة أخرى."
+
+#: admin/assets/js/modules/features.js:149
+msgid "Counter"
+msgstr "Counter"
+
+#: admin/assets/js/modules/settings.js:34
+msgid "Country"
+msgstr "البلد"
+
+#: admin/assets/js/modules/docs.js:469
+msgid "Create a copy-ready prayer widget shortcode without memorizing attributes."
+msgstr "Create a copy-ready prayer widget shortcode without memorizing attributes."
+
+#: admin/assets/js/modules/docs.js:504
+msgid "Create a Hijri + Gregorian calendar shortcode with optional month controls."
+msgstr "Create a Hijri + Gregorian calendar shortcode with optional month controls."
+
+#: admin/assets/js/modules/docs.js:481
+msgid "Create a Jumuah widget shortcode for Friday pages, sidebars, or homepage sections."
+msgstr "Create a Jumuah widget shortcode for Friday pages, sidebars, or homepage sections."
+
+#: admin/assets/js/modules/docs.js:491
+msgid "Create a monthly timetable shortcode for public pages or printable notice-board views."
+msgstr "Create a monthly timetable shortcode for public pages or printable notice-board views."
+
+#: admin/assets/js/modules/docs.js:519
+msgid "Create a public duas and azkar widget shortcode."
+msgstr "Create a public duas and azkar widget shortcode."
+
+#: admin/assets/js/modules/docs.js:547
+msgid "Create a public events feed shortcode for community pages or mosque notice boards."
+msgstr "Create a public events feed shortcode for community pages or mosque notice boards."
+
+#: admin/assets/js/modules/docs.js:534
+msgid "Create a public notice list or compact ticker from your active announcements."
+msgstr "Create a public notice list or compact ticker from your active announcements."
+
+#: public/class-itmms-public.php:420
+msgid "Create a published notice whose start date has arrived and end date has not passed."
+msgstr "Create a published notice whose start date has arrived and end date has not passed."
+
+#: admin/assets/js/modules/docs.js:250
+msgid "Create and schedule notices from the Notices screen"
+msgstr "Create and schedule notices from the Notices screen"
+
+#: admin/assets/js/modules/events.js:42
+msgid "Create Event"
+msgstr "Create Event"
+
+#: admin/assets/js/modules/announcements.js:30
+msgid "Create public notices, urgent updates, and scheduled Jumuah messages."
+msgstr "Create public notices, urgent updates, and scheduled Jumuah messages."
+
+#: admin/assets/js/modules/settings.js:71
+msgid "Currency"
+msgstr "Currency"
+
+#: admin/assets/js/modules/docs.js:366 admin/assets/js/modules/docs.js:367 admin/assets/js/modules/docs.js:381 admin/assets/js/modules/docs.js:382
+msgid "current"
+msgstr "current"
+
+#: admin/assets/js/modules/docs.js:494 admin/assets/js/modules/docs.js:506
+msgid "Current month"
+msgstr "Current month"
+
+#: public/class-itmms-public.php:912
+msgid "Current Month"
+msgstr "Current Month"
+
+#: admin/assets/js/modules/docs.js:495 admin/assets/js/modules/docs.js:507
+msgid "Current year"
+msgstr "Current year"
+
+#: admin/assets/js/modules/docs.js:152
+msgid "Custom Title"
+msgstr "Custom Title"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:98
+msgid "Daily"
+msgstr "Daily"
+
+#: includes/class-itmms-settings.php:154
+msgid "Daily duas, azkar counters, sharing, and audio-ready cards"
+msgstr "Daily duas, azkar counters, sharing, and audio-ready cards"
+
+#: admin/assets/js/modules/docs.js:655
+msgid "Daily random Hadith from authentic collections."
+msgstr "Daily random Hadith from authentic collections."
+
+#: admin/assets/js/modules/docs.js:651
+msgid "Daily random verse from the Quran in Arabic, English, and Bangla."
+msgstr "Daily random verse from the Quran in Arabic, English, and Bangla."
+
+#: includes/class-itmms-duas-azkar.php:24
+msgid "Daily remembrance"
+msgstr "Daily remembrance"
+
+#: admin/assets/js/modules/features.js:144
+msgid "Daily supplications & remembrances with Arabic text, transliteration, meaning, recitation counter, and audio support."
+msgstr "Daily supplications & remembrances with Arabic text, transliteration, meaning, recitation counter, and audio support."
+
+#: admin/assets/js/modules/settings.js:112
+msgid "Dark Mode (Gold & Charcoal)"
+msgstr "Dark Mode (Gold & Charcoal)"
+
+#: admin/assets/js/app.js:75 admin/assets/js/app.js:91 admin/assets/js/app.js:968 admin/class-itmms-admin.php:71 admin/class-itmms-admin.php:72
+msgid "Dashboard"
+msgstr "لوحة التحكم"
+
+#: public/class-itmms-public.php:904
+msgid "Date"
+msgstr "Date"
+
+#: admin/assets/js/modules/settings.js:70
+msgid "Days, -3 to +3. Use this if your local moon-sighting calendar is one day different."
+msgstr "Days, -3 to +3. Use this if your local moon-sighting calendar is one day different."
+
+#: admin/assets/js/modules/docs.js:571
+msgid "December"
+msgstr "December"
+
+#: admin/assets/js/modules/docs.js:438
+msgid "default"
+msgstr "default"
+
+#: admin/assets/js/modules/docs.js:616
+msgid "Defaults to 5 events"
+msgstr "Defaults to 5 events"
+
+#: admin/assets/js/modules/announcements.js:62 admin/assets/js/modules/events.js:59
+msgid "Delete"
+msgstr "حذف"
+
+#: admin/assets/js/app.js:301
+msgid "Delete this event permanently?"
+msgstr "Delete this event permanently?"
+
+#: admin/assets/js/app.js:252
+msgid "Delete this notice permanently?"
+msgstr "Delete this notice permanently?"
+
+#: admin/assets/js/modules/events.js:36
+msgid "Description"
+msgstr "Description"
+
+#: admin/assets/js/block-editor.js:84 admin/assets/js/modules/docs.js:471 admin/assets/js/modules/docs.js:483 admin/assets/js/modules/docs.js:493 admin/assets/js/modules/docs.js:521 admin/assets/js/modules/docs.js:537 admin/assets/js/modules/docs.js:549 admin/assets/js/modules/features.js:119 admin/assets/js/modules/features.js:148 admin/assets/js/modules/features.js:40 admin/assets/js/modules/features.js:86
+msgid "Design"
+msgstr "Design"
+
+#: admin/assets/js/block-editor.js:145
+msgid "Design: "
+msgstr "Design: "
+
+#: admin/assets/js/modules/docs.js:277
+msgid "Designed for small spaces"
+msgstr "Designed for small spaces"
+
+#: admin/assets/js/modules/features.js:313
+msgid "Desktop view"
+msgstr "Desktop view"
+
+#: admin/assets/js/modules/announcements.js:37
+msgid "Details"
+msgstr "التفاصيل"
+
+#: admin/assets/js/modules/settings.js:41
+msgid "Detect My Location"
+msgstr "تحديد موقعي"
+
+#: admin/assets/js/app.js:424
+msgid "Detecting location..."
+msgstr "Detecting location..."
+
+#: includes/class-itmms-hijri.php:132
+msgid "Dhu al-Hijjah"
+msgstr "Dhu al-Hijjah"
+
+#: includes/class-itmms-hijri.php:131
+msgid "Dhu al-Qadah"
+msgstr "Dhu al-Qadah"
+
+#: admin/assets/js/modules/dashboard.js:37 admin/assets/js/modules/dashboard.js:61 admin/assets/js/modules/settings.js:83 admin/assets/js/modules/settings.js:91
+msgid "Dhuhr"
+msgstr "الظهر"
+
+#: admin/assets/js/modules/docs.js:309 public/class-itmms-public.php:710
+msgid "Digital Board"
+msgstr "Digital Board"
+
+#: admin/assets/js/modules/docs.js:537
+msgid "Digital Board (Pro)"
+msgstr "Digital Board (Pro)"
+
+#: admin/assets/js/modules/dashboard.js:116
+msgid "Disabled"
+msgstr "Disabled"
+
+#: admin/assets/js/block-editor.js:161
+msgid "Display a dual Gregorian + Hijri calendar with Islamic holy days and events."
+msgstr "Display a dual Gregorian + Hijri calendar with Islamic holy days and events."
+
+#: admin/assets/js/block-editor.js:15
+msgid "Display daily prayer times, countdown, Qibla compass, and timezone details."
+msgstr "Display daily prayer times, countdown, Qibla compass, and timezone details."
+
+#: admin/assets/js/modules/docs.js:92
+msgid "Display modes and blocks"
+msgstr "Display modes and blocks"
+
+#: admin/assets/js/modules/docs.js:660
+msgid "Displays Arabic, transliteration, and meanings"
+msgstr "Displays Arabic, transliteration, and meanings"
+
+#: admin/assets/js/modules/docs.js:612
+msgid "Displays event featured image at card header side"
+msgstr "Displays event featured image at card header side"
+
+#: admin/assets/js/modules/features.js:197
+msgid "Displays the beautiful 99 names of Allah (Asmaul Husna) in a grid with transliteration and meanings."
+msgstr "Displays the beautiful 99 names of Allah (Asmaul Husna) in a grid with transliteration and meanings."
+
+#: admin/assets/js/modules/docs.js:253
+msgid "Displays the highest priority notice as a slim strip banner"
+msgstr "Displays the highest priority notice as a slim strip banner"
+
+#: admin/assets/js/modules/features.js:36
+msgid "Displays today's prayer times with countdown to next prayer, Qibla compass, and Hijri date."
+msgstr "Displays today's prayer times with countdown to next prayer, Qibla compass, and Hijri date."
+
+#: admin/assets/js/app.js:82 admin/assets/js/app.js:974
+msgid "Docs"
+msgstr "التوثيق"
+
+#: admin/assets/js/modules/docs.js:163
+msgid "Does not add Arabic beside the name"
+msgstr "Does not add Arabic beside the name"
+
+#: admin/assets/js/modules/announcements.js:82
+msgid "Draft"
+msgstr "مسودة"
+
+#: admin/assets/js/modules/docs.js:72
+msgid "Drag the Shortcode widget into your layout and paste the shortcode there."
+msgstr "Drag the Shortcode widget into your layout and paste the shortcode there."
+
+#: includes/class-itmms-duas-library.php:50
+msgid "Dua"
+msgstr "Dua"
+
+#: includes/class-itmms-duas-library.php:75 includes/class-itmms-duas-library.php:83
+msgid "Dua Categories"
+msgstr "Dua Categories"
+
+#: includes/class-itmms-duas-library.php:76
+msgid "Dua Category"
+msgstr "Dua Category"
+
+#: includes/class-itmms-duas-library.php:98
+msgid "Dua Details"
+msgstr "Dua Details"
+
+#: admin/assets/js/modules/features.js:68
+msgid "Dual Hijri + Gregorian calendar with Islamic holy days highlighted and mosque events overlay."
+msgstr "Dual Hijri + Gregorian calendar with Islamic holy days highlighted and mosque events overlay."
+
+#: admin/assets/js/modules/docs.js:34
+msgid "Duas"
+msgstr "Duas"
+
+#: admin/assets/js/modules/docs.js:394 admin/assets/js/modules/features.js:143 includes/class-itmms-duas-azkar.php:23 includes/class-itmms-settings.php:154 public/class-itmms-public.php:313
+msgid "Duas & Azkar"
+msgstr "Duas & Azkar"
+
+#: admin/assets/js/modules/docs.js:392
+msgid "Duas & Azkar attributes"
+msgstr "Duas & Azkar attributes"
+
+#: admin/assets/js/modules/docs.js:519
+msgid "Duas & Azkar Generator"
+msgstr "Duas & Azkar Generator"
+
+#: public/class-itmms-public.php:330
+msgid "Duas & Azkar is disabled"
+msgstr "Duas & Azkar is disabled"
+
+#: admin/assets/js/modules/docs.js:210 admin/assets/js/modules/features.js:81
+msgid "Duas & Azkar Widget"
+msgstr "Duas & Azkar Widget"
+
+#: admin/assets/js/app.js:78 admin/assets/js/modules/docs.js:227 admin/class-itmms-admin.php:81 admin/class-itmms-admin.php:82 includes/class-itmms-duas-library.php:49 includes/class-itmms-duas-library.php:56
+msgid "Duas Library"
+msgstr "مكتبة الأدعية"
+
+#: admin/assets/js/modules/settings.js:58 includes/class-itmms-prayer-times.php:419
+msgid "Dubai"
+msgstr "Dubai"
+
+#: admin/assets/js/modules/announcements.js:62 admin/assets/js/modules/dashboard.js:101 admin/assets/js/modules/events.js:59
+msgid "Edit"
+msgstr "تعديل"
+
+#: includes/class-itmms-education.php:27
+msgid "Edit Article"
+msgstr "Edit Article"
+
+#: includes/class-itmms-education.php:61
+msgid "Edit Category"
+msgstr "Edit Category"
+
+#: includes/class-itmms-duas-library.php:52
+msgid "Edit Dua"
+msgstr "Edit Dua"
+
+#: includes/class-itmms-duas-library.php:79
+msgid "Edit Dua Category"
+msgstr "Edit Dua Category"
+
+#: admin/assets/js/modules/events.js:34
+msgid "Editing event"
+msgstr "Editing event"
+
+#: admin/assets/js/modules/announcements.js:35
+msgid "Editing notice"
+msgstr "Editing notice"
+
+#: admin/assets/js/modules/docs.js:37
+msgid "Education"
+msgstr "Education"
+
+#: admin/assets/js/modules/settings.js:56 includes/class-itmms-prayer-times.php:409
+msgid "Egyptian Authority"
+msgstr "Egyptian Authority"
+
+#: admin/assets/js/modules/docs.js:287
+msgid "Embed downloadable and playable audio recordings easily"
+msgstr "Embed downloadable and playable audio recordings easily"
+
+#: admin/assets/js/modules/settings.js:98
+msgid "Enable Jumuah widget"
+msgstr "Enable Jumuah widget"
+
+#: public/class-itmms-public.php:391
+msgid "Enable the Announcements module before using this shortcode."
+msgstr "Enable the Announcements module before using this shortcode."
+
+#: public/class-itmms-public.php:331
+msgid "Enable the Duas & Azkar module before using this shortcode."
+msgstr "Enable the Duas & Azkar module before using this shortcode."
+
+#: public/class-itmms-public.php:456
+msgid "Enable the Events module before using this shortcode."
+msgstr "Enable the Events module before using this shortcode."
+
+#: admin/assets/js/modules/dashboard.js:116
+msgid "Enabled"
+msgstr "Enabled"
+
+#: admin/assets/js/modules/announcements.js:42 admin/assets/js/modules/events.js:39
+msgid "Ends"
+msgstr "Ends"
+
+#: admin/assets/js/modules/announcements.js:61 admin/assets/js/modules/events.js:58
+msgid "Ends %s"
+msgstr "Ends %s"
+
+#: admin/assets/js/block-editor.js:200 admin/assets/js/block-editor.js:96 admin/assets/js/modules/docs.js:472 admin/assets/js/modules/docs.js:484 admin/assets/js/modules/docs.js:496 admin/assets/js/modules/docs.js:508 admin/assets/js/modules/docs.js:522 admin/assets/js/modules/docs.js:538 admin/assets/js/modules/docs.js:550 admin/assets/js/modules/features.js:21
+msgid "English"
+msgstr "الإنجليزية"
+
+#: includes/class-itmms-duas-library.php:257
+msgid "English Meaning"
+msgstr "English Meaning"
+
+#: includes/class-itmms-duas-azkar.php:466 includes/class-itmms-duas-azkar.php:468
+msgid "Entering home"
+msgstr "Entering home"
+
+#: includes/class-itmms-duas-azkar.php:358 includes/class-itmms-duas-azkar.php:360
+msgid "Entering the masjid"
+msgstr "Entering the masjid"
+
+#: public/class-itmms-public.php:1459
+msgid "Error"
+msgstr "Error"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:100
+msgid "Evening"
+msgstr "Evening"
+
+#: admin/assets/js/app.js:340
+msgid "Event created."
+msgstr "Event created."
+
+#: includes/class-itmms-events.php:271 includes/class-itmms-rest.php:805 public/class-itmms-public.php:1459
+msgid "Event not found."
+msgstr "Event not found."
+
+#: admin/assets/js/modules/docs.js:628
+msgid "Event shortcode attributes"
+msgstr "Event shortcode attributes"
+
+#: includes/class-itmms-events.php:239 includes/class-itmms-events.php:279
+msgid "Event start time is required."
+msgstr "Event start time is required."
+
+#: admin/assets/js/modules/events.js:35
+msgid "Event Title"
+msgstr "Event Title"
+
+#: includes/class-itmms-events.php:236 includes/class-itmms-events.php:276
+msgid "Event title is required."
+msgstr "Event title is required."
+
+#: admin/assets/js/app.js:340
+msgid "Event updated."
+msgstr "Event updated."
+
+#: admin/assets/js/app.js:77 admin/assets/js/app.js:970 admin/assets/js/modules/docs.js:36 admin/assets/js/modules/events.js:29 includes/class-itmms-settings.php:153
+msgid "Events"
+msgstr "الفعاليات"
+
+#: public/class-itmms-public.php:455
+msgid "Events are disabled"
+msgstr "Events are disabled"
+
+#: includes/class-itmms-settings.php:153
+msgid "Events calendar, timings, and location registration"
+msgstr "Events calendar, timings, and location registration"
+
+#: admin/assets/js/modules/docs.js:547
+msgid "Events Generator"
+msgstr "Events Generator"
+
+#: admin/assets/js/modules/docs.js:606
+msgid "Events List"
+msgstr "Events List"
+
+#: admin/assets/js/modules/features.js:129
+msgid "Events Widget"
+msgstr "Events Widget"
+
+#: admin/assets/js/modules/features.js:297
+msgid "Everything your mosque website needs — interactive widgets, calendars, TV displays, and more."
+msgstr "Everything your mosque website needs — interactive widgets, calendars, TV displays, and more."
+
+#: admin/assets/js/modules/events.js:35
+msgid "Example: Eid-ul-Fitr Prayer Gathering"
+msgstr "Example: Eid-ul-Fitr Prayer Gathering"
+
+#: admin/assets/js/modules/announcements.js:36
+msgid "Example: Friday parking update"
+msgstr "Example: Friday parking update"
+
+#: admin/assets/js/modules/settings.js:105
+msgid "Example: Imam & Khatib, Madani Masjid."
+msgstr "Example: Imam & Khatib, Madani Masjid."
+
+#: admin/assets/js/modules/events.js:40
+msgid "Example: Main Prayer Hall"
+msgstr "Example: Main Prayer Hall"
+
+#: admin/assets/js/modules/announcements.js:81
+msgid "Expired"
+msgstr "Expired"
+
+#: admin/assets/js/modules/docs.js:262
+msgid "Expiry rules still apply in the background"
+msgstr "Expiry rules still apply in the background"
+
+#: admin/assets/js/modules/docs.js:139
+msgid "Explicitly use the free table design."
+msgstr "Explicitly use the free table design."
+
+#: admin/assets/js/modules/settings.js:120
+msgid "Extra Large"
+msgstr "Extra Large"
+
+#: admin/assets/js/modules/dashboard.js:35 admin/assets/js/modules/dashboard.js:59 admin/assets/js/modules/settings.js:81 admin/assets/js/modules/settings.js:90
+msgid "Fajr"
+msgstr "الفجر"
+
+#: admin/assets/js/modules/docs.js:80
+msgid "Fastest way to choose a widget"
+msgstr "Fastest way to choose a widget"
+
+#: admin/assets/js/app.js:79 admin/assets/js/app.js:971
+msgid "Features"
+msgstr "الميزات"
+
+#: admin/assets/js/modules/docs.js:82
+msgid "Features Page"
+msgstr "Features Page"
+
+#: admin/assets/js/modules/docs.js:561
+msgid "February"
+msgstr "February"
+
+#: admin/assets/js/modules/docs.js:286
+msgid "Filter archive entries by specific date"
+msgstr "Filter archive entries by specific date"
+
+#: public/templates/khutbah-archive.php:13
+msgid "Filter by Date"
+msgstr "Filter by Date"
+
+#: admin/assets/js/modules/docs.js:248
+msgid "Filter the widget to a single notice type."
+msgstr "Filter the widget to a single notice type."
+
+#: admin/assets/js/modules/docs.js:413
+msgid "Filters public notices by type."
+msgstr "Filters public notices by type."
+
+#: admin/assets/js/modules/docs.js:216
+msgid "Filters the built-in collection"
+msgstr "Filters the built-in collection"
+
+#: admin/assets/js/modules/docs.js:396
+msgid "Filters the built-in dua collection."
+msgstr "Filters the built-in dua collection."
+
+#: admin/assets/js/modules/settings.js:80
+msgid "Fine-tune calculated times to match the official masjid timetable."
+msgstr "Fine-tune calculated times to match the official masjid timetable."
+
+#: admin/assets/js/modules/docs.js:238
+msgid "First create and publish a notice from MasjidOS > Notices"
+msgstr "First create and publish a notice from MasjidOS > Notices"
+
+#: admin/assets/js/modules/docs.js:607
+msgid "First create and schedule an event from MasjidOS > Events"
+msgstr "First create and schedule an event from MasjidOS > Events"
+
+#: admin/assets/js/modules/settings.js:267 admin/assets/js/modules/settings.js:99 public/class-itmms-public.php:848
+msgid "First Jumuah"
+msgstr "First Jumuah"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:101
+msgid "Food"
+msgstr "Food"
+
+#: admin/assets/js/modules/settings.js:220
+msgid "For Bangladesh use %1$s. If this is %2$s, prayer times will be calculated as UTC and will look wrong."
+msgstr "For Bangladesh use %1$s. If this is %2$s, prayer times will be calculated as UTC and will look wrong."
+
+#: admin/assets/js/modules/docs.js:319
+msgid "For Bangladesh use Asia/Dhaka. Wrong timezone is the most common cause of wrong prayer times."
+msgstr "For Bangladesh use Asia/Dhaka. Wrong timezone is the most common cause of wrong prayer times."
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:107
+msgid "Forgiveness"
+msgstr "Forgiveness"
+
+#: admin/assets/js/modules/docs.js:148
+msgid "Free design preset for regular content width pages."
+msgstr "Free design preset for regular content width pages."
+
+#: admin/assets/js/modules/docs.js:85
+msgid "Free designs render from this plugin. Pro design keys are documented as placeholders and are rendered only when a Pro plugin is active."
+msgstr "Free designs render from this plugin. Pro design keys are documented as placeholders and are rendered only when a Pro plugin is active."
+
+#. translators: %s: Khatib name
+#: includes/class-itmms-events.php:528
+msgid "Friday Jumuah Prayer"
+msgstr "Friday Jumuah Prayer"
+
+#: admin/assets/js/modules/features.js:101
+msgid "Friday prayer schedule with Khutbah & Jamaat times, multiple sessions support."
+msgstr "Friday prayer schedule with Khutbah & Jamaat times, multiple sessions support."
+
+#: admin/assets/js/modules/features.js:53
+msgid "Full month prayer timetable with Hijri dates, print support, and month navigation."
+msgstr "Full month prayer timetable with Hijri dates, print support, and month navigation."
+
+#: admin/assets/js/modules/docs.js:438
+msgid "Fullscreen board using saved TV Display settings."
+msgstr "Fullscreen board using saved TV Display settings."
+
+#: admin/assets/js/modules/features.js:221
+msgid "Fullscreen mosque TV board — shows prayer times, countdown, Hijri date, and scrolling notices."
+msgstr "Fullscreen mosque TV board — shows prayer times, countdown, Hijri date, and scrolling notices."
+
+#: admin/assets/js/modules/announcements.js:68 admin/assets/js/modules/docs.js:539 public/class-itmms-public.php:991
+msgid "General"
+msgstr "عام"
+
+#: admin/assets/js/modules/docs.js:30
+msgid "Generators"
+msgstr "Generators"
+
+#: admin/assets/js/app.js:419
+msgid "Geolocation is not supported by your browser."
+msgstr "Geolocation is not supported by your browser."
+
+#: includes/class-itmms-duas-azkar.php:239
+msgid "Glory is to Allah and praise is to Him."
+msgstr "Glory is to Allah and praise is to Him."
+
+#: includes/class-itmms-duas-azkar.php:401 includes/class-itmms-duas-azkar.php:403
+msgid "Glory is to Him who has subjected this to us, and we could never have it by our own efforts."
+msgstr "Glory is to Him who has subjected this to us, and we could never have it by our own efforts."
+
+#: admin/assets/js/modules/docs.js:106
+msgid "Go to Settings > Jumuah Settings. Add First Jumuah and optional Second Jumuah times."
+msgstr "Go to Settings > Jumuah Settings. Add First Jumuah and optional Second Jumuah times."
+
+#: admin/assets/js/modules/docs.js:95
+msgid "Go to Settings > TV Display to choose theme, logo, font size, and announcement rotation speed."
+msgstr "Go to Settings > TV Display to choose theme, logo, font size, and announcement rotation speed."
+
+#: admin/assets/js/app.js:92
+msgid "Go to WordPress Dashboard"
+msgstr "Go to WordPress Dashboard"
+
+#: admin/assets/js/modules/docs.js:254
+msgid "Golden style auto-applied during Ramadan"
+msgstr "Golden style auto-applied during Ramadan"
+
+#: admin/assets/js/modules/docs.js:194 admin/assets/js/modules/docs.js:224
+msgid "Good for Bangla mosque websites"
+msgstr "Good for Bangla mosque websites"
+
+#: admin/assets/js/modules/docs.js:125
+msgid "Good for dedicated timetable pages"
+msgstr "Good for dedicated timetable pages"
+
+#: admin/assets/js/modules/docs.js:273
+msgid "Good for homepage and Friday notice pages"
+msgstr "Good for homepage and Friday notice pages"
+
+#: admin/assets/js/modules/docs.js:153
+msgid "Good for homepage sections"
+msgstr "Good for homepage sections"
+
+#: admin/assets/js/modules/docs.js:213
+msgid "Good for homepages, sidebars, and learning pages"
+msgstr "Good for homepages, sidebars, and learning pages"
+
+#: admin/assets/js/modules/docs.js:145
+msgid "Good for narrower content areas"
+msgstr "Good for narrower content areas"
+
+#: admin/assets/js/modules/docs.js:150
+msgid "Good for pages and homepage sections"
+msgstr "Good for pages and homepage sections"
+
+#: admin/assets/js/modules/docs.js:246
+msgid "Good for urgent and short updates"
+msgstr "Good for urgent and short updates"
+
+#: includes/class-itmms-duas-azkar.php:160
+msgid "Good in this world and the next"
+msgstr "Good in this world and the next"
+
+#: admin/assets/js/modules/settings.js:114
+msgid "Green Mode (Emerald & Gold)"
+msgstr "Green Mode (Emerald & Gold)"
+
+#: admin/assets/js/modules/docs.js:655
+msgid "Hadith of Day"
+msgstr "Hadith of Day"
+
+#: admin/assets/js/modules/docs.js:684 admin/assets/js/modules/features.js:184 public/class-itmms-public.php:1596
+msgid "Hadith of the Day"
+msgstr "Hadith of the Day"
+
+#: admin/assets/js/modules/docs.js:682
+msgid "Hadith shortcode attributes"
+msgstr "Hadith shortcode attributes"
+
+#: admin/assets/js/modules/docs.js:260
+msgid "Hide Dates"
+msgstr "Hide Dates"
+
+#: admin/assets/js/modules/docs.js:166
+msgid "Hide Hijri Date"
+msgstr "Hide Hijri Date"
+
+#: admin/assets/js/modules/docs.js:178
+msgid "Hide Iqamah"
+msgstr "Hide Iqamah"
+
+#: admin/assets/js/modules/docs.js:174
+msgid "Hide Meta"
+msgstr "Hide Meta"
+
+#: admin/assets/js/modules/docs.js:170
+msgid "Hide Qibla"
+msgstr "Hide Qibla"
+
+#: admin/assets/js/modules/docs.js:290
+msgid "Hides khatib profile, topic, language, and location"
+msgstr "Hides khatib profile, topic, language, and location"
+
+#: admin/assets/js/modules/docs.js:202
+msgid "Hides month and year controls"
+msgstr "Hides month and year controls"
+
+#: admin/assets/js/modules/docs.js:172
+msgid "Hides only the Qibla panel"
+msgstr "Hides only the Qibla panel"
+
+#: admin/assets/js/modules/docs.js:157
+msgid "Hides the side panel automatically"
+msgstr "Hides the side panel automatically"
+
+#: admin/assets/js/modules/docs.js:220
+msgid "Hides transliteration to save space"
+msgstr "Hides transliteration to save space"
+
+#: admin/assets/js/modules/announcements.js:40
+msgid "Higher notices appear first."
+msgstr "Higher notices appear first."
+
+#: admin/assets/js/modules/docs.js:146
+msgid "Highlights the current day"
+msgstr "Highlights the current day"
+
+#: admin/assets/js/modules/docs.js:118
+msgid "Highlights the current prayer"
+msgstr "Highlights the current prayer"
+
+#: admin/assets/js/modules/docs.js:188
+msgid "Highlights today and important Islamic dates"
+msgstr "Highlights today and important Islamic dates"
+
+#: public/class-itmms-public.php:768 public/class-itmms-public.php:919
+msgid "Hijri adjustment"
+msgstr "Hijri adjustment"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "Hijri date"
+msgstr "Hijri date"
+
+#: admin/assets/js/modules/settings.js:70
+msgid "Hijri Date Adjustment"
+msgstr "Hijri Date Adjustment"
+
+#: admin/assets/js/modules/docs.js:168
+msgid "Hijri date can be adjusted from Settings > Calculation"
+msgstr "Hijri date can be adjusted from Settings > Calculation"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:103
+msgid "Home"
+msgstr "Home"
+
+#: admin/assets/js/modules/settings.js:194
+msgid "How to find latitude and longitude"
+msgstr "How to find latitude and longitude"
+
+#: includes/class-itmms-roles.php:55
+msgid "Imam"
+msgstr "Imam"
+
+#: admin/assets/js/modules/docs.js:97
+msgid "In the block editor, add the MasjidOS Islamic Calendar block for a Hijri + Gregorian calendar section."
+msgstr "In the block editor, add the MasjidOS Islamic Calendar block for a Hijri + Gregorian calendar section."
+
+#: admin/assets/js/modules/docs.js:96
+msgid "In the block editor, add the MasjidOS Prayer Times block when you want visual controls instead of shortcode text."
+msgstr "In the block editor, add the MasjidOS Prayer Times block when you want visual controls instead of shortcode text."
+
+#: includes/class-itmms-duas-azkar.php:473 includes/class-itmms-duas-azkar.php:475
+msgid "In the name of Allah we enter, in the name of Allah we leave, and upon Allah our Lord we rely."
+msgstr "In the name of Allah we enter, in the name of Allah we leave, and upon Allah our Lord we rely."
+
+#: includes/class-itmms-duas-azkar.php:347 includes/class-itmms-duas-azkar.php:349
+msgid "In the name of Allah, I trust in Allah, and there is no power nor strength except with Allah."
+msgstr "In the name of Allah, I trust in Allah, and there is no power nor strength except with Allah."
+
+#: includes/class-itmms-duas-azkar.php:437 includes/class-itmms-duas-azkar.php:439
+msgid "In the name of Allah, with whose name nothing on earth or in heaven can cause harm, and He is the All-Hearing, All-Knowing."
+msgstr "In the name of Allah, with whose name nothing on earth or in heaven can cause harm, and He is the All-Hearing, All-Knowing."
+
+#: includes/class-itmms-duas-azkar.php:275 includes/class-itmms-duas-azkar.php:277
+msgid "In the name of Allah."
+msgstr "In the name of Allah."
+
+#: includes/class-itmms-duas-azkar.php:311 includes/class-itmms-duas-azkar.php:313
+msgid "In Your name, O Allah, I die and I live."
+msgstr "In Your name, O Allah, I die and I live."
+
+#: admin/assets/js/modules/docs.js:140 admin/assets/js/modules/docs.js:144 admin/assets/js/modules/docs.js:149 admin/assets/js/modules/docs.js:159 admin/assets/js/modules/docs.js:244 admin/assets/js/modules/docs.js:276
+msgid "Included in the free plugin"
+msgstr "Included in the free plugin"
+
+#: admin/assets/js/modules/docs.js:610
+msgid "Includes Add to Calendar action (.ics files) supporting Google & Apple Calendar"
+msgstr "Includes Add to Calendar action (.ics files) supporting Google & Apple Calendar"
+
+#: admin/assets/js/modules/docs.js:211
+msgid "Includes Arabic, transliteration, meaning, and source"
+msgstr "Includes Arabic, transliteration, meaning, and source"
+
+#: admin/assets/js/modules/docs.js:127
+msgid "Includes Current Month and timetable-only Print actions"
+msgstr "Includes Current Month and timetable-only Print actions"
+
+#: admin/assets/js/modules/docs.js:661
+msgid "Includes hover highlights and responsive structure"
+msgstr "Includes hover highlights and responsive structure"
+
+#: admin/assets/js/modules/docs.js:130
+msgid "Includes Karachi, MWL, ISNA, Egypt, Makkah, Gulf, Singapore, Tehran, and Jafari presets"
+msgstr "Includes Karachi, MWL, ISNA, Egypt, Makkah, Gulf, Singapore, Tehran, and Jafari presets"
+
+#: admin/assets/js/modules/docs.js:241
+msgid "Includes notice type and publish date"
+msgstr "Includes notice type and publish date"
+
+#: admin/assets/js/modules/docs.js:120
+msgid "Includes Qibla direction and calculation meta"
+msgstr "Includes Qibla direction and calculation meta"
+
+#: admin/assets/js/modules/docs.js:657
+msgid "Includes share button and source references"
+msgstr "Includes share button and source references"
+
+#: admin/assets/js/modules/docs.js:653
+msgid "Includes share button and Tafsir reference link"
+msgstr "Includes share button and Tafsir reference link"
+
+#: admin/assets/js/modules/dashboard.js:51 admin/assets/js/modules/settings.js:132 public/class-itmms-public.php:758 public/class-itmms-public.php:905
+msgid "Iqamah"
+msgstr "الإقامة"
+
+#: admin/assets/js/modules/settings.js:89
+msgid "Iqamah Times"
+msgstr "أوقات الإقامة"
+
+#: admin/assets/js/modules/dashboard.js:40 admin/assets/js/modules/dashboard.js:64 admin/assets/js/modules/settings.js:86 admin/assets/js/modules/settings.js:94
+msgid "Isha"
+msgstr "العشاء"
+
+#: admin/assets/js/block-editor.js:168 admin/assets/js/modules/docs.js:187 admin/assets/js/modules/docs.js:384 admin/assets/js/modules/features.js:67 public/class-itmms-public.php:1201 public/class-itmms-public.php:226
+msgid "Islamic Calendar"
+msgstr "Islamic Calendar"
+
+#: admin/assets/js/modules/docs.js:379
+msgid "Islamic calendar attributes"
+msgstr "Islamic calendar attributes"
+
+#: admin/assets/js/modules/docs.js:504
+msgid "Islamic Calendar Generator"
+msgstr "Islamic Calendar Generator"
+
+#: admin/assets/js/modules/docs.js:608
+msgid "Islamic holidays automatically calculated and merged using local Hijri engine"
+msgstr "Islamic holidays automatically calculated and merged using local Hijri engine"
+
+#: includes/class-itmms-events.php:481
+msgid "Islamic holy day automatically calculated from the Hijri calendar."
+msgstr "Islamic holy day automatically calculated from the Hijri calendar."
+
+#: includes/class-itmms-prayer-times.php:404
+msgid "ISNA"
+msgstr "ISNA"
+
+#: admin/assets/js/modules/settings.js:63 includes/class-itmms-prayer-times.php:445
+msgid "Jafari"
+msgstr "Jafari"
+
+#: admin/assets/js/modules/dashboard.js:118 admin/assets/js/modules/settings.js:245 public/class-itmms-public.php:847
+msgid "Jamaat"
+msgstr "Jamaat"
+
+#: admin/assets/js/modules/settings.js:236
+msgid "Jamaat start time"
+msgstr "Jamaat start time"
+
+#: admin/assets/js/modules/docs.js:560
+msgid "January"
+msgstr "January"
+
+#: admin/assets/js/modules/docs.js:566
+msgid "July"
+msgstr "July"
+
+#: includes/class-itmms-hijri.php:125
+msgid "Jumada al-awwal"
+msgstr "Jumada al-awwal"
+
+#: includes/class-itmms-hijri.php:126
+msgid "Jumada al-thani"
+msgstr "Jumada al-thani"
+
+#: admin/assets/js/modules/announcements.js:68 admin/assets/js/modules/announcements.js:74 admin/assets/js/modules/dashboard.js:114 admin/assets/js/modules/docs.js:32 admin/assets/js/modules/docs.js:539 admin/assets/js/modules/settings.js:133 public/class-itmms-public.php:993
+msgid "Jumuah"
+msgstr "الجمعة"
+
+#. translators: %d: session number index
+#: public/templates/tv-display.php:239
+msgid "Jumuah %d"
+msgstr "Jumuah %d"
+
+#: admin/assets/js/modules/docs.js:427
+msgid "Jumuah design presets"
+msgstr "Jumuah design presets"
+
+#: admin/assets/js/modules/docs.js:481
+msgid "Jumuah Generator"
+msgstr "Jumuah Generator"
+
+#: admin/assets/js/modules/docs.js:642 admin/assets/js/modules/features.js:160 public/class-itmms-public.php:1504
+msgid "Jumuah Khutbah Archive"
+msgstr "Jumuah Khutbah Archive"
+
+#. translators: %s: Khatib name
+#: includes/class-itmms-events.php:528
+msgid "Jumuah Khutbah by %s"
+msgstr "Jumuah Khutbah by %s"
+
+#: admin/assets/js/modules/settings.js:106
+msgid "Jumuah Notice"
+msgstr "Jumuah Notice"
+
+#: admin/assets/js/modules/docs.js:356 public/class-itmms-public.php:496 public/class-itmms-public.php:845
+msgid "Jumuah Prayer"
+msgstr "Jumuah Prayer"
+
+#: admin/assets/js/modules/docs.js:106
+msgid "Jumuah Sessions"
+msgstr "Jumuah Sessions"
+
+#: admin/assets/js/modules/settings.js:97
+msgid "Jumuah Settings"
+msgstr "إعدادات الجمعة"
+
+#: admin/assets/js/modules/docs.js:351
+msgid "Jumuah shortcode attributes"
+msgstr "Jumuah shortcode attributes"
+
+#: admin/assets/js/modules/features.js:100
+msgid "Jumuah Times"
+msgstr "Jumuah Times"
+
+#: admin/assets/js/modules/docs.js:269
+msgid "Jumuah Widget"
+msgstr "Jumuah Widget"
+
+#: admin/assets/js/modules/docs.js:289
+msgid "Jumuah Without Meta"
+msgstr "Jumuah Without Meta"
+
+#: admin/assets/js/modules/docs.js:565
+msgid "June"
+msgstr "June"
+
+#: includes/class-itmms-prayer-times.php:394
+msgid "Karachi"
+msgstr "Karachi"
+
+#: admin/assets/js/modules/docs.js:221
+msgid "Keeps Arabic and meaning visible"
+msgstr "Keeps Arabic and meaning visible"
+
+#: admin/assets/js/modules/docs.js:179
+msgid "Keeps Azan/prayer time rows clean"
+msgstr "Keeps Azan/prayer time rows clean"
+
+#: admin/assets/js/modules/docs.js:158
+msgid "Keeps countdown and prayer table"
+msgstr "Keeps countdown and prayer table"
+
+#: admin/assets/js/modules/docs.js:195
+msgid "Keeps event titles and descriptions exactly as you entered them"
+msgstr "Keeps event titles and descriptions exactly as you entered them"
+
+#: admin/assets/js/modules/docs.js:171
+msgid "Keeps next prayer countdown"
+msgstr "Keeps next prayer countdown"
+
+#: admin/assets/js/modules/docs.js:167
+msgid "Keeps the timezone visible"
+msgstr "Keeps the timezone visible"
+
+#: admin/assets/js/modules/docs.js:282
+msgid "Keeps your configured topic and khatib text unchanged"
+msgstr "Keeps your configured topic and khatib text unchanged"
+
+#: admin/assets/js/modules/docs.js:621
+msgid "Keeps your custom event title and description unchanged"
+msgstr "Keeps your custom event title and description unchanged"
+
+#: admin/assets/js/modules/dashboard.js:120 public/class-itmms-public.php:850 public/templates/khutbah-archive.php:14
+msgid "Khatib"
+msgstr "Khatib"
+
+#: admin/assets/js/modules/settings.js:103
+msgid "Khatib Name"
+msgstr "Khatib Name"
+
+#: admin/assets/js/modules/settings.js:104
+msgid "Khatib Photo"
+msgstr "Khatib Photo"
+
+#: admin/assets/js/modules/docs.js:107
+msgid "Khatib Profile"
+msgstr "Khatib Profile"
+
+#: admin/assets/js/modules/settings.js:105
+msgid "Khatib Short Bio"
+msgstr "Khatib Short Bio"
+
+#: admin/assets/js/modules/dashboard.js:117 admin/assets/js/modules/settings.js:244 public/class-itmms-public.php:846
+msgid "Khutbah"
+msgstr "Khutbah"
+
+#: admin/assets/js/modules/docs.js:284
+msgid "Khutbah Archive"
+msgstr "Khutbah Archive"
+
+#: admin/assets/js/modules/docs.js:640
+msgid "Khutbah Archive shortcode attributes"
+msgstr "Khutbah Archive shortcode attributes"
+
+#: admin/assets/js/modules/settings.js:102
+msgid "Khutbah Language"
+msgstr "Khutbah Language"
+
+#: admin/assets/js/modules/settings.js:101
+msgid "Khutbah Topic"
+msgstr "Khutbah Topic"
+
+#: admin/assets/js/modules/settings.js:60 includes/class-itmms-prayer-times.php:429
+msgid "Kuwait"
+msgstr "Kuwait"
+
+#: admin/assets/js/modules/settings.js:243
+msgid "Label"
+msgstr "Label"
+
+#: admin/assets/js/block-editor.js:197 admin/assets/js/block-editor.js:93 admin/assets/js/modules/docs.js:472 admin/assets/js/modules/docs.js:484 admin/assets/js/modules/docs.js:496 admin/assets/js/modules/docs.js:508 admin/assets/js/modules/docs.js:522 admin/assets/js/modules/docs.js:538 admin/assets/js/modules/docs.js:550 admin/assets/js/modules/features.js:104 admin/assets/js/modules/features.js:118 admin/assets/js/modules/features.js:133 admin/assets/js/modules/features.js:147 admin/assets/js/modules/features.js:164 admin/assets/js/modules/features.js:176 admin/assets/js/modules/features.js:188 admin/assets/js/modules/features.js:200 admin/assets/js/modules/features.js:212 admin/assets/js/modules/features.js:39 admin/assets/js/modules/features.js:56 admin/assets/js/modules/features.js:71 admin/assets/js/modules/features.js:85 public/class-itmms-public.php:852 public/templates/khutbah-archive.php:15
+msgid "Language"
+msgstr "اللغة"
+
+#: admin/assets/js/block-editor.js:146 admin/assets/js/block-editor.js:234
+msgid "Language: "
+msgstr "Language: "
+
+#: admin/assets/js/modules/settings.js:119
+msgid "Large"
+msgstr "Large"
+
+#: admin/assets/js/modules/settings.js:37
+msgid "Latitude"
+msgstr "خط العرض"
+
+#: admin/assets/js/modules/settings.js:246
+msgid "Leave blank if your masjid has only one Jumuah."
+msgstr "Leave blank if your masjid has only one Jumuah."
+
+#: includes/class-itmms-duas-azkar.php:340 includes/class-itmms-duas-azkar.php:342
+msgid "Leaving home"
+msgstr "Leaving home"
+
+#: includes/class-itmms-duas-azkar.php:376 includes/class-itmms-duas-azkar.php:378
+msgid "Leaving the masjid"
+msgstr "Leaving the masjid"
+
+#: admin/assets/js/modules/docs.js:342
+msgid "Legacy shortcut. Use design=\"compact\" for new pages."
+msgstr "Legacy shortcut. Use design=\"compact\" for new pages."
+
+#: admin/assets/js/modules/settings.js:113
+msgid "Light Mode (Teal & Slate)"
+msgstr "Light Mode (Teal & Slate)"
+
+#: admin/assets/js/modules/docs.js:524 admin/assets/js/modules/docs.js:540 admin/assets/js/modules/docs.js:551
+msgid "Limit"
+msgstr "Limit"
+
+#: admin/assets/js/modules/docs.js:615
+msgid "Limit Events"
+msgstr "Limit Events"
+
+#: admin/assets/js/modules/docs.js:615
+msgid "Limit the number of events displayed on the page."
+msgstr "Limit the number of events displayed on the page."
+
+#: admin/assets/js/modules/docs.js:414
+msgid "Limits the number of active notices shown."
+msgstr "Limits the number of active notices shown."
+
+#: admin/assets/js/modules/docs.js:633
+msgid "Limits the number of events shown."
+msgstr "Limits the number of events shown."
+
+#: admin/assets/js/modules/docs.js:644
+msgid "Limits the number of khutbahs shown."
+msgstr "Limits the number of khutbahs shown."
+
+#: admin/assets/js/modules/docs.js:537 admin/assets/js/modules/docs.js:549 admin/assets/js/modules/features.js:119
+msgid "List"
+msgstr "List"
+
+#: public/templates/khutbah-archive.php:16
+msgid "Listen to Khutbah"
+msgstr "Listen to Khutbah"
+
+#: includes/class-itmms-duas-azkar.php:53
+msgid "Listen to pronunciation"
+msgstr "Listen to pronunciation"
+
+#: admin/assets/js/modules/announcements.js:32
+msgid "Live now"
+msgstr "Live now"
+
+#: admin/assets/js/modules/dashboard.js:91
+msgid "Live overview for your masjid operations."
+msgstr "نظرة مباشرة على عمليات مسجدك."
+
+#: admin/assets/js/modules/docs.js:83 admin/assets/js/modules/features.js:278 admin/assets/js/modules/features.js:311
+msgid "Live Preview"
+msgstr "Live Preview"
+
+#: admin/assets/js/modules/features.js:327
+msgid "Loading preview…"
+msgstr "Loading preview…"
+
+#: admin/assets/js/modules/dashboard.js:97 public/class-itmms-public.php:766 public/class-itmms-public.php:915
+msgid "Local calculation"
+msgstr "Local calculation"
+
+#: admin/assets/js/modules/settings.js:49
+msgid "Local Calculation (Offline)"
+msgstr "Local Calculation (Offline)"
+
+#: admin/assets/js/modules/dashboard.js:141 admin/assets/js/modules/events.js:40 public/class-itmms-public.php:760 public/class-itmms-public.php:853 public/templates/events.php:13
+msgid "Location"
+msgstr "الموقع"
+
+#: admin/assets/js/app.js:470
+msgid "Location detected and coordinates updated."
+msgstr "Location detected and coordinates updated."
+
+#: admin/assets/js/modules/settings.js:38
+msgid "Longitude"
+msgstr "خط الطول"
+
+#: admin/assets/js/modules/dashboard.js:39 admin/assets/js/modules/dashboard.js:63 admin/assets/js/modules/settings.js:85 admin/assets/js/modules/settings.js:93
+msgid "Maghrib"
+msgstr "المغرب"
+
+#: admin/assets/js/modules/settings.js:246
+msgid "Main Friday jamaat shown in the public widget."
+msgstr "Main Friday jamaat shown in the public widget."
+
+#: admin/assets/js/modules/docs.js:176
+msgid "Makes the widget visually shorter"
+msgstr "Makes the widget visually shorter"
+
+#: admin/assets/js/modules/docs.js:562
+msgid "March"
+msgstr "March"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:104
+msgid "Masjid"
+msgstr "Masjid"
+
+#: admin/assets/js/app.js:67 admin/assets/js/modules/shared.js:143
+msgid "Masjid Admin"
+msgstr "Masjid Admin"
+
+#: admin/assets/js/modules/settings.js:32
+msgid "Masjid Name"
+msgstr "اسم المسجد"
+
+#: admin/assets/js/modules/docs.js:415 public/class-itmms-public.php:376 public/class-itmms-public.php:984
+msgid "Masjid Notices"
+msgstr "Masjid Notices"
+
+#: admin/assets/js/modules/settings.js:31
+msgid "Masjid Profile"
+msgstr "ملف المسجد"
+
+#: admin/class-itmms-admin.php:60 admin/class-itmms-admin.php:61
+msgid "MasjidOS"
+msgstr "MasjidOS"
+
+#: includes/class-itmms-installer.php:73
+msgid "MasjidOS - Activation Error"
+msgstr "MasjidOS - Activation Error"
+
+#: admin/assets/js/modules/docs.js:227
+msgid "MasjidOS > Duas Library"
+msgstr "MasjidOS > Duas Library"
+
+#: admin/assets/js/modules/settings.js:215
+msgid "MasjidOS calculation timezone (%1$s) does not match your WordPress site settings timezone (%2$s). This can cause widget countdown calculations to be incorrect. Please align them."
+msgstr "MasjidOS calculation timezone (%1$s) does not match your WordPress site settings timezone (%2$s). This can cause widget countdown calculations to be incorrect. Please align them."
+
+#: admin/assets/js/modules/docs.js:25
+msgid "MasjidOS Documentation"
+msgstr "MasjidOS Documentation"
+
+#: admin/assets/js/block-editor.js:160 admin/assets/js/block-editor.js:230
+msgid "MasjidOS Islamic Calendar"
+msgstr "MasjidOS Islamic Calendar"
+
+#: admin/assets/js/block-editor.js:14 admin/assets/js/block-editor.js:141
+msgid "MasjidOS Prayer Times"
+msgstr "MasjidOS Prayer Times"
+
+#: includes/class-itmms-installer.php:66
+msgid "MasjidOS requires PHP 7.4 or higher."
+msgstr "MasjidOS requires PHP 7.4 or higher."
+
+#: includes/class-itmms-installer.php:62
+msgid "MasjidOS requires WordPress 6.0 or higher."
+msgstr "MasjidOS requires WordPress 6.0 or higher."
+
+#: includes/class-itmms-duas-azkar.php:196
+msgid "Master supplication for forgiveness"
+msgstr "Master supplication for forgiveness"
+
+#: admin/assets/js/modules/docs.js:617
+msgid "Maximum limit is 20"
+msgstr "Maximum limit is 20"
+
+#: admin/assets/js/modules/docs.js:564
+msgid "May"
+msgstr "May"
+
+#: includes/class-itmms-duas-azkar.php:25
+msgid "Meaning"
+msgstr "Meaning"
+
+#: admin/assets/js/modules/dashboard.js:143 public/class-itmms-public.php:761 public/class-itmms-public.php:917
+msgid "Method"
+msgstr "الطريقة"
+
+#: admin/assets/js/modules/settings.js:226
+msgid "Method tip:"
+msgstr "Method tip:"
+
+#: admin/assets/js/modules/settings.js:232
+msgid "Minutes, -60 to +60"
+msgstr "Minutes, -60 to +60"
+
+#: admin/assets/js/modules/features.js:316
+msgid "Mobile view"
+msgstr "Mobile view"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "module enabled"
+msgid_plural "modules enabled"
+msgstr[0] "module enabled"
+msgstr[1] "modules enabled"
+msgstr[2] "modules enabled"
+msgstr[3] "modules enabled"
+msgstr[4] "modules enabled"
+msgstr[5] "modules enabled"
+
+#: admin/assets/js/modules/dashboard.js:151
+msgid "Module Manager"
+msgstr "Module Manager"
+
+#: admin/assets/js/app.js:80 admin/assets/js/app.js:972
+msgid "Modules"
+msgstr "الوحدات"
+
+#: admin/assets/js/modules/docs.js:494 admin/assets/js/modules/docs.js:506 public/class-itmms-public.php:909
+msgid "Month"
+msgstr "Month"
+
+#: admin/assets/js/modules/docs.js:499 admin/assets/js/modules/docs.js:510
+msgid "Month navigation"
+msgstr "Month navigation"
+
+#: admin/assets/js/modules/docs.js:137 admin/assets/js/modules/docs.js:198
+msgid "Month uses 1 to 12"
+msgstr "Month uses 1 to 12"
+
+#: admin/assets/js/modules/docs.js:143
+msgid "Monthly Compact Design"
+msgstr "Monthly Compact Design"
+
+#: admin/assets/js/modules/docs.js:370 public/class-itmms-public.php:150 public/class-itmms-public.php:903
+msgid "Monthly Prayer Timetable"
+msgstr "Monthly Prayer Timetable"
+
+#: admin/assets/js/modules/docs.js:139
+msgid "Monthly Table Design"
+msgstr "Monthly Table Design"
+
+#: admin/assets/js/modules/docs.js:122 admin/assets/js/modules/features.js:52
+msgid "Monthly Timetable"
+msgstr "Monthly Timetable"
+
+#: admin/assets/js/modules/docs.js:364
+msgid "Monthly timetable attributes"
+msgstr "Monthly timetable attributes"
+
+#: admin/assets/js/modules/docs.js:491
+msgid "Monthly Timetable Generator"
+msgstr "Monthly Timetable Generator"
+
+#: admin/assets/js/modules/docs.js:425
+msgid "More Gutenberg blocks"
+msgstr "More Gutenberg blocks"
+
+#: admin/assets/js/modules/docs.js:426
+msgid "More TV display layouts"
+msgstr "More TV display layouts"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:99
+msgid "Morning"
+msgstr "Morning"
+
+#: admin/assets/js/modules/docs.js:215
+msgid "Morning Azkar"
+msgstr "Morning Azkar"
+
+#: includes/class-itmms-events.php:484
+msgid "Mosque"
+msgstr "Mosque"
+
+#: admin/assets/js/modules/docs.js:307 public/class-itmms-public.php:671
+msgid "Mosque Board"
+msgstr "Mosque Board"
+
+#: admin/assets/js/modules/docs.js:493
+msgid "Mosque Board (Pro)"
+msgstr "Mosque Board (Pro)"
+
+#: admin/assets/js/modules/events.js:44
+msgid "Mosque calendar"
+msgstr "Mosque calendar"
+
+#: admin/assets/js/modules/dashboard.js:96
+msgid "Mosque calendar events"
+msgstr "Mosque calendar events"
+
+#: admin/assets/js/modules/docs.js:302 public/class-itmms-public.php:588
+msgid "Mosque Display"
+msgstr "Mosque Display"
+
+#: includes/class-itmms-events.php:539
+msgid "Mosque Main Hall"
+msgstr "Mosque Main Hall"
+
+#: admin/assets/js/modules/docs.js:305 public/class-itmms-public.php:632
+msgid "Mosque Notice"
+msgstr "Mosque Notice"
+
+#: admin/assets/js/modules/settings.js:276
+msgid "Mosque TV Display Link"
+msgstr "Mosque TV Display Link"
+
+#: includes/class-itmms-roles.php:61
+msgid "Muazzin"
+msgstr "Muazzin"
+
+#: includes/class-itmms-hijri.php:121
+msgid "Muharram"
+msgstr "Muharram"
+
+#: includes/class-itmms-duas-azkar.php:369 includes/class-itmms-duas-azkar.php:387
+msgid "Muslim"
+msgstr "Muslim"
+
+#: admin/assets/js/modules/settings.js:54 includes/class-itmms-prayer-times.php:399
+msgid "Muslim World League"
+msgstr "Muslim World League"
+
+#: admin/assets/js/modules/docs.js:692
+msgid "Names of Allah shortcode attributes"
+msgstr "Names of Allah shortcode attributes"
+
+#: public/class-itmms-public.php:624
+msgid "Narrow Jumuah card for sidebars and mobile-first sections."
+msgstr "Narrow Jumuah card for sidebars and mobile-first sections."
+
+#: public/class-itmms-public.php:580
+msgid "Narrow prayer table for sidebars and smaller sections."
+msgstr "Narrow prayer table for sidebars and smaller sections."
+
+#: includes/class-itmms-education.php:26
+msgid "New Article"
+msgstr "New Article"
+
+#: includes/class-itmms-education.php:64
+msgid "New Category Name"
+msgstr "New Category Name"
+
+#: includes/class-itmms-duas-library.php:53
+msgid "New Dua"
+msgstr "New Dua"
+
+#: includes/class-itmms-duas-library.php:82
+msgid "New Dua Category Name"
+msgstr "New Dua Category Name"
+
+#: admin/assets/js/modules/events.js:34
+msgid "New event"
+msgstr "New event"
+
+#: admin/assets/js/modules/events.js:30
+msgid "New Event"
+msgstr "New Event"
+
+#: admin/assets/js/modules/announcements.js:35
+msgid "New notice"
+msgstr "New notice"
+
+#: admin/assets/js/modules/announcements.js:31
+msgid "New Notice"
+msgstr "إعلان جديد"
+
+#: public/class-itmms-public.php:908
+msgid "Next month"
+msgstr "Next month"
+
+#: admin/assets/js/modules/dashboard.js:93 public/class-itmms-public.php:757
+msgid "Next Prayer"
+msgstr "الصلاة التالية"
+
+#: public/class-itmms-public.php:419
+msgid "No active notices"
+msgstr "No active notices"
+
+#: admin/assets/js/modules/dashboard.js:89
+msgid "No active notices. Add one from the Notices screen."
+msgstr "No active notices. Add one from the Notices screen."
+
+#: includes/class-itmms-education.php:32
+msgid "No articles found in Trash."
+msgstr "No articles found in Trash."
+
+#: includes/class-itmms-education.php:31
+msgid "No articles found."
+msgstr "No articles found."
+
+#: admin/assets/js/modules/events.js:58
+msgid "No end time"
+msgstr "No end time"
+
+#: admin/assets/js/modules/events.js:51
+msgid "No events registered yet. Create the first one using the editor."
+msgstr "No events registered yet. Create the first one using the editor."
+
+#: admin/assets/js/modules/announcements.js:61
+msgid "No expiry"
+msgstr "No expiry"
+
+#: admin/assets/js/modules/docs.js:212
+msgid "No external API required"
+msgstr "No external API required"
+
+#: public/templates/khutbah-archive.php:17
+msgid "No khutbahs found."
+msgstr "No khutbahs found."
+
+#: admin/assets/js/modules/events.js:56
+msgid "No Location"
+msgstr "No Location"
+
+#: admin/assets/js/modules/announcements.js:54
+msgid "No notices yet. Publish the first update from the editor."
+msgstr "No notices yet. Publish the first update from the editor."
+
+#: admin/assets/js/app.js:526 admin/assets/js/modules/settings.js:177
+msgid "No photo"
+msgstr "No photo"
+
+#: public/class-itmms-public.php:471
+msgid "No upcoming events"
+msgstr "No upcoming events"
+
+#: admin/assets/js/block-editor.js:144 admin/assets/js/block-editor.js:233
+msgid "None"
+msgstr "None"
+
+#: admin/assets/js/modules/settings.js:118
+msgid "Normal"
+msgstr "Normal"
+
+#: admin/assets/js/modules/dashboard.js:129 admin/assets/js/modules/dashboard.js:132 admin/assets/js/modules/dashboard.js:51
+msgid "Not set"
+msgstr "Not set"
+
+#: admin/assets/js/modules/announcements.js:74 admin/assets/js/modules/dashboard.js:88 public/class-itmms-public.php:985
+msgid "Notice"
+msgstr "Notice"
+
+#: admin/assets/js/modules/docs.js:252
+msgid "Notice Banner"
+msgstr "Notice Banner"
+
+#: admin/assets/js/modules/announcements.js:47
+msgid "Notice library"
+msgstr "Notice library"
+
+#: admin/assets/js/modules/docs.js:237 public/class-itmms-public.php:700
+msgid "Notice List"
+msgstr "Notice List"
+
+#: includes/class-itmms-announcements.php:195 includes/class-itmms-rest.php:745
+msgid "Notice not found."
+msgstr "Notice not found."
+
+#: admin/assets/js/modules/docs.js:109
+msgid "Notice Pill"
+msgstr "Notice Pill"
+
+#: admin/assets/js/app.js:382
+msgid "Notice published."
+msgstr "Notice published."
+
+#: admin/assets/js/modules/docs.js:243 public/class-itmms-public.php:705
+msgid "Notice Ticker"
+msgstr "Notice Ticker"
+
+#: includes/class-itmms-announcements.php:165 includes/class-itmms-announcements.php:200
+msgid "Notice title is required."
+msgstr "Notice title is required."
+
+#: admin/assets/js/app.js:382
+msgid "Notice updated."
+msgstr "Notice updated."
+
+#: admin/assets/js/modules/docs.js:534
+msgid "Notice Widget Generator"
+msgstr "Notice Widget Generator"
+
+#: admin/assets/js/app.js:76 admin/assets/js/app.js:969 admin/assets/js/modules/docs.js:35
+msgid "Notices"
+msgstr "الإعلانات"
+
+#: admin/assets/js/modules/features.js:114
+msgid "Notices Widget"
+msgstr "Notices Widget"
+
+#: admin/assets/js/modules/docs.js:570
+msgid "November"
+msgstr "November"
+
+#: admin/assets/js/modules/dashboard.js:52 public/class-itmms-public.php:759
+msgid "Now"
+msgstr "الآن"
+
+#: admin/assets/js/modules/settings.js:122
+msgid "Number of seconds to display each announcement (3 to 30 seconds)."
+msgstr "Number of seconds to display each announcement (3 to 30 seconds)."
+
+#: includes/class-itmms-duas-azkar.php:383 includes/class-itmms-duas-azkar.php:385
+msgid "O Allah, I ask You from Your bounty."
+msgstr "O Allah, I ask You from Your bounty."
+
+#: includes/class-itmms-duas-azkar.php:455 includes/class-itmms-duas-azkar.php:457
+msgid "O Allah, I seek refuge in You from anxiety and sadness."
+msgstr "O Allah, I seek refuge in You from anxiety and sadness."
+
+#: includes/class-itmms-duas-azkar.php:419 includes/class-itmms-duas-azkar.php:421
+msgid "O Allah, make it beneficial rain."
+msgstr "O Allah, make it beneficial rain."
+
+#: includes/class-itmms-duas-azkar.php:365 includes/class-itmms-duas-azkar.php:367
+msgid "O Allah, open for me the doors of Your mercy."
+msgstr "O Allah, open for me the doors of Your mercy."
+
+#: includes/class-itmms-duas-azkar.php:203
+msgid "O Allah, You are my Lord. There is no god but You. You created me and I am Your servant."
+msgstr "O Allah, You are my Lord. There is no god but You. You created me and I am Your servant."
+
+#: includes/class-itmms-duas-azkar.php:221
+msgid "O Allah, You are Pardoning and You love to pardon, so pardon me."
+msgstr "O Allah, You are Pardoning and You love to pardon, so pardon me."
+
+#: admin/assets/js/modules/docs.js:569
+msgid "October"
+msgstr "October"
+
+#: admin/assets/js/modules/events.js:31 admin/assets/js/modules/events.js:67
+msgid "Ongoing"
+msgstr "Ongoing"
+
+#: admin/assets/js/modules/docs.js:94
+msgid "Open /masjidos-display/ on the site to show a fullscreen mosque board with prayer times, Iqamah, Hijri date, Jumuah, and notices."
+msgstr "Open /masjidos-display/ on the site to show a fullscreen mosque board with prayer times, Iqamah, Hijri date, Jumuah, and notices."
+
+#: admin/assets/js/modules/settings.js:281
+msgid "Open Display"
+msgstr "Open Display"
+
+#: admin/assets/js/modules/settings.js:202
+msgid "Open Google Maps"
+msgstr "Open Google Maps"
+
+#: admin/assets/js/modules/settings.js:196
+msgid "Open Google Maps and search your masjid name or address."
+msgstr "Open Google Maps and search your masjid name or address."
+
+#: admin/assets/js/modules/docs.js:82
+msgid "Open MasjidOS > Features to browse every public widget, change options, copy the shortcode, and open a live preview."
+msgstr "Open MasjidOS > Features to browse every public widget, change options, copy the shortcode, and open a live preview."
+
+#: admin/assets/js/modules/docs.js:326
+msgid "Open MasjidOS > Features to preview widgets before adding them to a public page."
+msgstr "Open MasjidOS > Features to preview widgets before adding them to a public page."
+
+#: admin/assets/js/modules/settings.js:277
+msgid "Open this URL on your mosque TV, monitor, or display screen to show a beautiful fullscreen board with real-time clock, prayer table, countdown, and announcements."
+msgstr "Open this URL on your mosque TV, monitor, or display screen to show a beautiful fullscreen board with real-time clock, prayer table, countdown, and announcements."
+
+#: admin/assets/js/modules/docs.js:327
+msgid "Open TV Display"
+msgstr "Open TV Display"
+
+#: admin/assets/js/modules/features.js:275
+msgid "Open TV Screen"
+msgstr "Open TV Screen"
+
+#: includes/class-itmms-duas-library.php:254
+msgid "Optional Arabic display title."
+msgstr "Optional Arabic display title."
+
+#: includes/class-itmms-duas-library.php:253
+msgid "Optional Bangla display title."
+msgstr "Optional Bangla display title."
+
+#: admin/assets/js/modules/docs.js:473 admin/assets/js/modules/docs.js:485 admin/assets/js/modules/docs.js:497 admin/assets/js/modules/docs.js:509 admin/assets/js/modules/docs.js:525 admin/assets/js/modules/docs.js:541 admin/assets/js/modules/docs.js:552
+msgid "Optional custom title"
+msgstr "Optional custom title"
+
+#: includes/class-itmms-duas-library.php:262
+msgid "Optional pronunciation audio URL."
+msgstr "Optional pronunciation audio URL."
+
+#: admin/assets/js/modules/settings.js:106
+msgid "Optional public note, for example: Please arrive early."
+msgstr "Optional public note, for example: Please arrive early."
+
+#: admin/assets/js/modules/docs.js:440
+msgid "Optional URL override for display labels."
+msgstr "Optional URL override for display labels."
+
+#: admin/assets/js/modules/docs.js:441
+msgid "Optional URL override for large screens."
+msgstr "Optional URL override for large screens."
+
+#: admin/assets/js/modules/docs.js:439
+msgid "Optional URL override, for example /masjidos-display/?theme=light."
+msgstr "Optional URL override, for example /masjidos-display/?theme=light."
+
+#: admin/assets/js/modules/events.js:39
+msgid "Optional."
+msgstr "Optional."
+
+#: admin/assets/js/modules/announcements.js:42
+msgid "Optional. Uses the same timezone."
+msgstr "Optional. Uses the same timezone."
+
+#: admin/assets/js/modules/settings.js:297
+msgid "Organized setup panels for masjid profile, prayer times, Iqamah, and Jumuah."
+msgstr "Organized setup panels for masjid profile, prayer times, Iqamah, and Jumuah."
+
+#: includes/class-itmms-duas-azkar.php:167
+msgid "Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire."
+msgstr "Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire."
+
+#: includes/class-itmms-duas-azkar.php:185
+msgid "Our Lord, we have wronged ourselves. If You do not forgive us and have mercy on us, we will surely be among the losers."
+msgstr "Our Lord, we have wronged ourselves. If You do not forgive us and have mercy on us, we will surely be among the losers."
+
+#: admin/assets/js/modules/docs.js:29
+msgid "Overview"
+msgstr "نظرة عامة"
+
+#: admin/assets/js/modules/docs.js:69
+msgid "Pages > Add New, add a Shortcode block, paste the shortcode, then publish."
+msgstr "Pages > Add New, add a Shortcode block, paste the shortcode, then publish."
+
+#: includes/class-itmms-education.php:59
+msgid "Parent Category"
+msgstr "Parent Category"
+
+#: includes/class-itmms-education.php:60
+msgid "Parent Category:"
+msgstr "Parent Category:"
+
+#: admin/assets/js/modules/events.js:68
+msgid "Past"
+msgstr "Past"
+
+#: admin/assets/js/modules/settings.js:199
+msgid "Paste the first number into Latitude and the second number into Longitude."
+msgstr "Paste the first number into Latitude and the second number into Longitude."
+
+#: public/class-itmms-public.php:986
+msgid "Pause"
+msgstr "Pause"
+
+#: admin/assets/js/modules/docs.js:245
+msgid "Pauses on hover and respects reduced-motion settings"
+msgstr "Pauses on hover and respects reduced-motion settings"
+
+#: admin/assets/js/modules/docs.js:428
+msgid "PDF export for monthly timetables"
+msgstr "PDF export for monthly timetables"
+
+#: admin/assets/js/modules/docs.js:321
+msgid "Pick the method used by your local Islamic authority. For Bangladesh, Karachi + Hanafi is a sensible starting point."
+msgstr "Pick the method used by your local Islamic authority. For Bangladesh, Karachi + Hanafi is a sensible starting point."
+
+#: public/class-itmms-public.php:987 public/templates/audio-quran.php:13
+msgid "Play"
+msgstr "Play"
+
+#: admin/assets/js/modules/features.js:119
+msgid "Popup Modal"
+msgstr "Popup Modal"
+
+#: admin/assets/js/modules/docs.js:256
+msgid "Popup Notice"
+msgstr "Popup Notice"
+
+#: admin/assets/js/modules/docs.js:70
+msgid "Post or Article"
+msgstr "Post or Article"
+
+#: admin/assets/js/modules/docs.js:70
+msgid "Posts > Add New, place the shortcode where the prayer widget should appear."
+msgstr "Posts > Add New, place the shortcode where the prayer widget should appear."
+
+#: admin/assets/js/modules/docs.js:31
+msgid "Prayer"
+msgstr "Prayer"
+
+#: admin/assets/js/modules/docs.js:96
+msgid "Prayer Block"
+msgstr "Prayer Block"
+
+#: admin/assets/js/modules/settings.js:47
+msgid "Prayer Calculation"
+msgstr "حساب أوقات الصلاة"
+
+#: admin/assets/js/modules/dashboard.js:97
+msgid "Prayer Method"
+msgstr "Prayer Method"
+
+#: admin/assets/js/modules/docs.js:26
+msgid "Prayer Settings"
+msgstr "Prayer Settings"
+
+#: admin/assets/js/modules/dashboard.js:135
+msgid "Prayer Setup"
+msgstr "إعداد الصلاة"
+
+#: admin/assets/js/modules/docs.js:335
+msgid "Prayer shortcode attributes"
+msgstr "Prayer shortcode attributes"
+
+#: admin/assets/js/modules/settings.js:80
+msgid "Prayer Time Adjustments"
+msgstr "Prayer Time Adjustments"
+
+#: admin/assets/js/modules/settings.js:48
+msgid "Prayer Time Source"
+msgstr "Prayer Time Source"
+
+#: admin/assets/js/block-editor.js:22 admin/assets/js/modules/docs.js:337 includes/class-itmms-settings.php:151 public/class-itmms-public.php:1168 public/class-itmms-public.php:69 public/class-itmms-public.php:756
+msgid "Prayer Times"
+msgstr "أوقات الصلاة"
+
+#: admin/assets/js/modules/docs.js:469
+msgid "Prayer Times Generator"
+msgstr "Prayer Times Generator"
+
+#: admin/assets/js/modules/docs.js:116 admin/assets/js/modules/features.js:35
+msgid "Prayer Times Widget"
+msgstr "Prayer Times Widget"
+
+#: admin/assets/js/modules/docs.js:301 public/class-itmms-public.php:583
+msgid "Premium Card"
+msgstr "Premium Card"
+
+#: admin/assets/js/modules/docs.js:306 public/class-itmms-public.php:666
+msgid "Premium Print"
+msgstr "Premium Print"
+
+#: admin/assets/js/modules/docs.js:493
+msgid "Premium Print (Pro)"
+msgstr "Premium Print (Pro)"
+
+#: admin/assets/js/modules/docs.js:304 public/class-itmms-public.php:627
+msgid "Premium Sermon"
+msgstr "Premium Sermon"
+
+#: admin/assets/js/modules/docs.js:257
+msgid "Presents notice inside a modal popup overlay"
+msgstr "Presents notice inside a modal popup overlay"
+
+#: public/class-itmms-public.php:907
+msgid "Previous month"
+msgstr "Previous month"
+
+#: public/class-itmms-public.php:913
+msgid "Print"
+msgstr "Print"
+
+#: admin/assets/js/modules/announcements.js:40
+msgid "Priority"
+msgstr "Priority"
+
+#: admin/assets/js/modules/announcements.js:61
+msgid "Priority %s"
+msgstr "Priority %s"
+
+#: admin/assets/js/modules/docs.js:141
+msgid "Pro can add more monthly designs without changing this shortcode system"
+msgstr "Pro can add more monthly designs without changing this shortcode system"
+
+#: admin/assets/js/modules/docs.js:298
+msgid "Pro design presets"
+msgstr "Pro design presets"
+
+#: admin/assets/js/modules/docs.js:85
+msgid "Pro-safe Designs"
+msgstr "Pro-safe Designs"
+
+#: admin/assets/js/modules/settings.js:129
+msgid "Profile"
+msgstr "الملف"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:109
+msgid "Protection"
+msgstr "Protection"
+
+#: includes/class-itmms-duas-azkar.php:430 includes/class-itmms-duas-azkar.php:432
+msgid "Protection from harm"
+msgstr "Protection from harm"
+
+#: admin/assets/js/modules/settings.js:135
+msgid "Public"
+msgstr "عام"
+
+#: admin/assets/js/modules/settings.js:144
+msgid "Public Options"
+msgstr "خيارات عامة"
+
+#: admin/assets/js/modules/settings.js:144
+msgid "Public transparency reports"
+msgstr "Public transparency reports"
+
+#: admin/assets/js/modules/docs.js:228
+msgid "Publish a dua to include it in the public widget"
+msgstr "Publish a dua to include it in the public widget"
+
+#: admin/assets/js/modules/announcements.js:35
+msgid "Publish an update"
+msgstr "Publish an update"
+
+#: admin/assets/js/modules/announcements.js:45
+msgid "Publish Notice"
+msgstr "نشر الإعلان"
+
+#: admin/assets/js/modules/docs.js:328
+msgid "Publish Shortcode"
+msgstr "Publish Shortcode"
+
+#: admin/assets/js/modules/announcements.js:44
+msgid "Published"
+msgstr "Published"
+
+#: admin/assets/js/modules/dashboard.js:95
+msgid "Published and in schedule"
+msgstr "Published and in schedule"
+
+#: admin/assets/js/modules/settings.js:59 includes/class-itmms-prayer-times.php:424
+msgid "Qatar"
+msgstr "Qatar"
+
+#: public/class-itmms-public.php:764
+msgid "Qibla"
+msgstr "القبلة"
+
+#: admin/assets/js/modules/dashboard.js:138
+msgid "Qibla Direction"
+msgstr "Qibla Direction"
+
+#: includes/class-itmms-duas-azkar.php:171
+msgid "Quran 2:201"
+msgstr "Quran 2:201"
+
+#: includes/class-itmms-duas-azkar.php:261
+msgid "Quran 3:173"
+msgstr "Quran 3:173"
+
+#: includes/class-itmms-duas-azkar.php:405
+msgid "Quran 43:13"
+msgstr "Quran 43:13"
+
+#: includes/class-itmms-duas-azkar.php:189
+msgid "Quran 7:23"
+msgstr "Quran 7:23"
+
+#: admin/assets/js/modules/docs.js:651
+msgid "Quran Verse"
+msgstr "Quran Verse"
+
+#: admin/assets/js/modules/docs.js:674 admin/assets/js/modules/features.js:172 public/class-itmms-public.php:1568
+msgid "Quran Verse of the Day"
+msgstr "Quran Verse of the Day"
+
+#: admin/assets/js/modules/docs.js:672
+msgid "Quran Verse shortcode attributes"
+msgstr "Quran Verse shortcode attributes"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:108
+msgid "Quranic"
+msgstr "Quranic"
+
+#: includes/class-itmms-hijri.php:123
+msgid "Rabi al-awwal"
+msgstr "Rabi al-awwal"
+
+#: includes/class-itmms-hijri.php:124
+msgid "Rabi al-thani"
+msgstr "Rabi al-thani"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:106
+msgid "Rain"
+msgstr "Rain"
+
+#: includes/class-itmms-hijri.php:127
+msgid "Rajab"
+msgstr "Rajab"
+
+#: includes/class-itmms-hijri.php:129
+msgid "Ramadan"
+msgstr "Ramadan"
+
+#: admin/assets/js/modules/docs.js:310 public/class-itmms-public.php:715
+msgid "Ramadan Banner"
+msgstr "Ramadan Banner"
+
+#: admin/assets/js/modules/docs.js:537
+msgid "Ramadan Banner (Pro)"
+msgstr "Ramadan Banner (Pro)"
+
+#: admin/assets/js/modules/docs.js:308 public/class-itmms-public.php:676
+msgid "Ramadan Monthly"
+msgstr "Ramadan Monthly"
+
+#: admin/assets/js/modules/docs.js:493
+msgid "Ramadan Monthly (Pro)"
+msgstr "Ramadan Monthly (Pro)"
+
+#: public/templates/announcements.php:35
+msgid "Ramadan Mubarak"
+msgstr "Ramadan Mubarak"
+
+#: admin/assets/js/modules/docs.js:303 public/class-itmms-public.php:593
+msgid "Ramadan Special"
+msgstr "Ramadan Special"
+
+#: includes/class-itmms-duas-azkar.php:49
+msgid "Read"
+msgstr "Read"
+
+#. translators: %d: number of repetitions
+#: includes/class-itmms-duas-azkar.php:47
+msgid "Read %d times"
+msgstr "Read %d times"
+
+#: public/class-itmms-public.php:702
+msgid "Readable public notice board."
+msgstr "Readable public notice board."
+
+#: admin/assets/js/modules/announcements.js:47
+msgid "Recent announcements"
+msgstr "Recent announcements"
+
+#: admin/assets/js/modules/docs.js:317
+msgid "Recommended setup checklist"
+msgstr "Recommended setup checklist"
+
+#: admin/assets/js/modules/docs.js:609
+msgid "Recurring Jumuah automatically calculated and added dynamically"
+msgstr "Recurring Jumuah automatically calculated and added dynamically"
+
+#: admin/assets/js/modules/docs.js:39
+msgid "Reference"
+msgstr "Reference"
+
+#: includes/class-itmms-duas-library.php:260
+msgid "Reference such as Quran 2:201 or Bukhari."
+msgstr "Reference such as Quran 2:201 or Bukhari."
+
+#: admin/assets/js/modules/docs.js:652 admin/assets/js/modules/docs.js:656
+msgid "Refreshes every day automatically"
+msgstr "Refreshes every day automatically"
+
+#: includes/class-itmms-duas-azkar.php:448 includes/class-itmms-duas-azkar.php:450
+msgid "Relief from anxiety and sadness"
+msgstr "Relief from anxiety and sadness"
+
+#: admin/assets/js/modules/settings.js:182
+msgid "Remove"
+msgstr "Remove"
+
+#: includes/class-itmms-duas-library.php:304
+msgid "Repeat"
+msgstr "Repeat"
+
+#: includes/class-itmms-duas-library.php:261
+msgid "Repeat Count"
+msgstr "Repeat Count"
+
+#: admin/assets/js/modules/shared.js:121
+msgid "Request failed"
+msgstr "Request failed"
+
+#: includes/class-itmms-duas-azkar.php:51
+msgid "Reset"
+msgstr "Reset"
+
+#: includes/class-itmms-duas-azkar.php:50
+msgid "Reset counter"
+msgstr "Reset counter"
+
+#: admin/assets/js/modules/settings.js:197
+msgid "Right-click the exact masjid location on the map."
+msgstr "Right-click the exact masjid location on the map."
+
+#: includes/class-itmms-hijri.php:122
+msgid "Safar"
+msgstr "Safar"
+
+#: admin/assets/js/modules/settings.js:146
+msgid "Save Settings"
+msgstr "حفظ الإعدادات"
+
+#: admin/assets/js/app.js:1013
+msgid "Saved"
+msgstr "تم الحفظ"
+
+#: admin/assets/js/modules/dashboard.js:98
+msgid "Saved preference"
+msgstr "Saved preference"
+
+#: admin/assets/js/modules/docs.js:258
+msgid "Saves dismissal status in session storage to avoid repeating"
+msgstr "Saves dismissal status in session storage to avoid repeating"
+
+#: admin/assets/js/app.js:326 admin/assets/js/app.js:368 admin/assets/js/app.js:992
+msgid "Saving..."
+msgstr "جارٍ الحفظ..."
+
+#: admin/assets/js/modules/events.js:29
+msgid "Schedule special lectures, community gatherings, Eid prayers, or charity events."
+msgstr "Schedule special lectures, community gatherings, Eid prayers, or charity events."
+
+#: admin/assets/js/modules/announcements.js:32 admin/assets/js/modules/announcements.js:80
+msgid "Scheduled"
+msgstr "Scheduled"
+
+#: admin/assets/js/modules/events.js:44
+msgid "Scheduled events"
+msgstr "Scheduled events"
+
+#: includes/class-itmms-settings.php:152
+msgid "Scheduled notices, public list, ticker"
+msgstr "Scheduled notices, public list, ticker"
+
+#: admin/assets/js/modules/features.js:115
+msgid "Scrolling or list-style mosque announcements with priority, types, and expiry dates."
+msgstr "Scrolling or list-style mosque announcements with priority, types, and expiry dates."
+
+#: public/templates/khutbah-archive.php:12
+msgid "Search"
+msgstr "Search"
+
+#: includes/class-itmms-education.php:30
+msgid "Search Articles"
+msgstr "Search Articles"
+
+#: includes/class-itmms-education.php:57
+msgid "Search Categories"
+msgstr "Search Categories"
+
+#: includes/class-itmms-duas-library.php:77
+msgid "Search Dua Categories"
+msgstr "Search Dua Categories"
+
+#: includes/class-itmms-duas-library.php:55
+msgid "Search Duas"
+msgstr "Search Duas"
+
+#: admin/assets/js/modules/docs.js:73
+msgid "Search for MasjidOS blocks when you prefer a block instead of manually pasting a shortcode."
+msgstr "Search for MasjidOS blocks when you prefer a block instead of manually pasting a shortcode."
+
+#: public/templates/khutbah-archive.php:11
+msgid "Search khutbahs (topic, khatib)..."
+msgstr "Search khutbahs (topic, khatib)..."
+
+#: admin/assets/js/modules/features.js:161
+msgid "Searchable public archive list of Friday khutbah details, khatibs, topics, and downloadable/playable audio files."
+msgstr "Searchable public archive list of Friday khutbah details, khatibs, topics, and downloadable/playable audio files."
+
+#: admin/assets/js/modules/settings.js:100 admin/assets/js/modules/settings.js:268 public/class-itmms-public.php:849
+msgid "Second Jumuah"
+msgstr "Second Jumuah"
+
+#: includes/class-itmms-duas-azkar.php:178
+msgid "Seeking forgiveness"
+msgstr "Seeking forgiveness"
+
+#: admin/assets/js/app.js:916
+msgid "Select"
+msgstr "Select"
+
+#: includes/class-itmms-duas-library.php:121 includes/class-itmms-duas-library.php:142
+msgid "Select Audio"
+msgstr "Select Audio"
+
+#: admin/assets/js/modules/settings.js:179
+msgid "Select from Media Library or paste image URL"
+msgstr "Select from Media Library or paste image URL"
+
+#: admin/assets/js/app.js:590
+msgid "Select Khatib Photo"
+msgstr "Select Khatib Photo"
+
+#: admin/assets/js/modules/settings.js:181
+msgid "Select Photo"
+msgstr "Select Photo"
+
+#: public/templates/audio-quran.php:12
+msgid "Select Surah"
+msgstr "Select Surah"
+
+#: admin/assets/js/modules/docs.js:411
+msgid "Selects a free notice design. Pro designs are supplied by the Pro plugin."
+msgstr "Selects a free notice design. Pro designs are supplied by the Pro plugin."
+
+#: admin/assets/js/modules/docs.js:397
+msgid "Selects the free design preset."
+msgstr "Selects the free design preset."
+
+#: admin/assets/js/modules/docs.js:338
+msgid "Selects the free design preset. Pro adds more designs from the Pro plugin."
+msgstr "Selects the free design preset. Pro adds more designs from the Pro plugin."
+
+#: admin/assets/js/modules/docs.js:354
+msgid "Selects the free Jumuah design preset. Pro can add more designs from the Pro plugin."
+msgstr "Selects the free Jumuah design preset. Pro can add more designs from the Pro plugin."
+
+#: admin/assets/js/modules/docs.js:631
+msgid "Selects the layout style."
+msgstr "Selects the layout style."
+
+#: admin/assets/js/modules/docs.js:368
+msgid "Selects the monthly timetable design. Pro designs are rendered by the Pro plugin."
+msgstr "Selects the monthly timetable design. Pro designs are rendered by the Pro plugin."
+
+#: admin/assets/js/modules/docs.js:568
+msgid "September"
+msgstr "September"
+
+#: admin/assets/js/modules/docs.js:320
+msgid "Set Coordinates"
+msgstr "Set Coordinates"
+
+#: admin/assets/js/modules/settings.js:97
+msgid "Set Friday sessions, khatib profile, topic, language, and public notice."
+msgstr "Set Friday sessions, khatib profile, topic, language, and public notice."
+
+#: admin/assets/js/modules/docs.js:324
+msgid "Set Iqamah Times"
+msgstr "Set Iqamah Times"
+
+#: admin/assets/js/modules/settings.js:89
+msgid "Set jamaat start times shown on the dashboard and public prayer widget."
+msgstr "Set jamaat start times shown on the dashboard and public prayer widget."
+
+#: admin/assets/js/modules/docs.js:325
+msgid "Set Jumuah Details"
+msgstr "Set Jumuah Details"
+
+#: admin/assets/js/modules/docs.js:319
+msgid "Set Timezone"
+msgstr "Set Timezone"
+
+#: admin/assets/js/app.js:81 admin/assets/js/app.js:973 admin/assets/js/modules/settings.js:297
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: includes/class-itmms-hijri.php:128
+msgid "Shaban"
+msgstr "Shaban"
+
+#: admin/assets/js/modules/features.js:150 includes/class-itmms-duas-azkar.php:52 public/templates/hadith.php:11 public/templates/quran-verse.php:11
+msgid "Share"
+msgstr "Share"
+
+#: includes/class-itmms-hijri.php:130
+msgid "Shawwal"
+msgstr "Shawwal"
+
+#: admin/assets/js/modules/docs.js:84
+msgid "Shortcode Generators"
+msgstr "Shortcode Generators"
+
+#: admin/assets/js/modules/docs.js:25
+msgid "Shortcodes, setup notes, and usage recipes"
+msgstr "Shortcodes, setup notes, and usage recipes"
+
+#: admin/assets/js/modules/docs.js:659
+msgid "Show 99 Names of Allah (Asmaul Husna) in a responsive grid."
+msgstr "Show 99 Names of Allah (Asmaul Husna) in a responsive grid."
+
+#: admin/assets/js/modules/docs.js:260
+msgid "Show a cleaner list without start dates."
+msgstr "Show a cleaner list without start dates."
+
+#: admin/assets/js/modules/docs.js:210
+msgid "Show a curated set of daily duas and azkar on any public page."
+msgstr "Show a curated set of daily duas and azkar on any public page."
+
+#: admin/assets/js/modules/docs.js:197
+msgid "Show a fixed Gregorian month while still displaying Hijri dates inside each day."
+msgstr "Show a fixed Gregorian month while still displaying Hijri dates inside each day."
+
+#: admin/assets/js/modules/docs.js:135
+msgid "Show a fixed month and year timetable."
+msgstr "Show a fixed month and year timetable."
+
+#: admin/assets/js/modules/docs.js:187
+msgid "Show a Hijri + Gregorian calendar with Islamic dates, holy days, and mosque events."
+msgstr "Show a Hijri + Gregorian calendar with Islamic dates, holy days, and mosque events."
+
+#: admin/assets/js/modules/docs.js:237
+msgid "Show active notices as a readable public notice board."
+msgstr "Show active notices as a readable public notice board."
+
+#: admin/assets/js/modules/docs.js:529 admin/assets/js/modules/features.js:90
+msgid "Show Audio Button"
+msgstr "Show Audio Button"
+
+#: admin/assets/js/block-editor.js:108
+msgid "Show Calculations Meta"
+msgstr "Show Calculations Meta"
+
+#: admin/assets/js/modules/docs.js:193
+msgid "Show calendar labels and Hijri month names in Bangla."
+msgstr "Show calendar labels and Hijri month names in Bangla."
+
+#: admin/assets/js/modules/docs.js:527 admin/assets/js/modules/features.js:88
+msgid "Show Counter"
+msgstr "Show Counter"
+
+#: admin/assets/js/modules/docs.js:542
+msgid "Show Date"
+msgstr "Show Date"
+
+#: admin/assets/js/modules/docs.js:269
+msgid "Show Friday khutbah and jamaat time on any public page."
+msgstr "Show Friday khutbah and jamaat time on any public page."
+
+#: admin/assets/js/modules/docs.js:476 admin/assets/js/modules/docs.js:498 admin/assets/js/modules/features.js:41 admin/assets/js/modules/features.js:57
+msgid "Show Iqamah"
+msgstr "Show Iqamah"
+
+#: admin/assets/js/block-editor.js:113
+msgid "Show Iqamah Times"
+msgstr "Show Iqamah Times"
+
+#: admin/assets/js/modules/docs.js:284
+msgid "Show Jumuah khutbah archive list with search and date filters."
+msgstr "Show Jumuah khutbah archive list with search and date filters."
+
+#: admin/assets/js/modules/docs.js:486
+msgid "Show Khatib & Meta"
+msgstr "Show Khatib & Meta"
+
+#: admin/assets/js/modules/docs.js:475
+msgid "Show Meta"
+msgstr "Show Meta"
+
+#: admin/assets/js/modules/docs.js:215
+msgid "Show only duas suitable for morning remembrance."
+msgstr "Show only duas suitable for morning remembrance."
+
+#: admin/assets/js/modules/docs.js:289
+msgid "Show only the public Jumuah session times and header."
+msgstr "Show only the public Jumuah session times and header."
+
+#: admin/assets/js/modules/docs.js:161
+msgid "Show prayer names and widget labels in Bangla."
+msgstr "Show prayer names and widget labels in Bangla."
+
+#: admin/assets/js/block-editor.js:103 admin/assets/js/modules/docs.js:474 admin/assets/js/modules/features.js:42
+msgid "Show Qibla"
+msgstr "Show Qibla"
+
+#: admin/assets/js/modules/docs.js:528 admin/assets/js/modules/features.js:89
+msgid "Show Share Button"
+msgstr "Show Share Button"
+
+#: admin/assets/js/modules/docs.js:526
+msgid "Show Source"
+msgstr "Show Source"
+
+#: admin/assets/js/modules/docs.js:122
+msgid "Show the full prayer timetable for the current month."
+msgstr "Show the full prayer timetable for the current month."
+
+#: admin/assets/js/modules/docs.js:280
+msgid "Show the Jumuah widget labels in Bangla."
+msgstr "Show the Jumuah widget labels in Bangla."
+
+#: admin/assets/js/modules/docs.js:143
+msgid "Show the month as day cards instead of a wide table."
+msgstr "Show the month as day cards instead of a wide table."
+
+#: admin/assets/js/modules/docs.js:606
+msgid "Show upcoming community gatherings, lectures, and special prayers."
+msgstr "Show upcoming community gatherings, lectures, and special prayers."
+
+#: admin/assets/js/modules/docs.js:256
+msgid "Show urgent announcements inside a dismissible popup window."
+msgstr "Show urgent announcements inside a dismissible popup window."
+
+#: admin/assets/js/modules/docs.js:223
+msgid "Show widget labels and meanings in Bangla."
+msgstr "Show widget labels and meanings in Bangla."
+
+#: admin/assets/js/modules/docs.js:381
+msgid "Shows a specific Gregorian month with Hijri dates inside the grid."
+msgstr "Shows a specific Gregorian month with Hijri dates inside the grid."
+
+#: admin/assets/js/modules/docs.js:366
+msgid "Shows a specific Gregorian month."
+msgstr "Shows a specific Gregorian month."
+
+#: admin/assets/js/modules/docs.js:367 admin/assets/js/modules/docs.js:382
+msgid "Shows a specific Gregorian year."
+msgstr "Shows a specific Gregorian year."
+
+#: admin/assets/js/modules/docs.js:402
+msgid "Shows audio buttons when an item has an audio URL."
+msgstr "Shows audio buttons when an item has an audio URL."
+
+#: admin/assets/js/modules/docs.js:611
+msgid "Shows dynamic X days remaining reminder badges"
+msgstr "Shows dynamic X days remaining reminder badges"
+
+#: admin/assets/js/modules/docs.js:189
+msgid "Shows mosque events on matching days"
+msgstr "Shows mosque events on matching days"
+
+#: admin/assets/js/modules/docs.js:119
+msgid "Shows next prayer countdown"
+msgstr "Shows next prayer countdown"
+
+#: admin/assets/js/modules/docs.js:271
+msgid "Shows one or two Jumuah sessions"
+msgstr "Shows one or two Jumuah sessions"
+
+#: admin/assets/js/modules/docs.js:162
+msgid "Shows one prayer name only"
+msgstr "Shows one prayer name only"
+
+#: admin/assets/js/modules/docs.js:343
+msgid "Shows or hides jamaat/Iqamah times."
+msgstr "Shows or hides jamaat/Iqamah times."
+
+#: admin/assets/js/modules/docs.js:357
+msgid "Shows or hides khatib and location details."
+msgstr "Shows or hides khatib and location details."
+
+#: admin/assets/js/modules/docs.js:400
+msgid "Shows or hides local recitation counters."
+msgstr "Shows or hides local recitation counters."
+
+#: admin/assets/js/modules/docs.js:341
+msgid "Shows or hides method, Asr, and timezone details."
+msgstr "Shows or hides method, Asr, and timezone details."
+
+#: admin/assets/js/modules/docs.js:416
+msgid "Shows or hides notice start dates."
+msgstr "Shows or hides notice start dates."
+
+#: admin/assets/js/modules/docs.js:385
+msgid "Shows or hides reload-free calendar controls."
+msgstr "Shows or hides reload-free calendar controls."
+
+#: admin/assets/js/modules/docs.js:372
+msgid "Shows or hides reload-free month and year controls."
+msgstr "Shows or hides reload-free month and year controls."
+
+#: admin/assets/js/modules/docs.js:401
+msgid "Shows or hides share buttons."
+msgstr "Shows or hides share buttons."
+
+#: admin/assets/js/modules/docs.js:399
+msgid "Shows or hides source labels."
+msgstr "Shows or hides source labels."
+
+#: admin/assets/js/modules/docs.js:344
+msgid "Shows or hides the Hijri date in the widget header."
+msgstr "Shows or hides the Hijri date in the widget header."
+
+#: admin/assets/js/modules/docs.js:340
+msgid "Shows or hides the Qibla card."
+msgstr "Shows or hides the Qibla card."
+
+#: admin/assets/js/modules/docs.js:117
+msgid "Shows today's prayer times"
+msgstr "Shows today's prayer times"
+
+#: includes/class-itmms-duas-azkar.php:232
+msgid "Simple daily dhikr"
+msgstr "Simple daily dhikr"
+
+#: admin/assets/js/modules/settings.js:61 includes/class-itmms-prayer-times.php:434
+msgid "Singapore"
+msgstr "Singapore"
+
+#: admin/assets/js/modules/announcements.js:41 admin/assets/js/modules/events.js:38
+msgid "site timezone"
+msgstr "site timezone"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:102
+msgid "Sleep"
+msgstr "Sleep"
+
+#: admin/assets/js/modules/settings.js:117
+msgid "Small"
+msgstr "Small"
+
+#: admin/assets/js/modules/settings.js:144
+msgid "Small public-facing switches for transparency and display preferences."
+msgstr "Small public-facing switches for transparency and display preferences."
+
+#: admin/assets/js/modules/docs.js:240
+msgid "Sorted by priority and start date"
+msgstr "Sorted by priority and start date"
+
+#: includes/class-itmms-duas-azkar.php:26 includes/class-itmms-duas-library.php:260 includes/class-itmms-duas-library.php:305 public/class-itmms-public.php:765 public/class-itmms-public.php:914
+msgid "Source"
+msgstr "المصدر"
+
+#: admin/assets/js/modules/docs.js:197
+msgid "Specific Calendar Month"
+msgstr "Specific Calendar Month"
+
+#: admin/assets/js/modules/docs.js:135
+msgid "Specific Month"
+msgstr "Specific Month"
+
+#: admin/assets/js/modules/settings.js:68
+msgid "Standard"
+msgstr "Standard"
+
+#: admin/assets/js/modules/announcements.js:41 admin/assets/js/modules/events.js:38
+msgid "Starts"
+msgstr "Starts"
+
+#: admin/assets/js/modules/announcements.js:61 admin/assets/js/modules/events.js:58
+msgid "Starts %s"
+msgstr "Starts %s"
+
+#: admin/assets/js/modules/docs.js:203
+msgid "Still shows Hijri dates and event markers"
+msgstr "Still shows Hijri dates and event markers"
+
+#: admin/assets/js/modules/docs.js:175
+msgid "Still shows Qibla if qibla is enabled"
+msgstr "Still shows Qibla if qibla is enabled"
+
+#: admin/assets/js/modules/docs.js:664
+msgid "Stream high quality Surah recitations directly"
+msgstr "Stream high quality Surah recitations directly"
+
+#: includes/class-itmms-duas-library.php:261
+msgid "Suggested number of times to recite."
+msgstr "Suggested number of times to recite."
+
+#: admin/assets/js/modules/dashboard.js:36 admin/assets/js/modules/dashboard.js:60 admin/assets/js/modules/settings.js:82
+msgid "Sunrise"
+msgstr "الشروق"
+
+#: admin/assets/js/modules/docs.js:131
+msgid "Supports Auto API (Aladhan.com) integration for city-based automatic timing retrieval with robust offline fallback"
+msgstr "Supports Auto API (Aladhan.com) integration for city-based automatic timing retrieval with robust offline fallback"
+
+#: admin/assets/js/modules/docs.js:278
+msgid "Supports language=\"bn\""
+msgstr "Supports language=\"bn\""
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "System Health"
+msgstr "System Health"
+
+#: admin/assets/js/modules/docs.js:493 public/class-itmms-public.php:656
+msgid "Table"
+msgstr "Table"
+
+#: public/class-itmms-public.php:769
+msgid "Tap to point live"
+msgstr "Tap to point live"
+
+#: admin/assets/js/modules/settings.js:62 includes/class-itmms-prayer-times.php:439
+msgid "Tehran"
+msgstr "Tehran"
+
+#: admin/assets/js/modules/docs.js:337 admin/assets/js/modules/docs.js:356 admin/assets/js/modules/docs.js:370 admin/assets/js/modules/docs.js:384 admin/assets/js/modules/docs.js:394 admin/assets/js/modules/docs.js:415 admin/assets/js/modules/docs.js:630 admin/assets/js/modules/docs.js:642 admin/assets/js/modules/docs.js:674 admin/assets/js/modules/docs.js:684 admin/assets/js/modules/docs.js:694 admin/assets/js/modules/docs.js:704
+msgid "Text"
+msgstr "Text"
+
+#: includes/class-itmms-events.php:254
+msgid "The event could not be created."
+msgstr "The event could not be created."
+
+#: includes/class-itmms-rest.php:809
+msgid "The event could not be deleted."
+msgstr "The event could not be deleted."
+
+#: includes/class-itmms-events.php:295
+msgid "The event could not be updated."
+msgstr "The event could not be updated."
+
+#: includes/class-itmms-events.php:242 includes/class-itmms-events.php:282
+msgid "The event end time must be after its start time."
+msgstr "The event end time must be after its start time."
+
+#: admin/assets/js/modules/docs.js:299
+msgid "The free plugin only shows these as available in MasjidOS Pro. The actual Pro design code ships from the Pro plugin, not from this free plugin."
+msgstr "The free plugin only shows these as available in MasjidOS Pro. The actual Pro design code ships from the Pro plugin, not from this free plugin."
+
+#: includes/class-itmms-announcements.php:180
+msgid "The notice could not be created."
+msgstr "The notice could not be created."
+
+#: includes/class-itmms-rest.php:749
+msgid "The notice could not be deleted."
+msgstr "The notice could not be deleted."
+
+#: includes/class-itmms-announcements.php:216
+msgid "The notice could not be updated."
+msgstr "The notice could not be updated."
+
+#: includes/class-itmms-announcements.php:168 includes/class-itmms-announcements.php:203
+msgid "The notice end date must be after its start date."
+msgstr "The notice end date must be after its start date."
+
+#: admin/assets/js/modules/docs.js:352
+msgid "The shortcode controls presentation only. Actual Friday data comes from Settings > Jumuah Settings."
+msgstr "The shortcode controls presentation only. Actual Friday data comes from Settings > Jumuah Settings."
+
+#: public/class-itmms-public.php:911
+msgid "The timetable could not be loaded. Please try again."
+msgstr "The timetable could not be loaded. Please try again."
+
+#: admin/assets/js/modules/docs.js:436
+msgid "The TV Display is a URL, not a shortcode. Open it in a browser on your mosque screen."
+msgstr "The TV Display is a URL, not a shortcode. Open it in a browser on your mosque screen."
+
+#: public/class-itmms-public.php:1120
+msgid "This announcement widget design is available in MasjidOS Pro."
+msgstr "This announcement widget design is available in MasjidOS Pro."
+
+#: public/class-itmms-public.php:1094
+msgid "This Jumuah widget design is available in MasjidOS Pro."
+msgstr "This Jumuah widget design is available in MasjidOS Pro."
+
+#: public/class-itmms-public.php:1107
+msgid "This monthly timetable design is available in MasjidOS Pro."
+msgstr "This monthly timetable design is available in MasjidOS Pro."
+
+#: public/class-itmms-public.php:1081
+msgid "This prayer widget design is available in MasjidOS Pro."
+msgstr "This prayer widget design is available in MasjidOS Pro."
+
+#: admin/assets/js/modules/docs.js:537 admin/assets/js/modules/features.js:119
+msgid "Ticker"
+msgstr "Ticker"
+
+#: public/templates/events.php:15
+msgid "Time"
+msgstr "Time"
+
+#: public/class-itmms-public.php:906
+msgid "Timetable month navigation"
+msgstr "Timetable month navigation"
+
+#: admin/assets/js/modules/dashboard.js:145 admin/assets/js/modules/dashboard.js:99 admin/assets/js/modules/settings.js:35 public/class-itmms-public.php:763
+msgid "Timezone"
+msgstr "المنطقة الزمنية"
+
+#: admin/assets/js/modules/settings.js:220
+msgid "Timezone matters:"
+msgstr "Timezone matters:"
+
+#: admin/assets/js/modules/settings.js:214
+msgid "Timezone Mismatch Warning:"
+msgstr "Timezone Mismatch Warning:"
+
+#: admin/assets/js/modules/settings.js:201 admin/assets/js/modules/settings.js:283
+msgid "Tip:"
+msgstr "Tip:"
+
+#: includes/class-itmms-duas-azkar.php:225
+msgid "Tirmidhi"
+msgstr "Tirmidhi"
+
+#: admin/assets/js/block-editor.js:192 admin/assets/js/block-editor.js:79 admin/assets/js/modules/announcements.js:36 admin/assets/js/modules/docs.js:473 admin/assets/js/modules/docs.js:485 admin/assets/js/modules/docs.js:497 admin/assets/js/modules/docs.js:509 admin/assets/js/modules/docs.js:525 admin/assets/js/modules/docs.js:541 admin/assets/js/modules/docs.js:552
+msgid "Title"
+msgstr "العنوان"
+
+#: admin/assets/js/block-editor.js:144 admin/assets/js/block-editor.js:233
+msgid "Title: "
+msgstr "Title: "
+
+#: public/templates/events.php:14
+msgid "to"
+msgstr "to"
+
+#: public/templates/events.php:20
+msgid "Today"
+msgstr "Today"
+
+#: admin/assets/js/modules/dashboard.js:101
+msgid "Today's Prayer Times"
+msgstr "Today's Prayer Times"
+
+#: admin/assets/js/modules/dashboard.js:75
+msgid "Toggle %s"
+msgstr "Toggle %s"
+
+#: admin/assets/js/app.js:88
+msgid "Toggle menu"
+msgstr "تبديل القائمة"
+
+#: admin/assets/js/modules/dashboard.js:119 public/class-itmms-public.php:851
+msgid "Topic"
+msgstr "Topic"
+
+#: admin/assets/js/modules/docs.js:108
+msgid "Topic & Language"
+msgstr "Topic & Language"
+
+#: admin/assets/js/modules/announcements.js:32 admin/assets/js/modules/events.js:31
+msgid "Total"
+msgstr "Total"
+
+#: includes/class-itmms-duas-azkar.php:48
+msgid "Track recitation count"
+msgstr "Track recitation count"
+
+#: admin/assets/js/modules/docs.js:619
+msgid "Translate event labels and titles into Bangla."
+msgstr "Translate event labels and titles into Bangla."
+
+#: admin/assets/js/modules/docs.js:281
+msgid "Translates widget title and labels"
+msgstr "Translates widget title and labels"
+
+#: includes/class-itmms-duas-library.php:256
+msgid "Transliteration"
+msgstr "Transliteration"
+
+#: admin/assets/js/modules/docs.js:523 admin/assets/js/modules/features.js:87 includes/class-itmms-duas-azkar.php:105
+msgid "Travel"
+msgstr "Travel"
+
+#: includes/class-itmms-duas-azkar.php:394 includes/class-itmms-duas-azkar.php:396
+msgid "Travel supplication"
+msgstr "Travel supplication"
+
+#: includes/class-itmms-duas-azkar.php:250
+msgid "Trust in Allah"
+msgstr "Trust in Allah"
+
+#: admin/assets/js/modules/docs.js:326
+msgid "Try Features Preview"
+msgstr "Try Features Preview"
+
+#: admin/assets/js/modules/dashboard.js:151
+msgid "Turn modules on only when your masjid needs them. Disabled modules stay light."
+msgstr "Turn modules on only when your masjid needs them. Disabled modules stay light."
+
+#: admin/assets/js/modules/settings.js:123
+msgid "TV Custom Logo"
+msgstr "TV Custom Logo"
+
+#: admin/assets/js/modules/docs.js:94 admin/assets/js/modules/settings.js:134
+msgid "TV Display"
+msgstr "شاشة العرض"
+
+#: admin/assets/js/modules/features.js:220
+msgid "TV Display Mode"
+msgstr "TV Display Mode"
+
+#: admin/assets/js/modules/settings.js:110
+msgid "TV Display Settings"
+msgstr "إعدادات شاشة العرض"
+
+#: admin/assets/js/modules/docs.js:515
+msgid "TV Display URL"
+msgstr "TV Display URL"
+
+#: admin/assets/js/modules/docs.js:435
+msgid "TV display URL options"
+msgstr "TV display URL options"
+
+#: admin/assets/js/modules/settings.js:116
+msgid "TV Font Size"
+msgstr "TV Font Size"
+
+#: admin/assets/js/modules/docs.js:95
+msgid "TV Settings"
+msgstr "TV Settings"
+
+#: admin/assets/js/modules/settings.js:111
+msgid "TV Theme Style"
+msgstr "TV Theme Style"
+
+#: admin/assets/js/modules/announcements.js:39 admin/assets/js/modules/docs.js:539
+msgid "Type"
+msgstr "Type"
+
+#: admin/assets/js/modules/settings.js:57 includes/class-itmms-prayer-times.php:414
+msgid "Umm al-Qura, Makkah"
+msgstr "Umm al-Qura, Makkah"
+
+#: admin/assets/js/app.js:475
+msgid "Unable to detect location. Please input coordinates manually."
+msgstr "Unable to detect location. Please input coordinates manually."
+
+#: includes/class-itmms-duas-library.php:317
+msgid "Uncategorized"
+msgstr "Uncategorized"
+
+#: admin/assets/js/modules/announcements.js:44
+msgid "Uncheck to keep this notice private."
+msgstr "Uncheck to keep this notice private."
+
+#: admin/assets/js/modules/events.js:31 admin/assets/js/modules/events.js:66
+msgid "Upcoming"
+msgstr "Upcoming"
+
+#: admin/assets/js/modules/docs.js:630 public/class-itmms-public.php:443 public/class-itmms-public.php:464
+msgid "Upcoming Events"
+msgstr "Upcoming Events"
+
+#: admin/assets/js/modules/features.js:130
+msgid "Upcoming mosque events list with date, time, location, and description."
+msgstr "Upcoming mosque events list with date, time, location, and description."
+
+#: includes/class-itmms-education.php:62
+msgid "Update Category"
+msgstr "Update Category"
+
+#: includes/class-itmms-duas-library.php:80
+msgid "Update Dua Category"
+msgstr "Update Dua Category"
+
+#: admin/assets/js/modules/events.js:42
+msgid "Update Event"
+msgstr "Update Event"
+
+#: admin/assets/js/modules/announcements.js:45
+msgid "Update Notice"
+msgstr "تحديث الإعلان"
+
+#: admin/assets/js/modules/settings.js:184
+msgid "Upload or choose an image from WordPress Media Library."
+msgstr "Upload or choose an image from WordPress Media Library."
+
+#: admin/assets/js/modules/announcements.js:68 admin/assets/js/modules/announcements.js:74 admin/assets/js/modules/docs.js:539 public/class-itmms-public.php:992
+msgid "Urgent"
+msgstr "عاجل"
+
+#: admin/assets/js/modules/docs.js:248
+msgid "Urgent Notices Only"
+msgstr "Urgent Notices Only"
+
+#: admin/assets/js/modules/docs.js:438
+msgid "URL"
+msgstr "URL"
+
+#: admin/assets/js/modules/docs.js:243
+msgid "Use a compact moving strip in a homepage or header area."
+msgstr "Use a compact moving strip in a homepage or header area."
+
+#: admin/assets/js/modules/docs.js:219
+msgid "Use a narrow layout for sidebars and mobile-first sections."
+msgstr "Use a narrow layout for sidebars and mobile-first sections."
+
+#: admin/assets/js/modules/docs.js:252
+msgid "Use a slim banner notice layout at page header or top."
+msgstr "Use a slim banner notice layout at page header or top."
+
+#: admin/assets/js/modules/docs.js:322
+msgid "Use Hijri Date Adjustment if your local moon-sighting calendar differs by one day."
+msgstr "Use Hijri Date Adjustment if your local moon-sighting calendar differs by one day."
+
+#: admin/assets/js/modules/docs.js:109
+msgid "Use Jumuah Notice for arrival notes, parking notes, or special Friday announcements."
+msgstr "Use Jumuah Notice for arrival notes, parking notes, or special Friday announcements."
+
+#: admin/assets/js/modules/docs.js:108
+msgid "Use Khutbah Topic and Khutbah Language to show the Friday talk details publicly."
+msgstr "Use Khutbah Topic and Khutbah Language to show the Friday talk details publicly."
+
+#: admin/assets/js/modules/docs.js:133
+msgid "Use minute adjustments to match your official masjid timetable"
+msgstr "Use minute adjustments to match your official masjid timetable"
+
+#: admin/assets/js/modules/docs.js:323
+msgid "Use Prayer Time Adjustments if the local committee timetable differs by a few minutes."
+msgstr "Use Prayer Time Adjustments if the local committee timetable differs by a few minutes."
+
+#: admin/assets/js/modules/docs.js:230
+msgid "Use Select Audio to choose pronunciation audio from the Media Library"
+msgstr "Use Select Audio to choose pronunciation audio from the Media Library"
+
+#: includes/class-itmms-duas-library.php:111
+msgid "Use the Dua Categories panel to assign category keys such as morning, daily, food, sleep, or travel."
+msgstr "Use the Dua Categories panel to assign category keys such as morning, daily, food, sleep, or travel."
+
+#: admin/assets/js/modules/docs.js:84
+msgid "Use the Generators tab when you want a form-based shortcode builder with copy buttons."
+msgstr "Use the Generators tab when you want a form-based shortcode builder with copy buttons."
+
+#: admin/assets/js/modules/settings.js:227
+msgid "Use the method followed by your local masjid or Islamic authority. For Bangladesh, Karachi + Hanafi is a sensible starting point, then adjust minutes if your official timetable differs."
+msgstr "Use the method followed by your local masjid or Islamic authority. For Bangladesh, Karachi + Hanafi is a sensible starting point, then adjust minutes if your official timetable differs."
+
+#: admin/assets/js/modules/docs.js:83
+msgid "Use the preview buttons to compare desktop and mobile layouts before publishing a shortcode."
+msgstr "Use the preview buttons to compare desktop and mobile layouts before publishing a shortcode."
+
+#: includes/class-itmms-duas-library.php:142
+msgid "Use this audio"
+msgstr "Use this audio"
+
+#: admin/assets/js/modules/docs.js:156
+msgid "Use this in a sidebar, footer, or narrow homepage section."
+msgstr "Use this in a sidebar, footer, or narrow homepage section."
+
+#: admin/assets/js/app.js:591
+msgid "Use this photo"
+msgstr "Use this photo"
+
+#: admin/assets/js/modules/docs.js:174
+msgid "Use this when method/timezone details are not needed publicly."
+msgstr "Use this when method/timezone details are not needed publicly."
+
+#: admin/assets/js/modules/docs.js:178
+msgid "Use this when you only want calculated prayer times."
+msgstr "Use this when you only want calculated prayer times."
+
+#: admin/assets/js/modules/docs.js:166
+msgid "Use this when you only want the Gregorian date in the prayer widget header."
+msgstr "Use this when you only want the Gregorian date in the prayer widget header."
+
+#: admin/assets/js/modules/docs.js:170
+msgid "Use this when you want a compact prayer table only."
+msgstr "Use this when you want a compact prayer table only."
+
+#: admin/assets/js/modules/docs.js:201
+msgid "Use this when you want a fixed embedded month."
+msgstr "Use this when you want a fixed embedded month."
+
+#: admin/assets/js/modules/dashboard.js:99
+msgid "Used across schedules"
+msgstr "Used across schedules"
+
+#: admin/assets/js/modules/docs.js:180
+msgid "Useful before Iqamah times are finalized"
+msgstr "Useful before Iqamah times are finalized"
+
+#: admin/assets/js/modules/docs.js:136
+msgid "Useful for archive pages"
+msgstr "Useful for archive pages"
+
+#: admin/assets/js/modules/docs.js:217
+msgid "Useful for daily rotation sections"
+msgstr "Useful for daily rotation sections"
+
+#: admin/assets/js/modules/docs.js:261
+msgid "Useful for evergreen notices"
+msgstr "Useful for evergreen notices"
+
+#: admin/assets/js/modules/docs.js:199
+msgid "Useful for Ramadan, Eid, or event archive pages"
+msgstr "Useful for Ramadan, Eid, or event archive pages"
+
+#: admin/assets/js/modules/docs.js:291
+msgid "Useful for very simple pages"
+msgstr "Useful for very simple pages"
+
+#: admin/assets/js/modules/docs.js:154
+msgid "Useful when multiple masjid pages exist"
+msgstr "Useful when multiple masjid pages exist"
+
+#: admin/assets/js/modules/announcements.js:41 admin/assets/js/modules/events.js:38
+msgid "Uses %s."
+msgstr "Uses %s."
+
+#: admin/assets/js/modules/docs.js:239
+msgid "Uses published notices whose schedule is currently active"
+msgstr "Uses published notices whose schedule is currently active"
+
+#: admin/assets/js/modules/docs.js:191
+msgid "Uses the Hijri Date Adjustment from Settings > Calculation"
+msgstr "Uses the Hijri Date Adjustment from Settings > Calculation"
+
+#: admin/assets/js/modules/docs.js:270
+msgid "Uses the Jumuah Settings section"
+msgstr "Uses the Jumuah Settings section"
+
+#: admin/assets/js/modules/docs.js:124
+msgid "Uses your saved location, method, offsets, and timezone"
+msgstr "Uses your saved location, method, offsets, and timezone"
+
+#: includes/class-itmms-education.php:28
+msgid "View Article"
+msgstr "View Article"
+
+#: includes/class-itmms-duas-library.php:54
+msgid "View Dua"
+msgstr "View Dua"
+
+#: public/templates/quran-verse.php:12
+msgid "View Tafsir"
+msgstr "View Tafsir"
+
+#: admin/assets/js/modules/docs.js:327
+msgid "Visit /masjidos-display/ on your site if you need a fullscreen board for mosque TVs."
+msgstr "Visit /masjidos-display/ on your site if you need a fullscreen board for mosque TVs."
+
+#: admin/assets/js/modules/docs.js:126 admin/assets/js/modules/docs.js:190
+msgid "Visitors can switch month and year without reloading the page"
+msgstr "Visitors can switch month and year without reloading the page"
+
+#: includes/class-itmms-events.php:536
+msgid "Weekly Friday congregational prayer and khutbah."
+msgstr "Weekly Friday congregational prayer and khutbah."
+
+#: admin/assets/js/modules/docs.js:423
+msgid "What is coming next"
+msgstr "What is coming next"
+
+#: includes/class-itmms-duas-azkar.php:412 includes/class-itmms-duas-azkar.php:414
+msgid "When it rains"
+msgstr "When it rains"
+
+#: admin/assets/js/modules/docs.js:67
+msgid "Where to paste shortcodes"
+msgstr "Where to paste shortcodes"
+
+#: admin/assets/js/modules/docs.js:104
+msgid "Where to set Jumuah data"
+msgstr "Where to set Jumuah data"
+
+#: public/class-itmms-public.php:619
+msgid "Wide Jumuah card with khutbah, jamaat, and meta details."
+msgstr "Wide Jumuah card with khutbah, jamaat, and meta details."
+
+#: admin/assets/js/modules/docs.js:71
+msgid "Widget Area"
+msgstr "Widget Area"
+
+#: admin/assets/js/block-editor.js:77
+msgid "Widget Settings"
+msgstr "Widget Settings"
+
+#: admin/class-itmms-admin.php:256
+msgid "WordPress Dashboard"
+msgstr "لوحة تحكم ووردبريس"
+
+#: admin/assets/js/modules/docs.js:69
+msgid "WordPress Page"
+msgstr "WordPress Page"
+
+#: admin/assets/js/modules/docs.js:164
+msgid "Works with classic and compact designs"
+msgstr "Works with classic and compact designs"
+
+#: admin/assets/js/modules/docs.js:495 admin/assets/js/modules/docs.js:507 public/class-itmms-public.php:910
+msgid "Year"
+msgstr "Year"
+
+#: admin/assets/js/modules/settings.js:283
+msgid "You can override theme, language, and font size in the URL directly, for example: "
+msgstr "You can override theme, language, and font size in the URL directly, for example: "

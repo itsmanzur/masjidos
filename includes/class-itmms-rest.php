@@ -37,6 +37,16 @@ final class ITMMS_REST {
 
 		register_rest_route(
 			self::NAMESPACE,
+			'/welcome/dismiss',
+			[
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'dismiss_welcome' ],
+				'permission_callback' => [ $this, 'can_read' ],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
 			'/settings',
 			[
 				[
@@ -58,6 +68,141 @@ final class ITMMS_REST {
 			[
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => [ $this, 'get_prayer_times_today' ],
+				'permission_callback' => '__return_true',
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/prayer-times/date',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_prayer_times_date' ],
+				'permission_callback' => '__return_true',
+				'args'                => [
+					'date' => [
+						'required'          => true,
+						'validate_callback' => static function ( $param ): bool {
+							return is_string( $param ) && (bool) preg_match( '/^\d{4}-\d{2}-\d{2}$/', $param );
+						},
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/prayer-times/month',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_prayer_times_month_json' ],
+				'permission_callback' => '__return_true',
+				'args'                => [
+					'year'  => [
+						'required'          => false,
+						'validate_callback' => static function ( $param ): bool {
+							return is_numeric( $param ) || empty( $param );
+						},
+						'sanitize_callback' => 'absint',
+					],
+					'month' => [
+						'required'          => false,
+						'validate_callback' => static function ( $param ): bool {
+							return is_numeric( $param ) || empty( $param );
+						},
+						'sanitize_callback' => 'absint',
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/salahapi',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_salahapi_document' ],
+				'permission_callback' => '__return_true',
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/salahapi/csv',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_salahapi_csv' ],
+				'permission_callback' => '__return_true',
+				'args'                => [
+					'fromDate' => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+					'toDate'   => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/prayer-times/timetable',
+			[
+				[
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'get_prayer_timetable' ],
+					'permission_callback' => [ $this, 'can_read' ],
+				],
+				[
+					'methods'             => WP_REST_Server::DELETABLE,
+					'callback'            => [ $this, 'clear_prayer_timetable' ],
+					'permission_callback' => [ $this, 'can_manage_prayers' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/prayer-times/timetable/import',
+			[
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'import_prayer_timetable' ],
+				'permission_callback' => [ $this, 'can_manage_prayers' ],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/prayer-times/timetable/export',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'export_prayer_timetable' ],
+				'permission_callback' => [ $this, 'can_manage_prayers' ],
+				'args'                => [
+					'source' => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
+					],
+					'year'   => [
+						'required'          => false,
+						'validate_callback' => function( $param ) {
+							return is_numeric( $param ) || empty( $param );
+						},
+						'sanitize_callback' => 'absint',
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/prayer-times/timetable/sample',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'sample_prayer_timetable' ],
 				'permission_callback' => [ $this, 'can_read' ],
 			]
 		);
@@ -416,6 +561,210 @@ final class ITMMS_REST {
 				],
 			]
 		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/khutbah',
+			[
+				[
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'get_khutbahs' ],
+					'permission_callback' => [ $this, 'can_read' ],
+				],
+				[
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => [ $this, 'create_khutbah' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/khutbah/(?P<id>\d+)',
+			[
+				[
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => [ $this, 'update_khutbah' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+					'args'                => [
+						'id' => [
+							'validate_callback' => function( $param ) {
+								return is_numeric( $param );
+							},
+							'sanitize_callback' => 'absint',
+							'required'          => true,
+						],
+					],
+				],
+				[
+					'methods'             => WP_REST_Server::DELETABLE,
+					'callback'            => [ $this, 'delete_khutbah' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+					'args'                => [
+						'id' => [
+							'validate_callback' => function( $param ) {
+								return is_numeric( $param );
+							},
+							'sanitize_callback' => 'absint',
+							'required'          => true,
+						],
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/minbar/dashboard',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_minbar_dashboard' ],
+				'permission_callback' => [ $this, 'can_manage_khutbah' ],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/minbar/profiles',
+			[
+				[
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'get_minbar_profiles' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+				[
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => [ $this, 'create_minbar_profile' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/minbar/profiles/(?P<id>\d+)',
+			[
+				[
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => [ $this, 'update_minbar_profile' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+				[
+					'methods'             => WP_REST_Server::DELETABLE,
+					'callback'            => [ $this, 'delete_minbar_profile' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/minbar/schedule',
+			[
+				[
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'get_minbar_schedule' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+				[
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => [ $this, 'create_minbar_schedule' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/minbar/schedule/(?P<id>\d+)',
+			[
+				[
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => [ $this, 'update_minbar_schedule' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+				[
+					'methods'             => WP_REST_Server::DELETABLE,
+					'callback'            => [ $this, 'delete_minbar_schedule' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/minbar/plans',
+			[
+				[
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'get_minbar_plans' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+				[
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => [ $this, 'save_minbar_plan' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/minbar/plans/(?P<id>[a-zA-Z0-9_-]+)',
+			[
+				'methods'             => WP_REST_Server::DELETABLE,
+				'callback'            => [ $this, 'delete_minbar_plan' ],
+				'permission_callback' => [ $this, 'can_manage_khutbah' ],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/minbar/references',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'search_minbar_references' ],
+				'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				'args'                => [
+					'q'    => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+					'type' => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_key',
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/minbar/bookmarks',
+			[
+				[
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'get_minbar_bookmarks' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+				[
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => [ $this, 'add_minbar_bookmark' ],
+					'permission_callback' => [ $this, 'can_manage_khutbah' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/minbar/bookmarks/(?P<id>[a-zA-Z0-9_-]+)',
+			[
+				'methods'             => WP_REST_Server::DELETABLE,
+				'callback'            => [ $this, 'delete_minbar_bookmark' ],
+				'permission_callback' => [ $this, 'can_manage_khutbah' ],
+			]
+		);
 	}
 
 	/**
@@ -504,12 +853,64 @@ final class ITMMS_REST {
 		return current_user_can( 'manage_options' ) || current_user_can( 'itmms_manage_events' );
 	}
 
+	public function can_manage_khutbah(): bool {
+		return current_user_can( 'manage_options' )
+			|| current_user_can( 'itmms_manage_khutbah' )
+			|| current_user_can( 'itmms_manage_announcements' )
+			|| current_user_can( 'itmms_manage_prayers' );
+	}
+
+	public function can_manage_prayers(): bool {
+		return current_user_can( 'manage_options' ) || current_user_can( 'itmms_manage_prayers' );
+	}
+
 	/**
 	 * Return dashboard summary.
 	 */
 	public function get_dashboard(): WP_REST_Response {
 		$settings = ITMMS_Settings::get_all();
 		$prayer_times = ITMMS_Prayer_Times::today();
+		$timezone_name = (string) ( $settings['timezone'] ?? wp_timezone_string() );
+
+		try {
+			$timezone = new DateTimeZone( $timezone_name );
+		} catch ( Exception $e ) {
+			$timezone = wp_timezone();
+			$timezone_name = $timezone->getName();
+		}
+
+		$day = new DateTimeImmutable( 'now', $timezone );
+		$upcoming_days = [];
+		for ( $i = 0; $i < 7; $i++ ) {
+			$date = 0 === $i ? $day : $day->modify( '+' . $i . ' days' );
+			$row = ITMMS_Prayer_Times::for_date( $date, $settings, false );
+			$indexed = [];
+			foreach ( (array) ( $row['prayers'] ?? [] ) as $prayer ) {
+				if ( ! empty( $prayer['key'] ) ) {
+					$indexed[ (string) $prayer['key'] ] = $prayer;
+				}
+			}
+
+			$upcoming_days[] = [
+				'date'    => (string) ( $row['date'] ?? $date->format( 'Y-m-d' ) ),
+				'label'   => date_i18n( 'D, M j', $date->getTimestamp() ),
+				'hijri'   => (string) ( $row['hijri_date']['label'] ?? '' ),
+				'is_today'=> 0 === $i,
+				'prayers' => [
+					'fajr'    => (string) ( $indexed['fajr']['time'] ?? '' ),
+					'dhuhr'   => (string) ( $indexed['dhuhr']['time'] ?? '' ),
+					'asr'     => (string) ( $indexed['asr']['time'] ?? '' ),
+					'maghrib' => (string) ( $indexed['maghrib']['time'] ?? '' ),
+					'isha'    => (string) ( $indexed['isha']['time'] ?? '' ),
+				],
+			];
+		}
+
+		$latitude  = (float) ( $settings['latitude'] ?? 0 );
+		$longitude = (float) ( $settings['longitude'] ?? 0 );
+		$coords_ok = abs( $latitude ) > 0.0001 || abs( $longitude ) > 0.0001;
+		$timezone_ok = ! in_array( $timezone_name, [ '', 'UTC', '+00:00', '-00:00' ], true );
+		$site_timezone = wp_timezone_string();
 
 		return rest_ensure_response(
 			[
@@ -521,10 +922,33 @@ final class ITMMS_REST {
 				'prayers'     => $prayer_times['prayers'],
 				'next_prayer' => $prayer_times['next_prayer'],
 				'prayer_meta' => $prayer_times['meta'],
-				'hijri_date'  => ITMMS_Hijri::for_date( new DateTimeImmutable( 'now', new DateTimeZone( (string) ( $settings['timezone'] ?? wp_timezone_string() ) ) ), (int) ( $settings['hijri_adjustment'] ?? 0 ), 'en' ),
+				'hijri_date'  => ITMMS_Hijri::for_date( $day, (int) ( $settings['hijri_adjustment'] ?? 0 ), 'en' ),
 				'announcements' => ITMMS_Announcements::active( 5 ),
 				'events'        => ITMMS_Events::active( 5 ),
 				'modules'     => ITMMS_Settings::module_definitions(),
+				'upcoming_days' => $upcoming_days,
+				'trust'       => [
+					'source'           => (string) ( $prayer_times['meta']['prayer_source'] ?? $settings['prayer_source'] ?? 'local' ),
+					'hijri_adjustment' => (int) ( $settings['hijri_adjustment'] ?? 0 ),
+					'coordinates_ok'   => $coords_ok,
+					'timezone_ok'      => $timezone_ok,
+					'timezone_mismatch'=> $timezone_ok && $site_timezone && $timezone_name !== $site_timezone,
+					'site_timezone'    => $site_timezone,
+					'offsets'          => $settings['prayer_offsets'] ?? [],
+				],
+				'timetable'   => ITMMS_Prayer_Timetable::summary(),
+			]
+		);
+	}
+
+	/**
+	 * Dismiss the first-run Welcome screen.
+	 */
+	public function dismiss_welcome(): WP_REST_Response {
+		update_option( 'itmms_show_welcome', 0, false );
+		return rest_ensure_response(
+			[
+				'show_welcome' => false,
 			]
 		);
 	}
@@ -545,19 +969,191 @@ final class ITMMS_REST {
 	 * Update settings.
 	 */
 	public function update_settings( WP_REST_Request $request ): WP_REST_Response {
+		$settings = ITMMS_Settings::update( $request->get_json_params() ?: [] );
+		ITMMS_Prayer_Times::flush_cache();
+
 		return rest_ensure_response(
 			[
-				'settings' => ITMMS_Settings::update( $request->get_json_params() ?: [] ),
+				'settings' => $settings,
 				'modules'  => ITMMS_Settings::module_definitions(),
 			]
 		);
 	}
 
 	/**
-	 * Return today's calculated prayer times.
+	 * Return today's calculated prayer times (public headless JSON).
 	 */
 	public function get_prayer_times_today(): WP_REST_Response {
-		return rest_ensure_response( ITMMS_Prayer_Times::today() );
+		return rest_ensure_response( ITMMS_SalahAPI::headless_day( ITMMS_Prayer_Times::today() ) );
+	}
+
+	/**
+	 * Return prayer times for a specific Gregorian date (public headless JSON).
+	 */
+	public function get_prayer_times_date( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+		$date_str = (string) $request->get_param( 'date' );
+		$settings = ITMMS_Settings::get_all();
+		try {
+			$timezone = new DateTimeZone( (string) ( $settings['timezone'] ?? wp_timezone_string() ) );
+		} catch ( Exception $e ) {
+			$timezone = wp_timezone();
+		}
+
+		$date = DateTimeImmutable::createFromFormat( 'Y-m-d', $date_str, $timezone );
+		if ( ! $date ) {
+			return new WP_Error( 'itmms_invalid_date', __( 'Invalid date. Use YYYY-MM-DD.', 'masjidos' ), [ 'status' => 400 ] );
+		}
+
+		$day = ITMMS_Prayer_Times::for_date( $date->setTime( 0, 0, 0 ), $settings );
+		return rest_ensure_response( ITMMS_SalahAPI::headless_day( $day ) );
+	}
+
+	/**
+	 * Return a month of prayer times as JSON (not the HTML widget).
+	 */
+	public function get_prayer_times_month_json( WP_REST_Request $request ): WP_REST_Response {
+		$settings = ITMMS_Settings::get_all();
+		try {
+			$timezone = new DateTimeZone( (string) ( $settings['timezone'] ?? wp_timezone_string() ) );
+		} catch ( Exception $e ) {
+			$timezone = wp_timezone();
+		}
+		$now = new DateTimeImmutable( 'now', $timezone );
+		$year = (int) $request->get_param( 'year' );
+		$month = (int) $request->get_param( 'month' );
+		if ( $year < 1970 || $year > 2099 ) {
+			$year = (int) $now->format( 'Y' );
+		}
+		if ( $month < 1 || $month > 12 ) {
+			$month = (int) $now->format( 'n' );
+		}
+
+		$month_data = ITMMS_Prayer_Times::for_month( $year, $month, $settings );
+		$days = [];
+		foreach ( (array) ( $month_data['days'] ?? [] ) as $day ) {
+			if ( is_array( $day ) ) {
+				$days[] = ITMMS_SalahAPI::headless_day( $day );
+			}
+		}
+
+		return rest_ensure_response(
+			[
+				'year'     => $year,
+				'month'    => $month,
+				'label'    => (string) ( $month_data['label'] ?? '' ),
+				'timezone' => (string) ( $month_data['timezone'] ?? '' ),
+				'days'     => $days,
+				'meta'     => is_array( $month_data['meta'] ?? null ) ? $month_data['meta'] : [],
+			]
+		);
+	}
+
+	/**
+	 * Public SalahAPI 1.0 document.
+	 */
+	public function get_salahapi_document(): WP_REST_Response {
+		return rest_ensure_response( ITMMS_SalahAPI::document() );
+	}
+
+	/**
+	 * Public SalahAPI CSV feed (fromDate / toDate query params).
+	 */
+	public function get_salahapi_csv( WP_REST_Request $request ) {
+		$settings = ITMMS_Settings::get_all();
+		try {
+			$timezone = new DateTimeZone( (string) ( $settings['timezone'] ?? wp_timezone_string() ) );
+		} catch ( Exception $e ) {
+			$timezone = wp_timezone();
+		}
+		$now = new DateTimeImmutable( 'now', $timezone );
+
+		$from = (string) $request->get_param( 'fromDate' );
+		$to = (string) $request->get_param( 'toDate' );
+		if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $from ) ) {
+			$from = $now->format( 'Y-m-01' );
+		}
+		if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $to ) ) {
+			$to = $now->modify( 'last day of this month' )->format( 'Y-m-d' );
+		}
+
+		$csv = ITMMS_SalahAPI::csv( $from, $to );
+		$response = new WP_REST_Response( $csv );
+		$response->header( 'Content-Type', 'text/csv; charset=utf-8' );
+		$response->header( 'Content-Disposition', 'inline; filename="masjidos-salahapi.csv"' );
+		return $response;
+	}
+
+	public function get_prayer_timetable(): WP_REST_Response {
+		return rest_ensure_response(
+			[
+				'summary' => ITMMS_Prayer_Timetable::summary(),
+			]
+		);
+	}
+
+	public function import_prayer_timetable( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+		$params = $request->get_json_params();
+		$csv = isset( $params['csv'] ) ? (string) $params['csv'] : '';
+		$mode = isset( $params['mode'] ) ? sanitize_key( (string) $params['mode'] ) : 'merge';
+		if ( ! in_array( $mode, [ 'merge', 'replace' ], true ) ) {
+			$mode = 'merge';
+		}
+
+		if ( '' === trim( $csv ) ) {
+			return new WP_Error( 'itmms_empty_csv', __( 'CSV content is required.', 'masjidos' ), [ 'status' => 400 ] );
+		}
+
+		$result = ITMMS_Prayer_Timetable::import_csv( $csv, $mode );
+		if ( empty( $result['success'] ) ) {
+			return new WP_Error(
+				'itmms_csv_import_failed',
+				__( 'CSV import could not be completed.', 'masjidos' ),
+				[
+					'status' => 400,
+					'data'   => $result,
+				]
+			);
+		}
+
+		return rest_ensure_response( $result );
+	}
+
+	public function export_prayer_timetable( WP_REST_Request $request ) {
+		$source = sanitize_key( (string) $request->get_param( 'source' ) );
+		$year = (int) $request->get_param( 'year' );
+		if ( 'calculated' === $source ) {
+			if ( $year < 1970 || $year > 2099 ) {
+				$year = (int) gmdate( 'Y' );
+			}
+			$csv = ITMMS_Prayer_Timetable::export_calculated_year_csv( $year );
+			$filename = sprintf( 'masjidos-calculated-%d.csv', $year );
+		} else {
+			$csv = ITMMS_Prayer_Timetable::export_csv();
+			$filename = 'masjidos-prayer-timetable.csv';
+		}
+
+		$response = new WP_REST_Response( $csv );
+		$response->header( 'Content-Type', 'text/csv; charset=utf-8' );
+		$response->header( 'Content-Disposition', 'attachment; filename="' . $filename . '"' );
+		return $response;
+	}
+
+	public function sample_prayer_timetable() {
+		$csv = ITMMS_Prayer_Timetable::sample_csv();
+		$response = new WP_REST_Response( $csv );
+		$response->header( 'Content-Type', 'text/csv; charset=utf-8' );
+		$response->header( 'Content-Disposition', 'attachment; filename="masjidos-prayer-timetable-sample.csv"' );
+		return $response;
+	}
+
+	public function clear_prayer_timetable(): WP_REST_Response {
+		ITMMS_Prayer_Timetable::clear();
+		return rest_ensure_response(
+			[
+				'success' => true,
+				'summary' => ITMMS_Prayer_Timetable::summary(),
+			]
+		);
 	}
 
 	/**
@@ -810,6 +1406,195 @@ final class ITMMS_REST {
 		}
 
 		return rest_ensure_response( [ 'deleted' => true, 'id' => $id ] );
+	}
+
+	public function get_khutbahs(): WP_REST_Response {
+		return rest_ensure_response(
+			[
+				'khutbahs'   => ITMMS_Khutbah::all(),
+				'stats'      => ITMMS_Khutbah::stats(),
+				'categories' => ITMMS_Khutbah::categories(),
+			]
+		);
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function create_khutbah( WP_REST_Request $request ) {
+		$params = $request->get_json_params() ?: [];
+		$item = ITMMS_Khutbah::create( $params );
+		if ( is_wp_error( $item ) ) {
+			return $item;
+		}
+		$similar = ITMMS_Khutbah::find_similar_topics( (string) ( $item['topic'] ?? '' ), 6, (int) ( $item['id'] ?? 0 ) );
+		return new WP_REST_Response(
+			[
+				'khutbah'  => $item,
+				'similar'  => $similar,
+			],
+			201
+		);
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function update_khutbah( WP_REST_Request $request ) {
+		$item = ITMMS_Khutbah::update( absint( $request['id'] ), $request->get_json_params() ?: [] );
+		if ( is_wp_error( $item ) ) {
+			return $item;
+		}
+		$similar = ITMMS_Khutbah::find_similar_topics( (string) ( $item['topic'] ?? '' ), 6, (int) ( $item['id'] ?? 0 ) );
+		return rest_ensure_response(
+			[
+				'khutbah' => $item,
+				'similar' => $similar,
+			]
+		);
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function delete_khutbah( WP_REST_Request $request ) {
+		$id = absint( $request['id'] );
+		if ( ! ITMMS_Khutbah::find( $id ) ) {
+			return new WP_Error( 'itmms_khutbah_missing', __( 'Khutbah not found.', 'masjidos' ), [ 'status' => 404 ] );
+		}
+
+		if ( ! ITMMS_Khutbah::delete( $id ) ) {
+			return new WP_Error( 'itmms_khutbah_delete', __( 'The khutbah could not be deleted.', 'masjidos' ), [ 'status' => 500 ] );
+		}
+
+		return rest_ensure_response( [ 'deleted' => true, 'id' => $id ] );
+	}
+
+	public function get_minbar_dashboard(): WP_REST_Response {
+		return rest_ensure_response( ITMMS_Minbar::dashboard() );
+	}
+
+	public function get_minbar_profiles(): WP_REST_Response {
+		return rest_ensure_response( [ 'profiles' => ITMMS_Minbar::profiles_all() ] );
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function create_minbar_profile( WP_REST_Request $request ) {
+		$item = ITMMS_Minbar::profile_create( $request->get_json_params() ?: [] );
+		return is_wp_error( $item ) ? $item : new WP_REST_Response( [ 'profile' => $item ], 201 );
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function update_minbar_profile( WP_REST_Request $request ) {
+		$item = ITMMS_Minbar::profile_update( absint( $request['id'] ), $request->get_json_params() ?: [] );
+		return is_wp_error( $item ) ? $item : rest_ensure_response( [ 'profile' => $item ] );
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function delete_minbar_profile( WP_REST_Request $request ) {
+		$id = absint( $request['id'] );
+		if ( ! ITMMS_Minbar::profile_find( $id ) ) {
+			return new WP_Error( 'itmms_profile_missing', __( 'Khatib profile not found.', 'masjidos' ), [ 'status' => 404 ] );
+		}
+		if ( ! ITMMS_Minbar::profile_delete( $id ) ) {
+			return new WP_Error( 'itmms_profile_delete', __( 'Could not delete profile.', 'masjidos' ), [ 'status' => 500 ] );
+		}
+		return rest_ensure_response( [ 'deleted' => true, 'id' => $id ] );
+	}
+
+	public function get_minbar_schedule(): WP_REST_Response {
+		return rest_ensure_response(
+			[
+				'schedule' => ITMMS_Minbar::schedule_all(),
+				'upcoming' => ITMMS_Minbar::schedule_upcoming( 12 ),
+			]
+		);
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function create_minbar_schedule( WP_REST_Request $request ) {
+		$item = ITMMS_Minbar::schedule_create( $request->get_json_params() ?: [] );
+		return is_wp_error( $item ) ? $item : new WP_REST_Response( [ 'entry' => $item ], 201 );
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function update_minbar_schedule( WP_REST_Request $request ) {
+		$item = ITMMS_Minbar::schedule_update( absint( $request['id'] ), $request->get_json_params() ?: [] );
+		return is_wp_error( $item ) ? $item : rest_ensure_response( [ 'entry' => $item ] );
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function delete_minbar_schedule( WP_REST_Request $request ) {
+		$id = absint( $request['id'] );
+		if ( ! ITMMS_Minbar::schedule_find( $id ) ) {
+			return new WP_Error( 'itmms_schedule_missing', __( 'Schedule entry not found.', 'masjidos' ), [ 'status' => 404 ] );
+		}
+		if ( ! ITMMS_Minbar::schedule_delete( $id ) ) {
+			return new WP_Error( 'itmms_schedule_delete', __( 'Could not delete schedule entry.', 'masjidos' ), [ 'status' => 500 ] );
+		}
+		return rest_ensure_response( [ 'deleted' => true, 'id' => $id ] );
+	}
+
+	public function get_minbar_plans(): WP_REST_Response {
+		return rest_ensure_response( [ 'plans' => ITMMS_Minbar::get_plans() ] );
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function save_minbar_plan( WP_REST_Request $request ) {
+		$item = ITMMS_Minbar::plan_save( $request->get_json_params() ?: [] );
+		return is_wp_error( $item ) ? $item : rest_ensure_response( [ 'plan' => $item, 'plans' => ITMMS_Minbar::get_plans() ] );
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function delete_minbar_plan( WP_REST_Request $request ) {
+		$id = sanitize_key( (string) $request['id'] );
+		ITMMS_Minbar::plan_delete( $id );
+		return rest_ensure_response( [ 'deleted' => true, 'id' => $id, 'plans' => ITMMS_Minbar::get_plans() ] );
+	}
+
+	public function search_minbar_references( WP_REST_Request $request ): WP_REST_Response {
+		$q = sanitize_text_field( (string) $request->get_param( 'q' ) );
+		$type = sanitize_key( (string) $request->get_param( 'type' ) );
+		return rest_ensure_response(
+			[
+				'results'    => ITMMS_Minbar::search_references( $q, $type ?: 'all' ),
+				'bookmarks'  => ITMMS_Minbar::get_bookmarks(),
+			]
+		);
+	}
+
+	public function get_minbar_bookmarks(): WP_REST_Response {
+		return rest_ensure_response( [ 'bookmarks' => ITMMS_Minbar::get_bookmarks() ] );
+	}
+
+	public function add_minbar_bookmark( WP_REST_Request $request ): WP_REST_Response {
+		$bookmarks = ITMMS_Minbar::bookmark_add( $request->get_json_params() ?: [] );
+		return rest_ensure_response( [ 'bookmarks' => $bookmarks ] );
+	}
+
+	/**
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function delete_minbar_bookmark( WP_REST_Request $request ) {
+		$id = sanitize_key( (string) $request['id'] );
+		$bookmarks = ITMMS_Minbar::bookmark_remove( $id );
+		return rest_ensure_response( [ 'bookmarks' => $bookmarks, 'deleted' => true ] );
 	}
 
 }

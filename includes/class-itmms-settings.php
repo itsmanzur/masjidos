@@ -31,6 +31,9 @@ final class ITMMS_Settings {
 			'asr_method'          => 'hanafi',
 			'prayer_source'       => 'local',
 			'hijri_adjustment'    => 0,
+			'show_ishraq'         => true,
+			'show_zawal'          => true,
+			'ishraq_minutes'      => 15,
 			'currency'            => 'BDT',
 			'public_transparency' => true,
 			'prayer_offsets'      => [
@@ -48,6 +51,7 @@ final class ITMMS_Settings {
 				'maghrib' => '',
 				'isha'    => '',
 			],
+			'iqamah_rules'        => ITMMS_Iqamah_Rules::defaults(),
 			'jumuah'              => [
 				'enabled'      => true,
 				'khutbah_time' => '13:00',
@@ -83,7 +87,67 @@ final class ITMMS_Settings {
 			'tv_announcement_speed' => 7,
 			'tv_logo_url'           => '',
 			'tv_font_size'          => 'normal',
+			'tv_layout'             => 'classic',
+			'tv_slides'             => true,
+			'tv_slide_interval'     => 12,
+			'tv_dim_enabled'        => false,
+			'tv_dim_start'          => '23:00',
+			'tv_dim_end'            => '04:30',
+			'tv_clock_format'       => '24h',
+			'tv_alert_minutes'      => 10,
+			'tv_quiet_enabled'      => true,
+			'tv_quiet_minutes'      => 15,
+			'ui_language'           => 'en',
 		];
+	}
+
+	/**
+	 * Allowed UI language codes (site-wide plugin interface).
+	 *
+	 * @return string[]
+	 */
+	public static function ui_language_codes(): array {
+		return [ 'en', 'bn', 'ar' ];
+	}
+
+	/**
+	 * Map UI language code to WordPress locale for textdomain / script packs.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function ui_locale_map(): array {
+		return [
+			'en' => 'en_US',
+			'bn' => 'bn_BD',
+			'ar' => 'ar',
+		];
+	}
+
+	/**
+	 * Current site-wide UI language code (en|bn|ar).
+	 */
+	public static function ui_language(): string {
+		$settings = self::get_all();
+		$language = isset( $settings['ui_language'] ) ? sanitize_key( (string) $settings['ui_language'] ) : 'en';
+
+		return in_array( $language, self::ui_language_codes(), true ) ? $language : 'en';
+	}
+
+	/**
+	 * WordPress locale for the current UI language.
+	 */
+	public static function ui_locale(): string {
+		$map = self::ui_locale_map();
+		$language = self::ui_language();
+
+		return $map[ $language ] ?? 'en_US';
+	}
+
+	/**
+	 * Whether the plugin UI should render right-to-left.
+	 */
+	public static function ui_is_rtl(): bool {
+		return 'ar' === self::ui_language();
 	}
 
 	/**
@@ -125,16 +189,31 @@ final class ITMMS_Settings {
 			'asr_method'          => isset( $input['asr_method'] ) ? self::sanitize_choice( $input['asr_method'], [ 'standard', 'hanafi' ], $current['asr_method'] ) : $current['asr_method'],
 			'prayer_source'       => isset( $input['prayer_source'] ) ? self::sanitize_choice( $input['prayer_source'], [ 'local', 'aladhan' ], $current['prayer_source'] ?? 'local' ) : ( $current['prayer_source'] ?? 'local' ),
 			'hijri_adjustment'    => isset( $input['hijri_adjustment'] ) ? self::sanitize_int_range( $input['hijri_adjustment'], -3, 3 ) : (int) $current['hijri_adjustment'],
+			'show_ishraq'         => array_key_exists( 'show_ishraq', $input ) ? (bool) $input['show_ishraq'] : (bool) ( $current['show_ishraq'] ?? true ),
+			'show_zawal'          => array_key_exists( 'show_zawal', $input ) ? (bool) $input['show_zawal'] : (bool) ( $current['show_zawal'] ?? true ),
+			'ishraq_minutes'      => isset( $input['ishraq_minutes'] ) ? self::sanitize_int_range( $input['ishraq_minutes'], 5, 45 ) : (int) ( $current['ishraq_minutes'] ?? 15 ),
 			'currency'            => isset( $input['currency'] ) ? self::sanitize_choice( $input['currency'], [ 'BDT', 'USD', 'GBP', 'EUR', 'SAR' ], $current['currency'] ) : $current['currency'],
 			'public_transparency' => isset( $input['public_transparency'] ) ? (bool) $input['public_transparency'] : (bool) $current['public_transparency'],
 			'prayer_offsets'      => self::sanitize_offsets( isset( $input['prayer_offsets'] ) && is_array( $input['prayer_offsets'] ) ? $input['prayer_offsets'] : ( $current['prayer_offsets'] ?? [] ) ),
 			'iqamah_times'        => self::sanitize_iqamah_times( isset( $input['iqamah_times'] ) && is_array( $input['iqamah_times'] ) ? $input['iqamah_times'] : ( $current['iqamah_times'] ?? [] ) ),
+			'iqamah_rules'        => self::sanitize_iqamah_rules( isset( $input['iqamah_rules'] ) && is_array( $input['iqamah_rules'] ) ? $input['iqamah_rules'] : ( $current['iqamah_rules'] ?? [] ) ),
 			'jumuah'              => self::sanitize_jumuah_settings( isset( $input['jumuah'] ) && is_array( $input['jumuah'] ) ? $input['jumuah'] : ( $current['jumuah'] ?? [] ) ),
 			'modules'             => self::sanitize_modules( isset( $input['modules'] ) && is_array( $input['modules'] ) ? $input['modules'] : $current['modules'] ),
 			'tv_theme'              => isset( $input['tv_theme'] ) ? self::sanitize_choice( $input['tv_theme'], [ 'dark', 'light', 'green' ], $current['tv_theme'] ?? 'dark' ) : ( $current['tv_theme'] ?? 'dark' ),
 			'tv_announcement_speed' => isset( $input['tv_announcement_speed'] ) ? self::sanitize_int_range( $input['tv_announcement_speed'], 3, 30 ) : (int) ( $current['tv_announcement_speed'] ?? 7 ),
 			'tv_logo_url'           => isset( $input['tv_logo_url'] ) ? esc_url_raw( wp_unslash( $input['tv_logo_url'] ) ) : ( $current['tv_logo_url'] ?? '' ),
 			'tv_font_size'          => isset( $input['tv_font_size'] ) ? self::sanitize_choice( $input['tv_font_size'], [ 'small', 'normal', 'large', 'xlarge' ], $current['tv_font_size'] ?? 'normal' ) : ( $current['tv_font_size'] ?? 'normal' ),
+			'tv_layout'             => isset( $input['tv_layout'] ) ? self::sanitize_choice( $input['tv_layout'], [ 'classic', 'split', 'focus' ], $current['tv_layout'] ?? 'classic' ) : ( $current['tv_layout'] ?? 'classic' ),
+			'tv_slides'             => array_key_exists( 'tv_slides', $input ) ? (bool) $input['tv_slides'] : (bool) ( $current['tv_slides'] ?? true ),
+			'tv_slide_interval'     => isset( $input['tv_slide_interval'] ) ? self::sanitize_int_range( $input['tv_slide_interval'], 6, 60 ) : (int) ( $current['tv_slide_interval'] ?? 12 ),
+			'tv_dim_enabled'        => array_key_exists( 'tv_dim_enabled', $input ) ? (bool) $input['tv_dim_enabled'] : (bool) ( $current['tv_dim_enabled'] ?? false ),
+			'tv_dim_start'          => isset( $input['tv_dim_start'] ) ? self::sanitize_time_value( $input['tv_dim_start'], (string) ( $current['tv_dim_start'] ?? '23:00' ) ) : (string) ( $current['tv_dim_start'] ?? '23:00' ),
+			'tv_dim_end'            => isset( $input['tv_dim_end'] ) ? self::sanitize_time_value( $input['tv_dim_end'], (string) ( $current['tv_dim_end'] ?? '04:30' ) ) : (string) ( $current['tv_dim_end'] ?? '04:30' ),
+			'tv_clock_format'       => isset( $input['tv_clock_format'] ) ? self::sanitize_choice( $input['tv_clock_format'], [ '24h', '12h' ], $current['tv_clock_format'] ?? '24h' ) : ( $current['tv_clock_format'] ?? '24h' ),
+			'tv_alert_minutes'      => isset( $input['tv_alert_minutes'] ) ? self::sanitize_int_range( $input['tv_alert_minutes'], 1, 30 ) : (int) ( $current['tv_alert_minutes'] ?? 10 ),
+			'tv_quiet_enabled'      => array_key_exists( 'tv_quiet_enabled', $input ) ? (bool) $input['tv_quiet_enabled'] : (bool) ( $current['tv_quiet_enabled'] ?? true ),
+			'tv_quiet_minutes'      => isset( $input['tv_quiet_minutes'] ) ? self::sanitize_int_range( $input['tv_quiet_minutes'], 5, 45 ) : (int) ( $current['tv_quiet_minutes'] ?? 15 ),
+			'ui_language'           => isset( $input['ui_language'] ) ? self::sanitize_choice( $input['ui_language'], self::ui_language_codes(), $current['ui_language'] ?? 'en' ) : ( $current['ui_language'] ?? 'en' ),
 		];
 
 		update_option( self::OPTION_KEY, self::merge_defaults( $next ), false );
@@ -176,6 +255,7 @@ final class ITMMS_Settings {
 			$defaults['iqamah_times'],
 			isset( $settings['iqamah_times'] ) && is_array( $settings['iqamah_times'] ) ? $settings['iqamah_times'] : []
 		);
+		$settings['iqamah_rules'] = ITMMS_Iqamah_Rules::normalized( $settings );
 		$settings['jumuah'] = array_merge(
 			$defaults['jumuah'],
 			isset( $settings['jumuah'] ) && is_array( $settings['jumuah'] ) ? $settings['jumuah'] : []
@@ -301,6 +381,14 @@ final class ITMMS_Settings {
 		}
 
 		return $clean;
+	}
+
+	/**
+	 * @param array<string,mixed> $rules Raw Iqamah rule values.
+	 * @return array<string,array<string,int|string>>
+	 */
+	private static function sanitize_iqamah_rules( array $rules ): array {
+		return ITMMS_Iqamah_Rules::sanitize( $rules );
 	}
 
 	/**

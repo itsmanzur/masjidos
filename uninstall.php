@@ -14,12 +14,18 @@ function itmms_uninstall_site(): void {
 	global $wpdb;
 
 	delete_option( 'itmms_settings' );
+	delete_option( 'itmms_prayer_timetable' );
+	delete_option( 'itmms_khutbah_plans' );
+	delete_option( 'itmms_minbar_bookmarks' );
 	delete_option( 'itmms_db_version' );
+	delete_option( 'itmms_show_welcome' );
 
 	$tables = [
 		$wpdb->prefix . 'itmms_announcements',
 		$wpdb->prefix . 'itmms_events',
 		$wpdb->prefix . 'itmms_khutbah_archive',
+		$wpdb->prefix . 'itmms_khatib_profiles',
+		$wpdb->prefix . 'itmms_khatib_schedule',
 	];
 
 	foreach ( $tables as $table ) {
@@ -42,6 +48,7 @@ function itmms_uninstall_site(): void {
 			'itmms_manage_prayers',
 			'itmms_manage_events',
 			'itmms_manage_announcements',
+			'itmms_manage_khutbah',
 			'itmms_view_reports',
 			'itmms_manage_settings',
 		];

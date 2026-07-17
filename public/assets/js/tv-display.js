@@ -4,7 +4,6 @@
 ( function () {
 	'use strict';
 
-	// Parse localized data payload
 	var rawData = document.getElementById( 'itmms-tv-data' );
 	if ( ! rawData ) {
 		return;
@@ -14,175 +13,296 @@
 	try {
 		data = JSON.parse( rawData.textContent );
 	} catch ( e ) {
-		console.error( 'Failed to parse TV display data:', e );
 		return;
 	}
 
 	var prayers = data.prayers || [];
 	var labels = data.labels || {};
-	var lang = data.lang || 'en';
+	var dim = data.dim || {};
+	var clockFormat = data.clock === '12h' ? '12h' : '24h';
+	var alertMinutes = Math.max( 1, Math.min( 30, parseInt( data.alertMinutes, 10 ) || 10 ) );
+	var quietConfig = data.quiet || {};
+	var quietEnabled = quietConfig.enabled !== false;
+	var quietMinutes = Math.max( 5, Math.min( 45, parseInt( quietConfig.minutes, 10 ) || 15 ) );
+	var quietActive = false;
+	var forceBoardSlide = null;
 
-	// Helper to pad numbers (e.g. 9 -> 09)
 	function pad2( num ) {
 		return String( num ).padStart( 2, '0' );
 	}
 
-	// Format clock time
+	function formatClock( now ) {
+		var hours = now.getHours();
+		var minutes = now.getMinutes();
+		var seconds = now.getSeconds();
+
+		if ( clockFormat === '12h' ) {
+			var suffix = hours >= 12 ? 'PM' : 'AM';
+			var hour12 = hours % 12;
+			if ( hour12 === 0 ) {
+				hour12 = 12;
+			}
+			return pad2( hour12 ) + ':' + pad2( minutes ) + ':' + pad2( seconds ) + ' ' + suffix;
+		}
+
+		return pad2( hours ) + ':' + pad2( minutes ) + ':' + pad2( seconds );
+	}
+
+	function scheduleSecondAligned( callback ) {
+		callback();
+		var delay = 1000 - ( Date.now() % 1000 );
+		setTimeout( function () {
+			callback();
+			setInterval( callback, 1000 );
+		}, delay );
+	}
+
 	function updateClock() {
-		var now = new Date();
 		var clock = document.getElementById( 'itmms-tv-clock' );
 		if ( clock ) {
-			clock.textContent = pad2( now.getHours() ) + ':' + pad2( now.getMinutes() ) + ':' + pad2( now.getSeconds() );
+			clock.textContent = formatClock( new Date() );
 		}
 	}
-	setInterval( updateClock, 1000 );
-	updateClock();
 
-	// Parse prayer or Iqamah time relative to a base date
 	function parseTime( rawDateString, timeString ) {
 		if ( ! timeString ) {
 			return null;
 		}
 
 		var baseDate = new Date( rawDateString );
-		var hours, minutes;
-
-		// Parse formatted time like "5:00 AM" or "13:30" or "05:00 PM"
 		var match = timeString.match( /(\d+):(\d+)\s*(AM|PM)?/i );
-		if ( match ) {
-			hours = parseInt( match[1], 10 );
-			minutes = parseInt( match[2], 10 );
-			var ampm = match[3];
-
-			if ( ampm ) {
-				ampm = ampm.toUpperCase();
-				if ( ampm === 'PM' && hours < 12 ) {
-					hours += 12;
-				}
-				if ( ampm === 'AM' && hours === 12 ) {
-					hours = 0;
-				}
-			}
-		} else {
+		if ( ! match ) {
 			return null;
+		}
+
+		var hours = parseInt( match[1], 10 );
+		var minutes = parseInt( match[2], 10 );
+		var ampm = match[3];
+
+		if ( ampm ) {
+			ampm = ampm.toUpperCase();
+			if ( ampm === 'PM' && hours < 12 ) {
+				hours += 12;
+			}
+			if ( ampm === 'AM' && hours === 12 ) {
+				hours = 0;
+			}
 		}
 
 		baseDate.setHours( hours, minutes, 0, 0 );
 		return baseDate;
 	}
 
-	// Update active prayer states and next countdown target
 	function tickPrayerState() {
 		var now = new Date();
 		var currentPrayerKey = null;
-		var nextPrayer = null;
-		var countdownTarget = null;
-		var countdownLabel = labels.azan;
+		var nextEvent = null;
 
-		// We will map prayer times and Iqamah times to absolute Date objects
 		var mappedPrayers = prayers.map( function ( prayer ) {
 			var azanDate = new Date( prayer.raw );
-			var iqamahDate = prayer.key === 'sunrise' ? null : parseTime( prayer.raw, prayer.iqamah );
+			var isExtra = prayer.kind === 'extra' || prayer.key === 'ishraq' || prayer.key === 'zawal' || prayer.key === 'sunrise';
+			var iqamahDate = isExtra ? null : parseTime( prayer.raw, prayer.iqamah );
+			var hasSeparateIqamah = !!( iqamahDate && iqamahDate.getTime() !== azanDate.getTime() );
 			return {
 				key: prayer.key,
 				name: prayer.name,
+				kind: prayer.kind || ( isExtra ? 'extra' : 'fard' ),
 				azan: azanDate,
-				iqamah: iqamahDate || azanDate // Fallback to azan if no iqamah
+				iqamah: iqamahDate || azanDate,
+				hasSeparateIqamah: hasSeparateIqamah,
+				isExtra: isExtra
 			};
 		} );
 
-		// Find the current active prayer (the one whose Azan time has passed but next prayer Azan has not arrived)
-		for ( var i = 0; i < mappedPrayers.length; i++ ) {
-			var curr = mappedPrayers[i];
-			var nextIndex = ( i + 1 ) % mappedPrayers.length;
-			var next = mappedPrayers[nextIndex];
+		var fardPrayers = mappedPrayers.filter( function ( p ) {
+			return ! p.isExtra;
+		} );
 
+		for ( var i = 0; i < fardPrayers.length; i++ ) {
+			var curr = fardPrayers[i];
+			var nextIndex = ( i + 1 ) % fardPrayers.length;
+			var next = fardPrayers[nextIndex];
 			var nextAzan = new Date( next.azan );
 			if ( nextIndex === 0 ) {
-				// If next is Fajr tomorrow
 				nextAzan.setDate( nextAzan.getDate() + 1 );
 			}
-
 			if ( now >= curr.azan && now < nextAzan ) {
 				currentPrayerKey = curr.key;
 			}
 		}
 
-		// Fallback if none (e.g. before Fajr)
-		if ( ! currentPrayerKey && mappedPrayers.length ) {
-			currentPrayerKey = mappedPrayers[mappedPrayers.length - 1].key;
+		if ( ! currentPrayerKey && fardPrayers.length ) {
+			currentPrayerKey = fardPrayers[fardPrayers.length - 1].key;
 		}
 
-		// Find the next countdown target:
-		// We loop to find the first event (Azan or Iqamah) in the future
 		var events = [];
-		mappedPrayers.forEach( function ( p ) {
-			// Today's Azan
-			var azanToday = new Date( p.azan );
-			events.push( { key: p.key, name: p.name, type: 'azan', time: azanToday } );
+		fardPrayers.forEach( function ( p ) {
+			events.push( { key: p.key, name: p.name, type: 'azan', time: new Date( p.azan ) } );
 
-			// Today's Iqamah (if different from Azan)
-			if ( p.iqamah && p.iqamah.getTime() !== p.azan.getTime() ) {
-				var iqamahToday = new Date( p.iqamah );
-				events.push( { key: p.key, name: p.name, type: 'jamaat', time: iqamahToday } );
+			if ( p.hasSeparateIqamah ) {
+				events.push( { key: p.key, name: p.name, type: 'jamaat', time: new Date( p.iqamah ) } );
 			}
 
-			// Tomorrow's Azan (for overnight wrapping)
 			var azanTomorrow = new Date( p.azan );
 			azanTomorrow.setDate( azanTomorrow.getDate() + 1 );
 			events.push( { key: p.key, name: p.name, type: 'azan', time: azanTomorrow } );
 
-			// Tomorrow's Iqamah
-			if ( p.iqamah && p.iqamah.getTime() !== p.azan.getTime() ) {
+			if ( p.hasSeparateIqamah ) {
 				var iqamahTomorrow = new Date( p.iqamah );
 				iqamahTomorrow.setDate( iqamahTomorrow.getDate() + 1 );
 				events.push( { key: p.key, name: p.name, type: 'jamaat', time: iqamahTomorrow } );
 			}
 		} );
 
-		// Sort events by chronological order
 		events.sort( function ( a, b ) {
 			return a.time - b.time;
 		} );
 
-		// Find the first event in the future
 		for ( var j = 0; j < events.length; j++ ) {
 			if ( events[j].time > now ) {
-				nextPrayer = events[j];
-				countdownTarget = events[j].time;
-				countdownLabel = labels[events[j].type] || 'Countdown';
+				nextEvent = events[j];
 				break;
 			}
 		}
 
-		// Update UI highlight classes
+		var nextIqamahKey = nextEvent && nextEvent.type === 'jamaat' ? nextEvent.key : null;
+		var nextAzanKey = nextEvent && nextEvent.type === 'azan' ? nextEvent.key : null;
+
 		document.querySelectorAll( '.itmms-tv__table-row' ).forEach( function ( row ) {
 			var rowKey = row.getAttribute( 'data-prayer-row' );
 			row.classList.toggle( 'is-current', rowKey === currentPrayerKey );
+			row.classList.toggle( 'is-next-iqamah', rowKey === nextIqamahKey );
+			row.classList.toggle( 'is-next-azan', rowKey === nextAzanKey && rowKey !== currentPrayerKey );
 		} );
 
-		// Update Countdown panel
+		updateQuietMode( now, fardPrayers );
+
 		var nextNameEl = document.getElementById( 'itmms-tv-next-name' );
 		var labelEl = document.getElementById( 'itmms-tv-countdown-label' );
 		var countdownEl = document.getElementById( 'itmms-tv-countdown' );
+		var countdownBox = document.getElementById( 'itmms-tv-countdown-box' );
+		var alertBadge = document.getElementById( 'itmms-tv-alert-badge' );
 
-		if ( nextPrayer && nextNameEl && labelEl && countdownEl ) {
-			nextNameEl.textContent = nextPrayer.name;
-			labelEl.textContent = countdownLabel;
+		if ( nextEvent && nextNameEl && labelEl && countdownEl ) {
+			if ( quietActive ) {
+				nextNameEl.textContent = quietActive.name || nextEvent.name;
+				labelEl.textContent = labels.quiet_message || 'Prayer in progress';
+				var quietLeft = Math.max( 0, Math.floor( ( quietActive.endsAt - now.getTime() ) / 1000 ) );
+				countdownEl.textContent = pad2( Math.floor( quietLeft / 3600 ) ) + ':' +
+					pad2( Math.floor( ( quietLeft % 3600 ) / 60 ) ) + ':' +
+					pad2( quietLeft % 60 );
 
-			var diffSeconds = Math.max( 0, Math.floor( ( countdownTarget.getTime() - now.getTime() ) / 1000 ) );
-			var hours = Math.floor( diffSeconds / 3600 );
-			var mins = Math.floor( ( diffSeconds % 3600 ) / 60 );
-			var secs = diffSeconds % 60;
+				if ( countdownBox ) {
+					countdownBox.classList.remove( 'is-alert', 'is-alert-critical', 'is-target-jamaat', 'is-target-azan' );
+					countdownBox.classList.add( 'is-quiet' );
+				}
 
-			countdownEl.textContent = pad2( hours ) + ':' + pad2( mins ) + ':' + pad2( secs );
+				document.body.classList.remove( 'itmms-tv--alert', 'itmms-tv--alert-critical' );
+				if ( alertBadge ) {
+					alertBadge.hidden = true;
+				}
+			} else {
+				nextNameEl.textContent = nextEvent.name;
+				labelEl.textContent = labels[nextEvent.type] || 'Countdown';
+
+				var diffMs = Math.max( 0, nextEvent.time.getTime() - now.getTime() );
+				var diffSeconds = Math.floor( diffMs / 1000 );
+				countdownEl.textContent = pad2( Math.floor( diffSeconds / 3600 ) ) + ':' +
+					pad2( Math.floor( ( diffSeconds % 3600 ) / 60 ) ) + ':' +
+					pad2( diffSeconds % 60 );
+
+				var minsLeft = diffSeconds / 60;
+				var inAlert = minsLeft > 0 && minsLeft <= alertMinutes;
+				var critical = minsLeft > 0 && minsLeft <= 2;
+
+				if ( countdownBox ) {
+					countdownBox.classList.remove( 'is-quiet' );
+					countdownBox.classList.toggle( 'is-alert', inAlert );
+					countdownBox.classList.toggle( 'is-alert-critical', critical );
+					countdownBox.classList.toggle( 'is-target-jamaat', nextEvent.type === 'jamaat' );
+					countdownBox.classList.toggle( 'is-target-azan', nextEvent.type === 'azan' );
+				}
+
+				document.body.classList.toggle( 'itmms-tv--alert', inAlert );
+				document.body.classList.toggle( 'itmms-tv--alert-critical', critical );
+
+				if ( alertBadge ) {
+					if ( inAlert ) {
+						alertBadge.hidden = false;
+						alertBadge.textContent = labels.alert || 'Almost time';
+					} else {
+						alertBadge.hidden = true;
+					}
+				}
+			}
 		}
 	}
 
-	setInterval( tickPrayerState, 1000 );
-	tickPrayerState();
+	function updateQuietMode( now, fardPrayers ) {
+		var quietEl = document.getElementById( 'itmms-tv-quiet' );
+		var quietNameEl = document.getElementById( 'itmms-tv-quiet-name' );
+		var active = null;
 
-	// Ticker banner animation speed setting
+		if ( quietEnabled && fardPrayers && fardPrayers.length ) {
+			var windowMs = quietMinutes * 60 * 1000;
+			var candidates = [];
+
+			fardPrayers.forEach( function ( p ) {
+				if ( p.key === 'sunrise' ) {
+					return;
+				}
+				candidates.push( {
+					key: p.key,
+					name: labels[p.key] || p.name,
+					startsAt: p.iqamah.getTime()
+				} );
+
+				var tomorrow = new Date( p.iqamah );
+				tomorrow.setDate( tomorrow.getDate() + 1 );
+				candidates.push( {
+					key: p.key,
+					name: labels[p.key] || p.name,
+					startsAt: tomorrow.getTime()
+				} );
+			} );
+
+			var nowMs = now.getTime();
+			candidates.forEach( function ( item ) {
+				var endsAt = item.startsAt + windowMs;
+				if ( nowMs >= item.startsAt && nowMs < endsAt ) {
+					if ( ! active || item.startsAt > active.startsAt ) {
+						active = {
+							key: item.key,
+							name: item.name,
+							startsAt: item.startsAt,
+							endsAt: endsAt
+						};
+					}
+				}
+			} );
+		}
+
+		var wasQuiet = quietActive;
+		quietActive = active;
+
+		document.body.classList.toggle( 'itmms-tv--quiet', !!active );
+
+		if ( quietEl ) {
+			if ( active ) {
+				quietEl.hidden = false;
+				if ( quietNameEl ) {
+					quietNameEl.textContent = active.name;
+				}
+			} else {
+				quietEl.hidden = true;
+			}
+		}
+
+		if ( active && ( ! wasQuiet || wasQuiet.key !== active.key ) && typeof forceBoardSlide === 'function' ) {
+			forceBoardSlide();
+		}
+	}
+
 	function initTicker() {
 		var ticker = document.getElementById( 'itmms-tv-ticker' );
 		var track = document.getElementById( 'itmms-tv-ticker-track' );
@@ -190,33 +310,134 @@
 			return;
 		}
 
-		var speedSeconds = parseInt( ticker.getAttribute( 'data-speed' ), 10 ) || 7;
 		var items = track.querySelectorAll( '.itmms-tv__ticker-item' );
-		if ( items.length <= 1 ) {
-			return; // No need to slide if there's only 1 default item
+		if ( ! items.length ) {
+			return;
 		}
 
-		var currentIndex = 0;
+		track.innerHTML = track.innerHTML + track.innerHTML;
 
-		function slideNext() {
-			currentIndex = ( currentIndex + 1 ) % items.length;
-			var offset = -currentIndex * 100;
-			track.style.transform = 'translateY(' + offset + '%)';
+		var speedSeconds = parseInt( ticker.getAttribute( 'data-speed' ), 10 ) || 7;
+		var pxPerSec = Math.max( 30, Math.min( 90, 120 - ( speedSeconds * 3 ) ) );
+
+		function applyDuration() {
+			var halfWidth = track.scrollWidth / 2;
+			if ( halfWidth < 10 ) {
+				return;
+			}
+			track.style.animationDuration = Math.max( 8, halfWidth / pxPerSec ) + 's';
+			track.classList.add( 'is-scrolling' );
 		}
 
-		// Apply vertical sliding transition to track
-		track.style.transition = 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-		setInterval( slideNext, speedSeconds * 1000 );
+		window.requestAnimationFrame( function () {
+			window.requestAnimationFrame( applyDuration );
+		} );
+	}
+
+	function initSlides() {
+		var stage = document.getElementById( 'itmms-tv-stage' );
+		if ( ! stage || stage.getAttribute( 'data-slides' ) !== '1' ) {
+			return;
+		}
+
+		var slides = Array.prototype.slice.call( stage.querySelectorAll( '.itmms-tv__slide' ) );
+		if ( slides.length < 2 ) {
+			return;
+		}
+
+		var interval = parseInt( stage.getAttribute( 'data-interval' ), 10 ) || 12;
+		var dotsWrap = document.getElementById( 'itmms-tv-slide-dots' );
+		var index = 0;
+
+		if ( dotsWrap ) {
+			slides.forEach( function ( _, i ) {
+				var dot = document.createElement( 'span' );
+				dot.className = 'itmms-tv__slide-dot' + ( 0 === i ? ' is-active' : '' );
+				dotsWrap.appendChild( dot );
+			} );
+		}
+
+		function show( nextIndex ) {
+			index = nextIndex;
+			slides.forEach( function ( slide, i ) {
+				slide.classList.toggle( 'is-active', i === index );
+			} );
+			if ( dotsWrap ) {
+				Array.prototype.forEach.call( dotsWrap.children, function ( dot, i ) {
+					dot.classList.toggle( 'is-active', i === index );
+				} );
+			}
+		}
+
+		forceBoardSlide = function () {
+			show( 0 );
+		};
+
+		setInterval( function () {
+			if ( document.body.classList.contains( 'itmms-tv--quiet' ) ) {
+				if ( index !== 0 ) {
+					show( 0 );
+				}
+				return;
+			}
+			show( ( index + 1 ) % slides.length );
+		}, interval * 1000 );
+	}
+
+	function parseHm( value ) {
+		var parts = String( value || '' ).split( ':' );
+		if ( parts.length < 2 ) {
+			return null;
+		}
+		var hours = parseInt( parts[0], 10 );
+		var minutes = parseInt( parts[1], 10 );
+		if ( isNaN( hours ) || isNaN( minutes ) ) {
+			return null;
+		}
+		return ( hours * 60 ) + minutes;
+	}
+
+	function isInDimWindow( nowMinutes, startMinutes, endMinutes ) {
+		if ( startMinutes === endMinutes ) {
+			return false;
+		}
+		if ( startMinutes < endMinutes ) {
+			return nowMinutes >= startMinutes && nowMinutes < endMinutes;
+		}
+		return nowMinutes >= startMinutes || nowMinutes < endMinutes;
+	}
+
+	function initOvernightDim() {
+		if ( ! dim.enabled ) {
+			return;
+		}
+
+		var start = parseHm( dim.start || '23:00' );
+		var end = parseHm( dim.end || '04:30' );
+		if ( null === start || null === end ) {
+			return;
+		}
+
+		function tickDim() {
+			var now = new Date();
+			var minutes = ( now.getHours() * 60 ) + now.getMinutes();
+			document.body.classList.toggle( 'itmms-tv--dimmed', isInDimWindow( minutes, start, end ) );
+		}
+
+		tickDim();
+		setInterval( tickDim, 30000 );
 	}
 
 	initTicker();
+	initSlides();
+	initOvernightDim();
+	scheduleSecondAligned( updateClock );
+	scheduleSecondAligned( tickPrayerState );
 
-	// Auto reload page every 15 minutes to fetch new calculations and updates
 	setTimeout( function () {
 		window.location.reload();
 	}, 15 * 60 * 1000 );
 
-	// Auto-reload when internet connection status changes to online
 	window.addEventListener( 'online', function () {
 		window.location.reload();
 	} );

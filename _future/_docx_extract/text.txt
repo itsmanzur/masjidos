@@ -1,0 +1,326 @@
+﻿🎙️
+MasjidOS
+Khatib Tools — Module Plan
+"Digital Assistant for the Khatib — Unique in the World"
+July 2026  ·  Free Module
+
+1. কেন Khatib Tools দরকার
+বিশ্বে এমন কোনো WordPress plugin নেই যা খতিবদের জন্য specifically তৈরি। অথচ প্রতি শুক্রবার লক্ষ লক্ষ খতিব জুমার খুতবার জন্য প্রস্তুতি নেন — কোনো digital tool ছাড়াই।
+
+MasjidOS-এর Khatib Tools এই gap পূরণ করবে। এটা শুধু একটা feature নয় — এটা একটা সম্পূর্ণ digital workspace খতিবদের জন্য।
+
+এই module কারা ব্যবহার করবেন:
+জুমার খতিব
+ঈদের নামাজের ইমাম
+ইসলামিক সেন্টারের দায়িত্বশীল আলেম
+মাদ্রাসার উস্তাদ যারা পাবলিক বয়ান দেন
+ইসলামিক কনফারেন্স/সেমিনার আয়োজকরা
+
+
+
+2. Module Architecture — ৬টি Sub-module
+#
+Sub-module
+মূল কাজ
+Free/Pro
+১
+Khutbah Archive
+খুতবা সংরক্ষণ ও searchable আর্কাইভ
+FREE
+২
+Khutbah Planner
+সাপ্তাহিক topic পরিকল্পনা ও calendar
+FREE
+৩
+Reference Library
+Quran + Hadith reference finder
+FREE
+৪
+Khatib Schedule
+কে কখন খুতবা দেবেন — roster management
+FREE
+৫
+Sermon Builder
+Outline তৈরি, দোয়া library, Arabic text
+FREE
+৬
+AI Khutbah Assistant
+AI দিয়ে outline ও research generate
+PRO
+
+
+
+3. Sub-module বিস্তারিত
+Sub-module ১ — Khutbah Archive
+  CORE — সবচেয়ে বেশি ব্যবহৃত হবে  
+প্রতিটি খুতবার সম্পূর্ণ তথ্য সংরক্ষণ করে রাখবে। গত বছর কোন বিষয়ে বলেছিলাম, কোন আয়াত ব্যবহার করেছিলাম — সব খুঁজে পাওয়া যাবে।
+
+ফিচার
+Title ও বিষয় — খুতবার নাম ও সংক্ষিপ্ত বিবরণ
+তারিখ ও সময় — জুমা/ঈদ/বিশেষ অনুষ্ঠান নির্দেশ করবে
+Category/Tag — Aqeedah, Akhlaq, Fiqh, Seerah, Tazkiyah, Ramadan ইত্যাদি
+Quran references — কোন কোন আয়াত ব্যবহার হয়েছে
+Hadith references — কোন কোন হাদিস ব্যবহার হয়েছে
+Notes/outline — সম্পূর্ণ খুতবার বিস্তারিত
+Audio upload — খুতবার অডিও রেকর্ডিং
+PDF/Word upload — লিখিত খুতবা attach করা
+Public/Private toggle — মুসল্লিরা দেখতে পারবেন কিনা
+
+Search ও Filter
+Keyword search — যেকোনো শব্দ দিয়ে খুঁজুন
+Category filter — বিষয়ভিত্তিক ফিল্টার
+Date range filter — নির্দিষ্ট সময়ের খুতবা
+Quran surah filter — কোন সূরার আয়াত ব্যবহার হয়েছে
+Duplicate check — "এই বিষয়ে আগে বলেছি?" — alert করবে
+
+Frontend Display
+[itmms_khutbah_archive] shortcode — যেকোনো page-এ embed
+মুসল্লিরা past খুতবা পড়তে ও শুনতে পারবেন
+Audio player built-in
+Download option (PDF)
+
+Sub-module ২ — Khutbah Planner
+  PLANNING TOOL — মাস আগে থেকে ভাবতে সাহায্য করবে  
+বছরের গুরুত্বপূর্ণ ইসলামিক দিবসগুলো দেখিয়ে সেই অনুযায়ী খুতবার topic পরিকল্পনা করতে সাহায্য করবে।
+
+ফিচার
+Islamic Calendar Integration — হিজরি ক্যালেন্ডার থেকে বিশেষ দিন auto-show
+রমজান শুরুর আগে — রোজার ফজিলত বিষয়ক topic suggest
+শবে কদরের আগে — লাইলাতুল কদরের আমল
+ঈদের আগে — ঈদের মাসায়েল
+মহররমের সময় — আশুরার শিক্ষা
+রবিউল আওয়ালে — সীরাতুন্নবী ﷺ
+Weekly Planner View — এই সপ্তাহের, আগের, পরের সপ্তাহের topic
+Topic Suggestion — সিজন ও ইসলামিক ইভেন্ট অনুযায়ী
+Repeat Prevention — "এই topic গত ৩ মাসে বলেছেন" — সতর্কতা
+Yearly Overview — পুরো বছরের খুতবার topic একনজরে
+iCal Export — Google Calendar-এ sync করা যাবে
+
+Sub-module ৩ — Reference Library
+  RESEARCH TOOL — খুতবার দলিল খুঁজে পাওয়া সহজ হবে  
+topic দিলে সংশ্লিষ্ট Quran আয়াত ও হাদিস দেখাবে — খতিব সহজে reference খুঁজে পাবেন।
+
+Quran Reference Finder
+Topic দিলে সংশ্লিষ্ট আয়াত সাজেস্ট — যেমন "সবর" দিলে সবর সংক্রান্ত আয়াত
+Arabic text + বাংলা অনুবাদ — Dr. Abu Bakr Zakaria অনুবাদ
+Surah ও আয়াত নম্বর সহ
+Copy button — সহজে copy করে খুতবায় ব্যবহার
+Bookmark — পছন্দের আয়াত save করা
+
+Hadith Reference Finder
+Topic-based search — Bukhari, Muslim, Tirmizi থেকে
+Grading সহ — Sahih, Hasan, Da'if indication
+Arabic + বাংলা অনুবাদ
+Source citation automatic — "সহিহ বুখারি, হাদিস নং ..." format
+Bookmark ও collection — বিষয়ভিত্তিক হাদিস collection তৈরি
+
+Dua Library
+খুতবায় ব্যবহৃত common duas
+আরবি + বাংলা উচ্চারণ + অর্থ
+Opening dua, Closing dua, Salawat collection
+Khutbah-specific duas — মিম্বারে ওঠার দোয়া, শেষের দোয়া
+
+Sub-module ৪ — Khatib Schedule
+  MANAGEMENT — একাধিক খতিব থাকলে অপরিহার্য  
+একটি মসজিদে একাধিক খতিব থাকলে কে কোন সপ্তাহে খুতবা দেবেন তার roster manage করবে।
+
+ফিচার
+Khatib Profile — নাম, যোগাযোগ, expertise area
+Weekly Roster — কে কোন শুক্রবার
+Guest Khatib Management — বাইরে থেকে আসা খতিব
+Absence Management — কেউ না আসতে পারলে replacement
+Notification — খুতবার ২-৩ দিন আগে reminder
+Public Display — সাইটে "এই সপ্তাহের খতিব: মাওলানা ..." দেখাবে
+Annual Statistics — কে কতবার খুতবা দিলেন
+
+Sub-module ৫ — Sermon Builder
+  PREPARATION TOOL — খুতবা লেখার digital workspace  
+খুতবা তৈরির পুরো প্রক্রিয়াটা একটি জায়গায়। Topic ঠিক করা থেকে শুরু করে final outline পর্যন্ত।
+
+Outline Builder
+ভূমিকা (Introduction) — হামদ, নাত, তাশাহহুদ template
+মূল বিষয় ১, ২, ৩ — Drag & drop section reorder
+Quran reference attach — Reference Library থেকে সরাসরি add
+Hadith reference attach — Reference Library থেকে সরাসরি add
+উপসংহার (Conclusion) — Summary points ও দোয়া
+Second khutbah — ছোট দ্বিতীয় খুতবার template
+
+Writing Tools
+Rich text editor — Arabic text support সহ
+Word count — খুতবার আনুমানিক সময় দেখাবে
+৫০০ words ≈ ১০ মিনিট
+১০০০ words ≈ ২০ মিনিট
+Arabic keyboard shortcut — বাংলায় লিখলে Arabic আসবে
+Template library — জুমা, ঈদ, জানাজা, বিশেষ অনুষ্ঠানের template
+Print/PDF export — মিম্বারে নিয়ে যাওয়ার জন্য printable format
+Auto-save — লেখা হারাবে না
+
+Sub-module ৬ — AI Khutbah Assistant (Pro)
+  PRO EXCLUSIVE — Game Changer  
+AI ব্যবহার করে খুতবার research ও outline তৈরিতে সাহায্য করবে। Claude API ব্যবহার করবে।
+
+AI ফিচার
+Topic দিলে complete outline generate — "সবর" দিলে পুরো খুতবার structure তৈরি
+Relevant ayaat suggest — বিষয় অনুযায়ী সেরা আয়াত
+Relevant ahadith suggest — Sahih হাদিস অগ্রাধিকার
+Contemporary relevance — বর্তমান সময়ের সাথে সংযোগ
+Bangla/Arabic/English — যেকোনো ভাষায় outline
+Length control — Short (১০ মিনিট) বা Long (৩০ মিনিট)
+Tone selector — Motivational, Educational, Warning, Celebratory
+
+
+
+4. Database Schema
+৩টি নতুন table দরকার হবে:
+
+Table
+মূল Fields
+কাজ
+itmms_khutbahs
+id, title, topic, category, khutbah_date, type, quran_refs, hadith_refs, notes, audio_url, doc_url, is_public, khatib_id
+খুতবা archive
+itmms_khatib_profiles
+id, user_id, name, phone, expertise, bio, is_active
+খতিব তালিকা
+itmms_khatib_schedule
+id, khatib_id, scheduled_date, type, status, notes
+Roster management
+
+
+
+5. Frontend Shortcodes ও Widgets
+Shortcode
+কাজ
+[itmms_khutbah_archive]
+Public খুতবা আর্কাইভ — audio + notes
+[itmms_khatib_this_week]
+এই সপ্তাহের খতিবের নাম ও বিষয়
+[itmms_upcoming_khutbah]
+আসন্ন খুতবার বিষয় ও সময়
+[itmms_khutbah_search]
+Searchable খুতবা library
+
+
+
+6. Free vs Pro — Khatib Tools
+ফিচার
+Free
+Pro
+Khutbah Archive (Unlimited)
+✅
+✅
+Category & Tag System
+✅
+✅
+Audio Upload
+✅
+✅
+PDF/Doc Upload
+✅
+✅
+Khutbah Planner
+✅
+✅
+Islamic Calendar Integration
+✅
+✅
+Reference Library (Quran)
+✅
+✅
+Reference Library (Hadith)
+✅
+✅
+Dua Library
+✅
+✅
+Khatib Schedule / Roster
+✅
+✅
+Sermon Builder (Outline)
+✅
+✅
+Print / PDF Export
+✅
+✅
+Frontend Public Archive
+✅
+✅
+Duplicate Topic Alert
+✅
+✅
+AI Khutbah Outline Generator
+❌
+✅
+AI Ayaat & Hadith Suggester
+❌
+✅
+Multi-language AI Output
+❌
+✅
+Congregation Feedback System
+❌
+✅
+Khutbah Translation Assistant
+❌
+✅
+
+
+
+7. Admin UX Flow
+খতিব admin panel-এ কীভাবে কাজ করবেন:
+
+ধাপ
+কাজ
+Tool
+১
+Planner খুলুন — এই সপ্তাহে কোন বিষয়ে বলবেন?
+Khutbah Planner
+২
+Islamic Calendar দেখুন — কোনো বিশেষ দিন আছে?
+Calendar Integration
+৩
+Reference Library-তে বিষয় লিখে search করুন
+Reference Library
+৪
+Relevant আয়াত ও হাদিস bookmark করুন
+Reference Library
+৫
+Sermon Builder-এ নতুন খুতবা তৈরি করুন
+Sermon Builder
+৬
+Outline সাজান — ভূমিকা, মূল পয়েন্ট, উপসংহার
+Sermon Builder
+৭
+Archive-এ save করুন (Public/Private)
+Khutbah Archive
+৮
+Print বা PDF export করুন
+Sermon Builder
+৯
+খুতবার পরে Audio upload করুন
+Khutbah Archive
+১০
+মুসল্লিরা সাইটে archive দেখতে পারবেন
+Frontend Widget
+
+
+
+8. Market Impact
+কেন এটা Viral হবে
+বিশ্বে প্রথম — কোনো WordPress plugin-এ Khatib Tools নেই
+Daily use — প্রতি সপ্তাহে ব্যবহার — retention সর্বোচ্চ
+Word of mouth — এক খতিব অন্য খতিবকে বলবেন
+মাদ্রাসা market — উস্তাদরাও ব্যবহার করবেন
+Global appeal — বাংলাদেশের বাইরেও সব মুসলিম দেশে চলবে
+
+SEO Keywords
+"khutbah management plugin"
+"jumu'ah khutbah archive WordPress"
+"khatib tools online"
+"sermon builder mosque"
+"খুতবা আর্কাইভ"
+
+
+
+بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+MasjidOS — Empowering the Khatib with Digital Tools

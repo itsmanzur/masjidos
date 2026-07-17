@@ -21,6 +21,7 @@ class ITMMS_Roles {
 		'itmms_manage_prayers',
 		'itmms_manage_events',
 		'itmms_manage_announcements',
+		'itmms_manage_khutbah',
 		'itmms_view_reports',
 		'itmms_manage_settings',
 	];
@@ -36,6 +37,7 @@ class ITMMS_Roles {
 			'itmms_manage_prayers'       => true,
 			'itmms_manage_events'        => true,
 			'itmms_manage_announcements' => true,
+			'itmms_manage_khutbah'       => true,
 			'itmms_view_reports'         => true,
 		],
 		'itmms_muazzin' => [

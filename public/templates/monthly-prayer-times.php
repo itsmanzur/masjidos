@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 			<span><?php echo esc_html( $meta['location'] ?? get_bloginfo( 'name' ) ); ?></span>
 			<h2><?php echo esc_html( $atts['title'] ); ?></h2>
 			<p>
-				<span><?php echo esc_html( (string) ( $data['label'] ?? '' ) ); ?></span>
+				<span><?php echo esc_html( ITMMS_Hijri::format_label( (string) ( $data['label'] ?? '' ), $language ) ); ?></span>
 				<?php if ( ! empty( $hijri_range_label ) ) : ?>
 					<span><?php echo esc_html( $hijri_range_label ); ?></span>
 				<?php endif; ?>
@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
 					<span class="screen-reader-text"><?php echo esc_html( $labels['year'] ); ?></span>
 					<select data-itmms-monthly-year aria-label="<?php echo esc_attr( $labels['year'] ); ?>">
 		<?php for ( $itmms_option_year = max( 1970, $year - 5 ); $itmms_option_year <= min( 2099, $year + 5 ); $itmms_option_year++ ) : ?>
-							<option value="<?php echo esc_attr( (string) $itmms_option_year ); ?>" <?php selected( $year, $itmms_option_year ); ?>><?php echo esc_html( (string) $itmms_option_year ); ?></option>
+							<option value="<?php echo esc_attr( (string) $itmms_option_year ); ?>" <?php selected( $year, $itmms_option_year ); ?>><?php echo esc_html( ITMMS_Hijri::number( (string) $itmms_option_year, $language ) ); ?></option>
 						<?php endfor; ?>
 					</select>
 				</label>
@@ -52,6 +52,9 @@ defined( 'ABSPATH' ) || exit;
 				<span><b><?php echo esc_html( (string) $itmms_trust_item[0] ); ?></b><?php echo esc_html( (string) $itmms_trust_item[1] ); ?></span>
 			<?php endif; ?>
 		<?php endforeach; ?>
+		<?php if ( ! empty( $trust_note ) ) : ?>
+			<p class="itmms-public-monthly__trust-note"><?php echo esc_html( (string) $trust_note ); ?></p>
+		<?php endif; ?>
 	</div>
 	<?php if ( 'compact' === $design ) : ?>
 		<div class="itmms-public-monthly__cards">
@@ -60,7 +63,7 @@ defined( 'ABSPATH' ) || exit;
 				<article class="itmms-public-monthly__card <?php echo (string) ( $itmms_day['date'] ?? '' ) === $today ? 'is-today' : ''; ?> <?php echo '5' === date_i18n( 'w', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ? 'is-friday' : ''; ?>">
 					<header>
 						<div>
-							<strong><?php echo esc_html( date_i18n( 'M j', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ); ?></strong>
+							<strong><?php echo esc_html( ITMMS_Hijri::format_label( date_i18n( 'M j', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ), $language ) ); ?></strong>
 							<span><?php echo esc_html( date_i18n( 'l', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ); ?></span>
 						</div>
 					</header>
@@ -68,7 +71,7 @@ defined( 'ABSPATH' ) || exit;
 						<?php foreach ( [ 'fajr', 'dhuhr', 'asr', 'maghrib', 'isha' ] as $itmms_key ) : ?>
 							<span>
 								<b><?php echo esc_html( $this->prayer_label( $itmms_key, $language, ucfirst( $itmms_key ) ) ); ?></b>
-								<time><?php echo esc_html( (string) ( $itmms_prayers[ $itmms_key ]['time'] ?? '' ) ); ?></time>
+								<time><?php echo esc_html( ITMMS_Hijri::format_clock( (string) ( $itmms_prayers[ $itmms_key ]['time'] ?? '' ), $language ) ); ?></time>
 							</span>
 						<?php endforeach; ?>
 					</div>
@@ -92,14 +95,14 @@ defined( 'ABSPATH' ) || exit;
 						<?php $itmms_prayers = $this->indexed_prayers( (array) ( $itmms_day['prayers'] ?? [] ) ); ?>
 						<tr class="<?php echo (string) ( $itmms_day['date'] ?? '' ) === $today ? 'is-today' : ''; ?> <?php echo '5' === date_i18n( 'w', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ? 'is-friday' : ''; ?>">
 							<td>
-								<strong><?php echo esc_html( date_i18n( 'M j', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ); ?></strong>
+								<strong><?php echo esc_html( ITMMS_Hijri::format_label( date_i18n( 'M j', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ), $language ) ); ?></strong>
 								<span><?php echo esc_html( date_i18n( 'D', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ); ?></span>
 							</td>
 							<?php foreach ( $prayer_keys as $itmms_key ) : ?>
 								<td class="itmms-public-monthly__time-cell">
-									<time><?php echo esc_html( (string) ( $itmms_prayers[ $itmms_key ]['time'] ?? '' ) ); ?></time>
-									<?php if ( $show_iqamah && 'sunrise' !== $itmms_key && ! empty( $itmms_prayers[ $itmms_key ]['iqamah'] ) ) : ?>
-										<small><?php echo esc_html( $labels['iqamah'] . ' ' . (string) $itmms_prayers[ $itmms_key ]['iqamah'] ); ?></small>
+									<time><?php echo esc_html( ITMMS_Hijri::format_clock( (string) ( $itmms_prayers[ $itmms_key ]['time'] ?? '' ), $language ) ); ?></time>
+									<?php if ( $show_iqamah && ! in_array( $itmms_key, [ 'sunrise', 'ishraq', 'zawal' ], true ) && ! empty( $itmms_prayers[ $itmms_key ]['iqamah'] ) ) : ?>
+										<small><?php echo esc_html( $labels['iqamah'] . ' ' . ITMMS_Hijri::format_clock( (string) $itmms_prayers[ $itmms_key ]['iqamah'], $language ) ); ?></small>
 									<?php endif; ?>
 								</td>
 							<?php endforeach; ?>

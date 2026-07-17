@@ -416,6 +416,22 @@
 		} );
 	}
 
+	function initNoticeTickers( root ) {
+		( root || document ).querySelectorAll( '.itmms-public-announcements--ticker' ).forEach( function ( ticker ) {
+			var track = ticker.querySelector( '.itmms-public-announcements__ticker-track' );
+			if ( ! track || track.getAttribute( 'data-itmms-ticker-ready' ) ) {
+				return;
+			}
+			track.setAttribute( 'data-itmms-ticker-ready', '1' );
+
+			// Keep a steady readable pace (~40px/sec) based on content width.
+			var loopWidth = Math.max( track.scrollWidth / 2, track.offsetWidth || 0 );
+			var pxPerSecond = 40;
+			var duration = Math.max( 55, Math.round( loopWidth / pxPerSecond ) );
+			track.style.animationDuration = duration + 's';
+		} );
+	}
+
 	function shareText( text, button, successLabel ) {
 		if ( navigator.share ) {
 			navigator.share( { text: text } ).catch( function () {} );
@@ -526,6 +542,7 @@
 		initQiblaCompass( root || document );
 		initDuasAzkar( root || document );
 		initAnnouncementPopups( root || document );
+		initNoticeTickers( root || document );
 	};
 
 	window.itmmsShareVerse = function ( text, btn, successLabel ) {

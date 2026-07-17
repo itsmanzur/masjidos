@@ -15,8 +15,29 @@
 
 	window.itmms = window.itmms || {};
 
+	function urlHasExplicitView() {
+		try {
+			return new URL( window.location.href ).searchParams.has( 'itmms_view' );
+		} catch ( e ) {
+			return false;
+		}
+	}
+
+	function shouldForceWelcome( view ) {
+		if ( ! data.showWelcome ) {
+			return false;
+		}
+		if ( urlHasExplicitView() ) {
+			return view && view.activeTab === 'welcome';
+		}
+		return true;
+	}
+
 	// Setup shared state
 	var initialView = window.itmms.readViewState();
+	if ( shouldForceWelcome( initialView ) ) {
+		initialView.activeTab = 'welcome';
+	}
 	var state = {
 		settings: data.settings || {},
 		modules: data.modules || [],
@@ -25,13 +46,34 @@
 		nextPrayer: null,
 		prayerMeta: null,
 		hijriDate: null,
+		trust: null,
+		upcomingDays: [],
+		timetable: data.timetable || { count: 0, active: false },
 		announcements: [],
 		dashboardAnnouncements: [],
 		editingAnnouncement: 0,
 		events: [],
 		dashboardEvents: [],
 		editingEvent: 0,
-		activeTab: initialView.activeTab,
+		khutbahs: [],
+		editingKhutbah: 0,
+		khutbahCategories: {},
+		khutbahSimilar: [],
+		archiveFilter: { q: '', category: '' },
+		minbarTab: initialView.minbarTab || 'dashboard',
+		minbarDash: null,
+		minbarProfiles: [],
+		minbarSchedule: [],
+		minbarPlans: [],
+		minbarBookmarks: [],
+		minbarRefResults: [],
+		minbarRefQuery: '',
+		minbarRefType: 'all',
+		editingPlan: null,
+		editingProfile: null,
+		editingSchedule: null,
+		sermonDraft: null,
+		activeTab: initialView.activeTab === 'khutbah' ? 'minbar' : initialView.activeTab,
 		settingsTab: initialView.settingsTab,
 		docsTab: initialView.docsTab
 	};
@@ -51,10 +93,13 @@
 	// Import module templates
 	var dashboardHtml = window.itmms.dashboard.dashboardHtml;
 	var modulesHtml = window.itmms.dashboard.modulesHtml;
+	var welcomeHtml = window.itmms.welcome && window.itmms.welcome.welcomeHtml ? window.itmms.welcome.welcomeHtml : function () { return ''; };
 	var settingsHtml = window.itmms.settings.settingsHtml;
 	var announcementsHtml = window.itmms.announcements.announcementsHtml;
 	var docsHtml = window.itmms.docs.docsHtml;
 	var eventsHtml = window.itmms.events.eventsHtml;
+	var minbarHtml = window.itmms.minbar.minbarHtml;
+	var bindMinbarEvents = window.itmms.minbar.bindMinbarEvents;
 	var featuresHtml = window.itmms.features.featuresHtml;
 	var bindFeaturesEvents = window.itmms.features.bindFeaturesEvents;
 	
@@ -68,18 +113,35 @@
 		var masjidName = state.settings.masjid_name || 'MasjidOS';
 		var location = [ state.settings.city, state.settings.country ].filter( Boolean ).join( ', ' );
 
-		app.innerHTML = '<div class="itmms-shell">' +
+		var archiveCount = ( state.minbarDash && state.minbarDash.stats && state.minbarDash.stats.archive ) || state.khutbahs.length || 0;
+		var mods = state.settings.modules || {};
+
+		app.innerHTML = '<div class="itmms-shell' + ( state.activeTab === 'welcome' ? ' itmms-shell--welcome' : '' ) + '">' +
 			'<aside class="itmms-sidebar">' +
 				'<div class="itmms-brand"><div class="itmms-brand-mark">' + icon( 'ledger' ) + '</div><div><strong>MasjidOS</strong><span>' + esc( masjidName ) + '</span></div></div>' +
 				'<nav class="itmms-nav">' +
-					navButton( 'dashboard', 'clock', __( 'Dashboard', 'masjidos' ), true ) +
-					( state.settings.modules.announcements ? navButton( 'announcements', 'megaphone', __( 'Notices', 'masjidos' ), false ) : '' ) +
-					( state.settings.modules.events ? navButton( 'events', 'calendar', __( 'Events', 'masjidos' ), false ) : '' ) +
-					( state.settings.modules.duas_azkar ? navLink( data.adminUrl + 'edit.php?post_type=itmms_dua', 'book', __( 'Duas Library', 'masjidos' ) ) : '' ) +
-					navButton( 'features', 'star', __( 'Features', 'masjidos' ), false ) +
-					navButton( 'modules', 'settings', __( 'Modules', 'masjidos' ), false ) +
-					navButton( 'settings', 'settings', __( 'Settings', 'masjidos' ), false ) +
-					navButton( 'docs', 'book', __( 'Docs', 'masjidos' ), false ) +
+					navGroup( __( 'Overview', 'masjidos' ),
+						navButton( 'welcome', 'crescent', __( 'Welcome', 'masjidos' ) ) +
+						navButton( 'dashboard', 'grid', __( 'Dashboard', 'masjidos' ) ) +
+						navButton( 'modules', 'settings', __( 'Modules', 'masjidos' ) ) +
+						navButton( 'features', 'star', __( 'Features', 'masjidos' ) ) +
+						navButton( 'settings', 'clock', __( 'Prayer Setup', 'masjidos' ), { settingsTab: 'timetable' } ) +
+						( mods.announcements ? navButton( 'announcements', 'megaphone', __( 'Announcements', 'masjidos' ) ) : '' )
+					) +
+					navGroup( __( 'Minbar', 'masjidos' ),
+						navButton( 'minbar', 'mic', __( 'Overview', 'masjidos' ), { minbarTab: 'dashboard' } ) +
+						navButton( 'minbar', 'book', __( 'Archive', 'masjidos' ), { minbarTab: 'archive', badge: archiveCount } ) +
+						navButton( 'minbar', 'calendar', __( 'Planner', 'masjidos' ), { minbarTab: 'planner' } ) +
+						navButton( 'minbar', 'books', __( 'References', 'masjidos' ), { minbarTab: 'references' } ) +
+						navButton( 'minbar', 'pen', __( 'Sermon Builder', 'masjidos' ), { minbarTab: 'builder' } ) +
+						navButton( 'minbar', 'members', __( 'Schedule', 'masjidos' ), { minbarTab: 'schedule' } )
+					) +
+					navGroup( __( 'Management', 'masjidos' ),
+						( mods.events ? navButton( 'events', 'calendar', __( 'Events', 'masjidos' ) ) : '' ) +
+						( mods.duas_azkar ? navLink( data.adminUrl + 'edit.php?post_type=itmms_dua', 'book', __( 'Duas Library', 'masjidos' ) ) : '' ) +
+						navButton( 'settings', 'settings', __( 'Settings', 'masjidos' ) ) +
+						navButton( 'docs', 'book', __( 'Docs', 'masjidos' ) )
+					) +
 				'</nav>' +
 				'<div class="itmms-user-card"><div>' + esc( initials( userName ) ) + '</div><span><strong>' + esc( userName ) + '</strong><small>' + esc( __( 'Administrator', 'masjidos' ) ) + '</small></span></div>' +
 			'</aside>' +
@@ -88,13 +150,19 @@
 					'<button class="itmms-sidebar-toggle" aria-label="' + esc( __( 'Toggle menu', 'masjidos' ) ) + '">' +
 						'<svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>' +
 					'</button>' +
-					'<div><h1 id="itmms-title">' + esc( __( 'Dashboard', 'masjidos' ) ) + '</h1><p>' + esc( location || data.siteUrl ) + '</p></div>' +
-					'<div class="itmms-topbar-actions"><a class="itmms-btn itmms-wp-exit-btn" href="' + esc( data.adminUrl ) + '" title="' + esc( __( 'Go to WordPress Dashboard', 'masjidos' ) ) + '" aria-label="' + esc( __( 'Go to WordPress Dashboard', 'masjidos' ) ) + '" data-itmms-exit>' + icon( 'external' ) + '<span>WordPress</span></a><button class="itmms-btn itmms-btn-primary" data-open-settings>' + esc( __( 'Configure', 'masjidos' ) ) + '</button></div>' +
+					'<div><h1 id="itmms-title">' + esc( __( 'Dashboard', 'masjidos' ) ) + '</h1><p id="itmms-subtitle">' + esc( location || data.siteUrl ) + '</p></div>' +
+					'<div class="itmms-topbar-actions">' +
+						languageSwitcherHtml() +
+						'<a class="itmms-btn itmms-wp-exit-btn" href="' + esc( data.adminUrl ) + '" title="' + esc( __( 'Leave MasjidOS and open the WordPress admin dashboard', 'masjidos' ) ) + '" aria-label="' + esc( __( 'Leave MasjidOS and open the WordPress admin dashboard', 'masjidos' ) ) + '" data-itmms-exit>' + icon( 'external' ) + '<span>' + esc( __( 'WP Dashboard', 'masjidos' ) ) + '</span></a>' +
+						'<button class="itmms-btn itmms-btn-primary" data-open-settings>' + esc( __( 'Configure', 'masjidos' ) ) + '</button>' +
+					'</div>' +
 				'</header>' +
 				'<section class="itmms-page">' +
-					'<div class="itmms-tab-content active" id="itmms-tab-dashboard">' + dashboardHtml() + '</div>' +
+					'<div class="itmms-tab-content' + ( state.activeTab === 'welcome' ? ' active' : '' ) + '" id="itmms-tab-welcome">' + welcomeHtml() + '</div>' +
+					'<div class="itmms-tab-content' + ( state.activeTab === 'dashboard' ? ' active' : '' ) + '" id="itmms-tab-dashboard">' + dashboardHtml() + '</div>' +
 					'<div class="itmms-tab-content" id="itmms-tab-announcements">' + announcementsHtml() + '</div>' +
 					'<div class="itmms-tab-content" id="itmms-tab-events">' + eventsHtml() + '</div>' +
+					'<div class="itmms-tab-content" id="itmms-tab-minbar">' + minbarHtml() + '</div>' +
 					'<div class="itmms-tab-content" id="itmms-tab-features">' + featuresHtml() + '</div>' +
 					'<div class="itmms-tab-content" id="itmms-tab-modules">' + modulesHtml() + '</div>' +
 					'<div class="itmms-tab-content" id="itmms-tab-settings">' + settingsHtml() + '</div>' +
@@ -105,6 +173,11 @@
 
 		bindEvents();
 		bindFeaturesEvents();
+		if ( window.itmms.welcome && window.itmms.welcome.bindWelcomeEvents ) {
+			window.itmms.welcome.bindWelcomeEvents();
+		}
+		ensureWpMenuToggle();
+		applyUiDirection();
 		switchTab( state.activeTab );
 		activateSettingsTab( state.settingsTab );
 		activateDocsTab( state.docsTab );
@@ -112,12 +185,229 @@
 		tickCountdown();
 	}
 
-	function navButton( tab, iconName, label, active ) {
-		return '<button class="itmms-nav-item' + ( active ? ' active' : '' ) + '" data-tab="' + esc( tab ) + '">' + icon( iconName ) + '<span>' + esc( label ) + '</span></button>';
+	function languageSwitcherHtml() {
+		var current = ( state.settings && state.settings.ui_language ) || data.uiLanguage || 'en';
+		var options = [
+			[ 'en', __( 'English', 'masjidos' ) ],
+			[ 'bn', __( 'Bangla', 'masjidos' ) ],
+			[ 'ar', __( 'Arabic', 'masjidos' ) ]
+		];
+		return '<label class="itmms-lang-switcher">' +
+			'<span class="screen-reader-text">' + esc( __( 'UI Language', 'masjidos' ) ) + '</span>' +
+			'<select id="itmms-ui-language" aria-label="' + esc( __( 'UI Language', 'masjidos' ) ) + '">' +
+				options.map( function ( option ) {
+					return '<option value="' + esc( option[0] ) + '"' + ( option[0] === current ? ' selected' : '' ) + '>' + esc( option[1] ) + '</option>';
+				} ).join( '' ) +
+			'</select>' +
+		'</label>';
+	}
+
+	function uiLocaleFor( lang ) {
+		return ( { en: 'en_US', bn: 'bn_BD', ar: 'ar' } )[ lang ] || 'en_US';
+	}
+
+	var uiTranslationCache = {};
+
+	function resetUiTranslations( messages ) {
+		if ( window.wp.i18n.resetLocaleData ) {
+			window.wp.i18n.resetLocaleData( messages, 'masjidos' );
+		} else if ( window.wp.i18n.setLocaleData ) {
+			window.wp.i18n.setLocaleData( messages, 'masjidos' );
+		}
+	}
+
+	function loadUiTranslations( lang ) {
+		return new Promise( function ( resolve, reject ) {
+			if ( lang === 'en' ) {
+				resetUiTranslations( {
+					'': {
+						domain: 'messages',
+						lang: 'en_US',
+						'plural-forms': 'nplurals=2; plural=(n != 1);'
+					}
+				} );
+				resolve();
+				return;
+			}
+
+			if ( uiTranslationCache[ lang ] ) {
+				resetUiTranslations( uiTranslationCache[ lang ] );
+				resolve();
+				return;
+			}
+
+			var locale = uiLocaleFor( lang );
+			var base = String( data.languagesUrl || '' ).replace( /\/?$/, '/' );
+			var url = base + 'masjidos-' + locale + '-itmms-admin.json?ver=' + encodeURIComponent( data.i18nRev || data.version || '' );
+
+			fetch( url, { credentials: 'same-origin' } ).then( function ( response ) {
+				if ( ! response.ok ) {
+					throw new Error( 'translation-pack' );
+				}
+				return response.json();
+			} ).then( function ( json ) {
+				var messages = json && json.locale_data && json.locale_data.messages;
+				if ( ! messages ) {
+					throw new Error( 'translation-pack' );
+				}
+				uiTranslationCache[ lang ] = messages;
+				resetUiTranslations( messages );
+				resolve();
+			} ).catch( reject );
+		} );
+	}
+
+	function applyUiLanguage( lang, opts ) {
+		opts = opts || {};
+		var tab = state.activeTab;
+		var settingsTab = state.settingsTab;
+		var docsTab = state.docsTab;
+		var minbarTab = state.minbarTab;
+
+		return loadUiTranslations( lang ).then( function () {
+			state.settings = state.settings || {};
+			state.settings.ui_language = lang;
+			data.uiLanguage = lang;
+			data.uiLocale = uiLocaleFor( lang );
+			data.uiIsRtl = lang === 'ar';
+			data.locale = data.uiLocale;
+			render();
+			switchTab( tab );
+			if ( tab === 'settings' && settingsTab ) {
+				activateSettingsTab( settingsTab );
+			}
+			if ( tab === 'docs' && docsTab ) {
+				activateDocsTab( docsTab );
+			}
+			if ( tab === 'minbar' && minbarTab ) {
+				state.minbarTab = minbarTab;
+			}
+			if ( opts.showSaved ) {
+				var saved = document.getElementById( 'itmms-save-status' );
+				if ( saved ) {
+					saved.textContent = __( 'Saved', 'masjidos' );
+				}
+			}
+		} );
+	}
+
+	function applyUiDirection() {
+		var lang = ( state.settings && state.settings.ui_language ) || data.uiLanguage || 'en';
+		var isRtl = lang === 'ar';
+		document.body.classList.remove( 'itmms-ui-en', 'itmms-ui-bn', 'itmms-ui-ar', 'itmms-ui-rtl' );
+		document.body.classList.add( 'itmms-ui-' + lang );
+		document.body.classList.toggle( 'itmms-ui-rtl', isRtl );
+		document.body.classList.toggle( 'rtl', isRtl );
+		var shell = app.querySelector( '.itmms-shell' );
+		if ( shell ) {
+			shell.setAttribute( 'dir', isRtl ? 'rtl' : 'ltr' );
+			shell.setAttribute( 'lang', lang === 'bn' ? 'bn' : ( lang === 'ar' ? 'ar' : 'en' ) );
+		}
+	}
+
+	function bindLanguageSwitcher() {
+		var select = document.getElementById( 'itmms-ui-language' );
+		if ( ! select || select.getAttribute( 'data-bound' ) === '1' ) {
+			return;
+		}
+		select.setAttribute( 'data-bound', '1' );
+		select.addEventListener( 'change', function () {
+			var next = select.value;
+			var previous = ( state.settings && state.settings.ui_language ) || data.uiLanguage || 'en';
+			if ( [ 'en', 'bn', 'ar' ].indexOf( next ) === -1 || next === previous ) {
+				return;
+			}
+			select.disabled = true;
+			var payload = Object.assign( {}, state.settings, { ui_language: next } );
+			api( 'settings', {
+				method: 'POST',
+				body: JSON.stringify( payload )
+			} ).then( function ( response ) {
+				state.settings = response.settings || payload;
+				if ( response.modules ) {
+					state.modules = response.modules;
+				}
+				return applyUiLanguage( next );
+			} ).catch( function () {
+				select.disabled = false;
+				select.value = previous;
+				window.alert( __( 'Could not save. Please try again.', 'masjidos' ) );
+			} );
+		} );
+	}
+
+	function ensureWpMenuToggle() {
+		var existing = document.getElementById( 'itmms-wp-menu-toggle' );
+		if ( existing ) {
+			syncWpMenuToggle( existing );
+			return;
+		}
+
+		var btn = document.createElement( 'button' );
+		btn.type = 'button';
+		btn.id = 'itmms-wp-menu-toggle';
+		btn.className = 'itmms-wp-menu-toggle';
+		btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h16"></path><path d="M18 9l3 3-3 3"></path></svg>';
+		document.body.appendChild( btn );
+
+		try {
+			if ( window.localStorage && window.localStorage.getItem( 'itmms_wp_menu_open' ) === '1' ) {
+				document.body.classList.add( 'itmms-wp-menu-open' );
+			}
+		} catch ( e ) {}
+
+		syncWpMenuToggle( btn );
+
+		btn.addEventListener( 'click', function () {
+			var open = document.body.classList.toggle( 'itmms-wp-menu-open' );
+			try {
+				if ( window.localStorage ) {
+					window.localStorage.setItem( 'itmms_wp_menu_open', open ? '1' : '0' );
+				}
+			} catch ( err ) {}
+			syncWpMenuToggle( btn );
+		} );
+	}
+
+	function syncWpMenuToggle( btn ) {
+		if ( ! btn ) {
+			return;
+		}
+		var open = document.body.classList.contains( 'itmms-wp-menu-open' );
+		btn.classList.toggle( 'is-open', open );
+		btn.setAttribute( 'aria-pressed', open ? 'true' : 'false' );
+		btn.title = open
+			? __( 'Hide WordPress menu — full-width MasjidOS', 'masjidos' )
+			: __( 'Show WordPress admin menu beside MasjidOS', 'masjidos' );
+		btn.setAttribute( 'aria-label', btn.title );
+	}
+
+	function navGroup( label, itemsHtml ) {
+		return '<div class="itmms-nav-group"><div class="itmms-nav-label">' + esc( label ) + '</div>' + itemsHtml + '</div>';
+	}
+
+	function navButton( tab, iconName, label, opts ) {
+		opts = opts || {};
+		var attrs = ' data-tab="' + esc( tab ) + '"';
+		if ( opts.minbarTab ) {
+			attrs += ' data-minbar-tab="' + esc( opts.minbarTab ) + '"';
+		}
+		if ( opts.settingsTab ) {
+			attrs += ' data-settings-tab="' + esc( opts.settingsTab ) + '"';
+		}
+		var badge = '';
+		if ( opts.badge != null && Number( opts.badge ) > 0 ) {
+			badge = '<span class="itmms-nav-badge">' + esc( opts.badge ) + '</span>';
+		}
+		return '<button type="button" class="itmms-nav-item"' + attrs + '>' + icon( iconName ) + '<span>' + esc( label ) + '</span>' + badge + '</button>';
 	}
 
 	function navLink( href, iconName, label ) {
 		return '<a class="itmms-nav-item" href="' + esc( href ) + '">' + icon( iconName ) + '<span>' + esc( label ) + '</span></a>';
+	}
+
+	function isPrayerSettingsTab( key ) {
+		return [ 'calculation', 'timetable', 'adjustments', 'iqamah' ].indexOf( key ) !== -1;
 	}
 
 	function bindEvents() {
@@ -125,17 +415,50 @@
 			link.addEventListener( 'click', exitToWordPress );
 		} );
 
+		bindLanguageSwitcher();
+
 		var adminbarExit = document.querySelector( '#wp-admin-bar-itmms-exit a' );
 		if ( adminbarExit ) {
 			adminbarExit.addEventListener( 'click', exitToWordPress );
 		}
 
-		app.querySelectorAll( '.itmms-nav-item[data-tab]' ).forEach( function ( btn ) {
-			btn.addEventListener( 'click', function () { switchTab( btn.getAttribute( 'data-tab' ), 'push' ); } );
+		app.querySelectorAll( '[data-tab]' ).forEach( function ( btn ) {
+			btn.addEventListener( 'click', function () {
+				var tab = btn.getAttribute( 'data-tab' );
+				var minbarTab = btn.getAttribute( 'data-minbar-tab' );
+				var settingsTab = btn.getAttribute( 'data-settings-tab' );
+
+				if ( minbarTab ) {
+					state.minbarTab = minbarTab;
+				}
+				if ( settingsTab ) {
+					state.settingsTab = settingsTab;
+				} else if ( tab === 'settings' && btn.classList.contains( 'itmms-nav-item' ) ) {
+					if ( isPrayerSettingsTab( state.settingsTab ) ) {
+						state.settingsTab = 'profile';
+					}
+				}
+
+				if ( tab === 'minbar' ) {
+					state.activeTab = 'minbar';
+					render();
+					syncViewUrl( 'push' );
+					return;
+				}
+
+				switchTab( tab, 'push' );
+				if ( tab === 'settings' ) {
+					activateSettingsTab( state.settingsTab, 'replace' );
+				}
+			} );
 		} );
 
 		bindAnnouncementEvents();
 		bindEventEvents();
+		bindMinbarEvents( api, render, switchTab );
+		if ( window.itmms.dashboard && window.itmms.dashboard.bindDashboardEvents ) {
+			window.itmms.dashboard.bindDashboardEvents();
+		}
 
 		app.querySelectorAll( '[data-open-settings]' ).forEach( function ( btn ) {
 			btn.addEventListener( 'click', function () { switchTab( 'settings', 'push' ); } );
@@ -143,6 +466,12 @@
 
 		bindMediaPickers();
 		bindSettingsTabs();
+		if ( window.itmms.settings && window.itmms.settings.bindTimetableEvents ) {
+			window.itmms.settings.bindTimetableEvents( app.querySelector( '[data-settings-panel="timetable"]' ) );
+		}
+		if ( window.itmms.settings && window.itmms.settings.bindIqamahRuleEvents ) {
+			window.itmms.settings.bindIqamahRuleEvents( app.querySelector( '[data-settings-panel="iqamah"]' ) );
+		}
 		bindDocsTabs();
 
 		app.querySelectorAll( '[data-copy-shortcode]' ).forEach( function ( btn ) {
@@ -168,6 +497,11 @@
 					payload[ key ] = value;
 				} );
 				payload.public_transparency = form.elements.public_transparency.checked;
+				payload.show_ishraq = !!( form.elements.show_ishraq && form.elements.show_ishraq.checked );
+				payload.show_zawal = !!( form.elements.show_zawal && form.elements.show_zawal.checked );
+				payload.tv_slides = !!( form.elements.tv_slides && form.elements.tv_slides.checked );
+				payload.tv_quiet_enabled = !!( form.elements.tv_quiet_enabled && form.elements.tv_quiet_enabled.checked );
+				payload.tv_dim_enabled = !!( form.elements.tv_dim_enabled && form.elements.tv_dim_enabled.checked );
 				payload.modules = state.settings.modules;
 				payload.prayer_offsets = {};
 				form.querySelectorAll( '[data-offset]' ).forEach( function ( input ) {
@@ -176,6 +510,17 @@
 				payload.iqamah_times = {};
 				form.querySelectorAll( '[data-iqamah]' ).forEach( function ( input ) {
 					payload.iqamah_times[ input.getAttribute( 'data-iqamah' ) ] = input.value;
+				} );
+				payload.iqamah_rules = {};
+				form.querySelectorAll( '[data-iqamah-rule-mode]' ).forEach( function ( select ) {
+					var key = select.getAttribute( 'data-iqamah-rule-mode' );
+					var minutesInput = form.querySelector( '[data-iqamah-rule-minutes="' + key + '"]' );
+					var roundSelect = form.querySelector( '[data-iqamah-rule-round="' + key + '"]' );
+					payload.iqamah_rules[ key ] = {
+						mode: select.value,
+						minutes: minutesInput ? Number( minutesInput.value || 0 ) : 0,
+						round: roundSelect ? Number( roundSelect.value || 0 ) : 0
+					};
 				} );
 				payload.jumuah = {
 					enabled: !! ( form.querySelector( '[data-jumuah-enabled]' ) && form.querySelector( '[data-jumuah-enabled]' ).checked ),
@@ -265,6 +610,21 @@
 				} );
 			} );
 		} );
+	}
+
+	function loadKhutbahs() {
+		return window.itmms.minbar.loadKhutbahs( api );
+	}
+
+	function loadMinbarData() {
+		return Promise.all( [
+			loadKhutbahs().catch( function () {} ),
+			window.itmms.minbar.loadMinbarDash( api ),
+			window.itmms.minbar.loadProfiles( api ).catch( function () {} ),
+			window.itmms.minbar.loadSchedule( api ).catch( function () {} ),
+			window.itmms.minbar.loadPlans( api ).catch( function () {} ),
+			window.itmms.minbar.loadBookmarks( api ).catch( function () {} )
+		] );
 	}
 
 	function bindEventEvents() {
@@ -401,7 +761,7 @@
 	}
 
 	function bindSettingsTabs() {
-		var tabs = app.querySelectorAll( '[data-settings-tab]' );
+		var tabs = app.querySelectorAll( '.itmms-settings-tab[data-settings-tab]' );
 		if ( ! tabs.length ) {
 			return;
 		}
@@ -496,16 +856,40 @@
 	}
 
 	function activateSettingsTab( key, historyMode ) {
-		if ( [ 'profile', 'calculation', 'adjustments', 'iqamah', 'jumuah', 'tv', 'public' ].indexOf( key ) === -1 ) {
+		if ( [ 'profile', 'calculation', 'timetable', 'adjustments', 'iqamah', 'jumuah', 'tv', 'public' ].indexOf( key ) === -1 ) {
 			key = 'profile';
 		}
 		state.settingsTab = key;
-		app.querySelectorAll( '[data-settings-tab]' ).forEach( function ( tab ) {
+		app.querySelectorAll( '.itmms-settings-tab[data-settings-tab]' ).forEach( function ( tab ) {
 			tab.classList.toggle( 'active', tab.getAttribute( 'data-settings-tab' ) === key );
 		} );
 		app.querySelectorAll( '[data-settings-panel]' ).forEach( function ( panel ) {
 			panel.classList.toggle( 'active', panel.getAttribute( 'data-settings-panel' ) === key );
 		} );
+		if ( 'timetable' === key && window.itmms.settings && window.itmms.settings.bindTimetableEvents ) {
+			window.itmms.settings.bindTimetableEvents( app.querySelector( '[data-settings-panel="timetable"]' ) );
+		}
+		if ( 'iqamah' === key && window.itmms.settings && window.itmms.settings.bindIqamahRuleEvents ) {
+			window.itmms.settings.bindIqamahRuleEvents( app.querySelector( '[data-settings-panel="iqamah"]' ) );
+		}
+		if ( state.activeTab === 'settings' ) {
+			var meta = pageMeta( 'settings' );
+			var title = document.getElementById( 'itmms-title' );
+			var subtitle = document.getElementById( 'itmms-subtitle' );
+			if ( title ) {
+				title.textContent = meta.title;
+			}
+			if ( subtitle ) {
+				subtitle.textContent = meta.desc;
+			}
+			app.querySelectorAll( '.itmms-nav-item[data-tab="settings"]' ).forEach( function ( item ) {
+				var itemSettings = item.getAttribute( 'data-settings-tab' );
+				var isActive = itemSettings
+					? isPrayerSettingsTab( state.settingsTab ) && ( itemSettings === state.settingsTab || itemSettings === 'timetable' )
+					: ! isPrayerSettingsTab( state.settingsTab );
+				item.classList.toggle( 'active', isActive );
+			} );
+		}
 		if ( historyMode ) {
 			syncViewUrl( historyMode );
 		}
@@ -952,31 +1336,61 @@
 	}
 
 	function switchTab( tab, historyMode ) {
-		if ( [ 'dashboard', 'announcements', 'events', 'features', 'modules', 'settings', 'docs' ].indexOf( tab ) === -1 ) {
+		if ( tab === 'khutbah' ) {
+			tab = 'minbar';
+		}
+		if ( [ 'welcome', 'dashboard', 'announcements', 'events', 'minbar', 'features', 'modules', 'settings', 'docs' ].indexOf( tab ) === -1 ) {
 			tab = 'dashboard';
 		}
 		state.activeTab = tab;
-		app.querySelectorAll( '.itmms-nav-item' ).forEach( function ( item ) {
-			item.classList.toggle( 'active', item.getAttribute( 'data-tab' ) === tab );
+		var shell = app.querySelector( '.itmms-shell' );
+		if ( shell ) {
+			shell.classList.toggle( 'itmms-shell--welcome', tab === 'welcome' );
+		}
+		app.querySelectorAll( '.itmms-nav-item[data-tab]' ).forEach( function ( item ) {
+			var itemTab = item.getAttribute( 'data-tab' );
+			var itemMinbar = item.getAttribute( 'data-minbar-tab' );
+			var itemSettings = item.getAttribute( 'data-settings-tab' );
+			var isActive = false;
+
+			if ( itemTab !== tab ) {
+				item.classList.toggle( 'active', false );
+				return;
+			}
+
+			if ( tab === 'minbar' ) {
+				isActive = ( itemMinbar || 'dashboard' ) === ( state.minbarTab || 'dashboard' );
+			} else if ( tab === 'settings' ) {
+				if ( itemSettings ) {
+					isActive = isPrayerSettingsTab( state.settingsTab ) && (
+						itemSettings === state.settingsTab ||
+						( itemSettings === 'timetable' && isPrayerSettingsTab( state.settingsTab ) )
+					);
+				} else {
+					isActive = ! isPrayerSettingsTab( state.settingsTab );
+				}
+			} else {
+				isActive = ! itemMinbar && ! itemSettings;
+			}
+
+			item.classList.toggle( 'active', isActive );
 		} );
 		app.querySelectorAll( '.itmms-tab-content' ).forEach( function ( item ) {
 			item.classList.toggle( 'active', item.id === 'itmms-tab-' + tab );
 		} );
 		var title = document.getElementById( 'itmms-title' );
+		var subtitle = document.getElementById( 'itmms-subtitle' );
+		var location = [ state.settings.city, state.settings.country ].filter( Boolean ).join( ', ' );
+		var fallbackSub = location || data.siteUrl || '';
+		var meta = pageMeta( tab );
 		if ( title ) {
-			title.textContent = {
-				dashboard: __( 'Dashboard', 'masjidos' ),
-				announcements: __( 'Notices', 'masjidos' ),
-				events: __( 'Events', 'masjidos' ),
-				features: __( 'Features', 'masjidos' ),
-				modules: __( 'Modules', 'masjidos' ),
-				settings: __( 'Settings', 'masjidos' ),
-				docs: __( 'Docs', 'masjidos' )
-			}[ tab ] || tab;
+			title.textContent = meta.title;
+		}
+		if ( subtitle ) {
+			subtitle.textContent = meta.desc || fallbackSub;
 		}
 
 		// Close sidebar on mobile after choosing a tab
-		var shell = app.querySelector( '.itmms-shell' );
 		if ( shell ) {
 			shell.classList.remove( 'sidebar-open' );
 		}
@@ -986,8 +1400,76 @@
 		}
 	}
 
+	function pageMeta( tab ) {
+		var minbar = {
+			dashboard: {
+				title: __( 'Minbar', 'masjidos' ),
+				desc: __( 'Plan, write, and archive Friday khutbahs — profiles, schedule, and references in one place.', 'masjidos' )
+			},
+			archive: {
+				title: __( 'Archive', 'masjidos' ),
+				desc: __( 'Search, edit, and reuse past khutbahs.', 'masjidos' )
+			},
+			planner: {
+				title: __( 'Planner', 'masjidos' ),
+				desc: __( 'Plan upcoming topics around Islamic days and seasons.', 'masjidos' )
+			},
+			references: {
+				title: __( 'References', 'masjidos' ),
+				desc: __( 'Find Qur\'an, hadith, and dua references for your sermon.', 'masjidos' )
+			},
+			builder: {
+				title: __( 'Sermon Builder', 'masjidos' ),
+				desc: __( 'Draft your khutbah outline and notes in one workspace.', 'masjidos' )
+			},
+			schedule: {
+				title: __( 'Schedule', 'masjidos' ),
+				desc: __( 'Manage khatib profiles and the Friday roster.', 'masjidos' )
+			}
+		};
+		var pages = {
+			welcome: {
+				title: __( 'Welcome', 'masjidos' ),
+				desc: __( 'Get your masjid live in a few minutes.', 'masjidos' )
+			},
+			dashboard: {
+				title: __( 'Dashboard', 'masjidos' ),
+				desc: __( 'Live overview for your masjid operations.', 'masjidos' )
+			},
+			announcements: {
+				title: __( 'Announcements', 'masjidos' ),
+				desc: __( 'Create public notices, urgent updates, and scheduled Jumuah messages.', 'masjidos' )
+			},
+			events: {
+				title: __( 'Events', 'masjidos' ),
+				desc: __( 'Schedule special lectures, community gatherings, Eid prayers, or charity events.', 'masjidos' )
+			},
+			minbar: minbar[ state.minbarTab ] || minbar.dashboard,
+			features: {
+				title: __( 'Features', 'masjidos' ),
+				desc: __( 'Browse widgets, copy shortcodes, and preview before publishing.', 'masjidos' )
+			},
+			modules: {
+				title: __( 'Modules', 'masjidos' ),
+				desc: __( 'Turn modules on only when your masjid needs them. Disabled modules stay light.', 'masjidos' )
+			},
+			settings: {
+				title: isPrayerSettingsTab( state.settingsTab ) ? __( 'Prayer Setup', 'masjidos' ) : __( 'Settings', 'masjidos' ),
+				desc: isPrayerSettingsTab( state.settingsTab )
+					? __( 'Configure calculation, timetable, offsets, and Iqamah rules.', 'masjidos' )
+					: __( 'Organized setup panels for masjid profile, prayer times, Iqamah, and Jumuah.', 'masjidos' )
+			},
+			docs: {
+				title: __( 'Docs', 'masjidos' ),
+				desc: __( 'Attribute reference, paste guides, and shortcode generators.', 'masjidos' )
+			}
+		};
+		return pages[ tab ] || { title: tab, desc: '' };
+	}
+
 	function saveSettings( payload, trigger ) {
 		var status = document.getElementById( 'itmms-save-status' );
+		var previousLanguage = ( state.settings && state.settings.ui_language ) || data.uiLanguage || 'en';
 		if ( status ) {
 			status.textContent = __( 'Saving...', 'masjidos' );
 		}
@@ -1001,11 +1483,28 @@
 		} ).then( function ( response ) {
 			state.settings = response.settings;
 			state.modules = response.modules;
-			return api( 'prayer-times/today' );
+			var nextLanguage = ( response.settings && response.settings.ui_language ) || 'en';
+			if ( nextLanguage !== previousLanguage ) {
+				return applyUiLanguage( nextLanguage ).then( function () {
+					return api( 'dashboard' );
+				} );
+			}
+			return api( 'dashboard' );
 		} ).then( function ( response ) {
+			if ( ! response ) {
+				return;
+			}
+			state.settings = response.settings || state.settings;
+			state.modules = response.modules || state.modules;
+			state.stats = response.stats || state.stats;
 			state.prayers = response.prayers || state.prayers;
 			state.nextPrayer = response.next_prayer || state.nextPrayer;
-			state.prayerMeta = response.meta || state.prayerMeta;
+			state.prayerMeta = response.prayer_meta || state.prayerMeta;
+			state.hijriDate = response.hijri_date || state.hijriDate;
+			state.trust = response.trust || state.trust;
+			state.upcomingDays = response.upcoming_days || [];
+			state.timetable = response.timetable || state.timetable;
+			state.dashboardAnnouncements = response.announcements || state.dashboardAnnouncements;
 			render();
 			switchTab( 'settings' );
 			var saved = document.getElementById( 'itmms-save-status' );
@@ -1031,15 +1530,25 @@
 			state.nextPrayer = response.next_prayer || state.nextPrayer;
 			state.prayerMeta = response.prayer_meta || state.prayerMeta;
 			state.hijriDate = response.hijri_date || state.hijriDate;
+			state.trust = response.trust || state.trust;
+			state.upcomingDays = response.upcoming_days || [];
+			state.timetable = response.timetable || state.timetable;
 			state.dashboardAnnouncements = response.announcements || [];
 			state.dashboardEvents = response.events || [];
 			return Promise.all( [
 				loadAnnouncements().catch( function () {} ),
-				loadEvents().catch( function () {} )
+				loadEvents().catch( function () {} ),
+				loadMinbarData()
 			] );
 		} ).then( function () {
+			if ( shouldForceWelcome( { activeTab: state.activeTab } ) && ! urlHasExplicitView() ) {
+				state.activeTab = 'welcome';
+			}
 			render();
 		} ).catch( function () {
+			if ( shouldForceWelcome( { activeTab: state.activeTab } ) && ! urlHasExplicitView() ) {
+				state.activeTab = 'welcome';
+			}
 			render();
 		} );
 	}
@@ -1077,11 +1586,16 @@
 	}
 
 	primeWordPressExit();
+	window.itmms.render = render;
+	window.itmms.switchTab = switchTab;
+	window.itmms.activateSettingsTab = activateSettingsTab;
 	window.addEventListener( 'popstate', function () {
 		var view = readViewState();
 		state.settingsTab = view.settingsTab;
 		state.docsTab = view.docsTab;
-		switchTab( view.activeTab );
+		state.minbarTab = view.minbarTab || 'dashboard';
+		state.activeTab = view.activeTab;
+		render();
 		activateSettingsTab( view.settingsTab );
 		activateDocsTab( view.docsTab );
 	} );

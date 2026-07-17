@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MasjidOS — Khatib Tools Visual Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:        #1A6B5A;
+  --teal-l:      #22876F;
+  --teal-d:      #134E42;
+  --gold:        #C9A84C;
+  --gold-l:      #E2C06A;
+  --gold-bg:     rgba(201,168,76,0.10);
+  --sidebar:     #0F1923;
+  --bg:          #F7F8FA;
+  --surface:     #FFFFFF;
+  --surface-2:   #F0F2F5;
+  --border:      #E4E7EC;
+  --text:        #0F1923;
+  --text-2:      #4B5563;
+  --text-3:      #9CA3AF;
+  --green:       #16A34A;
+  --green-bg:    #DCFCE7;
+  --amber:       #D97706;
+  --amber-bg:    #FEF3C7;
+  --red:         #DC2626;
+  --red-bg:      #FEE2E2;
+  --purple:      #7C3AED;
+  --purple-bg:   rgba(124,58,237,0.08);
+  --r-sm:        6px;
+  --r-md:        10px;
+  --r-lg:        14px;
+  --shadow:      0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#1a1a2e;display:flex;flex-direction:column;align-items:center;padding:24px;gap:20px;min-height:100vh;}
+
+/* Browser shell */
+.browser{width:100%;max-width:1300px;border-radius:12px;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,0.5);}
+.browser-bar{background:#2d2d2d;padding:10px 16px;display:flex;align-items:center;gap:12px;}
+.dots{display:flex;gap:6px;}
+.dot{width:12px;height:12px;border-radius:50%;}
+.dot.r{background:#FF5F57;}.dot.y{background:#FEBC2E;}.dot.g{background:#28C840;}
+.url{flex:1;background:#3d3d3d;border-radius:6px;padding:5px 14px;font-size:12px;color:#ccc;font-family:monospace;max-width:500px;margin:0 auto;}
+
+/* App shell */
+.app{display:flex;height:720px;background:var(--bg);}
+
+/* Sidebar */
+.sidebar{width:220px;background:var(--sidebar);display:flex;flex-direction:column;flex-shrink:0;}
+.sb-logo{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px;}
+.sb-logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--gold));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.sb-logo-text strong{display:block;color:#fff;font-size:13px;font-weight:700;}
+.sb-logo-text span{color:#94A3B8;font-size:10px;}
+.sb-section{padding:16px 10px 6px;}
+.sb-label{font-size:10px;font-weight:600;color:rgba(148,163,184,0.5);letter-spacing:1px;text-transform:uppercase;padding:0 10px 6px;}
+.sb-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;color:#94A3B8;font-size:12px;font-weight:500;cursor:pointer;margin-bottom:2px;position:relative;}
+.sb-item:hover{background:rgba(255,255,255,0.05);color:#fff;}
+.sb-item.active{background:rgba(26,107,90,0.25);color:#fff;}
+.sb-item.active::before{content:'';position:absolute;left:0;top:25%;bottom:25%;width:3px;background:var(--gold);border-radius:0 3px 3px 0;}
+.sb-icon{font-size:14px;opacity:0.7;width:18px;text-align:center;}
+.sb-item.active .sb-icon{opacity:1;}
+.sb-badge{margin-left:auto;background:var(--gold);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:99px;}
+.sb-footer{margin-top:auto;padding:12px 10px;border-top:1px solid rgba(255,255,255,0.06);}
+.sb-user{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:8px;cursor:pointer;}
+.sb-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--gold));display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:600;}
+
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);height:52px;padding:0 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.topbar-title{font-size:16px;font-weight:700;letter-spacing:-0.3px;}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:var(--r-md);font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:inherit;}
+.btn-primary{background:var(--teal);color:#fff;}
+.btn-outline{background:transparent;color:var(--teal);border:1.5px solid var(--teal);}
+.btn-ghost{background:var(--surface-2);color:var(--text-2);border:1px solid var(--border);}
+.icon-btn{width:32px;height:32px;border:1px solid var(--border);background:var(--surface);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;}
+
+.page{flex:1;overflow-y:auto;padding:20px;}
+.page::-webkit-scrollbar{width:4px;}
+.page::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;background:var(--surface-2);padding:3px;border-radius:var(--r-md);width:fit-content;margin-bottom:20px;}
+.tab{padding:5px 16px;border-radius:var(--r-sm);font-size:12px;font-weight:500;cursor:pointer;color:var(--text-2);border:none;background:none;font-family:inherit;transition:all 150ms;}
+.tab.active{background:var(--surface);color:var(--text);font-weight:600;box-shadow:var(--shadow);}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;position:relative;overflow:hidden;}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r-lg) var(--r-lg) 0 0;}
+.stat.t::before{background:linear-gradient(90deg,var(--teal),var(--teal-l));}
+.stat.g::before{background:linear-gradient(90deg,#16A34A,#4ADE80);}
+.stat.a::before{background:linear-gradient(90deg,var(--amber),#FCD34D);}
+.stat.p::before{background:linear-gradient(90deg,var(--purple),#A78BFA);}
+.stat-icon{font-size:20px;margin-bottom:10px;}
+.stat-val{font-size:22px;font-weight:800;letter-spacing:-0.5px;line-height:1;margin-bottom:4px;}
+.stat-lbl{font-size:11px;color:var(--text-2);}
+.stat-change{margin-top:8px;font-size:10px;font-weight:600;color:var(--green);}
+
+/* Content grid */
+.grid-2{display:grid;grid-template-columns:1fr 320px;gap:16px;}
+
+/* Card */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px;}
+.card-head{padding:16px 16px 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.card-title{font-size:13px;font-weight:700;}
+.card-action{font-size:11px;color:var(--teal);font-weight:500;cursor:pointer;}
+.card-body{padding:0 16px 16px;}
+
+/* Khutbah list */
+.khutbah-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.khutbah-item:last-child{border-bottom:none;padding-bottom:0;}
+.kh-date{width:44px;height:48px;background:linear-gradient(135deg,var(--teal),var(--teal-l));border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;flex-shrink:0;}
+.kh-date .day{font-size:18px;font-weight:800;line-height:1;}
+.kh-date .mon{font-size:8px;font-weight:600;opacity:0.85;text-transform:uppercase;letter-spacing:0.5px;}
+.kh-info{flex:1;}
+.kh-title{font-size:12px;font-weight:600;margin-bottom:3px;}
+.kh-meta{font-size:10px;color:var(--text-3);display:flex;gap:10px;}
+.kh-tags{margin-top:5px;display:flex;gap:5px;}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:99px;}
+.tag-teal{background:rgba(26,107,90,0.10);color:var(--teal);}
+.tag-gold{background:var(--gold-bg);color:#92680D;}
+.tag-purple{background:var(--purple-bg);color:var(--purple);}
+.tag-gray{background:var(--surface-2);color:var(--text-2);}
+.kh-actions{display:flex;gap:6px;margin-left:auto;}
+.kh-btn{font-size:10px;padding:4px 8px;border-radius:5px;border:1px solid var(--border);background:transparent;cursor:pointer;color:var(--text-2);}
+
+/* Planner */
+.planner-week{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;}
+.week-day{background:var(--surface-2);border-radius:8px;padding:10px 8px;text-align:center;border:1px solid var(--border);}
+.week-day.current{background:linear-gradient(135deg,rgba(26,107,90,0.08),rgba(201,168,76,0.06));border-color:rgba(26,107,90,0.25);}
+.week-day.has-topic{border-color:var(--teal);}
+.wd-name{font-size:9px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
+.wd-date{font-size:16px;font-weight:800;margin-bottom:6px;color:var(--text);}
+.week-day.current .wd-date{color:var(--teal);}
+.wd-topic{font-size:9px;color:var(--text-2);font-weight:500;line-height:1.3;}
+.wd-empty{font-size:9px;color:var(--text-3);font-style:italic;}
+
+/* Upcoming Islamic dates */
+.islamic-event{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.islamic-event:last-child{border-bottom:none;}
+.ie-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.ie-info{flex:1;}
+.ie-name{font-size:11px;font-weight:600;}
+.ie-date{font-size:10px;color:var(--text-3);}
+.ie-days{font-size:10px;font-weight:700;color:var(--teal);}
+
+/* Reference search */
+.search-bar{display:flex;gap:8px;margin-bottom:14px;}
+.search-input{flex:1;border:1.5px solid var(--border);border-radius:var(--r-md);padding:8px 12px;font-size:12px;font-family:inherit;color:var(--text);outline:none;}
+.search-input:focus{border-color:var(--teal);}
+.search-select{border:1.5px solid var(--border);border-radius:var(--r-md);padding:8px 10px;font-size:12px;font-family:inherit;color:var(--text);background:var(--surface);outline:none;}
+
+.ref-item{background:var(--surface-2);border-radius:var(--r-md);padding:12px;margin-bottom:8px;border-left:3px solid var(--teal);}
+.ref-item.hadith{border-left-color:var(--gold);}
+.ref-arabic{font-family:'Amiri',serif;font-size:18px;direction:rtl;text-align:right;color:var(--text);line-height:1.8;margin-bottom:6px;}
+.ref-bangla{font-size:11px;color:var(--text-2);line-height:1.6;margin-bottom:6px;}
+.ref-source{font-size:10px;color:var(--text-3);display:flex;justify-content:space-between;align-items:center;}
+.ref-copy{font-size:10px;color:var(--teal);font-weight:600;cursor:pointer;border:none;background:none;font-family:inherit;}
+
+/* Sermon builder */
+.sermon-section{border:1.5px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:10px;}
+.sermon-section.intro{border-color:rgba(26,107,90,0.3);background:rgba(26,107,90,0.03);}
+.sermon-section.main1{border-color:rgba(37,99,235,0.25);background:rgba(37,99,235,0.02);}
+.sermon-section.main2{border-color:rgba(124,58,237,0.25);background:rgba(124,58,237,0.02);}
+.sermon-section.conc{border-color:rgba(201,168,76,0.35);background:rgba(201,168,76,0.04);}
+.ss-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.ss-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.ss-title{font-size:12px;font-weight:600;flex:1;}
+.ss-badge{font-size:9px;font-weight:600;padding:2px 6px;border-radius:99px;}
+.ss-content{font-size:11px;color:var(--text-2);line-height:1.6;font-style:italic;}
+.ss-refs{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap;}
+.ss-ref-tag{font-size:9px;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--text-3);}
+
+/* Khatib schedule */
+.schedule-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);gap:12px;}
+.schedule-row:last-child{border-bottom:none;}
+.sch-date{width:50px;font-size:10px;color:var(--text-3);font-weight:600;}
+.sch-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.sch-info{flex:1;}
+.sch-name{font-size:11px;font-weight:600;}
+.sch-topic{font-size:10px;color:var(--text-3);}
+.sch-status{font-size:9px;font-weight:600;padding:2px 7px;border-radius:99px;}
+.status-confirmed{background:var(--green-bg);color:var(--green);}
+.status-guest{background:var(--amber-bg);color:var(--amber);}
+.status-pending{background:var(--surface-2);color:var(--text-3);}
+
+/* Word count bar */
+.wc-bar{background:var(--surface-2);border-radius:var(--r-md);padding:10px 12px;display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.wc-label{font-size:11px;color:var(--text-2);}
+.wc-track{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden;}
+.wc-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-l));border-radius:99px;}
+.wc-count{font-size:11px;font-weight:700;color:var(--teal);}
+.wc-time{font-size:10px;color:var(--text-3);}
+
+/* Tabs content */
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* Greeting */
+.greeting{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
+.greeting-text h2{font-size:20px;font-weight:800;letter-spacing:-0.3px;margin-bottom:2px;}
+.greeting-text p{font-size:12px;color:var(--text-2);}
+.greeting-arabic{text-align:right;}
+.arabic-text{font-family:'Amiri',serif;font-size:20px;color:var(--gold);}
+.hijri{font-size:10px;color:var(--text-3);margin-top:2px;}
+
+/* Upcoming alert */
+.alert{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(26,107,90,0.08),rgba(201,168,76,0.06));border:1px solid rgba(26,107,90,0.2);border-radius:var(--r-lg);padding:12px 16px;margin-bottom:16px;}
+.alert-icon{font-size:20px;}
+.alert-text strong{display:block;font-size:12px;font-weight:600;color:var(--teal);}
+.alert-text span{font-size:11px;color:var(--text-2);}
+.alert-btn{margin-left:auto;font-size:11px;padding:5px 12px;background:var(--teal);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:600;}
+
+/* AI badge */
+.ai-badge{display:inline-flex;align-items:center;gap:5px;background:var(--purple-bg);color:var(--purple);font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;border:1px solid rgba(124,58,237,0.2);}
+
+/* Scrollbar */
+.app::-webkit-scrollbar{display:none;}
+</style>
+</head>
+<body>
+
+<!-- Label -->
+<div style="color:#94A3B8;font-size:13px;font-family:'Inter',sans-serif;letter-spacing:0.5px;">
+  🕌 MasjidOS — Khatib Tools Visual Preview
+</div>
+
+<!-- Browser -->
+<div class="browser">
+  <div class="browser-bar">
+    <div class="dots">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    </div>
+    <div class="url">masjidalnoor.com/wp-admin/admin.php?page=masjidos-khatib</div>
+  </div>
+
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sb-logo">
+        <div class="sb-logo-icon">🕌</div>
+        <div class="sb-logo-text">
+          <strong>MasjidOS</strong>
+          <span>v1.0 · Admin</span>
+        </div>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Overview</div>
+        <div class="sb-item"><span class="sb-icon">⊞</span> Dashboard</div>
+        <div class="sb-item"><span class="sb-icon">🕐</span> Prayer Times</div>
+        <div class="sb-item"><span class="sb-icon">📢</span> Announcements</div>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Khatib Tools</div>
+        <div class="sb-item active"><span class="sb-icon">🎙️</span> Dashboard</div>
+        <div class="sb-item"><span class="sb-icon">📖</span> Archive <span class="sb-badge">48</span></div>
+        <div class="sb-item"><span class="sb-icon">📅</span> Planner</div>
+        <div class="sb-item"><span class="sb-icon">📚</span> References</div>
+        <div class="sb-item"><span class="sb-icon">✍️</span> Sermon Builder</div>
+        <div class="sb-item"><span class="sb-icon">👤</span> Schedule</div>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Management</div>
+        <div class="sb-item"><span class="sb-icon">📅</span> Events</div>
+        <div class="sb-item"><span class="sb-icon">💰</span> Donations</div>
+        <div class="sb-item"><span class="sb-icon">👥</span> Members</div>
+      </div>
+
+      <div class="sb-footer">
+        <div class="sb-user">
+          <div class="sb-avatar">IA</div>
+          <div>
+            <strong style="display:block;font-size:11px;color:#fff;">ইমাম আহমদ</strong>
+            <span style="font-size:10px;color:#94A3B8;">Khatib</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+      <div class="topbar">
+        <div class="topbar-title">🎙️ Khatib Tools</div>
+        <div class="topbar-right">
+          <div class="ai-badge">✨ AI Assistant</div>
+          <div class="icon-btn">🔔</div>
+          <button class="btn btn-primary">+ নতুন খুতবা</button>
+        </div>
+      </div>
+
+      <div class="page">
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('dashboard',this)">Dashboard</button>
+          <button class="tab" onclick="showTab('archive',this)">Archive</button>
+          <button class="tab" onclick="showTab('planner',this)">Planner</button>
+          <button class="tab" onclick="showTab('reference',this)">References</button>
+          <button class="tab" onclick="showTab('builder',this)">Sermon Builder</button>
+          <button class="tab" onclick="showTab('schedule',this)">Schedule</button>
+        </div>
+
+        <!-- DASHBOARD TAB -->
+        <div class="tab-content active" id="tab-dashboard">
+
+          <div class="greeting">
+            <div class="greeting-text">
+              <h2>আস-সালামু আলাইকুম 👋</h2>
+              <p>ইমাম আহমদ · জুমাতুল মোবারক — আজ আপনার খুতবা</p>
+            </div>
+            <div class="greeting-arabic">
+              <div class="arabic-text">بِسْمِ اللَّهِ</div>
+              <div class="hijri">১৭ যিলহজ্জ, ১৪৪৭</div>
+            </div>
+          </div>
+
+          <!-- Alert -->
+          <div class="alert">
+            <div class="alert-icon">🌙</div>
+            <div class="alert-text">
+              <strong>শবে বরাত আর ১৮ দিন বাকি</strong>
+              <span>এই বিষয়ে একটি খুতবা পরিকল্পনা করুন — Planner খুলুন</span>
+            </div>
+            <button class="alert-btn">Planner খুলুন</button>
+          </div>
+
+          <!-- Stats -->
+          <div class="stats">
+            <div class="stat t">
+              <div class="stat-icon">📖</div>
+              <div class="stat-val">48</div>
+              <div class="stat-lbl">মোট খুতবা</div>
+              <div class="stat-change">↑ ৩টি এই মাসে</div>
+            </div>
+            <div class="stat g">
+              <div class="stat-icon">✅</div>
+              <div class="stat-val">১২</div>
+              <div class="stat-lbl">Planned খুতবা</div>
+              <div class="stat-change">পরবর্তী ৩ মাস</div>
+            </div>
+            <div class="stat a">
+              <div class="stat-icon">📚</div>
+              <div class="stat-val">২৩৬</div>
+              <div class="stat-lbl">Saved References</div>
+              <div class="stat-change">Quran + Hadith</div>
+            </div>
+            <div class="stat p">
+              <div class="stat-icon">👤</div>
+              <div class="stat-val">৪</div>
+              <div class="stat-lbl">Active Khatibs</div>
+              <div class="stat-change">এই মসজিদে</div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <!-- Left -->
+            <div>
+              <!-- Recent Khutbahs -->
+              <div class="card">
+                <div class="card-head">
+                  <div class="card-title">সাম্প্রতিক খুতবা</div>
+                  <div class="card-action">সব দেখুন →</div>
+                </div>
+                <div class="card-body">
+                  <div class="khutbah-item">
+                    <div class="kh-date"><div class="day">১৩</div><div class="mon">Jun</div></div>
+                    <div class="kh-info">
+                      <div class="kh-title">সবরের ফজিলত ও আধুনিক জীবনে এর প্রয়োগ</div>
+                      <div class="kh-meta"><span>🎙️ ইমাম আহমদ</span><span>⏱ ২৮ মিনিট</span></div>
+                      <div class="kh-tags">
+                        <span class="tag tag-teal">Akhlaq</span>
+                        <span class="tag tag-gold">🔊 Audio</span>
+                      </div>
+                    </div>
+                    <div class="kh-actions">
+                      <button class="kh-btn">✏️</button>
+                      <button class="kh-btn">👁️</button>
+                    </div>
+                  </div>
+                  <div class="khutbah-item">
+                    <div class="kh-date"><div class="day">০৬</div><div class="mon">Jun</div></div>
+                    <div class="kh-info">
+                      <div class="kh-title">সীরাতুন্নবী ﷺ — আমাদের জীবনের আলোকবর্তিকা</div>
+                      <div class="kh-meta"><span>🎙️ মাওলানা রহিম</span><span>⏱ ৩২ মিনিট</span></div>
+                      <div class="kh-tags">
+                        <span class="tag tag-purple">Seerah</span>
+                        <span class="tag tag-gray">PDF</span>
+                      </div>
+                    </div>
+                    <div class="kh-actions">
+                      <button class="kh-btn">✏️</button>
+                      <button class="kh-btn">👁️</button>
+                    </div>
+                  </div>
+                  <div class="khutbah-item">
+                    <div class="kh-date"><div class="day">৩০</div><div class="mon">May</div></div>
+                    <div class="kh-info">
+                      <div class="kh-title">পরিবার গঠনে ইসলামের নির্দেশনা</div>
+                      <div class="kh-meta"><span>🎙️ ইমাম আহমদ</span><span>⏱ ২৫ মিনিট</span></div>
+                      <div class="kh-tags">
+                        <span class="tag tag-teal">Fiqh</span>
+                        <span class="tag tag-gold">🔊 Audio</span>
+                        <span class="tag tag-gray">PDF</span>
+                      </div>
+                    </div>
+                    <div class="kh-actions">
+                      <button class="kh-btn">✏️</button>
+                      <button class="kh-btn">👁️</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- This week planner preview -->
+              <div class="card">
+                <div class="card-head">
+                  <div class="card-title">এই সপ্তাহের পরিকল্পনা</div>
+                  <div class="card-action">Planner →</div>
+                </div>
+                <div class="card-body">
+                  <div class="planner-week">
+                    <div class="week-day">
+                      <div class="wd-name">রবি</div>
+                      <div class="wd-date">১৫</div>
+                      <div class="wd-empty">—</div>
+                    </div>
+                    <div class="week-day">
+                      <div class="wd-name">সোম</div>
+                      <div class="wd-date">১৬</div>
+                      <div class="wd-empty">—</div>
+                    </div>
+                    <div class="week-day">
+                      <div class="wd-name">মঙ্গল</div>
+                      <div class="wd-date">১৭</div>
+                      <div class="wd-empty">—</div>
+                    </div>
+                    <div class="week-day">
+                      <div class="wd-name">বুধ</div>
+                      <div class="wd-date">১৮</div>
+                      <div class="wd-empty">—</div>
+                    </div>
+                    <div class="week-day current has-topic">
+                      <div class="wd-name">শুক্র</div>
+                      <div class="wd-date" style="color:var(--teal)">২০</div>
+                      <div class="wd-topic">তাওয়াক্কুলের গুরুত্ব</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right -->
+            <div>
+              <!-- Upcoming Islamic events -->
+              <div class="card">
+                <div class="card-head">
+                  <div class="card-title">আসন্ন ইসলামিক দিবস</div>
+                  <div class="card-action">Calendar →</div>
+                </div>
+                <div class="card-body">
+                  <div class="islamic-event">
+                    <div class="ie-dot" style="background:var(--gold)"></div>
+                    <div class="ie-info">
+                      <div class="ie-name">শবে বরাত</div>
+                      <div class="ie-date">১৪ শাবান · ১৩ ফেব্রুয়ারি</div>
+                    </div>
+                    <div class="ie-days">১৮ দিন</div>
+                  </div>
+                  <div class="islamic-event">
+                    <div class="ie-dot" style="background:var(--teal)"></div>
+                    <div class="ie-info">
+                      <div class="ie-name">রমজান শুরু</div>
+                      <div class="ie-date">১ রমজান · ১ মার্চ</div>
+                    </div>
+                    <div class="ie-days">৩৪ দিন</div>
+                  </div>
+                  <div class="islamic-event">
+                    <div class="ie-dot" style="background:var(--purple)"></div>
+                    <div class="ie-info">
+                      <div class="ie-name">লাইলাতুল কদর</div>
+                      <div class="ie-date">২৭ রমজান · ২৭ মার্চ</div>
+                    </div>
+                    <div class="ie-days">৬০ দিন</div>
+                  </div>
+                  <div class="islamic-event">
+                    <div class="ie-dot" style="background:var(--green)"></div>
+                    <div class="ie-info">
+                      <div class="ie-name">ঈদুল ফিতর</div>
+                      <div class="ie-date">১ শাওয়াল · ৩০ মার্চ</div>
+                    </div>
+                    <div class="ie-days">৬৩ দিন</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Khatib schedule preview -->
+              <div class="card">
+                <div class="card-head">
+                  <div class="card-title">Schedule — আসন্ন জুমা</div>
+                  <div class="card-action">সব →</div>
+                </div>
+                <div class="card-body">
+                  <div class="schedule-row">
+                    <div class="sch-date">২০ Jun</div>
+                    <div class="sch-avatar" style="background:linear-gradient(135deg,var(--teal),var(--teal-l))">IA</div>
+                    <div class="sch-info">
+                      <div class="sch-name">ইমাম আহমদ</div>
+                      <div class="sch-topic">তাওয়াক্কুলের গুরুত্ব</div>
+                    </div>
+                    <span class="sch-status status-confirmed">Confirmed</span>
+                  </div>
+                  <div class="schedule-row">
+                    <div class="sch-date">২৭ Jun</div>
+                    <div class="sch-avatar" style="background:linear-gradient(135deg,#7C3AED,#A78BFA)">MR</div>
+                    <div class="sch-info">
+                      <div class="sch-name">মাওলানা রহিম</div>
+                      <div class="sch-topic">—</div>
+                    </div>
+                    <span class="sch-status status-pending">Pending</span>
+                  </div>
+                  <div class="schedule-row">
+                    <div class="sch-date">০৪ Jul</div>
+                    <div class="sch-avatar" style="background:linear-gradient(135deg,var(--amber),#FCD34D)">GK</div>
+                    <div class="sch-info">
+                      <div class="sch-name">Dr. করিম (Guest)</div>
+                      <div class="sch-topic">পারিবারিক মূল্যবোধ</div>
+                    </div>
+                    <span class="sch-status status-guest">Guest</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- REFERENCE TAB -->
+        <div class="tab-content" id="tab-reference">
+          <div style="margin-bottom:16px;">
+            <div style="font-size:18px;font-weight:800;margin-bottom:4px;">📚 Reference Library</div>
+            <div style="font-size:12px;color:var(--text-2);">Quran ও Hadith reference খুঁজুন — খুতবায় সরাসরি ব্যবহার করুন</div>
+          </div>
+          <div class="search-bar">
+            <input class="search-input" type="text" value="সবর" placeholder="বিষয় লিখুন...">
+            <select class="search-select">
+              <option>Quran + Hadith</option>
+              <option>শুধু Quran</option>
+              <option>শুধু Hadith</option>
+            </select>
+            <button class="btn btn-primary">🔍 খুঁজুন</button>
+          </div>
+          <div style="font-size:11px;color:var(--text-3);margin-bottom:12px;">৮টি ফলাফল পাওয়া গেছে "সবর" বিষয়ে</div>
+
+          <div class="ref-item">
+            <div class="ref-arabic">وَبَشِّرِ الصَّابِرِينَ</div>
+            <div class="ref-bangla">আর সবরকারীদের সুসংবাদ দিন — যারা বিপদে পড়লে বলে, "আমরা তো আল্লাহরই এবং আমরা তাঁরই দিকে ফিরে যাব।"</div>
+            <div class="ref-source">
+              <span>📖 সূরা বাকারা: ১৫৫-১৫৭</span>
+              <button class="ref-copy">📋 Copy</button>
+            </div>
+          </div>
+
+          <div class="ref-item">
+            <div class="ref-arabic">إِنَّ اللَّهَ مَعَ الصَّابِرِينَ</div>
+            <div class="ref-bangla">নিশ্চয়ই আল্লাহ ধৈর্যশীলদের সাথে আছেন।</div>
+            <div class="ref-source">
+              <span>📖 সূরা বাকারা: ১৫৩</span>
+              <button class="ref-copy">📋 Copy</button>
+            </div>
+          </div>
+
+          <div class="ref-item hadith">
+            <div class="ref-arabic" style="font-size:15px;">مَا أُعْطِيَ أَحَدٌ عَطَاءً خَيْرًا وَأَوْسَعَ مِنَ الصَّبْرِ</div>
+            <div class="ref-bangla">কাউকে সবরের চেয়ে উত্তম ও প্রশস্ত কোনো দান দেওয়া হয়নি।</div>
+            <div class="ref-source">
+              <span>📗 সহিহ বুখারি: ১৪৬৯ · সনদ: সহিহ</span>
+              <button class="ref-copy">📋 Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BUILDER TAB -->
+        <div class="tab-content" id="tab-builder">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <div>
+              <div style="font-size:18px;font-weight:800;margin-bottom:2px;">✍️ Sermon Builder</div>
+              <div style="font-size:12px;color:var(--text-2);">তাওয়াক্কুলের গুরুত্ব — ২০ জুন ২০২৬</div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-ghost">🖨️ Print</button>
+              <button class="btn btn-outline">💾 Save</button>
+              <button class="btn btn-primary">✅ Publish</button>
+            </div>
+          </div>
+
+          <!-- Word count -->
+          <div class="wc-bar">
+            <span class="wc-label">অগ্রগতি:</span>
+            <div class="wc-track"><div class="wc-fill" style="width:65%"></div></div>
+            <span class="wc-count">৬৫০ শব্দ</span>
+            <span class="wc-time">≈ ১৩ মিনিট</span>
+          </div>
+
+          <!-- Sermon sections -->
+          <div class="sermon-section intro">
+            <div class="ss-header">
+              <div class="ss-num" style="background:var(--teal)">১</div>
+              <div class="ss-title">ভূমিকা — হামদ ও নাত</div>
+              <span class="ss-badge tag tag-teal">Intro</span>
+            </div>
+            <div class="ss-content">আলহামদুলিল্লাহি রাব্বিল আলামিন... আজকের খুতবায় আমরা তাওয়াক্কুল বা আল্লাহর উপর পূর্ণ নির্ভরতার বিষয়ে আলোচনা করব।</div>
+          </div>
+
+          <div class="sermon-section main1">
+            <div class="ss-header">
+              <div class="ss-num" style="background:#2563EB">২</div>
+              <div class="ss-title">মূল বিষয় ১ — তাওয়াক্কুলের সংজ্ঞা ও গুরুত্ব</div>
+              <span class="ss-badge" style="background:rgba(37,99,235,0.1);color:#2563EB;font-size:9px;padding:2px 6px;border-radius:99px;font-weight:600;">Point 1</span>
+            </div>
+            <div class="ss-content">তাওয়াক্কুল মানে শুধু বসে থাকা নয়, বরং সর্বোচ্চ চেষ্টার পর ফলাফল আল্লাহর উপর ছেড়ে দেওয়া...</div>
+            <div class="ss-refs">
+              <span class="ss-ref-tag">📖 আল-ইমরান: ১৫৯</span>
+              <span class="ss-ref-tag">📗 তিরমিজি: ২৫১৭</span>
+            </div>
+          </div>
+
+          <div class="sermon-section main2">
+            <div class="ss-header">
+              <div class="ss-num" style="background:var(--purple)">৩</div>
+              <div class="ss-title">মূল বিষয় ২ — আধুনিক জীবনে প্রয়োগ</div>
+              <span class="ss-badge" style="background:var(--purple-bg);color:var(--purple);font-size:9px;padding:2px 6px;border-radius:99px;font-weight:600;">Point 2</span>
+            </div>
+            <div class="ss-content">ব্যবসায় ক্ষতি, পরীক্ষায় ফেল, চাকরি হারানো — এই সব পরিস্থিতিতে তাওয়াক্কুল আমাদের মানসিক শান্তি দেয়...</div>
+            <div class="ss-refs">
+              <span class="ss-ref-tag">📖 তালাক: ৩</span>
+            </div>
+          </div>
+
+          <div class="sermon-section conc">
+            <div class="ss-header">
+              <div class="ss-num" style="background:var(--gold)">৪</div>
+              <div class="ss-title">উপসংহার ও দোয়া</div>
+              <span class="ss-badge tag tag-gold">Conclusion</span>
+            </div>
+            <div class="ss-content">আল্লাহ আমাদের সকলকে সত্যিকারের তাওয়াক্কুলকারী হওয়ার তাওফিক দান করুন। আমিন।</div>
+          </div>
+        </div>
+
+        <!-- SCHEDULE TAB -->
+        <div class="tab-content" id="tab-schedule">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <div>
+              <div style="font-size:18px;font-weight:800;margin-bottom:2px;">👤 Khatib Schedule</div>
+              <div style="font-size:12px;color:var(--text-2);">জুন — জুলাই ২০২৬</div>
+            </div>
+            <button class="btn btn-primary">+ Schedule যোগ করুন</button>
+          </div>
+          <div class="card">
+            <div class="card-body" style="padding:16px;">
+              <div class="schedule-row">
+                <div class="sch-date">২০ Jun</div>
+                <div class="sch-avatar" style="background:linear-gradient(135deg,var(--teal),var(--teal-l))">IA</div>
+                <div class="sch-info">
+                  <div class="sch-name">ইমাম আহমদ</div>
+                  <div class="sch-topic">তাওয়াক্কুলের গুরুত্ব</div>
+                </div>
+                <span class="sch-status status-confirmed">Confirmed</span>
+                <button class="kh-btn" style="margin-left:8px;">✏️</button>
+              </div>
+              <div class="schedule-row">
+                <div class="sch-date">২৭ Jun</div>
+                <div class="sch-avatar" style="background:linear-gradient(135deg,#7C3AED,#A78BFA)">MR</div>
+                <div class="sch-info">
+                  <div class="sch-name">মাওলানা রহিম</div>
+                  <div class="sch-topic">বিষয় নির্ধারণ হয়নি</div>
+                </div>
+                <span class="sch-status status-pending">Pending</span>
+                <button class="kh-btn" style="margin-left:8px;">✏️</button>
+              </div>
+              <div class="schedule-row">
+                <div class="sch-date">০৪ Jul</div>
+                <div class="sch-avatar" style="background:linear-gradient(135deg,var(--amber),#FCD34D)">GK</div>
+                <div class="sch-info">
+                  <div class="sch-name">Dr. আব্দুল করিম (Guest)</div>
+                  <div class="sch-topic">পারিবারিক মূল্যবোধ ও ইসলাম</div>
+                </div>
+                <span class="sch-status status-guest">Guest</span>
+                <button class="kh-btn" style="margin-left:8px;">✏️</button>
+              </div>
+              <div class="schedule-row">
+                <div class="sch-date">১১ Jul</div>
+                <div class="sch-avatar" style="background:linear-gradient(135deg,var(--teal),var(--teal-l))">IA</div>
+                <div class="sch-info">
+                  <div class="sch-name">ইমাম আহমদ</div>
+                  <div class="sch-topic">—</div>
+                </div>
+                <span class="sch-status status-pending">Pending</span>
+                <button class="kh-btn" style="margin-left:8px;">✏️</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end page -->
+    </div><!-- end main -->
+  </div><!-- end app -->
+</div><!-- end browser -->
+
+<div style="color:#64748B;font-size:11px;font-family:'Inter',sans-serif;text-align:center;">
+  MasjidOS Khatib Tools — Interactive Preview · Click tabs to explore
+</div>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  const el = document.getElementById('tab-' + id);
+  if (el) el.classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

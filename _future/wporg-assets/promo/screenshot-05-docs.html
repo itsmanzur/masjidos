@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8" />
+<title>MasjidOS Screenshot 5</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 800px; overflow: hidden;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: #f4f1ea; color: #111827;
+  }
+  .frame {
+    width: 1280px; height: 800px; position: relative;
+    background:
+      radial-gradient(ellipse 50% 40% at 85% 15%, rgba(201,168,76,0.12), transparent 60%),
+      radial-gradient(ellipse 40% 50% at 10% 90%, rgba(26,107,90,0.08), transparent 55%),
+      #f4f1ea;
+  }
+  .frame::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(17,24,39,0.07) 1px, transparent 1px);
+    background-size: 18px 18px; pointer-events: none;
+  }
+  .inner {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 420px 1fr; gap: 36px;
+    height: 100%; padding: 56px 52px 56px 60px; align-items: center;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .mark {
+    width: 40px; height: 40px; border-radius: 10px; background: #134e42;
+    display: grid; place-items: center;
+  }
+  .mark svg { width: 22px; height: 22px; }
+  .brand-name { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: #134e42; }
+  .brand-name span { color: #c9a84c; }
+  .eyebrow {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    color: #c9a84c; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .eyebrow i { display: block; width: 28px; height: 2px; background: #c9a84c; }
+  h1 {
+    font-size: 52px; line-height: 1.05; font-weight: 800;
+    letter-spacing: -0.035em; color: #134e42; margin-bottom: 16px;
+  }
+  h1 em { font-style: normal; color: #c9a84c; }
+  .sub { font-size: 17px; line-height: 1.5; color: #667085; max-width: 34ch; font-weight: 500; }
+  .card {
+    background: #fff; border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(15, 61, 52, 0.14);
+    border: 1px solid rgba(26,107,90,0.08);
+    overflow: hidden; min-height: 500px;
+  }
+
+  .card { padding:22px; }
+  .tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .tabs span { padding:7px 12px; border-radius:999px; background:#f2f4f7; font-size:12px; font-weight:700; color:#667085; }
+  .tabs .on { background:#1a6b5a; color:#fff; }
+  .sec { font-size:16px; font-weight:800; color:#134e42; margin-bottom:10px; }
+  .steps { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .step { padding:14px; border-radius:12px; border:1px solid #e4e7ec; background:#fafbfc; }
+  .step b { display:block; color:#134e42; font-size:13px; margin-bottom:4px; }
+  .step span { font-size:12px; color:#667085; line-height:1.4; }
+</style></head>
+<body><div class="frame"><div class="inner">
+  <div class="copy">
+    <div class="brand">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8"><path d="M4 20h16M6 20V10l6-5 6 5v10M10 20v-5h4v5"/></svg></div>
+      <div class="brand-name">Masjid<span>OS</span></div>
+    </div>
+    <div class="eyebrow"><i></i>05 · DOCS</div>
+    <h1>Help for<br><em>Everyone</em></h1>
+    <p class="sub">Plain-language Docs with First 5 minutes, checklist, generators, and shortcode reference.</p>
+  </div>
+  <div class="card">
+  <div class="tabs"><span class="on">Overview</span><span>Generators</span><span>Prayer</span><span>Minbar</span><span>Articles</span><span>Reference</span></div>
+  <div class="sec">First 5 minutes · Madani Masjid</div>
+  <div class="steps">
+    <div class="step"><b>1. Admin language</b><span>Pick English, Bangla, or Arabic from the top bar.</span></div>
+    <div class="step"><b>2. Prayer Settings</b><span>Set timezone, coordinates, and method — then save.</span></div>
+    <div class="step"><b>3. Features preview</b><span>Copy a shortcode and paste it on any page.</span></div>
+    <div class="step"><b>4. Optional extras</b><span>Add Jumuah, notices, articles, or TV display.</span></div>
+  </div>
+</div>
+</div></div></body></html>

@@ -1173,8 +1173,8 @@ msgid "Example: Friday parking update"
 msgstr "উদাহরণ: শুক্রবারের পার্কিং আপডেট"
 
 #: admin/assets/js/modules/settings.js:105
-msgid "Example: Imam & Khatib, Powerup Masjid."
-msgstr "উদাহরণ: ইমাম ও খতিব, পাওয়ারআপ মসজিদ।"
+msgid "Example: Imam & Khatib, Madani Masjid."
+msgstr "উদাহরণ: ইমাম ও খতিব, মাদানি মসজিদ।"
 
 #: admin/assets/js/modules/events.js:40
 msgid "Example: Main Prayer Hall"

@@ -49,12 +49,14 @@ $design = in_array( $design, [ 'ticker', 'banner', 'popup', 'list' ], true ) ? $
 	<section class="itmms-public-announcements itmms-public-announcements--banner <?php echo esc_attr( $itmms_ramadan_class ); ?> itmms-public-announcements--lang-<?php echo esc_attr( $language ); ?>">
 		<div class="itmms-public-announcements__banner-content">
 			<?php if ( $itmms_is_ramadan ) : ?>
-				<span class="itmms-public-announcements__ramadan-icon">🌙</span>
+				<span class="itmms-public-announcements__ramadan-icon" aria-hidden="true">🌙</span>
 			<?php endif; ?>
 			<?php foreach ( $notices as $itmms_notice ) : ?>
 				<div class="itmms-public-announcements__banner-item">
-					<strong><?php echo esc_html( (string) $itmms_notice['title'] ); ?>:</strong>
-					<span><?php echo esc_html( (string) $itmms_notice['content'] ); ?></span>
+					<strong class="itmms-public-announcements__banner-title"><?php echo esc_html( (string) $itmms_notice['title'] ); ?></strong>
+					<?php if ( '' !== trim( (string) $itmms_notice['content'] ) ) : ?>
+						<div class="itmms-public-announcements__banner-body"><?php echo nl2br( esc_html( (string) $itmms_notice['content'] ) ); ?></div>
+					<?php endif; ?>
 				</div>
 				<?php break; // Show only the top priority notice in banner mode ?>
 			<?php endforeach; ?>

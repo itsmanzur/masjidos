@@ -26,8 +26,7 @@
 		var ongoingCount = state.events.filter( function ( event ) { return 'ongoing' === event.status; } ).length;
 		var startValue = editing ? datetimeLocalValue( editing.start_time ) : datetimeLocalValue( new Date() );
 
-		return '<div class="itmms-section-heading"><div><h2>' + esc( __( 'Events', 'masjidos' ) ) + '</h2><p>' + esc( __( 'Schedule special lectures, community gatherings, Eid prayers, or charity events.', 'masjidos' ) ) + '</p></div>' +
-			( editing ? '<button type="button" class="itmms-btn itmms-btn-ghost" data-new-event>' + esc( __( 'New Event', 'masjidos' ) ) + '</button>' : '' ) + '</div>' +
+		return ( editing ? '<div class="itmms-page-toolbar"><button type="button" class="itmms-btn itmms-btn-ghost" data-new-event>' + esc( __( 'New Event', 'masjidos' ) ) + '</button></div>' : '' ) +
 			'<div class="itmms-announcement-summary"><span><b>' + esc( upcomingCount ) + '</b> ' + esc( __( 'Upcoming', 'masjidos' ) ) + '</span><span><b>' + esc( ongoingCount ) + '</b> ' + esc( __( 'Ongoing', 'masjidos' ) ) + '</span><span><b>' + esc( state.events.length ) + '</b> ' + esc( __( 'Total', 'masjidos' ) ) + '</span></div>' +
 			'<div class="itmms-announcement-layout">' +
 				'<form class="itmms-announcement-editor" id="itmms-event-form">' +

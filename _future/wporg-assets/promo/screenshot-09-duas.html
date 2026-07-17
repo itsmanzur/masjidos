@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8" />
+<title>MasjidOS Screenshot 9</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 800px; overflow: hidden;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: #f4f1ea; color: #111827;
+  }
+  .frame {
+    width: 1280px; height: 800px; position: relative;
+    background:
+      radial-gradient(ellipse 50% 40% at 85% 15%, rgba(201,168,76,0.12), transparent 60%),
+      radial-gradient(ellipse 40% 50% at 10% 90%, rgba(26,107,90,0.08), transparent 55%),
+      #f4f1ea;
+  }
+  .frame::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(17,24,39,0.07) 1px, transparent 1px);
+    background-size: 18px 18px; pointer-events: none;
+  }
+  .inner {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 420px 1fr; gap: 36px;
+    height: 100%; padding: 56px 52px 56px 60px; align-items: center;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .mark {
+    width: 40px; height: 40px; border-radius: 10px; background: #134e42;
+    display: grid; place-items: center;
+  }
+  .mark svg { width: 22px; height: 22px; }
+  .brand-name { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: #134e42; }
+  .brand-name span { color: #c9a84c; }
+  .eyebrow {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    color: #c9a84c; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .eyebrow i { display: block; width: 28px; height: 2px; background: #c9a84c; }
+  h1 {
+    font-size: 52px; line-height: 1.05; font-weight: 800;
+    letter-spacing: -0.035em; color: #134e42; margin-bottom: 16px;
+  }
+  h1 em { font-style: normal; color: #c9a84c; }
+  .sub { font-size: 17px; line-height: 1.5; color: #667085; max-width: 34ch; font-weight: 500; }
+  .card {
+    background: #fff; border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(15, 61, 52, 0.14);
+    border: 1px solid rgba(26,107,90,0.08);
+    overflow: hidden; min-height: 500px;
+  }
+
+  .card { padding:22px; }
+  .ht { font-size:18px; font-weight:800; color:#134e42; margin-bottom:12px; }
+  .dua { padding:16px; border-radius:12px; border:1px solid #e4e7ec; background:#fafbfc; margin-bottom:12px; }
+  .ar { font-size:22px; text-align:right; color:#134e42; font-weight:700; line-height:1.6; direction:rtl; }
+  .bn { margin-top:8px; font-size:13px; color:#344054; line-height:1.45; }
+  .src { margin-top:8px; font-size:11px; font-weight:700; color:#c9a84c; }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .mini { padding:14px; border-radius:12px; background:rgba(26,107,90,.07); border:1px solid rgba(26,107,90,.14); }
+  .mini b { display:block; font-size:13px; color:#134e42; }
+  .mini span { display:block; margin-top:4px; font-size:12px; color:#667085; }
+</style></head>
+<body><div class="frame"><div class="inner">
+  <div class="copy">
+    <div class="brand">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8"><path d="M4 20h16M6 20V10l6-5 6 5v10M10 20v-5h4v5"/></svg></div>
+      <div class="brand-name">Masjid<span>OS</span></div>
+    </div>
+    <div class="eyebrow"><i></i>09 · DUAS & LEARNING</div>
+    <h1>Duas,<br><em>Quran, Hadith</em></h1>
+    <p class="sub">Share authentic duas, daily Quran verse, Hadith, and 99 Names — with Bangla and English meanings.</p>
+  </div>
+  <div class="card"><div class="ht">Duas & Azkar · Madani Masjid</div>
+  <div class="dua">
+    <div class="ar">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+    <div class="bn">পরম করুণাময় অসীম দয়ালু আল্লাহর নামে। Morning remembrance · counter ready.</div>
+    <div class="src">Source · Quran 1:1</div>
+  </div>
+  <div class="row2">
+    <div class="mini"><b>Quran Verse</b><span>Daily ayah with Bangla & English</span></div>
+    <div class="mini"><b>Hadith of Day</b><span>Authentic collections, shareable</span></div>
+  </div>
+</div>
+</div></div></body></html>

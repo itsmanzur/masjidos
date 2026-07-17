@@ -21,35 +21,39 @@
 
 	function docsHtml() {
 		return '<div class="itmms-docs">' +
-			'<section class="itmms-docs-hero">' +
-				'<div><span>' + esc( __( 'MasjidOS Documentation', 'masjidos' ) ) + '</span><h2>' + esc( __( 'Shortcodes, setup notes, and usage recipes', 'masjidos' ) ) + '</h2><p>' + esc( __( 'Copy a shortcode, paste it into a WordPress page, and keep this page as your built-in memory.', 'masjidos' ) ) + '</p></div>' +
+			'<div class="itmms-page-toolbar">' +
+				'<button type="button" class="itmms-btn" data-open-welcome>' + esc( __( 'Welcome', 'masjidos' ) ) + '</button>' +
 				'<button class="itmms-btn itmms-btn-primary" data-open-settings>' + esc( __( 'Prayer Settings', 'masjidos' ) ) + '</button>' +
-			'</section>' +
+			'</div>' +
 			'<div class="itmms-doc-tabs" role="tablist">' +
 				docTabButton( 'overview', __( 'Overview', 'masjidos' ), true ) +
 				docTabButton( 'generators', __( 'Generators', 'masjidos' ), false ) +
 				docTabButton( 'prayer', __( 'Prayer', 'masjidos' ), false ) +
 				docTabButton( 'jumuah', __( 'Jumuah', 'masjidos' ), false ) +
+				docTabButton( 'minbar', __( 'Minbar', 'masjidos' ), false ) +
 				docTabButton( 'calendar', __( 'Calendar', 'masjidos' ), false ) +
 				docTabButton( 'duas', __( 'Duas', 'masjidos' ), false ) +
 				docTabButton( 'notices', __( 'Notices', 'masjidos' ), false ) +
 				docTabButton( 'events', __( 'Events', 'masjidos' ), false ) +
-				docTabButton( 'education', __( 'Education', 'masjidos' ), false ) +
+				docTabButton( 'articles', __( 'Articles', 'masjidos' ), false ) +
+				docTabButton( 'education', __( 'Quran & Hadith', 'masjidos' ), false ) +
 				docTabButton( 'pro', 'Pro', false ) +
 				docTabButton( 'reference', __( 'Reference', 'masjidos' ), false ) +
 			'</div>' +
 			'<div class="itmms-doc-tab-panels">' +
-				docPanel( 'overview', true, pasteShortcodeSection() + featureDiscoverySection() + displayAndBlocksSection() + jumuahDataSection() + checklistSection() + roadmapSection() ) +
+				docPanel( 'overview', true, firstStepsSection() + pasteShortcodeSection() + languageGuideSection() + featureDiscoverySection() + displayAndBlocksSection() + jumuahDataSection() + checklistSection() + beginnerTipsSection() ) +
 				docPanel( 'generators', false, shortcodeBuilderHtml() ) +
 				docPanel( 'prayer', false, prayerDocsSection() ) +
 				docPanel( 'jumuah', false, jumuahDocsSection() ) +
+				docPanel( 'minbar', false, minbarDocsSection() ) +
 				docPanel( 'calendar', false, calendarDocsSection() ) +
 				docPanel( 'duas', false, duasDocsSection() ) +
 				docPanel( 'notices', false, announcementDocsSection() ) +
 				docPanel( 'events', false, eventDocsSection() ) +
+				docPanel( 'articles', false, articlesHowToSection() + articlesDocsSection() ) +
 				docPanel( 'education', false, educationDocsSection() ) +
 				docPanel( 'pro', false, proDocsSection() ) +
-				docPanel( 'reference', false, prayerAttributesSection() + jumuahAttributesSection() + monthlyAttributesSection() + calendarAttributesSection() + duasAttributesSection() + announcementAttributesSection() + eventAttributesSection() + khutbahArchiveAttributesSection() + quranVerseAttributesSection() + hadithAttributesSection() + allahNamesAttributesSection() + audioQuranAttributesSection() + tvDisplayReferenceSection() ) +
+				docPanel( 'reference', false, prayerAttributesSection() + jumuahAttributesSection() + monthlyAttributesSection() + calendarAttributesSection() + duasAttributesSection() + announcementAttributesSection() + eventAttributesSection() + articlesAttributesSection() + khutbahArchiveAttributesSection() + quranVerseAttributesSection() + hadithAttributesSection() + allahNamesAttributesSection() + audioQuranAttributesSection() + tvDisplayReferenceSection() ) +
 			'</div>' +
 		'</div>';
 	}
@@ -60,6 +64,20 @@
 
 	function docPanel( key, active, content ) {
 		return '<div class="itmms-doc-tab-panel' + ( active ? ' active' : '' ) + '" data-doc-panel="' + esc( key ) + '">' + content + '</div>';
+	}
+
+	function firstStepsSection() {
+		return '<section class="itmms-docs-section itmms-docs-paste">' +
+			'<h3>' + esc( __( 'First 5 minutes (start here)', 'masjidos' ) ) + '</h3>' +
+			'<p class="itmms-docs-note">' + esc( __( 'You do not need to read every tab. Follow these steps once, then open Features to preview widgets.', 'masjidos' ) ) + '</p>' +
+			'<p class="itmms-docs-note"><button type="button" class="itmms-btn itmms-btn-primary" data-open-welcome>' + esc( __( 'Open Welcome guide', 'masjidos' ) ) + '</button></p>' +
+			'<div class="itmms-paste-grid">' +
+				pasteItem( '1. ' + __( 'Admin language', 'masjidos' ), __( 'Use the language dropdown at the top of MasjidOS (English / Bangla / Arabic). This only changes the admin screens.', 'masjidos' ) ) +
+				pasteItem( '2. ' + __( 'Prayer Settings', 'masjidos' ), __( 'Click Prayer Settings. Set timezone, city coordinates, calculation method, then save.', 'masjidos' ) ) +
+				pasteItem( '3. ' + __( 'Preview in Features', 'masjidos' ), __( 'Open Features, pick Prayer Times, copy the shortcode, and paste it on a WordPress page.', 'masjidos' ) ) +
+				pasteItem( '4. ' + __( 'Optional extras', 'masjidos' ), __( 'Add Jumuah details, notices, articles, or Minbar schedule only when you need them.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
 	}
 
 	function pasteShortcodeSection() {
@@ -75,13 +93,25 @@
 		'</section>';
 	}
 
+	function languageGuideSection() {
+		return '<section class="itmms-docs-section itmms-docs-paste">' +
+			'<h3>' + esc( __( 'Two kinds of language (important)', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-paste-grid">' +
+				pasteItem( __( 'Admin language', 'masjidos' ), __( 'Top bar language switcher or Settings > Profile. Changes MasjidOS menus, buttons, and Docs labels only.', 'masjidos' ) ) +
+				pasteItem( __( 'Public widget language', 'masjidos' ), __( 'Shortcode language="bn" (or en/ar), or leave empty to follow the admin language default. Changes visitor-facing labels on the website.', 'masjidos' ) ) +
+				pasteItem( __( 'Your own content', 'masjidos' ), __( 'Article titles, notice text, khutbah topics, and khatib names are never auto-translated. Write them in the language your community reads.', 'masjidos' ) ) +
+				pasteItem( __( 'Jumuah language tag', 'masjidos' ), __( 'Settings > Jumuah Settings > Khutbah Language is a public label (for example Bangla sermon), not the admin UI language.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
 	function featureDiscoverySection() {
 		return '<section class="itmms-docs-section itmms-docs-paste">' +
-			'<h3>' + esc( __( 'Fastest way to choose a widget', 'masjidos' ) ) + '</h3>' +
+			'<h3>' + esc( __( 'Features vs Docs', 'masjidos' ) ) + '</h3>' +
 			'<div class="itmms-paste-grid">' +
-				pasteItem( __( 'Features Page', 'masjidos' ), __( 'Open MasjidOS > Features to browse every public widget, change options, copy the shortcode, and open a live preview.', 'masjidos' ) ) +
-				pasteItem( __( 'Live Preview', 'masjidos' ), __( 'Use the preview buttons to compare desktop and mobile layouts before publishing a shortcode.', 'masjidos' ) ) +
-				pasteItem( __( 'Shortcode Generators', 'masjidos' ), __( 'Use the Generators tab when you want a form-based shortcode builder with copy buttons.', 'masjidos' ) ) +
+				pasteItem( __( 'Features (start here)', 'masjidos' ), __( 'Browse widgets, customize options, copy shortcodes, and open live preview. Best for day-to-day setup.', 'masjidos' ) ) +
+				pasteItem( __( 'Docs (reference)', 'masjidos' ), __( 'Attribute lists, paste locations, checklists, and generators when you need deeper help.', 'masjidos' ) ) +
+				pasteItem( __( 'Generators tab', 'masjidos' ), __( 'Form-based shortcode builders if you prefer typed options over the Features cards.', 'masjidos' ) ) +
 				pasteItem( __( 'Pro-safe Designs', 'masjidos' ), __( 'Free designs render from this plugin. Pro design keys are documented as placeholders and are rendered only when a Pro plugin is active.', 'masjidos' ) ) +
 			'</div>' +
 		'</section>';
@@ -149,7 +179,7 @@
 				__( 'Included in the free plugin', 'masjidos' ),
 				__( 'Good for pages and homepage sections', 'masjidos' )
 			] ) +
-			docCard( __( 'Custom Title', 'masjidos' ), __( 'Change the widget heading for a homepage or masjid page.', 'masjidos' ), '[masjidos_prayer_times title="Today at Powerup Masjid"]', [
+			docCard( __( 'Custom Title', 'masjidos' ), __( 'Change the widget heading for a homepage or masjid page.', 'masjidos' ), '[masjidos_prayer_times title="Today at Madani Masjid"]', [
 				__( 'Good for homepage sections', 'masjidos' ),
 				__( 'Useful when multiple masjid pages exist', 'masjidos' )
 			] ) +
@@ -281,10 +311,22 @@
 				__( 'Translates widget title and labels', 'masjidos' ),
 				__( 'Keeps your configured topic and khatib text unchanged', 'masjidos' )
 			] ) +
-			docCard( __( 'Khutbah Archive', 'masjidos' ), __( 'Show Jumuah khutbah archive list with search and date filters.', 'masjidos' ), '[masjidos_khutbah_archive]', [
-				__( 'Allows searching by topic, khatib name, or summary', 'masjidos' ),
-				__( 'Filter archive entries by specific date', 'masjidos' ),
-				__( 'Embed downloadable and playable audio recordings easily', 'masjidos' )
+			docCard( __( 'Khutbah Archive', 'masjidos' ), __( 'Public Minbar archive with search, category, date filters, audio, and PDF.', 'masjidos' ), '[masjidos_khutbah_archive]', [
+				__( 'Only public archive entries are shown', 'masjidos' ),
+				__( 'Filter by topic, khatib, category, or date', 'masjidos' ),
+				__( 'Optional audio player and PDF download links', 'masjidos' )
+			] ) +
+			docCard( __( 'This Week\'s Khatib', 'masjidos' ), __( 'Show this Friday\'s scheduled khatib and topic from Minbar Schedule.', 'masjidos' ), '[masjidos_khatib_this_week]', [
+				__( 'Reads the Minbar roster for the next Friday', 'masjidos' ),
+				__( 'Useful on homepage or Jumuah pages', 'masjidos' )
+			] ) +
+			docCard( __( 'Upcoming Khutbahs', 'masjidos' ), __( 'List upcoming scheduled or planned Friday topics.', 'masjidos' ), '[masjidos_upcoming_khutbah]', [
+				__( 'Combines schedule roster and planner topics', 'masjidos' ),
+				__( 'limit attribute controls how many rows show', 'masjidos' )
+			] ) +
+			docCard( __( 'Khutbah Search', 'masjidos' ), __( 'Compact search box for visitors to find past Friday sermons.', 'masjidos' ), '[masjidos_khutbah_search]', [
+				__( 'Searches your public Minbar archive', 'masjidos' ),
+				__( 'Only published archive entries appear in results', 'masjidos' )
 			] ) +
 			docCard( __( 'Jumuah Without Meta', 'masjidos' ), __( 'Show only the public Jumuah session times and header.', 'masjidos' ), '[masjidos_jumuah meta="no"]', [
 				__( 'Hides khatib profile, topic, language, and location', 'masjidos' ),
@@ -316,6 +358,7 @@
 		return '<section class="itmms-docs-section">' +
 			'<h3>' + esc( __( 'Recommended setup checklist', 'masjidos' ) ) + '</h3>' +
 			'<div class="itmms-docs-checklist">' +
+				checkItem( __( 'Choose Admin Language', 'masjidos' ), __( 'Pick English, Bangla, or Arabic from the top bar so menus and Docs feel familiar.', 'masjidos' ) ) +
 				checkItem( __( 'Set Timezone', 'masjidos' ), __( 'For Bangladesh use Asia/Dhaka. Wrong timezone is the most common cause of wrong prayer times.', 'masjidos' ) ) +
 				checkItem( __( 'Set Coordinates', 'masjidos' ), __( 'Copy latitude and longitude from Google Maps for the exact masjid location.', 'masjidos' ) ) +
 				checkItem( __( 'Choose Method', 'masjidos' ), __( 'Pick the method used by your local Islamic authority. For Bangladesh, Karachi + Hanafi is a sensible starting point.', 'masjidos' ) ) +
@@ -324,8 +367,9 @@
 				checkItem( __( 'Set Iqamah Times', 'masjidos' ), __( 'Add jamaat start times for Fajr, Dhuhr, Asr, Maghrib, and Isha.', 'masjidos' ) ) +
 				checkItem( __( 'Set Jumuah Details', 'masjidos' ), __( 'Add sessions, topic, language, khatib profile, and notice from Settings > Jumuah Settings, then publish [masjidos_jumuah].', 'masjidos' ) ) +
 				checkItem( __( 'Try Features Preview', 'masjidos' ), __( 'Open MasjidOS > Features to preview widgets before adding them to a public page.', 'masjidos' ) ) +
-				checkItem( __( 'Open TV Display', 'masjidos' ), __( 'Visit /masjidos-display/ on your site if you need a fullscreen board for mosque TVs.', 'masjidos' ) ) +
-				checkItem( __( 'Publish Shortcode', 'masjidos' ), __( 'Add [masjidos_prayer_times] to the masjid homepage or a dedicated prayer times page.', 'masjidos' ) ) +
+				checkItem( __( 'Publish Prayer Shortcode', 'masjidos' ), __( 'Add [masjidos_prayer_times] to the masjid homepage or a dedicated prayer times page.', 'masjidos' ) ) +
+				checkItem( __( 'Optional: Notices & Articles', 'masjidos' ), __( 'Publish notices from Announcements, and Islamic Articles from Articles > Add New, then show them with their shortcodes.', 'masjidos' ) ) +
+				checkItem( __( 'Optional: TV Display', 'masjidos' ), __( 'Visit /masjidos-display/ on your site if you need a fullscreen board for mosque TVs.', 'masjidos' ) ) +
 			'</div>' +
 		'</section>';
 	}
@@ -408,7 +452,7 @@
 		return '<section class="itmms-docs-section">' +
 			'<h3>' + esc( __( 'Announcement shortcode attributes', 'masjidos' ) ) + '</h3>' +
 			'<div class="itmms-docs-table">' +
-				docRow( 'design', 'list/ticker', 'list', __( 'Selects a free notice design. Pro designs are supplied by the Pro plugin.', 'masjidos' ) ) +
+				docRow( 'design', 'list/ticker/banner/popup', 'list', __( 'Selects a free notice design. Pro designs are supplied by the Pro plugin.', 'masjidos' ) ) +
 				docRow( 'language', 'en/bn/ar', 'en', __( 'Changes widget labels.', 'masjidos' ) ) +
 				docRow( 'type', 'all/general/urgent/jumuah', 'all', __( 'Filters public notices by type.', 'masjidos' ) ) +
 				docRow( 'limit', '1-20', '5', __( 'Limits the number of active notices shown.', 'masjidos' ) ) +
@@ -418,15 +462,16 @@
 		'</section>';
 	}
 
-	function roadmapSection() {
+	function beginnerTipsSection() {
 		return '<section class="itmms-docs-section">' +
-			'<h3>' + esc( __( 'What is coming next', 'masjidos' ) ) + '</h3>' +
+			'<h3>' + esc( __( 'If you feel stuck', 'masjidos' ) ) + '</h3>' +
 			'<div class="itmms-docs-roadmap">' +
-				'<span>' + esc( __( 'More Gutenberg blocks', 'masjidos' ) ) + '</span>' +
-				'<span>' + esc( __( 'More TV display layouts', 'masjidos' ) ) + '</span>' +
-				'<span>' + esc( __( 'Jumuah design presets', 'masjidos' ) ) + '</span>' +
-				'<span>' + esc( __( 'PDF export for monthly timetables', 'masjidos' ) ) + '</span>' +
+				'<span>' + esc( __( 'Start in Features, not Reference', 'masjidos' ) ) + '</span>' +
+				'<span>' + esc( __( 'Use Generators to build shortcodes', 'masjidos' ) ) + '</span>' +
+				'<span>' + esc( __( 'Wrong times? Recheck timezone first', 'masjidos' ) ) + '</span>' +
+				'<span>' + esc( __( 'After updates, hard refresh (Ctrl+F5)', 'masjidos' ) ) + '</span>' +
 			'</div>' +
+			'<p class="itmms-docs-note">' + esc( __( 'Planned polish later: more Gutenberg blocks, more TV layouts, and printable PDF monthly timetables.', 'masjidos' ) ) + '</p>' +
 		'</section>';
 	}
 
@@ -437,6 +482,7 @@
 			'<div class="itmms-docs-table">' +
 				docRow( '/masjidos-display/', __( 'URL', 'masjidos' ), __( 'default', 'masjidos' ), __( 'Fullscreen board using saved TV Display settings.', 'masjidos' ) ) +
 				docRow( 'theme', 'dark/light/green', 'dark', __( 'Optional URL override, for example /masjidos-display/?theme=light.', 'masjidos' ) ) +
+				docRow( 'layout', 'classic/split/focus', 'classic', __( 'Optional layout override, for example /masjidos-display/?layout=focus.', 'masjidos' ) ) +
 				docRow( 'lang', 'en/bn/ar', 'en', __( 'Optional URL override for display labels.', 'masjidos' ) ) +
 				docRow( 'font_size', 'small/normal/large/xlarge', 'normal', __( 'Optional URL override for large screens.', 'masjidos' ) ) +
 			'</div>' +
@@ -534,7 +580,7 @@
 			'<div class="itmms-builder-head"><div><h3>' + esc( __( 'Notice Widget Generator', 'masjidos' ) ) + '</h3><p>' + esc( __( 'Create a public notice list or compact ticker from your active announcements.', 'masjidos' ) ) + '</p></div><button type="button" class="itmms-btn itmms-btn-primary" data-copy-generated-announcement-shortcode>' + esc( __( 'Copy Shortcode', 'masjidos' ) ) + '</button></div>' +
 			'<p class="itmms-docs-note">' + esc( __( 'Before testing this shortcode, publish at least one notice from the Notices screen and make sure its start time has arrived.', 'masjidos' ) ) + '</p>' +
 			'<div class="itmms-builder-grid">' +
-				'<label><span>' + esc( __( 'Design', 'masjidos' ) ) + '</span><select data-announcement-builder-design><option value="list">' + esc( __( 'List', 'masjidos' ) ) + '</option><option value="ticker">' + esc( __( 'Ticker', 'masjidos' ) ) + '</option><option value="digital-board">' + esc( __( 'Digital Board (Pro)', 'masjidos' ) ) + '</option><option value="ramadan-banner">' + esc( __( 'Ramadan Banner (Pro)', 'masjidos' ) ) + '</option></select></label>' +
+				'<label><span>' + esc( __( 'Design', 'masjidos' ) ) + '</span><select data-announcement-builder-design><option value="list">' + esc( __( 'List', 'masjidos' ) ) + '</option><option value="ticker">' + esc( __( 'Ticker', 'masjidos' ) ) + '</option><option value="banner">' + esc( __( 'Banner', 'masjidos' ) ) + '</option><option value="popup">' + esc( __( 'Popup Modal', 'masjidos' ) ) + '</option><option value="digital-board">' + esc( __( 'Digital Board (Pro)', 'masjidos' ) ) + '</option><option value="ramadan-banner">' + esc( __( 'Ramadan Banner (Pro)', 'masjidos' ) ) + '</option></select></label>' +
 				'<label><span>' + esc( __( 'Language', 'masjidos' ) ) + '</span><select data-announcement-builder-language><option value="en">' + esc( __( 'English', 'masjidos' ) ) + '</option><option value="bn">' + esc( __( 'Bangla', 'masjidos' ) ) + '</option><option value="ar">' + esc( __( 'Arabic', 'masjidos' ) ) + '</option></select></label>' +
 				'<label><span>' + esc( __( 'Type', 'masjidos' ) ) + '</span><select data-announcement-builder-type><option value="all">' + esc( __( 'All notices', 'masjidos' ) ) + '</option><option value="general">' + esc( __( 'General', 'masjidos' ) ) + '</option><option value="urgent">' + esc( __( 'Urgent', 'masjidos' ) ) + '</option><option value="jumuah">' + esc( __( 'Jumuah', 'masjidos' ) ) + '</option></select></label>' +
 				'<label><span>' + esc( __( 'Limit', 'masjidos' ) ) + '</span><input type="number" min="1" max="20" value="5" data-announcement-builder-limit></label>' +
@@ -637,11 +683,93 @@
 
 	function khutbahArchiveAttributesSection() {
 		return '<section class="itmms-docs-section">' +
-			'<h3>' + esc( __( 'Khutbah Archive shortcode attributes', 'masjidos' ) ) + '</h3>' +
+			'<h3>' + esc( __( 'Minbar shortcode attributes', 'masjidos' ) ) + '</h3>' +
 			'<div class="itmms-docs-table">' +
 				docRow( 'title', __( 'Text', 'masjidos' ), __( 'Jumuah Khutbah Archive', 'masjidos' ), __( 'Changes the archive heading.', 'masjidos' ) ) +
 				docRow( 'language', 'en/bn/ar', 'en', __( 'Changes public widget labels.', 'masjidos' ) ) +
 				docRow( 'limit', '1-100', '12', __( 'Limits the number of khutbahs shown.', 'masjidos' ) ) +
+				docRow( 'category', 'aqeedah/akhlaq/fiqh/…', '', __( 'Optional category filter for the archive.', 'masjidos' ) ) +
+			'</div>' +
+			'<p class="itmms-docs-note">' + esc( __( 'Also available: [masjidos_khatib_this_week], [masjidos_upcoming_khutbah], [masjidos_khutbah_search]. Manage content in Admin → Minbar.', 'masjidos' ) ) + '</p>' +
+		'</section>';
+	}
+
+	function minbarDocsSection() {
+		return '<section class="itmms-docs-section itmms-docs-paste">' +
+			'<h3>' + esc( __( 'How to use Minbar (Friday tools)', 'masjidos' ) ) + '</h3>' +
+			'<p class="itmms-docs-note">' + esc( __( 'Minbar is for khatibs and Friday planning. Start simple: one schedule entry, then later add archive or sermon notes.', 'masjidos' ) ) + '</p>' +
+			'<div class="itmms-paste-grid">' +
+				pasteItem( __( 'Overview', 'masjidos' ), __( 'Open Minbar > Overview for a quick picture of this week\'s khatib and upcoming topics.', 'masjidos' ) ) +
+				pasteItem( __( 'Schedule', 'masjidos' ), __( 'Add who will give khutbah on which Friday. This powers [masjidos_khatib_this_week] and upcoming lists.', 'masjidos' ) ) +
+				pasteItem( __( 'Planner', 'masjidos' ), __( 'Park future topic ideas before they are assigned to a Friday.', 'masjidos' ) ) +
+				pasteItem( __( 'Archive', 'masjidos' ), __( 'Save past sermons with audio/PDF so visitors can search them later.', 'masjidos' ) ) +
+				pasteItem( __( 'Sermon Builder', 'masjidos' ), __( 'Draft outline notes for a khutbah. Optional — skip if you only need public schedule widgets.', 'masjidos' ) ) +
+				pasteItem( __( 'References', 'masjidos' ), __( 'Keep ayah, hadith, or notes linked to a sermon for your own preparation.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>' +
+		'<div class="itmms-docs-grid">' +
+			docCard( __( 'This Week\'s Khatib', 'masjidos' ), __( 'Show this Friday\'s scheduled khatib and topic.', 'masjidos' ), '[masjidos_khatib_this_week]', [
+				__( 'Reads Minbar Schedule for the next Friday', 'masjidos' ),
+				__( 'Good for homepage or Jumuah pages', 'masjidos' )
+			] ) +
+			docCard( __( 'Upcoming Khutbahs', 'masjidos' ), __( 'List upcoming Friday topics from schedule and planner.', 'masjidos' ), '[masjidos_upcoming_khutbah]', [
+				__( 'Useful under the Jumuah widget', 'masjidos' ),
+				__( 'limit controls how many rows show', 'masjidos' )
+			] ) +
+			docCard( __( 'Khutbah Archive', 'masjidos' ), __( 'Public searchable list of past sermons.', 'masjidos' ), '[masjidos_khutbah_archive]', [
+				__( 'Only public archive entries are shown', 'masjidos' ),
+				__( 'Supports filters, audio, and PDF links when you add them', 'masjidos' )
+			] ) +
+			docCard( __( 'Khutbah Search', 'masjidos' ), __( 'Compact search box for the archive.', 'masjidos' ), '[masjidos_khutbah_search]', [
+				__( 'Place beside the archive on a dedicated page', 'masjidos' ),
+				__( 'Only published entries are searchable', 'masjidos' )
+			] ) +
+		'</div>';
+	}
+
+	function articlesHowToSection() {
+		return '<section class="itmms-docs-section itmms-docs-paste">' +
+			'<h3>' + esc( __( 'How to publish an Islamic Article', 'masjidos' ) ) + '</h3>' +
+			'<p class="itmms-docs-note">' + esc( __( 'Articles work like a normal WordPress post, with extra Islamic fields on the side.', 'masjidos' ) ) + '</p>' +
+			'<div class="itmms-paste-grid">' +
+				pasteItem( '1. ' + __( 'Open Articles', 'masjidos' ), __( 'In the WordPress admin sidebar under MasjidOS, open Articles > Add New.', 'masjidos' ) ) +
+				pasteItem( '2. ' + __( 'Write the basics', 'masjidos' ), __( 'Add Title, write Content, set a Featured Image, and choose a Category (for example Fiqh or Akhlaq).', 'masjidos' ) ) +
+				pasteItem( '3. ' + __( 'Fill Article Details', 'masjidos' ), __( 'In the MasjidOS panel set Language, Author, optional Translator, Source, Key takeaway, External URL, and Audio URL.', 'masjidos' ) ) +
+				pasteItem( '4. ' + __( 'Publish & show', 'masjidos' ), __( 'Click Publish. Then paste [masjidos_articles] on any page, or open Features > Islamic Articles to copy options.', 'masjidos' ) ) +
+			'</div>' +
+		'</section>';
+	}
+
+	function articlesDocsSection() {
+		return '<div class="itmms-docs-grid">' +
+			docCard( __( 'Articles List', 'masjidos' ), __( 'Show published Islamic articles on a public page.', 'masjidos' ), '[masjidos_articles]', [
+				__( 'Shows title, image, category, and Read button', 'masjidos' ),
+				__( 'Reading time is estimated automatically', 'masjidos' ),
+				__( 'Optional author, source, and language badges when set', 'masjidos' )
+			] ) +
+			docCard( __( 'Bangla Labels', 'masjidos' ), __( 'Use Bangla labels on the list widget.', 'masjidos' ), '[masjidos_articles language="bn"]', [
+				__( 'Changes buttons and empty-state text', 'masjidos' ),
+				__( 'Does not translate your article title or body', 'masjidos' )
+			] ) +
+			docCard( __( 'Category Filter', 'masjidos' ), __( 'Show only one article category by slug.', 'masjidos' ), '[masjidos_articles category="fiqh"]', [
+				__( 'Use the category slug from Articles > Categories', 'masjidos' ),
+				__( 'Leave empty to show all categories', 'masjidos' )
+			] ) +
+			docCard( __( 'Hide Excerpt', 'masjidos' ), __( 'Show a tighter card without the short summary.', 'masjidos' ), '[masjidos_articles excerpt="no"]', [
+				__( 'Useful in sidebars or dense layouts', 'masjidos' )
+			] ) +
+		'</div>';
+	}
+
+	function articlesAttributesSection() {
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'Articles shortcode attributes', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-docs-table">' +
+				docRow( 'title', __( 'Text', 'masjidos' ), __( 'Islamic Articles', 'masjidos' ), __( 'Changes the list heading.', 'masjidos' ) ) +
+				docRow( 'language', 'en/bn/ar', 'en', __( 'Changes widget labels. Article content stays as you wrote it.', 'masjidos' ) ) +
+				docRow( 'category', __( 'slug', 'masjidos' ), '', __( 'Optional category slug filter.', 'masjidos' ) ) +
+				docRow( 'limit', '1-24', '6', __( 'How many articles to list.', 'masjidos' ) ) +
+				docRow( 'excerpt', 'yes/no', 'yes', __( 'Shows or hides the short summary under each title.', 'masjidos' ) ) +
 			'</div>' +
 		'</section>';
 	}

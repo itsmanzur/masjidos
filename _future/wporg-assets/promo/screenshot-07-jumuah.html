@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8" />
+<title>MasjidOS Screenshot 7</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 800px; overflow: hidden;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: #f4f1ea; color: #111827;
+  }
+  .frame {
+    width: 1280px; height: 800px; position: relative;
+    background:
+      radial-gradient(ellipse 50% 40% at 85% 15%, rgba(201,168,76,0.12), transparent 60%),
+      radial-gradient(ellipse 40% 50% at 10% 90%, rgba(26,107,90,0.08), transparent 55%),
+      #f4f1ea;
+  }
+  .frame::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(17,24,39,0.07) 1px, transparent 1px);
+    background-size: 18px 18px; pointer-events: none;
+  }
+  .inner {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 420px 1fr; gap: 36px;
+    height: 100%; padding: 56px 52px 56px 60px; align-items: center;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .mark {
+    width: 40px; height: 40px; border-radius: 10px; background: #134e42;
+    display: grid; place-items: center;
+  }
+  .mark svg { width: 22px; height: 22px; }
+  .brand-name { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: #134e42; }
+  .brand-name span { color: #c9a84c; }
+  .eyebrow {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    color: #c9a84c; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .eyebrow i { display: block; width: 28px; height: 2px; background: #c9a84c; }
+  h1 {
+    font-size: 52px; line-height: 1.05; font-weight: 800;
+    letter-spacing: -0.035em; color: #134e42; margin-bottom: 16px;
+  }
+  h1 em { font-style: normal; color: #c9a84c; }
+  .sub { font-size: 17px; line-height: 1.5; color: #667085; max-width: 34ch; font-weight: 500; }
+  .card {
+    background: #fff; border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(15, 61, 52, 0.14);
+    border: 1px solid rgba(26,107,90,0.08);
+    overflow: hidden; min-height: 500px;
+  }
+
+  .card { padding:22px; }
+  .badge { display:inline-block; padding:4px 10px; border-radius:999px; background:rgba(201,168,76,.2); color:#8a6d1d; font-size:11px; font-weight:800; margin-bottom:10px; }
+  .jtitle { font-size:22px; font-weight:800; color:#134e42; }
+  .jsub { margin-top:4px; color:#667085; font-size:13px; font-weight:600; }
+  .grid { display:grid; grid-template-columns:120px 1fr; gap:16px; margin-top:18px; align-items:center; }
+  .photo { width:120px; height:120px; border-radius:14px; background:linear-gradient(145deg,#1a6b5a,#134e42); display:grid; place-items:center; color:#c9a84c; font-size:36px; font-weight:800; }
+  .info b { display:block; font-size:16px; color:#111827; }
+  .info span { display:block; margin-top:6px; font-size:13px; color:#667085; line-height:1.45; }
+  .sessions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:18px; }
+  .s { padding:14px; border-radius:12px; background:rgba(26,107,90,.07); border:1px solid rgba(26,107,90,.14); }
+  .s small { font-size:11px; font-weight:700; color:#667085; text-transform:uppercase; }
+  .s strong { display:block; margin-top:4px; font-size:18px; color:#134e42; }
+</style></head>
+<body><div class="frame"><div class="inner">
+  <div class="copy">
+    <div class="brand">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8"><path d="M4 20h16M6 20V10l6-5 6 5v10M10 20v-5h4v5"/></svg></div>
+      <div class="brand-name">Masjid<span>OS</span></div>
+    </div>
+    <div class="eyebrow"><i></i>07 · JUMUAH</div>
+    <h1>Friday<br><em>Ready</em></h1>
+    <p class="sub">Publish Jumuah sessions, khatib profile, topic, and this week’s Minbar schedule for your congregation.</p>
+  </div>
+  <div class="card">
+  <div class="badge">FRIDAY · LANGUAGE BANGLA</div>
+  <div class="jtitle">Jumuah Prayer</div>
+  <div class="jsub">Madani Masjid</div>
+  <div class="grid">
+    <div class="photo">IM</div>
+    <div class="info"><b>Imam Madani</b><span>Topic: Patience in daily life<br>Arrive 15 minutes early · sisters section open</span></div>
+  </div>
+  <div class="sessions">
+    <div class="s"><small>First Jumuah</small><strong>1:15 PM</strong></div>
+    <div class="s"><small>Second Jumuah</small><strong>2:00 PM</strong></div>
+  </div>
+</div>
+</div></div></body></html>

@@ -27,8 +27,7 @@
 		var scheduledCount = state.announcements.filter( function ( notice ) { return 'scheduled' === notice.status; } ).length;
 		var startValue = editing ? datetimeLocalValue( editing.start_date ) : datetimeLocalValue( new Date() );
 
-		return '<div class="itmms-section-heading itmms-announcement-heading"><div><h2>' + esc( __( 'Announcements', 'masjidos' ) ) + '</h2><p>' + esc( __( 'Create public notices, urgent updates, and scheduled Jumuah messages.', 'masjidos' ) ) + '</p></div>' +
-			( editing ? '<button type="button" class="itmms-btn itmms-btn-ghost" data-new-announcement>' + esc( __( 'New Notice', 'masjidos' ) ) + '</button>' : '' ) + '</div>' +
+		return ( editing ? '<div class="itmms-page-toolbar"><button type="button" class="itmms-btn itmms-btn-ghost" data-new-announcement>' + esc( __( 'New Notice', 'masjidos' ) ) + '</button></div>' : '' ) +
 			'<div class="itmms-announcement-summary"><span><b>' + esc( activeCount ) + '</b> ' + esc( __( 'Live now', 'masjidos' ) ) + '</span><span><b>' + esc( scheduledCount ) + '</b> ' + esc( __( 'Scheduled', 'masjidos' ) ) + '</span><span><b>' + esc( state.announcements.length ) + '</b> ' + esc( __( 'Total', 'masjidos' ) ) + '</span></div>' +
 			'<div class="itmms-announcement-layout">' +
 				'<form class="itmms-announcement-editor" id="itmms-announcement-form">' +

@@ -12,6 +12,33 @@ defined( 'ABSPATH' ) || exit;
  */
 class ITMMS_Education {
 
+	public const POST_TYPE = 'itmms_article';
+	public const TAXONOMY  = 'itmms_article_category';
+
+	public const META_LANGUAGE    = 'itmms_article_language';
+	public const META_SOURCE      = 'itmms_article_source';
+	public const META_AUTHOR      = 'itmms_article_author';
+	public const META_TRANSLATOR  = 'itmms_article_translator';
+	public const META_EXTERNAL    = 'itmms_article_external_url';
+	public const META_AUDIO       = 'itmms_article_audio_url';
+	public const META_TAKEAWAY    = 'itmms_article_takeaway';
+
+	/**
+	 * Wire article admin + public hooks.
+	 */
+	public static function init(): void {
+		add_action( 'init', [ __CLASS__, 'register_post_meta_fields' ], 20 );
+		add_action( 'add_meta_boxes', [ __CLASS__, 'add_meta_boxes' ] );
+		add_action( 'save_post_' . self::POST_TYPE, [ __CLASS__, 'save_meta_box' ], 10, 2 );
+		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'enqueue_article_editor_assets' ] );
+		add_action( 'admin_enqueue_scripts', [ __CLASS__, 'enqueue_article_admin_assets' ] );
+		add_filter( 'manage_' . self::POST_TYPE . '_posts_columns', [ __CLASS__, 'posts_columns' ] );
+		add_action( 'manage_' . self::POST_TYPE . '_posts_custom_column', [ __CLASS__, 'render_post_column' ], 10, 2 );
+		add_filter( 'body_class', [ __CLASS__, 'body_class' ] );
+		add_filter( 'the_content', [ __CLASS__, 'wrap_singular_content' ], 8 );
+		add_action( 'wp_enqueue_scripts', [ __CLASS__, 'enqueue_singular_assets' ] );
+	}
+
 	/**
 	 * Register Custom Post Types and taxonomies.
 	 */
@@ -33,7 +60,7 @@ class ITMMS_Education {
 		];
 
 		register_post_type(
-			'itmms_article',
+			self::POST_TYPE,
 			[
 				'labels'             => $labels,
 				'public'             => true,
@@ -66,8 +93,8 @@ class ITMMS_Education {
 		];
 
 		register_taxonomy(
-			'itmms_article_category',
-			[ 'itmms_article' ],
+			self::TAXONOMY,
+			[ self::POST_TYPE ],
 			[
 				'hierarchical'      => true,
 				'labels'            => $tax_labels,
@@ -77,6 +104,432 @@ class ITMMS_Education {
 				'rewrite'           => [ 'slug' => 'article-category' ],
 				'show_in_rest'      => true,
 			]
+		);
+	}
+
+	/**
+	 * Register REST-visible article meta for the block editor.
+	 */
+	public static function register_post_meta_fields(): void {
+		$auth = static function (): bool {
+			return current_user_can( 'edit_posts' );
+		};
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_LANGUAGE,
+			[
+				'type'              => 'string',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'default'           => 'en',
+				'auth_callback'     => $auth,
+				'sanitize_callback' => [ __CLASS__, 'sanitize_language' ],
+			]
+		);
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_SOURCE,
+			[
+				'type'              => 'string',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'default'           => '',
+				'auth_callback'     => $auth,
+				'sanitize_callback' => 'sanitize_text_field',
+			]
+		);
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_AUTHOR,
+			[
+				'type'              => 'string',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'default'           => '',
+				'auth_callback'     => $auth,
+				'sanitize_callback' => 'sanitize_text_field',
+			]
+		);
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_TRANSLATOR,
+			[
+				'type'              => 'string',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'default'           => '',
+				'auth_callback'     => $auth,
+				'sanitize_callback' => 'sanitize_text_field',
+			]
+		);
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_EXTERNAL,
+			[
+				'type'              => 'string',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'default'           => '',
+				'auth_callback'     => $auth,
+				'sanitize_callback' => 'esc_url_raw',
+			]
+		);
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_AUDIO,
+			[
+				'type'              => 'string',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'default'           => '',
+				'auth_callback'     => $auth,
+				'sanitize_callback' => 'esc_url_raw',
+			]
+		);
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::META_TAKEAWAY,
+			[
+				'type'              => 'string',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'default'           => '',
+				'auth_callback'     => $auth,
+				'sanitize_callback' => 'sanitize_text_field',
+			]
+		);
+	}
+
+	/**
+	 * @param mixed $value Raw language.
+	 */
+	public static function sanitize_language( $value ): string {
+		$language = strtolower( sanitize_key( (string) $value ) );
+		return in_array( $language, [ 'en', 'bn', 'ar' ], true ) ? $language : 'en';
+	}
+
+	public static function add_meta_boxes(): void {
+		add_meta_box(
+			'itmms-article-details',
+			__( 'Article Details', 'masjidos' ),
+			[ __CLASS__, 'render_meta_box' ],
+			self::POST_TYPE,
+			'side',
+			'high'
+		);
+	}
+
+	/**
+	 * Classic / sidebar meta box (also visible under Gutenberg).
+	 */
+	public static function render_meta_box( WP_Post $post ): void {
+		wp_nonce_field( 'itmms_save_article_meta', 'itmms_article_nonce' );
+
+		$language   = self::sanitize_language( get_post_meta( $post->ID, self::META_LANGUAGE, true ) );
+		$source     = (string) get_post_meta( $post->ID, self::META_SOURCE, true );
+		$author     = (string) get_post_meta( $post->ID, self::META_AUTHOR, true );
+		$translator = (string) get_post_meta( $post->ID, self::META_TRANSLATOR, true );
+		$external   = (string) get_post_meta( $post->ID, self::META_EXTERNAL, true );
+		$audio      = (string) get_post_meta( $post->ID, self::META_AUDIO, true );
+		$takeaway   = (string) get_post_meta( $post->ID, self::META_TAKEAWAY, true );
+
+		echo '<div class="itmms-article-meta-box">';
+		echo '<p class="itmms-article-meta-help">' . esc_html__( 'Attribution and extras for this article. Titles stay as you type them.', 'masjidos' ) . '</p>';
+
+		echo '<label class="itmms-article-meta-field"><span>' . esc_html__( 'Article Language', 'masjidos' ) . '</span>';
+		echo '<select name="' . esc_attr( self::META_LANGUAGE ) . '">';
+		foreach (
+			[
+				'en' => __( 'English', 'masjidos' ),
+				'bn' => __( 'Bangla', 'masjidos' ),
+				'ar' => __( 'Arabic', 'masjidos' ),
+			] as $code => $label
+		) {
+			printf(
+				'<option value="%1$s" %2$s>%3$s</option>',
+				esc_attr( $code ),
+				selected( $language, $code, false ),
+				esc_html( $label )
+			);
+		}
+		echo '</select></label>';
+
+		echo '<label class="itmms-article-meta-field"><span>' . esc_html__( 'Author / Scholar', 'masjidos' ) . '</span>';
+		echo '<input type="text" name="' . esc_attr( self::META_AUTHOR ) . '" value="' . esc_attr( $author ) . '" placeholder="' . esc_attr__( 'e.g. Imam / Scholar name', 'masjidos' ) . '"></label>';
+
+		echo '<label class="itmms-article-meta-field"><span>' . esc_html__( 'Translator', 'masjidos' ) . '</span>';
+		echo '<input type="text" name="' . esc_attr( self::META_TRANSLATOR ) . '" value="' . esc_attr( $translator ) . '" placeholder="' . esc_attr__( 'Optional translator name', 'masjidos' ) . '"></label>';
+
+		echo '<label class="itmms-article-meta-field"><span>' . esc_html__( 'Source / Reference', 'masjidos' ) . '</span>';
+		echo '<input type="text" name="' . esc_attr( self::META_SOURCE ) . '" value="' . esc_attr( $source ) . '" placeholder="' . esc_attr__( 'e.g. Book, hadith collection, citation', 'masjidos' ) . '"></label>';
+
+		echo '<label class="itmms-article-meta-field"><span>' . esc_html__( 'Key Takeaway', 'masjidos' ) . '</span>';
+		echo '<input type="text" name="' . esc_attr( self::META_TAKEAWAY ) . '" value="' . esc_attr( $takeaway ) . '" placeholder="' . esc_attr__( 'One-line summary for readers', 'masjidos' ) . '"></label>';
+
+		echo '<label class="itmms-article-meta-field"><span>' . esc_html__( 'Original / External URL', 'masjidos' ) . '</span>';
+		echo '<input type="url" name="' . esc_attr( self::META_EXTERNAL ) . '" value="' . esc_attr( $external ) . '" placeholder="https://"></label>';
+
+		echo '<label class="itmms-article-meta-field"><span>' . esc_html__( 'Audio URL', 'masjidos' ) . '</span>';
+		echo '<input type="url" name="' . esc_attr( self::META_AUDIO ) . '" value="' . esc_attr( $audio ) . '" placeholder="' . esc_attr__( 'Optional audio narration URL', 'masjidos' ) . '"></label>';
+		echo '</div>';
+	}
+
+	/**
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post Post object.
+	 */
+	public static function save_meta_box( int $post_id, WP_Post $post ): void {
+		if ( ! isset( $_POST['itmms_article_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['itmms_article_nonce'] ) ), 'itmms_save_article_meta' ) ) {
+			return;
+		}
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		$map = [
+			self::META_LANGUAGE   => [ __CLASS__, 'sanitize_language' ],
+			self::META_AUTHOR     => 'sanitize_text_field',
+			self::META_TRANSLATOR => 'sanitize_text_field',
+			self::META_SOURCE     => 'sanitize_text_field',
+			self::META_TAKEAWAY   => 'sanitize_text_field',
+			self::META_EXTERNAL   => 'esc_url_raw',
+			self::META_AUDIO      => 'esc_url_raw',
+		];
+
+		foreach ( $map as $key => $callback ) {
+			if ( ! isset( $_POST[ $key ] ) ) {
+				continue;
+			}
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized immediately via $callback.
+			$raw = wp_unslash( $_POST[ $key ] );
+			update_post_meta( $post_id, $key, call_user_func( $callback, is_scalar( $raw ) ? (string) $raw : '' ) );
+		}
+	}
+
+	/**
+	 * Block editor sidebar panel + MasjidOS content styles.
+	 */
+	public static function enqueue_article_editor_assets(): void {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( ! $screen || self::POST_TYPE !== $screen->post_type ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'itmms-fonts',
+			ITMMS_PLUGIN_URL . 'public/assets/css/tv-fonts.css',
+			[],
+			ITMMS_VERSION
+		);
+
+		wp_enqueue_style(
+			'itmms-article-editor',
+			ITMMS_PLUGIN_URL . 'admin/assets/css/article-editor.css',
+			[ 'itmms-fonts' ],
+			ITMMS_VERSION
+		);
+
+		wp_enqueue_script(
+			'itmms-article-editor',
+			ITMMS_PLUGIN_URL . 'admin/assets/js/article-editor.js',
+			[ 'wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-i18n' ],
+			ITMMS_VERSION,
+			true
+		);
+
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			wp_set_script_translations( 'itmms-article-editor', 'masjidos', ITMMS_PLUGIN_DIR . 'languages' );
+		}
+	}
+
+	/**
+	 * Meta-box styles on article admin screens.
+	 */
+	public static function enqueue_article_admin_assets( string $hook ): void {
+		if ( ! in_array( $hook, [ 'post.php', 'post-new.php' ], true ) ) {
+			return;
+		}
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( ! $screen || self::POST_TYPE !== $screen->post_type ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'itmms-article-editor',
+			ITMMS_PLUGIN_URL . 'admin/assets/css/article-editor.css',
+			[],
+			ITMMS_VERSION
+		);
+	}
+
+	/**
+	 * @param array<string,string> $columns List table columns.
+	 * @return array<string,string>
+	 */
+	public static function posts_columns( array $columns ): array {
+		$next = [];
+		foreach ( $columns as $key => $label ) {
+			$next[ $key ] = $label;
+			if ( 'title' === $key ) {
+				$next['itmms_article_language'] = __( 'Language', 'masjidos' );
+				$next['itmms_article_author']   = __( 'Author', 'masjidos' );
+			}
+		}
+		return $next;
+	}
+
+	public static function render_post_column( string $column, int $post_id ): void {
+		if ( 'itmms_article_language' === $column ) {
+			$lang = self::sanitize_language( get_post_meta( $post_id, self::META_LANGUAGE, true ) );
+			$labels = [
+				'en' => __( 'English', 'masjidos' ),
+				'bn' => __( 'Bangla', 'masjidos' ),
+				'ar' => __( 'Arabic', 'masjidos' ),
+			];
+			echo esc_html( $labels[ $lang ] ?? $lang );
+			return;
+		}
+		if ( 'itmms_article_author' === $column ) {
+			$author = (string) get_post_meta( $post_id, self::META_AUTHOR, true );
+			echo $author !== '' ? esc_html( $author ) : '&mdash;';
+		}
+	}
+
+	/**
+	 * @param string[] $classes Body classes.
+	 * @return string[]
+	 */
+	public static function body_class( array $classes ): array {
+		if ( is_singular( self::POST_TYPE ) ) {
+			$classes[] = 'itmms-article-singular';
+			$lang = self::sanitize_language( get_post_meta( get_queried_object_id(), self::META_LANGUAGE, true ) );
+			$classes[] = 'itmms-article-lang-' . $lang;
+		}
+		return $classes;
+	}
+
+	/**
+	 * Wrap single article content for theme styling.
+	 */
+	public static function wrap_singular_content( string $content ): string {
+		if ( ! is_singular( self::POST_TYPE ) || ! in_the_loop() || ! is_main_query() ) {
+			return $content;
+		}
+
+		$post_id = (int) get_the_ID();
+		$meta    = self::get_article_meta( $post_id );
+		$minutes = self::estimate_reading_minutes( $content );
+		$terms   = get_the_terms( $post_id, self::TAXONOMY );
+		$cats    = [];
+		if ( is_array( $terms ) ) {
+			foreach ( $terms as $term ) {
+				if ( $term instanceof WP_Term ) {
+					$cats[] = $term->name;
+				}
+			}
+		}
+
+		$lang_labels = [
+			'en' => __( 'English', 'masjidos' ),
+			'bn' => __( 'Bangla', 'masjidos' ),
+			'ar' => __( 'Arabic', 'masjidos' ),
+		];
+
+		$rows = [];
+		$rows[] = '<p class="itmms-article-meta__lang"><span>' . esc_html__( 'Language', 'masjidos' ) . '</span> ' . esc_html( $lang_labels[ $meta['language'] ] ?? $meta['language'] ) . '</p>';
+		if ( ! empty( $cats ) ) {
+			$rows[] = '<p class="itmms-article-meta__cats"><span>' . esc_html__( 'Category', 'masjidos' ) . '</span> ' . esc_html( implode( ', ', $cats ) ) . '</p>';
+		}
+		if ( $meta['author'] !== '' ) {
+			$rows[] = '<p class="itmms-article-meta__author"><span>' . esc_html__( 'Author', 'masjidos' ) . '</span> ' . esc_html( $meta['author'] ) . '</p>';
+		}
+		if ( $meta['translator'] !== '' ) {
+			$rows[] = '<p class="itmms-article-meta__translator"><span>' . esc_html__( 'Translator', 'masjidos' ) . '</span> ' . esc_html( $meta['translator'] ) . '</p>';
+		}
+		if ( $meta['source'] !== '' ) {
+			$rows[] = '<p class="itmms-article-meta__source"><span>' . esc_html__( 'Source', 'masjidos' ) . '</span> ' . esc_html( $meta['source'] ) . '</p>';
+		}
+		if ( $minutes > 0 ) {
+			/* translators: %d: estimated reading minutes */
+			$rows[] = '<p class="itmms-article-meta__read"><span>' . esc_html__( 'Reading time', 'masjidos' ) . '</span> ' . esc_html( sprintf( _n( '%d min', '%d min', $minutes, 'masjidos' ), $minutes ) ) . '</p>';
+		}
+		if ( $meta['external'] !== '' ) {
+			$rows[] = '<p class="itmms-article-meta__external"><span>' . esc_html__( 'Original', 'masjidos' ) . '</span> <a href="' . esc_url( $meta['external'] ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Open source link', 'masjidos' ) . '</a></p>';
+		}
+
+		$meta_html = '<aside class="itmms-article-meta">' . implode( '', $rows ) . '</aside>';
+
+		$takeaway_html = '';
+		if ( $meta['takeaway'] !== '' ) {
+			$takeaway_html = '<p class="itmms-article-takeaway"><strong>' . esc_html__( 'Key takeaway', 'masjidos' ) . '</strong> ' . esc_html( $meta['takeaway'] ) . '</p>';
+		}
+
+		$audio_html = '';
+		if ( $meta['audio'] !== '' ) {
+			$audio_html = '<div class="itmms-article-audio"><span>' . esc_html__( 'Listen', 'masjidos' ) . '</span><audio controls preload="none" src="' . esc_url( $meta['audio'] ) . '"></audio></div>';
+		}
+
+		return '<div class="itmms-article-entry itmms-article-entry--lang-' . esc_attr( $meta['language'] ) . '">' .
+			$meta_html .
+			$takeaway_html .
+			$audio_html .
+			'<div class="itmms-article-entry__content">' . $content . '</div></div>';
+	}
+
+	/**
+	 * @return array{language:string,author:string,translator:string,source:string,external:string,audio:string,takeaway:string}
+	 */
+	public static function get_article_meta( int $post_id ): array {
+		return [
+			'language'   => self::sanitize_language( get_post_meta( $post_id, self::META_LANGUAGE, true ) ),
+			'author'     => (string) get_post_meta( $post_id, self::META_AUTHOR, true ),
+			'translator' => (string) get_post_meta( $post_id, self::META_TRANSLATOR, true ),
+			'source'     => (string) get_post_meta( $post_id, self::META_SOURCE, true ),
+			'external'   => (string) get_post_meta( $post_id, self::META_EXTERNAL, true ),
+			'audio'      => (string) get_post_meta( $post_id, self::META_AUDIO, true ),
+			'takeaway'   => (string) get_post_meta( $post_id, self::META_TAKEAWAY, true ),
+		];
+	}
+
+	/**
+	 * Rough reading-time estimate (~200 wpm).
+	 */
+	public static function estimate_reading_minutes( string $html ): int {
+		$text = trim( wp_strip_all_tags( $html ) );
+		if ( '' === $text ) {
+			return 0;
+		}
+		$words = preg_split( '/\s+/u', $text, -1, PREG_SPLIT_NO_EMPTY );
+		$count = is_array( $words ) ? count( $words ) : 0;
+		return max( 1, (int) ceil( $count / 200 ) );
+	}
+
+	public static function enqueue_singular_assets(): void {
+		if ( ! is_singular( self::POST_TYPE ) ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'itmms-fonts',
+			ITMMS_PLUGIN_URL . 'public/assets/css/tv-fonts.css',
+			[],
+			ITMMS_VERSION
+		);
+		wp_enqueue_style(
+			'itmms-public',
+			ITMMS_PLUGIN_URL . 'public/assets/css/public.css',
+			[ 'itmms-fonts' ],
+			ITMMS_VERSION
 		);
 	}
 
@@ -93,8 +546,8 @@ class ITMMS_Education {
 		];
 
 		foreach ( $terms as $name => $description ) {
-			if ( ! term_exists( $name, 'itmms_article_category' ) ) {
-				wp_insert_term( $name, 'itmms_article_category', [ 'description' => $description ] );
+			if ( ! term_exists( $name, self::TAXONOMY ) ) {
+				wp_insert_term( $name, self::TAXONOMY, [ 'description' => $description ] );
 			}
 		}
 	}
@@ -133,6 +586,24 @@ class ITMMS_Education {
 				'en'  => 'Indeed, Allah is with the patient.',
 				'bn'  => 'নিশ্চয়ই আল্লাহ ধৈর্যশীলদের সাথে আছেন।',
 				'ref' => 'Surah Al-Baqarah 2:153',
+			],
+			[
+				'ar'  => 'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا',
+				'en'  => 'And whoever fears Allah - He will make for him a way out.',
+				'bn'  => 'যে আল্লাহকে ভয় করে, তিনি তার জন্য নিষ্কৃতির পথ করে দেন।',
+				'ref' => 'Surah At-Talaq 65:2',
+			],
+			[
+				'ar'  => 'فَاذْكُرُونِي أَذْكُرْكُمْ',
+				'en'  => 'So remember Me; I will remember you.',
+				'bn'  => 'অতএব তোমরা আমাকে স্মরণ করো, আমিও তোমাদের স্মরণ করব।',
+				'ref' => 'Surah Al-Baqarah 2:152',
+			],
+			[
+				'ar'  => 'وَبَشِّرِ الصَّابِرِينَ',
+				'en'  => 'And give good tidings to the patient.',
+				'bn'  => 'এবং ধৈর্যশীলদের সুসংবাদ দাও।',
+				'ref' => 'Surah Al-Baqarah 2:155',
 			],
 		];
 
@@ -174,6 +645,24 @@ class ITMMS_Education {
 				'en'  => 'A Muslim is the one from whose tongue and hand other Muslims are safe.',
 				'bn'  => 'প্রকৃত মুসলিম সে, যার জিহ্বা ও হাত থেকে অন্য মুসলমান নিরাপদ থাকে।',
 				'ref' => 'Sahih Al-Bukhari 10',
+			],
+			[
+				'ar'  => 'خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ',
+				'en'  => 'The best among you are those who learn the Quran and teach it.',
+				'bn'  => 'তোমাদের মধ্যে সর্বোত্তম সে, যে কুরআন শেখে এবং অন্যকে শেখায়।',
+				'ref' => 'Sahih Al-Bukhari 5027',
+			],
+			[
+				'ar'  => 'الطُّهُورُ شَطْرُ الإِيمَانِ',
+				'en'  => 'Cleanliness is half of faith.',
+				'bn'  => 'পবিত্রতা ঈমানের অর্ধেক।',
+				'ref' => 'Sahih Muslim 223',
+			],
+			[
+				'ar'  => 'مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ',
+				'en'  => 'Whoever travels a path in search of knowledge, Allah makes easy for him a path to Paradise.',
+				'bn'  => 'যে জ্ঞান অর্জনের পথে চলে, আল্লাহ তার জন্য জান্নাতের পথ সহজ করে দেন।',
+				'ref' => 'Sahih Muslim 2699',
 			],
 		];
 
@@ -301,7 +790,76 @@ class ITMMS_Education {
 	}
 
 	/**
+	 * Query published Islamic articles for public widgets.
+	 *
+	 * @return array<int,array<string,mixed>>
+	 */
+	public static function get_articles( int $limit = 6, string $category = '' ): array {
+		$args = [
+			'post_type'              => self::POST_TYPE,
+			'post_status'            => 'publish',
+			'posts_per_page'         => max( 1, min( 24, $limit ) ),
+			'orderby'                => 'date',
+			'order'                  => 'DESC',
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => true,
+		];
+
+		if ( '' !== $category ) {
+			$args['tax_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+				[
+					'taxonomy' => self::TAXONOMY,
+					'field'    => 'slug',
+					'terms'    => $category,
+				],
+			];
+		}
+
+		$query = new WP_Query( $args );
+		$items = [];
+
+		foreach ( $query->posts as $post ) {
+			if ( ! $post instanceof WP_Post ) {
+				continue;
+			}
+
+			$terms = get_the_terms( $post, self::TAXONOMY );
+			$cats = [];
+			if ( is_array( $terms ) ) {
+				foreach ( $terms as $term ) {
+					if ( $term instanceof WP_Term ) {
+						$cats[] = $term->name;
+					}
+				}
+			}
+
+			$thumb = get_the_post_thumbnail_url( $post, 'medium' );
+			$meta  = self::get_article_meta( (int) $post->ID );
+			$items[] = [
+				'id'         => (int) $post->ID,
+				'title'      => get_the_title( $post ),
+				'url'        => get_permalink( $post ),
+				'excerpt'    => wp_trim_words( get_the_excerpt( $post ), 28 ),
+				'image'      => is_string( $thumb ) ? $thumb : '',
+				'categories' => $cats,
+				'date'       => get_the_date( 'Y-m-d', $post ),
+				'language'   => $meta['language'],
+				'author'     => $meta['author'],
+				'translator' => $meta['translator'],
+				'source'     => $meta['source'],
+				'takeaway'   => $meta['takeaway'],
+				'external'   => $meta['external'],
+				'audio'      => $meta['audio'],
+			];
+		}
+
+		return $items;
+	}
+
+	/**
 	 * List of commonly used Surahs for the Audio Quran.
+	 *
+	 * @return array<int,array<string,string>>
 	 */
 	public static function get_surahs(): array {
 		return [
