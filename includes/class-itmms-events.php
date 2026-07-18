@@ -450,12 +450,9 @@ final class ITMMS_Events {
 		];
 
 		$id_counter = 90000;
-		$locale = determine_locale();
-		$lang = 'en';
-		if ( 0 === strpos( $locale, 'bn' ) ) {
-			$lang = 'bn';
-		} elseif ( 0 === strpos( $locale, 'ar' ) ) {
-			$lang = 'ar';
+		$lang       = ITMMS_Settings::ui_language();
+		if ( ! in_array( $lang, [ 'en', 'bn', 'ar' ], true ) ) {
+			$lang = 'en';
 		}
 
 		for ( $hy = $start_hijri - 1; $hy <= $end_hijri + 1; $hy++ ) {

@@ -18,6 +18,7 @@
 
 	var prayers = data.prayers || [];
 	var labels = data.labels || {};
+	var lang = data.lang || 'en';
 	var dim = data.dim || {};
 	var clockFormat = data.clock === '12h' ? '12h' : '24h';
 	var alertMinutes = Math.max( 1, Math.min( 30, parseInt( data.alertMinutes, 10 ) || 10 ) );
@@ -27,25 +28,60 @@
 	var quietActive = false;
 	var forceBoardSlide = null;
 
+	function digitMap() {
+		if ( lang === 'bn' ) {
+			return { '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯' };
+		}
+		if ( lang === 'ar' ) {
+			return { '0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤', '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩' };
+		}
+		return null;
+	}
+
+	function localizeDigits( value ) {
+		var text = String( value );
+		var map = digitMap();
+		if ( ! map ) {
+			return text;
+		}
+		return text.replace( /[0-9]/g, function ( digit ) {
+			return map[ digit ] || digit;
+		} );
+	}
+
 	function pad2( num ) {
 		return String( num ).padStart( 2, '0' );
+	}
+
+	function formatDuration( totalSeconds ) {
+		var seconds = Math.max( 0, totalSeconds );
+		return localizeDigits(
+			pad2( Math.floor( seconds / 3600 ) ) + ':' +
+			pad2( Math.floor( ( seconds % 3600 ) / 60 ) ) + ':' +
+			pad2( seconds % 60 )
+		);
 	}
 
 	function formatClock( now ) {
 		var hours = now.getHours();
 		var minutes = now.getMinutes();
 		var seconds = now.getSeconds();
+		var meridiem = {
+			bn: { AM: 'পূর্বাহ্ন', PM: 'অপরাহ্ন' },
+			ar: { AM: 'ص', PM: 'م' }
+		};
 
 		if ( clockFormat === '12h' ) {
-			var suffix = hours >= 12 ? 'PM' : 'AM';
+			var suffixKey = hours >= 12 ? 'PM' : 'AM';
+			var suffix = ( meridiem[ lang ] && meridiem[ lang ][ suffixKey ] ) || suffixKey;
 			var hour12 = hours % 12;
 			if ( hour12 === 0 ) {
 				hour12 = 12;
 			}
-			return pad2( hour12 ) + ':' + pad2( minutes ) + ':' + pad2( seconds ) + ' ' + suffix;
+			return localizeDigits( pad2( hour12 ) + ':' + pad2( minutes ) + ':' + pad2( seconds ) ) + ' ' + suffix;
 		}
 
-		return pad2( hours ) + ':' + pad2( minutes ) + ':' + pad2( seconds );
+		return localizeDigits( pad2( hours ) + ':' + pad2( minutes ) + ':' + pad2( seconds ) );
 	}
 
 	function scheduleSecondAligned( callback ) {
@@ -184,13 +220,12 @@
 		var alertBadge = document.getElementById( 'itmms-tv-alert-badge' );
 
 		if ( nextEvent && nextNameEl && labelEl && countdownEl ) {
+			var localizedName = labels[ nextEvent.key ] || nextEvent.name;
 			if ( quietActive ) {
-				nextNameEl.textContent = quietActive.name || nextEvent.name;
+				nextNameEl.textContent = quietActive.name || localizedName;
 				labelEl.textContent = labels.quiet_message || 'Prayer in progress';
 				var quietLeft = Math.max( 0, Math.floor( ( quietActive.endsAt - now.getTime() ) / 1000 ) );
-				countdownEl.textContent = pad2( Math.floor( quietLeft / 3600 ) ) + ':' +
-					pad2( Math.floor( ( quietLeft % 3600 ) / 60 ) ) + ':' +
-					pad2( quietLeft % 60 );
+				countdownEl.textContent = formatDuration( quietLeft );
 
 				if ( countdownBox ) {
 					countdownBox.classList.remove( 'is-alert', 'is-alert-critical', 'is-target-jamaat', 'is-target-azan' );
@@ -202,14 +237,12 @@
 					alertBadge.hidden = true;
 				}
 			} else {
-				nextNameEl.textContent = nextEvent.name;
-				labelEl.textContent = labels[nextEvent.type] || 'Countdown';
+				nextNameEl.textContent = localizedName;
+				labelEl.textContent = labels[ nextEvent.type ] || 'Countdown';
 
 				var diffMs = Math.max( 0, nextEvent.time.getTime() - now.getTime() );
 				var diffSeconds = Math.floor( diffMs / 1000 );
-				countdownEl.textContent = pad2( Math.floor( diffSeconds / 3600 ) ) + ':' +
-					pad2( Math.floor( ( diffSeconds % 3600 ) / 60 ) ) + ':' +
-					pad2( diffSeconds % 60 );
+				countdownEl.textContent = formatDuration( diffSeconds );
 
 				var minsLeft = diffSeconds / 60;
 				var inAlert = minsLeft > 0 && minsLeft <= alertMinutes;

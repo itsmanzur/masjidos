@@ -20,7 +20,7 @@ final class ITMMS_Settings {
 	 * @return array<string,mixed>
 	 */
 	public static function defaults(): array {
-		return [
+		$defaults = [
 			'masjid_name'         => get_bloginfo( 'name' ),
 			'city'                => 'Dhaka',
 			'country'             => 'Bangladesh',
@@ -99,6 +99,13 @@ final class ITMMS_Settings {
 			'tv_quiet_minutes'      => 15,
 			'ui_language'           => 'en',
 		];
+
+		/**
+		 * Filter default settings (Pro may add module keys / options).
+		 *
+		 * @param array<string,mixed> $defaults Default settings.
+		 */
+		return (array) apply_filters( 'masjidos_defaults', $defaults );
 	}
 
 	/**
@@ -226,12 +233,19 @@ final class ITMMS_Settings {
 	 * @return array<int,array<string,string>>
 	 */
 	public static function module_definitions(): array {
-		return [
+		$definitions = [
 			[ 'key' => 'prayer_times', 'name' => __( 'Prayer Times', 'masjidos' ), 'description' => __( 'Auto location, Azan countdown, Qibla', 'masjidos' ), 'icon' => 'clock', 'color' => 'teal' ],
 			[ 'key' => 'announcements', 'name' => __( 'Announcements', 'masjidos' ), 'description' => __( 'Scheduled notices, public list, ticker', 'masjidos' ), 'icon' => 'megaphone', 'color' => 'orange' ],
 			[ 'key' => 'events', 'name' => __( 'Events', 'masjidos' ), 'description' => __( 'Events calendar, timings, and location registration', 'masjidos' ), 'icon' => 'calendar', 'color' => 'blue' ],
 			[ 'key' => 'duas_azkar', 'name' => __( 'Duas & Azkar', 'masjidos' ), 'description' => __( 'Daily duas, azkar counters, sharing, and audio-ready cards', 'masjidos' ), 'icon' => 'ledger', 'color' => 'teal' ],
 		];
+
+		/**
+		 * Filter module definitions shown in the Free admin Modules UI.
+		 *
+		 * @param array<int,array<string,string>> $definitions Module cards.
+		 */
+		return (array) apply_filters( 'masjidos_module_definitions', $definitions );
 	}
 
 	/**

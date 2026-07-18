@@ -57,12 +57,57 @@ final class ITMMS_Prayer_Timetable {
 		$days = array_keys( $store['days'] );
 		sort( $days );
 
+		$years = [];
+		foreach ( $days as $date ) {
+			$year = (int) substr( (string) $date, 0, 4 );
+			if ( $year >= 1970 ) {
+				$years[ $year ] = ( $years[ $year ] ?? 0 ) + 1;
+			}
+		}
+		ksort( $years );
+
+		$count = count( $days );
+
 		return [
-			'count'      => count( $days ),
+			'count'      => $count,
 			'start_date' => $days[0] ?? '',
 			'end_date'   => '' !== ( $days[0] ?? '' ) ? ( $days[ count( $days ) - 1 ] ?? '' ) : '',
 			'updated_at' => (string) ( $store['updated_at'] ?? '' ),
 			'active'     => ! empty( $days ),
+			'years'      => $years,
+			'large'      => $count > 400,
+		];
+	}
+
+	/**
+	 * Validate CSV without writing to storage.
+	 *
+	 * @return array<string,mixed>
+	 */
+	public static function validate_csv( string $csv ): array {
+		$parsed = self::parse_csv( $csv );
+		$rows   = $parsed['rows'];
+		$dates  = [];
+		foreach ( $rows as $row ) {
+			$date = (string) ( $row['date'] ?? '' );
+			if ( '' !== $date ) {
+				$dates[] = $date;
+			}
+		}
+		sort( $dates );
+
+		$preview = array_slice( $dates, 0, 5 );
+		$valid   = count( $rows );
+
+		return [
+			'success'   => $valid > 0,
+			'valid'     => $valid,
+			'errors'    => $parsed['errors'],
+			'error_count'=> count( $parsed['errors'] ),
+			'preview'   => $preview,
+			'start_date'=> $dates[0] ?? '',
+			'end_date'  => '' !== ( $dates[0] ?? '' ) ? ( $dates[ count( $dates ) - 1 ] ?? '' ) : '',
+			'summary'   => self::summary(),
 		];
 	}
 
@@ -71,15 +116,23 @@ final class ITMMS_Prayer_Timetable {
 	 *
 	 * @return array<string,mixed>
 	 */
-	public static function import_csv( string $csv, string $mode = 'merge' ): array {
+	public static function import_csv( string $csv, string $mode = 'merge', bool $dry_run = false ): array {
+		if ( $dry_run ) {
+			$result = self::validate_csv( $csv );
+			$result['imported'] = 0;
+			$result['skipped']  = 0;
+			$result['dry_run']  = true;
+			return $result;
+		}
+
 		$parsed = self::parse_csv( $csv );
 		if ( ! empty( $parsed['errors'] ) && empty( $parsed['rows'] ) ) {
 			return [
-				'success' => false,
-				'errors'  => $parsed['errors'],
-				'imported'=> 0,
-				'skipped' => 0,
-				'summary' => self::summary(),
+				'success'  => false,
+				'errors'   => $parsed['errors'],
+				'imported' => 0,
+				'skipped'  => 0,
+				'summary'  => self::summary(),
 			];
 		}
 
@@ -126,11 +179,25 @@ final class ITMMS_Prayer_Timetable {
 
 	/**
 	 * Export stored timetable as CSV.
+	 *
+	 * @param int|null $year Optional Gregorian year filter.
 	 */
-	public static function export_csv(): string {
+	public static function export_csv( ?int $year = null ): string {
 		$store = self::get_store();
 		$days  = array_keys( $store['days'] );
 		sort( $days );
+
+		if ( null !== $year && $year >= 1970 && $year <= 2099 ) {
+			$prefix = sprintf( '%04d-', $year );
+			$days   = array_values(
+				array_filter(
+					$days,
+					static function ( $date ) use ( $prefix ): bool {
+						return 0 === strpos( (string) $date, $prefix );
+					}
+				)
+			);
+		}
 
 		$headers = [
 			'date',
@@ -169,7 +236,43 @@ final class ITMMS_Prayer_Timetable {
 			$lines[] = implode( ',', array_map( [ self::class, 'escape_csv_cell' ], $cells ) );
 		}
 
-		return implode( "\n", $lines ) . ( empty( $lines ) ? '' : "\n" );
+		return implode( "\n", $lines ) . ( count( $lines ) > 1 ? "\n" : '' );
+	}
+
+	/**
+	 * Remove imported days for one Gregorian year.
+	 *
+	 * @return array<string,mixed>
+	 */
+	public static function clear_year( int $year ): array {
+		$year = max( 1970, min( 2099, $year ) );
+		$prefix = sprintf( '%04d-', $year );
+		$store  = self::get_store();
+		$removed = 0;
+
+		foreach ( array_keys( $store['days'] ) as $date ) {
+			if ( 0 === strpos( (string) $date, $prefix ) ) {
+				unset( $store['days'][ $date ] );
+				++$removed;
+			}
+		}
+
+		if ( $removed > 0 ) {
+			$store['updated_at'] = gmdate( 'c' );
+			if ( empty( $store['days'] ) ) {
+				delete_option( self::OPTION_KEY );
+			} else {
+				update_option( self::OPTION_KEY, $store, false );
+			}
+			ITMMS_Prayer_Times::flush_cache();
+		}
+
+		return [
+			'success' => true,
+			'removed' => $removed,
+			'year'    => $year,
+			'summary' => self::summary(),
+		];
 	}
 
 	/**

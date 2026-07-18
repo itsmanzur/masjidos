@@ -292,21 +292,31 @@ final class ITMMS_Admin {
 			true
 		);
 
+		$admin_deps = [
+			'itmms-admin-shared',
+			'itmms-admin-dashboard',
+			'itmms-admin-welcome',
+			'itmms-admin-settings',
+			'itmms-admin-announcements',
+			'itmms-admin-docs',
+			'itmms-admin-events',
+			'itmms-admin-minbar',
+			'itmms-admin-khutbah',
+			'itmms-admin-features',
+		];
+
+		/**
+		 * Filter script handles that must load before the Free admin SPA (app.js).
+		 * Pro may append its own registered module handles here.
+		 *
+		 * @param string[] $admin_deps Dependency handles.
+		 */
+		$admin_deps = (array) apply_filters( 'masjidos_admin_dependencies', $admin_deps );
+
 		wp_enqueue_script(
 			'itmms-admin',
 			ITMMS_PLUGIN_URL . 'admin/assets/js/app.js',
-			[
-				'itmms-admin-shared',
-				'itmms-admin-dashboard',
-				'itmms-admin-welcome',
-				'itmms-admin-settings',
-				'itmms-admin-announcements',
-				'itmms-admin-docs',
-				'itmms-admin-events',
-				'itmms-admin-minbar',
-				'itmms-admin-khutbah',
-				'itmms-admin-features',
-			],
+			$admin_deps,
 			ITMMS_VERSION,
 			true
 		);
@@ -318,6 +328,14 @@ final class ITMMS_Admin {
 		);
 
 		$this->inject_ui_script_translations( 'itmms-admin' );
+
+		/**
+		 * Filter Free admin sidebar nav extras.
+		 * Each item: group_label, type (link|tab), label, icon, url|tab.
+		 *
+		 * @param array<int,array<string,mixed>> $nav Nav entries.
+		 */
+		$admin_nav = (array) apply_filters( 'masjidos_admin_nav', [] );
 
 		wp_localize_script(
 			'itmms-admin-shared',
@@ -346,6 +364,9 @@ final class ITMMS_Admin {
 					'id'   => get_current_user_id(),
 					'name' => wp_get_current_user()->display_name,
 				],
+				'pro'          => masjidos_pro_localize(),
+				'proUrl'       => masjidos_pro_url(),
+				'adminNav'     => $admin_nav,
 			]
 		);
 	}
@@ -423,17 +444,26 @@ final class ITMMS_Admin {
 	}
 
 	/**
-	 * Check whether the current request is a MasjidOS admin page.
+	 * Check whether the current request is a MasjidOS Free SPA admin page.
+	 * Sibling Pro screens (page=masjidos-pro-*) stay on normal WP admin chrome.
 	 *
 	 * @param string $hook Optional hook suffix.
 	 */
 	private function is_itmms_page( string $hook = '' ): bool {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+
+		if ( $page && 0 === strpos( $page, 'masjidos-pro' ) ) {
+			return false;
+		}
+		if ( $hook && false !== strpos( $hook, 'masjidos-pro' ) ) {
+			return false;
+		}
+
 		if ( $hook && false !== strpos( $hook, 'masjidos' ) ) {
 			return true;
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
-		return 0 === strpos( $page, 'masjidos' );
+		return '' !== $page && 0 === strpos( $page, 'masjidos' );
 	}
 }

@@ -1,14 +1,14 @@
-=== MasjidOS — Mosque Management Plugin for WordPress ===
+=== MasjidOS ===
 Contributors: itsmanzur
 Tags: prayer times, mosque, islamic calendar, duas, quran
 Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Mosque management plugin: prayer times, Jumuah & Minbar, Duas, Quran, Islamic calendar, TV display, events, and notices for mosques.
+Mosque management for WordPress: prayer times, Jumuah & Minbar, Duas, Quran, Islamic calendar, TV display, events, and notices.
 
 == Description ==
 
@@ -236,6 +236,12 @@ Public widgets display only what an administrator has explicitly configured: pra
 
 == Changelog ==
 
+= 1.2.1 =
+* Public widget polish — Prayer Times, Monthly Timetable, TV Display, Islamic Calendar, and Minbar/Khutbah surfaces (upcoming, this week’s khatib, archive, search).
+* Bangla/Arabic labels, digits, and empty states aligned across public widgets.
+* Plugin Check / coding standards fixes (i18n translators comments, escaping, readme name, prefixed template variables).
+* Bangla translation pack updated for newly introduced strings.
+
 = 1.2.0 =
 * **Welcome experience** — first-run screen with live prayer preview, setup pulse, and clear paths to Settings, Features, and TV display.
 * **Admin UI language switcher** — English, Bangla, and Arabic for MasjidOS menus with reload-friendly toggle and clearer Docs guidance on admin vs. public vs. content language.
@@ -263,6 +269,9 @@ Public widgets display only what an administrator has explicitly configured: pra
 * Features page with live shortcode previews and Docs with shortcode generators.
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Public widget polish (TV, calendar, khutbah surfaces), Plugin Check compliance fixes, and Bangla pack updates. Recommended for all sites.
 
 = 1.2.0 =
 Welcome screen, admin language switcher (English / Bangla / Arabic), Islamic Articles improvements, Minbar public widget docs, self-hosted fonts, and Docs polish for everyday mosque admins. Recommended update for all users.

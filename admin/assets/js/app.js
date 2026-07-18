@@ -142,6 +142,7 @@
 						navButton( 'settings', 'settings', __( 'Settings', 'masjidos' ) ) +
 						navButton( 'docs', 'book', __( 'Docs', 'masjidos' ) )
 					) +
+					proNavHtml() +
 				'</nav>' +
 				'<div class="itmms-user-card"><div>' + esc( initials( userName ) ) + '</div><span><strong>' + esc( userName ) + '</strong><small>' + esc( __( 'Administrator', 'masjidos' ) ) + '</small></span></div>' +
 			'</aside>' +
@@ -406,6 +407,38 @@
 		return '<a class="itmms-nav-item" href="' + esc( href ) + '">' + icon( iconName ) + '<span>' + esc( label ) + '</span></a>';
 	}
 
+	function proNavHtml() {
+		var extras = Array.isArray( data.adminNav ) ? data.adminNav : [];
+		var pro = data.pro || {};
+		var html = '';
+
+		if ( extras.length ) {
+			var items = extras.map( function ( item ) {
+				if ( ! item || ! item.label ) {
+					return '';
+				}
+				if ( item.type === 'tab' && item.tab ) {
+					return navButton( item.tab, item.icon || 'star', item.label, item.opts || {} );
+				}
+				if ( item.url ) {
+					return navLink( item.url, item.icon || 'star', item.label );
+				}
+				return '';
+			} ).join( '' );
+			if ( items ) {
+				html += navGroup( extras[0].group_label || __( 'Pro', 'masjidos' ), items );
+			}
+		}
+
+		if ( ! pro.active && ( data.proUrl || pro.url ) ) {
+			html += navGroup( __( 'Pro', 'masjidos' ),
+				navLink( data.proUrl || pro.url, 'star', pro.cta || __( 'Learn about Pro', 'masjidos' ) )
+			);
+		}
+
+		return html;
+	}
+
 	function isPrayerSettingsTab( key ) {
 		return [ 'calculation', 'timetable', 'adjustments', 'iqamah' ].indexOf( key ) !== -1;
 	}
@@ -427,6 +460,7 @@
 				var tab = btn.getAttribute( 'data-tab' );
 				var minbarTab = btn.getAttribute( 'data-minbar-tab' );
 				var settingsTab = btn.getAttribute( 'data-settings-tab' );
+				var docsTab = btn.getAttribute( 'data-docs-tab' );
 
 				if ( minbarTab ) {
 					state.minbarTab = minbarTab;
@@ -437,6 +471,9 @@
 					if ( isPrayerSettingsTab( state.settingsTab ) ) {
 						state.settingsTab = 'profile';
 					}
+				}
+				if ( docsTab ) {
+					state.docsTab = docsTab;
 				}
 
 				if ( tab === 'minbar' ) {
@@ -450,6 +487,9 @@
 				if ( tab === 'settings' ) {
 					activateSettingsTab( state.settingsTab, 'replace' );
 				}
+				if ( tab === 'docs' && docsTab ) {
+					activateDocsTab( docsTab );
+				}
 			} );
 		} );
 
@@ -461,7 +501,13 @@
 		}
 
 		app.querySelectorAll( '[data-open-settings]' ).forEach( function ( btn ) {
-			btn.addEventListener( 'click', function () { switchTab( 'settings', 'push' ); } );
+			btn.addEventListener( 'click', function () {
+				if ( ! isPrayerSettingsTab( state.settingsTab ) ) {
+					state.settingsTab = 'calculation';
+				}
+				switchTab( 'settings', 'push' );
+				activateSettingsTab( state.settingsTab, 'replace' );
+			} );
 		} );
 
 		bindMediaPickers();
@@ -860,8 +906,20 @@
 			key = 'profile';
 		}
 		state.settingsTab = key;
+		var prayerMode = isPrayerSettingsTab( key );
+		var form = app.querySelector( '#itmms-settings-form' );
+		if ( form ) {
+			form.classList.toggle( 'itmms-settings-form--prayer', prayerMode );
+			form.classList.toggle( 'itmms-settings-form--general', ! prayerMode );
+		}
 		app.querySelectorAll( '.itmms-settings-tab[data-settings-tab]' ).forEach( function ( tab ) {
-			tab.classList.toggle( 'active', tab.getAttribute( 'data-settings-tab' ) === key );
+			var tabKey = tab.getAttribute( 'data-settings-tab' );
+			var group = tab.getAttribute( 'data-settings-group' ) || 'general';
+			var show = prayerMode ? group === 'prayer' : group === 'general';
+			var active = tabKey === key;
+			tab.hidden = ! show;
+			tab.classList.toggle( 'active', active );
+			tab.setAttribute( 'aria-selected', active ? 'true' : 'false' );
 		} );
 		app.querySelectorAll( '[data-settings-panel]' ).forEach( function ( panel ) {
 			panel.classList.toggle( 'active', panel.getAttribute( 'data-settings-panel' ) === key );
@@ -947,15 +1005,61 @@
 				activateDocsTab( tab.getAttribute( 'data-doc-tab' ), 'push' );
 			} );
 		} );
+
+		bindDocsAccordions();
+		bindDocsChecklist();
+	}
+
+	function bindDocsChecklist() {
+		app.querySelectorAll( '[data-docs-check]' ).forEach( function ( input ) {
+			if ( input.disabled ) {
+				return;
+			}
+			input.addEventListener( 'change', function () {
+				var id = input.getAttribute( 'data-docs-check' );
+				var row = input.closest( '.itmms-docs-check' );
+				try {
+					window.localStorage.setItem( 'itmms_docs_check_' + id, input.checked ? '1' : '0' );
+				} catch ( e ) {}
+				if ( row ) {
+					row.classList.toggle( 'is-done', input.checked );
+				}
+			} );
+		} );
+	}
+
+	function bindDocsAccordions() {
+		app.querySelectorAll( '[data-docs-accordion-open]' ).forEach( function ( btn ) {
+			btn.addEventListener( 'click', function () {
+				var id = btn.getAttribute( 'data-docs-accordion-open' );
+				var panel = app.querySelector( '[data-docs-accordion="' + id + '"]' );
+				if ( ! panel ) {
+					return;
+				}
+				app.querySelectorAll( '[data-docs-accordion]' ).forEach( function ( item ) {
+					if ( item !== panel ) {
+						item.removeAttribute( 'open' );
+					}
+				} );
+				panel.setAttribute( 'open', '' );
+				panel.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+				app.querySelectorAll( '[data-docs-accordion-open]' ).forEach( function ( chip ) {
+					chip.classList.toggle( 'is-active', chip.getAttribute( 'data-docs-accordion-open' ) === id );
+				} );
+			} );
+		} );
 	}
 
 	function activateDocsTab( key, historyMode ) {
-		if ( [ 'overview', 'generators', 'prayer', 'jumuah', 'notices', 'pro', 'reference' ].indexOf( key ) === -1 ) {
+		var allowed = [ 'overview', 'generators', 'prayer', 'jumuah', 'minbar', 'calendar', 'duas', 'notices', 'events', 'articles', 'education', 'pro', 'reference' ];
+		if ( allowed.indexOf( key ) === -1 ) {
 			key = 'overview';
 		}
 		state.docsTab = key;
 		app.querySelectorAll( '[data-doc-tab]' ).forEach( function ( tab ) {
-			tab.classList.toggle( 'active', tab.getAttribute( 'data-doc-tab' ) === key );
+			var active = tab.getAttribute( 'data-doc-tab' ) === key;
+			tab.classList.toggle( 'active', active );
+			tab.setAttribute( 'aria-selected', active ? 'true' : 'false' );
 		} );
 		app.querySelectorAll( '[data-doc-panel]' ).forEach( function ( panel ) {
 			panel.classList.toggle( 'active', panel.getAttribute( 'data-doc-panel' ) === key );
@@ -1026,7 +1130,7 @@
 			}
 		}
 
-		app.querySelectorAll( '[data-builder-design], [data-builder-language], [data-builder-title], [data-builder-qibla], [data-builder-meta], [data-builder-iqamah], [data-jumuah-builder-design], [data-jumuah-builder-language], [data-jumuah-builder-title], [data-jumuah-builder-meta], [data-monthly-builder-design], [data-monthly-builder-month], [data-monthly-builder-year], [data-monthly-builder-language], [data-monthly-builder-title], [data-monthly-builder-iqamah], [data-monthly-builder-navigation], [data-calendar-builder-month], [data-calendar-builder-year], [data-calendar-builder-language], [data-calendar-builder-title], [data-calendar-builder-navigation], [data-duas-builder-design], [data-duas-builder-language], [data-duas-builder-category], [data-duas-builder-limit], [data-duas-builder-title], [data-duas-builder-source], [data-duas-builder-counter], [data-duas-builder-share], [data-duas-builder-audio], [data-announcement-builder-design], [data-announcement-builder-language], [data-announcement-builder-type], [data-announcement-builder-limit], [data-announcement-builder-title], [data-announcement-builder-date], [data-events-builder-design], [data-events-builder-language], [data-events-builder-limit], [data-events-builder-title]' ).forEach( function ( input ) {
+		app.querySelectorAll( '[data-builder-design], [data-builder-language], [data-builder-title], [data-builder-qibla], [data-builder-meta], [data-builder-iqamah], [data-builder-hijri], [data-jumuah-builder-design], [data-jumuah-builder-language], [data-jumuah-builder-title], [data-jumuah-builder-meta], [data-monthly-builder-design], [data-monthly-builder-month], [data-monthly-builder-year], [data-monthly-builder-language], [data-monthly-builder-title], [data-monthly-builder-iqamah], [data-monthly-builder-navigation], [data-calendar-builder-month], [data-calendar-builder-year], [data-calendar-builder-language], [data-calendar-builder-title], [data-calendar-builder-navigation], [data-duas-builder-design], [data-duas-builder-language], [data-duas-builder-category], [data-duas-builder-limit], [data-duas-builder-title], [data-duas-builder-source], [data-duas-builder-counter], [data-duas-builder-share], [data-duas-builder-audio], [data-announcement-builder-design], [data-announcement-builder-language], [data-announcement-builder-type], [data-announcement-builder-limit], [data-announcement-builder-title], [data-announcement-builder-date], [data-events-builder-design], [data-events-builder-language], [data-events-builder-limit], [data-events-builder-title]' ).forEach( function ( input ) {
 			input.addEventListener( 'input', update );
 			input.addEventListener( 'change', update );
 		} );
@@ -1106,6 +1210,9 @@
 		}
 		if ( ! builderChecked( '[data-builder-iqamah]' ) ) {
 			attrs.push( 'iqamah="no"' );
+		}
+		if ( ! builderChecked( '[data-builder-hijri]' ) ) {
+			attrs.push( 'hijri="no"' );
 		}
 
 		return '[masjidos_prayer_times' + ( attrs.length ? ' ' + attrs.join( ' ' ) : '' ) + ']';
@@ -1535,6 +1642,8 @@
 			state.timetable = response.timetable || state.timetable;
 			state.dashboardAnnouncements = response.announcements || [];
 			state.dashboardEvents = response.events || [];
+			state.pro = response.pro || data.pro || {};
+			state.proCards = response.pro_cards || [];
 			return Promise.all( [
 				loadAnnouncements().catch( function () {} ),
 				loadEvents().catch( function () {} ),

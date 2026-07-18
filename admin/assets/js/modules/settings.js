@@ -42,7 +42,7 @@
 			field( __( 'Masjid Name', 'masjidos' ), 'masjid_name', s.masjid_name, 'text' ),
 			field( __( 'City', 'masjidos' ), 'city', s.city, 'text' ),
 			field( __( 'Country', 'masjidos' ), 'country', s.country, 'text' ),
-			field( __( 'Timezone', 'masjidos' ), 'timezone', s.timezone, 'text' ),
+			timezoneField( s.timezone ),
 			timezoneHelp(),
 			field( __( 'Latitude', 'masjidos' ), 'latitude', s.latitude, 'number', 'any' ),
 			field( __( 'Longitude', 'masjidos' ), 'longitude', s.longitude, 'number', 'any' ),
@@ -55,7 +55,6 @@
 		].join( '' ) );
 
 		var prayerPanel = settingsPanel( __( 'Prayer Calculation', 'masjidos' ), __( 'Choose the calculation rules used by local prayer time logic.', 'masjidos' ), [
-			settingsTrustSummary(),
 			selectField( __( 'Prayer Time Source', 'masjidos' ), 'prayer_source', s.prayer_source || 'local', [
 				[ 'local', __( 'Local Calculation (Offline)', 'masjidos' ) ],
 				[ 'aladhan', __( 'Auto API (Aladhan.com)', 'masjidos' ) ]
@@ -81,14 +80,7 @@
 			fieldWithHelp( __( 'Hijri Date Adjustment', 'masjidos' ), 'hijri_adjustment', s.hijri_adjustment || 0, 'number', '1', __( 'Days, -3 to +3. Use this if your local moon-sighting calendar is one day different.', 'masjidos' ), '-3', '3' ),
 			'<label class="itmms-check itmms-field-wide"><input type="checkbox" name="show_ishraq" ' + ( s.show_ishraq !== false ? 'checked' : '' ) + '> ' + esc( __( 'Show Ishraq (sunrise + minutes)', 'masjidos' ) ) + '</label>',
 			fieldWithHelp( __( 'Ishraq Minutes After Sunrise', 'masjidos' ), 'ishraq_minutes', s.ishraq_minutes || 15, 'number', '1', __( 'Common range is 15–20 minutes after sunrise.', 'masjidos' ), '5', '45' ),
-			'<label class="itmms-check itmms-field-wide"><input type="checkbox" name="show_zawal" ' + ( s.show_zawal !== false ? 'checked' : '' ) + '> ' + esc( __( 'Show Zawal (solar noon / makruh start)', 'masjidos' ) ) + '</label>',
-			selectField( __( 'Currency', 'masjidos' ), 'currency', s.currency, [
-				[ 'BDT', 'BDT' ],
-				[ 'USD', 'USD' ],
-				[ 'GBP', 'GBP' ],
-				[ 'EUR', 'EUR' ],
-				[ 'SAR', 'SAR' ]
-			] )
+			'<label class="itmms-check itmms-field-wide"><input type="checkbox" name="show_zawal" ' + ( s.show_zawal !== false ? 'checked' : '' ) + '> ' + esc( __( 'Show Zawal (solar noon / makruh start)', 'masjidos' ) ) + '</label>'
 		].join( '' ) );
 
 		var adjustmentsPanel = settingsPanel( __( 'Prayer Time Adjustments', 'masjidos' ), __( 'Fine-tune calculated times to match the official masjid timetable.', 'masjidos' ), [
@@ -158,33 +150,50 @@
 			tvDisplayHelpUrl( tvDisplayUrl )
 		].join( '' ) );
 
-		return '<form class="itmms-settings-form" id="itmms-settings-form">' +
-			'<div class="itmms-settings-tabs" role="tablist">' +
-				settingsTabButton( 'profile', __( 'Profile', 'masjidos' ), true ) +
-				settingsTabButton( 'calculation', __( 'Calculation', 'masjidos' ), false ) +
-				settingsTabButton( 'timetable', __( 'Timetable', 'masjidos' ), false ) +
-				settingsTabButton( 'adjustments', __( 'Adjustments', 'masjidos' ), false ) +
-				settingsTabButton( 'iqamah', __( 'Iqamah', 'masjidos' ), false ) +
-				settingsTabButton( 'jumuah', __( 'Jumuah', 'masjidos' ), false ) +
-				settingsTabButton( 'tv', __( 'TV Display', 'masjidos' ), false ) +
-				settingsTabButton( 'public', __( 'Public', 'masjidos' ), false ) +
+		var publicPanel = settingsPanel( __( 'Public Options', 'masjidos' ), __( 'Preferences that prepare Free for public finance features shipping in Pro.', 'masjidos' ), [
+			'<div class="itmms-settings-empty itmms-settings-empty--pro">' +
+				'<strong>' + esc( __( 'Pro finance preview', 'masjidos' ) ) + '</strong>' +
+				'<p>' + esc( __( 'Donations, ledgers, and public transparency reports unlock when MasjidOS Pro is active. Free can still store these preferences now.', 'masjidos' ) ) + '</p>' +
+			'</div>',
+			selectField( __( 'Currency', 'masjidos' ), 'currency', s.currency, [
+				[ 'BDT', 'BDT' ],
+				[ 'USD', 'USD' ],
+				[ 'GBP', 'GBP' ],
+				[ 'EUR', 'EUR' ],
+				[ 'SAR', 'SAR' ]
+			] ),
+			'<p class="itmms-field-wide itmms-settings-note itmms-pro-hint">' + esc( __( 'Currency is saved in Free for future finance reports.', 'masjidos' ) ) + '</p>',
+			'<label class="itmms-check itmms-field-wide"><input type="checkbox" name="public_transparency" ' + ( s.public_transparency ? 'checked' : '' ) + '> ' + esc( __( 'Public transparency reports', 'masjidos' ) ) + '</label>',
+			'<p class="itmms-field-wide itmms-settings-note itmms-pro-hint">' + esc( __( 'Transparency reports become public when MasjidOS Pro finance modules are active.', 'masjidos' ) ) + '</p>'
+		].join( '' ) );
+
+		return '<form class="itmms-settings-form itmms-settings-form--general" id="itmms-settings-form">' +
+			'<div class="itmms-settings-tabs" role="tablist" aria-label="' + esc( __( 'Settings sections', 'masjidos' ) ) + '">' +
+				settingsTabButton( 'profile', __( 'Profile', 'masjidos' ), true, 'general' ) +
+				settingsTabButton( 'jumuah', __( 'Jumuah', 'masjidos' ), false, 'general' ) +
+				settingsTabButton( 'tv', __( 'TV Display', 'masjidos' ), false, 'general' ) +
+				settingsTabButton( 'public', __( 'Public', 'masjidos' ), false, 'general' ) +
+				settingsTabButton( 'calculation', __( 'Calculation', 'masjidos' ), false, 'prayer' ) +
+				settingsTabButton( 'timetable', __( 'Timetable', 'masjidos' ), false, 'prayer' ) +
+				settingsTabButton( 'adjustments', __( 'Adjustments', 'masjidos' ), false, 'prayer' ) +
+				settingsTabButton( 'iqamah', __( 'Iqamah', 'masjidos' ), false, 'prayer' ) +
 			'</div>' +
 			'<div class="itmms-settings-tab-panels">' +
-				'<div class="itmms-settings-tab-panel active" data-settings-panel="profile">' + profilePanel + '</div>' +
-				'<div class="itmms-settings-tab-panel" data-settings-panel="calculation">' + prayerPanel + '</div>' +
-				'<div class="itmms-settings-tab-panel" data-settings-panel="timetable">' + timetablePanel + '</div>' +
-				'<div class="itmms-settings-tab-panel" data-settings-panel="adjustments">' + adjustmentsPanel + '</div>' +
-				'<div class="itmms-settings-tab-panel" data-settings-panel="iqamah">' + iqamahPanel + '</div>' +
-				'<div class="itmms-settings-tab-panel" data-settings-panel="jumuah">' + jumuahPanel + '</div>' +
-				'<div class="itmms-settings-tab-panel" data-settings-panel="tv">' + tvPanel + '</div>' +
-				'<div class="itmms-settings-tab-panel" data-settings-panel="public">' + settingsPanel( __( 'Public Options', 'masjidos' ), __( 'Small public-facing switches for transparency and display preferences.', 'masjidos' ), '<label class="itmms-check"><input type="checkbox" name="public_transparency" ' + ( s.public_transparency ? 'checked' : '' ) + '> ' + esc( __( 'Public transparency reports', 'masjidos' ) ) + '</label>' ) + '</div>' +
+				'<div class="itmms-settings-tab-panel active" data-settings-panel="profile" role="tabpanel">' + profilePanel + '</div>' +
+				'<div class="itmms-settings-tab-panel" data-settings-panel="calculation" role="tabpanel">' + prayerPanel + '</div>' +
+				'<div class="itmms-settings-tab-panel" data-settings-panel="timetable" role="tabpanel">' + timetablePanel + '</div>' +
+				'<div class="itmms-settings-tab-panel" data-settings-panel="adjustments" role="tabpanel">' + adjustmentsPanel + '</div>' +
+				'<div class="itmms-settings-tab-panel" data-settings-panel="iqamah" role="tabpanel">' + iqamahPanel + '</div>' +
+				'<div class="itmms-settings-tab-panel" data-settings-panel="jumuah" role="tabpanel">' + jumuahPanel + '</div>' +
+				'<div class="itmms-settings-tab-panel" data-settings-panel="tv" role="tabpanel">' + tvPanel + '</div>' +
+				'<div class="itmms-settings-tab-panel" data-settings-panel="public" role="tabpanel">' + publicPanel + '</div>' +
 			'</div>' +
 			'<div class="itmms-form-actions"><button class="itmms-btn itmms-btn-primary" type="submit">' + esc( __( 'Save Settings', 'masjidos' ) ) + '</button><span id="itmms-save-status"></span></div>' +
 		'</form>';
 	}
 
-	function settingsTabButton( key, label, active ) {
-		return '<button type="button" class="itmms-settings-tab' + ( active ? ' active' : '' ) + '" data-settings-tab="' + esc( key ) + '">' + esc( label ) + '</button>';
+	function settingsTabButton( key, label, active, group ) {
+		return '<button type="button" class="itmms-settings-tab' + ( active ? ' active' : '' ) + '" data-settings-tab="' + esc( key ) + '" data-settings-group="' + esc( group || 'general' ) + '" role="tab" aria-selected="' + ( active ? 'true' : 'false' ) + '">' + esc( label ) + '</button>';
 	}
 
 	function settingsPanel( title, description, content, className ) {
@@ -196,6 +205,35 @@
 
 	function field( label, name, value, type, step ) {
 		return '<label class="itmms-field"><span>' + esc( label ) + '</span><input type="' + esc( type ) + '" name="' + esc( name ) + '" value="' + esc( value ) + '"' + ( step ? ' step="' + esc( step ) + '"' : '' ) + '></label>';
+	}
+
+	function timezoneField( value ) {
+		var options = [
+			[ 'Asia/Dhaka', 'Asia/Dhaka (Bangladesh)' ],
+			[ 'Asia/Karachi', 'Asia/Karachi' ],
+			[ 'Asia/Kolkata', 'Asia/Kolkata' ],
+			[ 'Asia/Dubai', 'Asia/Dubai' ],
+			[ 'Asia/Riyadh', 'Asia/Riyadh' ],
+			[ 'Asia/Qatar', 'Asia/Qatar' ],
+			[ 'Asia/Kuwait', 'Asia/Kuwait' ],
+			[ 'Asia/Singapore', 'Asia/Singapore' ],
+			[ 'Europe/London', 'Europe/London' ],
+			[ 'America/New_York', 'America/New_York' ],
+			[ 'UTC', 'UTC (not recommended)' ]
+		];
+		var current = String( value || '' );
+		var known = options.some( function ( row ) { return row[0] === current; } );
+		var html = '<label class="itmms-field"><span>' + esc( __( 'Timezone', 'masjidos' ) ) + '</span>' +
+			'<input type="text" name="timezone" list="itmms-timezone-list" value="' + esc( current ) + '" placeholder="Asia/Dhaka" autocomplete="off">' +
+			'<datalist id="itmms-timezone-list">';
+		options.forEach( function ( row ) {
+			html += '<option value="' + esc( row[0] ) + '">' + esc( row[1] ) + '</option>';
+		} );
+		if ( current && ! known ) {
+			html += '<option value="' + esc( current ) + '">' + esc( current ) + '</option>';
+		}
+		html += '</datalist><small>' + esc( __( 'Pick a common zone or type any valid IANA timezone.', 'masjidos' ) ) + '</small></label>';
+		return html;
 	}
 
 	function fieldWithHelp( label, name, value, type, step, help, min, max ) {
@@ -396,26 +434,47 @@
 			? summary.start_date + ' → ' + summary.end_date
 			: __( 'No imported timetable yet', 'masjidos' );
 		var year = new Date().getFullYear();
+		var selectedYear = String( state.timetableYear || year );
+		var yearOptions = [
+			[ String( year - 1 ), String( year - 1 ) ],
+			[ String( year ), String( year ) ],
+			[ String( year + 1 ), String( year + 1 ) ]
+		];
+		var yearsMap = summary.years || {};
+		var yearKeys = Object.keys( yearsMap );
+		var yearsNote = yearKeys.length
+			? yearKeys.map( function ( y ) {
+				return y + ': ' + yearsMap[ y ];
+			} ).join( ' · ' )
+			: '';
+		var largeWarn = summary.large
+			? '<p class="itmms-timetable-warn itmms-field-wide">' + esc( __( 'Large store detected. Prefer one year per import, or clear an old year to keep the site light.', 'masjidos' ) ) + '</p>'
+			: '';
 
-		return '<div class="itmms-timetable-summary itmms-field-wide">' +
-			'<div class="itmms-timetable-summary__stat"><strong>' + esc( String( count ) ) + '</strong><span>' + esc( __( 'days loaded', 'masjidos' ) ) + '</span></div>' +
-			'<div class="itmms-timetable-summary__range"><strong>' + esc( __( 'Coverage', 'masjidos' ) ) + '</strong><span>' + esc( rangeLabel ) + '</span></div>' +
+		return '<div class="itmms-timetable-summary itmms-field-wide" data-timetable-summary>' +
+			'<div class="itmms-timetable-summary__stat"><strong data-timetable-count>' + esc( String( count ) ) + '</strong><span>' + esc( __( 'days loaded', 'masjidos' ) ) + '</span></div>' +
+			'<div class="itmms-timetable-summary__range"><strong>' + esc( __( 'Coverage', 'masjidos' ) ) + '</strong><span data-timetable-range>' + esc( rangeLabel ) + '</span></div>' +
+			( yearsNote ? '<div class="itmms-timetable-summary__years"><strong>' + esc( __( 'By year', 'masjidos' ) ) + '</strong><span data-timetable-years>' + esc( yearsNote ) + '</span></div>' : '' ) +
 		'</div>' +
+		largeWarn +
 		'<div class="itmms-field itmms-field-wide">' +
 			'<span>' + esc( __( 'CSV File', 'masjidos' ) ) + '</span>' +
 			'<input type="file" accept=".csv,text/csv" data-timetable-file>' +
-			'<small>' + esc( __( 'Columns: date, fajr, sunrise, dhuhr, asr, maghrib, isha, and optional *_iqamah columns.', 'masjidos' ) ) + '</small>' +
+			'<small>' + esc( __( 'Columns: date, fajr, sunrise, dhuhr, asr, maghrib, isha, and optional *_iqamah columns. Max ~2 MB / one year.', 'masjidos' ) ) + '</small>' +
 		'</div>' +
+		selectField( __( 'Working year', 'masjidos' ), 'timetable_year', selectedYear, yearOptions ) +
 		selectField( __( 'Import Mode', 'masjidos' ), 'timetable_import_mode', 'merge', [
 			[ 'merge', __( 'Merge rows by date', 'masjidos' ) ],
 			[ 'replace', __( 'Replace all imported days', 'masjidos' ) ]
 		] ) +
 		'<div class="itmms-timetable-actions itmms-field-wide">' +
-			'<button type="button" class="itmms-btn itmms-btn-primary" data-timetable-sample>' + esc( __( 'Download CSV', 'masjidos' ) ) + '</button>' +
+			'<button type="button" class="itmms-btn itmms-btn-ghost" data-timetable-sample>' + esc( __( 'Sample CSV', 'masjidos' ) ) + '</button>' +
+			'<button type="button" class="itmms-btn itmms-btn-ghost" data-timetable-validate>' + esc( __( 'Validate CSV', 'masjidos' ) ) + '</button>' +
 			'<button type="button" class="itmms-btn itmms-btn-primary" data-timetable-import>' + esc( __( 'Import CSV', 'masjidos' ) ) + '</button>' +
-			'<button type="button" class="itmms-btn itmms-btn-ghost" data-timetable-export>' + esc( __( 'Export Imported', 'masjidos' ) ) + '</button>' +
-			'<button type="button" class="itmms-btn itmms-btn-ghost" data-timetable-export-calculated data-export-year="' + esc( String( year ) ) + '">' + esc( __( 'Export Calculated Year', 'masjidos' ) ) + '</button>' +
-			'<button type="button" class="itmms-link-btn" data-timetable-clear>' + esc( __( 'Clear Timetable', 'masjidos' ) ) + '</button>' +
+			'<button type="button" class="itmms-btn itmms-btn-ghost" data-timetable-export>' + esc( __( 'Export Imported Year', 'masjidos' ) ) + '</button>' +
+			'<button type="button" class="itmms-btn itmms-btn-ghost" data-timetable-export-calculated>' + esc( __( 'Export Calculated Year', 'masjidos' ) ) + '</button>' +
+			'<button type="button" class="itmms-link-btn" data-timetable-clear-year>' + esc( __( 'Clear Year', 'masjidos' ) ) + '</button>' +
+			'<button type="button" class="itmms-link-btn" data-timetable-clear>' + esc( __( 'Clear All', 'masjidos' ) ) + '</button>' +
 		'</div>' +
 		'<p class="itmms-timetable-status itmms-field-wide" data-timetable-status></p>' +
 		'<div class="itmms-coordinate-help itmms-field-wide">' +
@@ -423,10 +482,10 @@
 			'<div>' +
 				'<h3>' + esc( __( 'How CSV timetable works', 'masjidos' ) ) + '</h3>' +
 				'<ol>' +
-					'<li>' + esc( __( 'Download the sample CSV and match your mosque committee format.', 'masjidos' ) ) + '</li>' +
-					'<li>' + esc( __( 'Use YYYY-MM-DD dates and 24-hour or AM/PM times.', 'masjidos' ) ) + '</li>' +
-					'<li>' + esc( __( 'Import the full year once; widgets and TV display will use those official times.', 'masjidos' ) ) + '</li>' +
-					'<li>' + esc( __( 'Dates without CSV rows still use your calculation settings.', 'masjidos' ) ) + '</li>' +
+					'<li>' + esc( __( 'Export Calculated Year as a starting template, or download the Sample CSV.', 'masjidos' ) ) + '</li>' +
+					'<li>' + esc( __( 'Edit times to match your official mosque committee table (YYYY-MM-DD + 24h or AM/PM).', 'masjidos' ) ) + '</li>' +
+					'<li>' + esc( __( 'Validate CSV, then Import. Widgets and TV use imported days as official times.', 'masjidos' ) ) + '</li>' +
+					'<li>' + esc( __( 'Dates without CSV rows still use your calculation settings and Iqamah rules.', 'masjidos' ) ) + '</li>' +
 				'</ol>' +
 			'</div>' +
 		'</div>';
@@ -477,6 +536,8 @@
 		var status = root.querySelector( '[data-timetable-status]' );
 		var fileInput = root.querySelector( '[data-timetable-file]' );
 		var importBtn = root.querySelector( '[data-timetable-import]' );
+		var validateBtn = root.querySelector( '[data-timetable-validate]' );
+		var yearSelect = root.querySelector( '[name="timetable_year"]' );
 
 		function setStatus( message, isError ) {
 			if ( ! status ) {
@@ -484,6 +545,37 @@
 			}
 			status.textContent = message || '';
 			status.classList.toggle( 'is-error', !! isError );
+		}
+
+		function workingYear() {
+			if ( yearSelect && yearSelect.value ) {
+				window.itmms.state.timetableYear = yearSelect.value;
+				return yearSelect.value;
+			}
+			return String( ( window.itmms.state && window.itmms.state.timetableYear ) || new Date().getFullYear() );
+		}
+
+		function applySummary( summary ) {
+			if ( ! summary ) {
+				return;
+			}
+			window.itmms.state.timetable = summary;
+			var countEl = root.querySelector( '[data-timetable-count]' );
+			var rangeEl = root.querySelector( '[data-timetable-range]' );
+			var yearsEl = root.querySelector( '[data-timetable-years]' );
+			if ( countEl ) {
+				countEl.textContent = String( summary.count || 0 );
+			}
+			if ( rangeEl ) {
+				rangeEl.textContent = summary.start_date && summary.end_date
+					? summary.start_date + ' → ' + summary.end_date
+					: __( 'No imported timetable yet', 'masjidos' );
+			}
+			if ( yearsEl && summary.years ) {
+				yearsEl.textContent = Object.keys( summary.years ).map( function ( y ) {
+					return y + ': ' + summary.years[ y ];
+				} ).join( ' · ' );
+			}
 		}
 
 		function refreshDashboard() {
@@ -496,57 +588,107 @@
 				state.trust = response.trust || state.trust;
 				state.upcomingDays = response.upcoming_days || [];
 				state.timetable = response.timetable || state.timetable;
+				applySummary( state.timetable );
+			} );
+		}
+
+		function readCsvFile() {
+			return new Promise( function ( resolve, reject ) {
+				var file = fileInput && fileInput.files && fileInput.files[0];
+				if ( ! file ) {
+					reject( new Error( __( 'Choose a CSV file first.', 'masjidos' ) ) );
+					return;
+				}
+				if ( file.size > 2 * 1024 * 1024 ) {
+					reject( new Error( __( 'CSV file is too large. Import one year at a time (about 365 rows).', 'masjidos' ) ) );
+					return;
+				}
+				var reader = new FileReader();
+				reader.onload = function () {
+					resolve( String( reader.result || '' ) );
+				};
+				reader.onerror = function () {
+					reject( new Error( __( 'Could not read the CSV file.', 'masjidos' ) ) );
+				};
+				reader.readAsText( file );
+			} );
+		}
+
+		if ( yearSelect ) {
+			yearSelect.addEventListener( 'change', function () {
+				window.itmms.state.timetableYear = yearSelect.value;
+			} );
+		}
+
+		if ( validateBtn && fileInput ) {
+			validateBtn.addEventListener( 'click', function () {
+				setStatus( __( 'Validating CSV...', 'masjidos' ), false );
+				validateBtn.disabled = true;
+				readCsvFile().then( function ( csv ) {
+					return api( 'prayer-times/timetable/import', {
+						method: 'POST',
+						body: JSON.stringify( {
+							csv: csv,
+							mode: 'merge',
+							dry_run: true
+						} )
+					} );
+				} ).then( function ( response ) {
+					var message = sprintf(
+						__( 'Valid: %1$d day(s). Errors: %2$d. Range: %3$s → %4$s.', 'masjidos' ),
+						Number( response.valid || 0 ),
+						Number( response.error_count || ( response.errors && response.errors.length ) || 0 ),
+						response.start_date || '—',
+						response.end_date || '—'
+					);
+					if ( response.errors && response.errors.length ) {
+						message += ' ' + response.errors.slice( 0, 2 ).join( ' ' );
+					}
+					setStatus( message, Number( response.error_count || 0 ) > 0 && ! response.valid );
+				} ).catch( function ( error ) {
+					setStatus( error.message || __( 'Validation failed.', 'masjidos' ), true );
+				} ).finally( function () {
+					validateBtn.disabled = false;
+				} );
 			} );
 		}
 
 		if ( importBtn && fileInput ) {
 			importBtn.addEventListener( 'click', function () {
-				var file = fileInput.files && fileInput.files[0];
-				if ( ! file ) {
-					setStatus( __( 'Choose a CSV file first.', 'masjidos' ), true );
-					return;
-				}
-
 				var modeSelect = root.querySelector( '[name="timetable_import_mode"]' );
 				var mode = modeSelect ? modeSelect.value : 'merge';
 				setStatus( __( 'Importing timetable...', 'masjidos' ), false );
 				importBtn.disabled = true;
 
-				var reader = new FileReader();
-				reader.onload = function () {
-					api( 'prayer-times/timetable/import', {
+				readCsvFile().then( function ( csv ) {
+					return api( 'prayer-times/timetable/import', {
 						method: 'POST',
 						body: JSON.stringify( {
-							csv: String( reader.result || '' ),
+							csv: csv,
 							mode: mode
 						} )
-					} ).then( function ( response ) {
-						window.itmms.state.timetable = response.summary || window.itmms.state.timetable;
-						var message = sprintf(
-							__( 'Imported %1$d day(s). Skipped %2$d row(s).', 'masjidos' ),
-							Number( response.imported || 0 ),
-							Number( response.skipped || 0 )
-						);
-						if ( response.errors && response.errors.length ) {
-							message += ' ' + response.errors.slice( 0, 3 ).join( ' ' );
-						}
-						setStatus( message, false );
-						fileInput.value = '';
-						return refreshDashboard();
-					} ).catch( function ( error ) {
-						setStatus( error.message || __( 'Import failed.', 'masjidos' ), true );
-					} ).finally( function () {
-						importBtn.disabled = false;
-						if ( window.itmms.state && typeof window.itmms.render === 'function' ) {
-							window.itmms.render();
-						}
 					} );
-				};
-				reader.onerror = function () {
-					setStatus( __( 'Could not read the CSV file.', 'masjidos' ), true );
+				} ).then( function ( response ) {
+					applySummary( response.summary || window.itmms.state.timetable );
+					var message = sprintf(
+						__( 'Imported %1$d day(s). Skipped %2$d row(s).', 'masjidos' ),
+						Number( response.imported || 0 ),
+						Number( response.skipped || 0 )
+					);
+					if ( response.errors && response.errors.length ) {
+						message += ' ' + response.errors.slice( 0, 3 ).join( ' ' );
+					}
+					setStatus( message, false );
+					fileInput.value = '';
+					return refreshDashboard();
+				} ).catch( function ( error ) {
+					setStatus( error.message || __( 'Import failed.', 'masjidos' ), true );
+				} ).finally( function () {
 					importBtn.disabled = false;
-				};
-				reader.readAsText( file );
+					if ( window.itmms.state && typeof window.itmms.render === 'function' ) {
+						window.itmms.render();
+					}
+				} );
 			} );
 		}
 
@@ -562,7 +704,11 @@
 		var exportBtn = root.querySelector( '[data-timetable-export]' );
 		if ( exportBtn ) {
 			exportBtn.addEventListener( 'click', function () {
-				downloadCsv( 'prayer-times/timetable/export', 'masjidos-prayer-timetable.csv' ).catch( function () {
+				var year = workingYear();
+				downloadCsv(
+					'prayer-times/timetable/export?year=' + encodeURIComponent( year ),
+					'masjidos-prayer-timetable-' + year + '.csv'
+				).catch( function () {
 					setStatus( __( 'Export failed.', 'masjidos' ), true );
 				} );
 			} );
@@ -571,9 +717,33 @@
 		var exportCalculatedBtn = root.querySelector( '[data-timetable-export-calculated]' );
 		if ( exportCalculatedBtn ) {
 			exportCalculatedBtn.addEventListener( 'click', function () {
-				var year = exportCalculatedBtn.getAttribute( 'data-export-year' ) || String( new Date().getFullYear() );
-				downloadCsv( 'prayer-times/timetable/export?source=calculated&year=' + encodeURIComponent( year ), 'masjidos-calculated-' + year + '.csv' ).catch( function () {
+				var year = workingYear();
+				downloadCsv(
+					'prayer-times/timetable/export?source=calculated&year=' + encodeURIComponent( year ),
+					'masjidos-calculated-' + year + '.csv'
+				).catch( function () {
 					setStatus( __( 'Calculated export failed.', 'masjidos' ), true );
+				} );
+			} );
+		}
+
+		var clearYearBtn = root.querySelector( '[data-timetable-clear-year]' );
+		if ( clearYearBtn ) {
+			clearYearBtn.addEventListener( 'click', function () {
+				var year = workingYear();
+				if ( ! window.confirm( sprintf( __( 'Remove all imported days for %s?', 'masjidos' ), year ) ) ) {
+					return;
+				}
+				api( 'prayer-times/timetable?year=' + encodeURIComponent( year ), { method: 'DELETE' } ).then( function ( response ) {
+					applySummary( response.summary || { count: 0, active: false } );
+					setStatus( sprintf( __( 'Cleared %1$d day(s) from %2$s.', 'masjidos' ), Number( response.removed || 0 ), year ), false );
+					return refreshDashboard();
+				} ).then( function () {
+					if ( typeof window.itmms.render === 'function' ) {
+						window.itmms.render();
+					}
+				} ).catch( function () {
+					setStatus( __( 'Could not clear year.', 'masjidos' ), true );
 				} );
 			} );
 		}
@@ -585,7 +755,7 @@
 					return;
 				}
 				api( 'prayer-times/timetable', { method: 'DELETE' } ).then( function ( response ) {
-					window.itmms.state.timetable = response.summary || { count: 0, active: false };
+					applySummary( response.summary || { count: 0, active: false } );
 					setStatus( __( 'Imported timetable cleared.', 'masjidos' ), false );
 					return refreshDashboard();
 				} ).then( function () {

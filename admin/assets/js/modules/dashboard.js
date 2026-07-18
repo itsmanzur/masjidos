@@ -99,6 +99,97 @@
 		} ).join( '' );
 	}
 
+	function localizeProCard( card ) {
+		if ( ! card ) {
+			return null;
+		}
+
+		var kind = card.kind || '';
+		var title = card.title || '';
+		var body = card.body || '';
+		var cta = card.cta || __( 'Open', 'masjidos' );
+
+		if ( 'donations' === kind ) {
+			title = __( 'Donations', 'masjidos' );
+			body = sprintf(
+				/* translators: 1: amount, 2: currency, 3: pending count */
+				__( 'Raised %1$s %2$s · %3$d pending', 'masjidos' ),
+				card.raised || '0',
+				card.currency || '',
+				Number( card.pending || 0 )
+			);
+			cta = __( 'Open', 'masjidos' );
+		} else if ( 'accounts' === kind ) {
+			title = __( 'Accounts', 'masjidos' );
+			body = sprintf(
+				/* translators: 1: net amount, 2: currency */
+				__( 'Net %1$s %2$s · Collections board', 'masjidos' ),
+				card.net || '0',
+				card.currency || ''
+			);
+			cta = __( 'Open', 'masjidos' );
+		} else if ( 'designs' === kind ) {
+			title = __( 'Designs', 'masjidos' );
+			body = __( 'Premium prayer & Jumuah designs unlocked', 'masjidos' );
+			cta = __( 'Shortcodes', 'masjidos' );
+		}
+
+		if ( ! title ) {
+			return null;
+		}
+
+		return {
+			title: title,
+			body: body,
+			cta: cta,
+			url: card.url || ''
+		};
+	}
+
+	function proDashboardCard() {
+		var state = window.itmms.state;
+		var data = window.itmms.data || {};
+		var pro = state.pro || data.pro || {};
+		var cards = Array.isArray( state.proCards ) ? state.proCards : [];
+		var html = '';
+
+		if ( cards.length ) {
+			html += cards.map( function ( raw ) {
+				var card = localizeProCard( raw );
+				if ( ! card ) {
+					return '';
+				}
+				var body = card.body ? '<p>' + esc( card.body ) + '</p>' : '';
+				var link = card.url
+					? '<a class="itmms-btn itmms-btn-primary itmms-btn-sm" href="' + esc( card.url ) + '">' + esc( card.cta ) + '</a>'
+					: '';
+				return '<article class="itmms-pro-dash-card">' +
+					'<h3>' + esc( card.title ) + '</h3>' +
+					body + link +
+				'</article>';
+			} ).join( '' );
+		}
+
+		if ( ! pro.active ) {
+			var url = data.proUrl || pro.url || '';
+			html += '<article class="itmms-pro-dash-card itmms-pro-dash-card--upsell">' +
+				'<h3>' + esc( __( 'MasjidOS Pro', 'masjidos' ) ) + ' <span class="itmms-feat-badge itmms-feat-badge--pro">Pro</span></h3>' +
+				'<p>' + esc( __( 'Premium designs and committee tools in a separate Pro plugin.', 'masjidos' ) ) + '</p>' +
+				( url ? '<a class="itmms-btn itmms-btn-primary itmms-btn-sm" href="' + esc( url ) + '" target="_blank" rel="noopener noreferrer">' + esc( pro.cta || __( 'Learn about Pro', 'masjidos' ) ) + '</a>' : '' ) +
+			'</article>';
+		}
+
+		if ( ! html ) {
+			return '';
+		}
+
+		return '<section class="itmms-pro-dash">' +
+			'<header class="itmms-pro-dash__head"><h3>' + esc( __( 'Pro', 'masjidos' ) ) + '</h3>' +
+			'<button type="button" class="itmms-link-btn" data-tab="docs" data-docs-tab="pro">' + esc( __( 'Docs', 'masjidos' ) ) + '</button></header>' +
+			'<div class="itmms-pro-dash__grid">' + html + '</div>' +
+		'</section>';
+	}
+
 	function dashboardHtml() {
 		var state = window.itmms.state;
 		var mods = state.settings.modules || {};
@@ -143,6 +234,8 @@
 				quickAction( __( 'Features', 'masjidos' ), 'star', { tab: 'features' } ) +
 				quickAction( __( 'Prayer Setup', 'masjidos' ), 'clock', { tab: 'settings', settingsTab: 'timetable' } ) +
 			'</div>' +
+
+			proDashboardCard() +
 
 			'<div class="itmms-stats-grid itmms-stats-grid--dash">' +
 				statCard( 'teal', 'megaphone', state.stats.announcements || 0, __( 'Active Notices', 'masjidos' ), __( 'Open announcements', 'masjidos' ), { tab: 'announcements' } ) +
@@ -289,10 +382,13 @@
 			'</tr>';
 		} ).join( '' );
 
-		return '<article class="itmms-card itmms-upcoming-card">' +
-			'<header><h3>' + esc( __( 'Next 7 Days Preview', 'masjidos' ) ) + '</h3><span class="itmms-card-eyebrow">' + esc( __( 'Verify accuracy against your masjid board', 'masjidos' ) ) + '</span></header>' +
+		return '<details class="itmms-card itmms-upcoming-card">' +
+			'<summary class="itmms-upcoming-summary">' +
+				'<span><strong>' + esc( __( 'Next 7 Days Preview', 'masjidos' ) ) + '</strong>' +
+				'<em class="itmms-card-eyebrow">' + esc( __( 'Verify accuracy against your masjid board', 'masjidos' ) ) + '</em></span>' +
+			'</summary>' +
 			'<div class="itmms-upcoming-scroll"><table class="itmms-upcoming-table"><thead><tr><th scope="col">' + esc( __( 'Date', 'masjidos' ) ) + '</th><th scope="col">' + esc( __( 'Fajr', 'masjidos' ) ) + '</th><th scope="col">' + esc( __( 'Dhuhr', 'masjidos' ) ) + '</th><th scope="col">' + esc( __( 'Asr', 'masjidos' ) ) + '</th><th scope="col">' + esc( __( 'Maghrib', 'masjidos' ) ) + '</th><th scope="col">' + esc( __( 'Isha', 'masjidos' ) ) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-		'</article>';
+		'</details>';
 	}
 
 	function modulesHtml() {

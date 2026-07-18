@@ -79,7 +79,11 @@ defined( 'ABSPATH' ) || exit;
 			<?php endforeach; ?>
 		</div>
 
-		<?php if ( $show_qibla || $show_meta ) : ?>
+		<?php
+		// Hero trust chips already cover method/source; keep side meta only when trust is off.
+		$itmms_show_side_meta = $show_meta && empty( $trust_items );
+		?>
+		<?php if ( $show_qibla || $itmms_show_side_meta ) : ?>
 			<aside class="itmms-public-prayer__side">
 				<?php if ( $show_qibla ) : ?>
 					<div class="itmms-public-qibla" data-itmms-public-qibla="<?php echo esc_attr( (string) ( $meta['qibla_direction'] ?? 0 ) ); ?>" role="button" tabindex="0" title="<?php echo esc_attr( $labels['qibla_prompt'] ); ?>">
@@ -94,7 +98,7 @@ defined( 'ABSPATH' ) || exit;
 					</div>
 				<?php endif; ?>
 
-				<?php if ( $show_meta ) : ?>
+				<?php if ( $itmms_show_side_meta ) : ?>
 					<div class="itmms-public-prayer__meta">
 						<span><b><?php echo esc_html( $labels['location'] ); ?></b><?php echo esc_html( $meta['location'] ?? '' ); ?></span>
 						<span><b><?php echo esc_html( $labels['method'] ); ?></b><?php echo esc_html( $meta['calculation_method'] ?? '' ); ?></span>

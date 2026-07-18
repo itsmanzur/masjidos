@@ -10,13 +10,14 @@ defined( 'ABSPATH' ) || exit;
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 // Fetch settings
-$settings = ITMMS_Settings::get_all();
-$timezone = new DateTimeZone( (string) ( $settings['timezone'] ?? wp_timezone_string() ) );
+$settings    = ITMMS_Settings::get_all();
+$timezone    = new DateTimeZone( (string) ( $settings['timezone'] ?? wp_timezone_string() ) );
+$masjid_name = (string) ( $settings['masjid_name'] ?? get_bloginfo( 'name' ) );
 
 // Gregorian calendar calculation base
-$now = new DateTimeImmutable( 'now', $timezone );
-$month_start = new DateTimeImmutable( sprintf( '%04d-%02d-01 00:00:00', $year, $month ), $timezone );
-$days_in_month = (int) $month_start->format( 't' );
+$now               = new DateTimeImmutable( 'now', $timezone );
+$month_start       = new DateTimeImmutable( sprintf( '%04d-%02d-01 00:00:00', $year, $month ), $timezone );
+$days_in_month     = (int) $month_start->format( 't' );
 $first_day_weekday = (int) $month_start->format( 'N' ); // 1 = Monday, 7 = Sunday
 
 // Construct grid days array
@@ -26,7 +27,7 @@ $grid_days = [];
 $prev_month_padding = $first_day_weekday - 1;
 if ( $prev_month_padding > 0 ) {
 	for ( $i = $prev_month_padding; $i > 0; $i-- ) {
-		$pad_date = $month_start->modify( sprintf( '-%d days', $i ) );
+		$pad_date    = $month_start->modify( sprintf( '-%d days', $i ) );
 		$grid_days[] = [
 			'date'          => $pad_date,
 			'is_current'    => false,
@@ -38,7 +39,7 @@ if ( $prev_month_padding > 0 ) {
 
 // 2. Days of the current month
 for ( $d = 1; $d <= $days_in_month; $d++ ) {
-	$day_date = $month_start->modify( sprintf( '+%d days', $d - 1 ) );
+	$day_date    = $month_start->modify( sprintf( '+%d days', $d - 1 ) );
 	$grid_days[] = [
 		'date'          => $day_date,
 		'is_current'    => true,
@@ -48,12 +49,12 @@ for ( $d = 1; $d <= $days_in_month; $d++ ) {
 }
 
 // 3. Padding days from the next month
-$last_day_date = $month_start->modify( sprintf( '+%d days', $days_in_month - 1 ) );
-$last_day_weekday = (int) $last_day_date->format( 'N' );
+$last_day_date      = $month_start->modify( sprintf( '+%d days', $days_in_month - 1 ) );
+$last_day_weekday   = (int) $last_day_date->format( 'N' );
 $next_month_padding = 7 - $last_day_weekday;
 if ( $next_month_padding > 0 ) {
 	for ( $i = 1; $i <= $next_month_padding; $i++ ) {
-		$pad_date = $last_day_date->modify( sprintf( '+%d days', $i ) );
+		$pad_date    = $last_day_date->modify( sprintf( '+%d days', $i ) );
 		$grid_days[] = [
 			'date'          => $pad_date,
 			'is_current'    => false,
@@ -110,7 +111,7 @@ $active_holy_days = $holy_days_registry[ $language ] ?? $holy_days_registry['en'
 
 // Query mosque events in range
 $grid_start_date = $grid_days[0]['date']->format( 'Y-m-d 00:00:00' );
-$grid_end_date = end( $grid_days )['date']->format( 'Y-m-d 23:59:59' );
+$grid_end_date   = end( $grid_days )['date']->format( 'Y-m-d 23:59:59' );
 
 // Retrieve active events from events module if enabled
 $events = [];
@@ -118,8 +119,8 @@ if ( ! empty( $settings['modules']['events'] ) ) {
 	$raw_events = ITMMS_Events::all( 150 );
 	foreach ( $raw_events as $event ) {
 		$e_start = $event['start_time'];
-		$e_end = $event['end_time'] ?: $e_start;
-		
+		$e_end   = $event['end_time'] ?: $e_start;
+
 		// If event overlaps with calendar grid range
 		if ( $e_start <= $grid_end_date && $e_end >= $grid_start_date ) {
 			$events[] = $event;
@@ -138,20 +139,47 @@ $active_weekdays = $weekdays[ $language ] ?? $weekdays['en'];
 // Month names list for the dropdown select controls
 $month_dropdown_names = [
 	'en' => [
-		1  => 'January', 2 => 'February', 3 => 'March', 4 => 'April',
-		5  => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
-		9  => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
+		1  => 'January',
+		2  => 'February',
+		3  => 'March',
+		4  => 'April',
+		5  => 'May',
+		6  => 'June',
+		7  => 'July',
+		8  => 'August',
+		9  => 'September',
+		10 => 'October',
+		11 => 'November',
+		12 => 'December',
 	],
 	'bn' => [
-		1  => 'জানুয়ারি', 2 => 'ফেব্রুয়ারি', 3 => 'মার্চ', 4 => 'এপ্রিল',
-		5  => 'মে', 6 => 'জুন', 7 => 'জুলাই', 8 => 'আগস্ট',
-		9  => 'সেপ্টেম্বর', 10 => 'অক্টোবর', 11 => 'নভেম্বর', 12 => 'ডিসেম্বর'
+		1  => 'জানুয়ারি',
+		2  => 'ফেব্রুয়ারি',
+		3  => 'মার্চ',
+		4  => 'এপ্রিল',
+		5  => 'মে',
+		6  => 'জুন',
+		7  => 'জুলাই',
+		8  => 'আগস্ট',
+		9  => 'সেপ্টেম্বর',
+		10 => 'অক্টোবর',
+		11 => 'নভেম্বর',
+		12 => 'ডিসেম্বর',
 	],
 	'ar' => [
-		1  => 'يناير', 2 => 'فبراير', 3 => 'مارس', 4 => 'أبريل',
-		5  => 'مايو', 6 => 'يونيو', 7 => 'يوليو', 8 => 'أغسطس',
-		9  => 'سبتمبر', 10 => 'أكتوبر', 11 => 'نوفمبر', 12 => 'ديسمبر'
-	]
+		1  => 'يناير',
+		2  => 'فبراير',
+		3  => 'مارس',
+		4  => 'أبريل',
+		5  => 'مايو',
+		6  => 'يونيو',
+		7  => 'يوليو',
+		8  => 'أغسطس',
+		9  => 'سبتمبر',
+		10 => 'أكتوبر',
+		11 => 'نوفمبر',
+		12 => 'ديسمبر',
+	],
 ];
 $active_dropdown_months = $month_dropdown_names[ $language ] ?? $month_dropdown_names['en'];
 
@@ -164,26 +192,40 @@ if ( 'bn' === $language ) {
 }
 
 $hijri_month_range = ITMMS_Hijri::range_label( $month_start, $last_day_date, $hijri_adjustment, $language );
+$cal_uid           = 'itmms-cal-' . wp_unique_id();
+$max_cell_events   = 2;
 ?>
-<div class="itmms-public-calendar itmms-public-calendar--lang-<?php echo esc_attr( $language ); ?>" <?php if ( $show_navigation ) : ?> data-itmms-calendar data-endpoint="<?php echo esc_url( rest_url( 'masjidos/v1/calendar' ) ); ?>" data-month="<?php echo esc_attr( (string) $month ); ?>" data-year="<?php echo esc_attr( (string) $year ); ?>" data-current-month="<?php echo esc_attr( $now->format( 'n' ) ); ?>" data-current-year="<?php echo esc_attr( $now->format( 'Y' ) ); ?>" data-language="<?php echo esc_attr( $language ); ?>" data-title="<?php echo esc_attr( (string) $atts['title'] ); ?>" data-error="<?php echo esc_attr( $active_labels['no_events'] ); ?>"<?php endif; ?>>
-	
-	<!-- CALENDAR HEADER -->
+<div
+	class="itmms-public-calendar itmms-public-calendar--lang-<?php echo esc_attr( $language ); ?>"
+	dir="<?php echo 'ar' === $language ? 'rtl' : 'ltr'; ?>"
+	data-language="<?php echo esc_attr( $language ); ?>"
+	data-error="<?php echo esc_attr( $active_labels['no_events'] ); ?>"
+	<?php if ( $show_navigation ) : ?>
+		data-itmms-calendar
+		data-endpoint="<?php echo esc_url( rest_url( 'masjidos/v1/calendar' ) ); ?>"
+		data-month="<?php echo esc_attr( (string) $month ); ?>"
+		data-year="<?php echo esc_attr( (string) $year ); ?>"
+		data-current-month="<?php echo esc_attr( $now->format( 'n' ) ); ?>"
+		data-current-year="<?php echo esc_attr( $now->format( 'Y' ) ); ?>"
+		data-title="<?php echo esc_attr( (string) $atts['title'] ); ?>"
+	<?php endif; ?>
+>
 	<div class="itmms-public-calendar__header">
 		<div>
+			<span class="itmms-public-calendar__eyebrow"><?php echo esc_html( $masjid_name ); ?></span>
 			<h2><?php echo esc_html( $atts['title'] ); ?></h2>
 			<p>
 				<span><?php echo esc_html( $current_month_title ); ?></span>
 				<?php if ( ! empty( $hijri_month_range ) ) : ?>
-					<span class="itmms-public-calendar__dot-sep"></span>
 					<span><?php echo esc_html( $hijri_month_range ); ?></span>
 				<?php endif; ?>
 			</p>
 		</div>
-		
+
 		<?php if ( $show_navigation ) : ?>
 			<div class="itmms-public-calendar__nav" aria-label="<?php echo esc_attr( $active_labels['navigation'] ); ?>">
 				<button type="button" data-itmms-calendar-step="-1" aria-label="<?php echo esc_attr( $active_labels['previous'] ); ?>" title="<?php echo esc_attr( $active_labels['previous'] ); ?>">&#8249;</button>
-				
+
 				<label>
 					<span class="screen-reader-text"><?php echo esc_html( $active_labels['month'] ); ?></span>
 					<select data-itmms-calendar-month aria-label="<?php echo esc_attr( $active_labels['month'] ); ?>">
@@ -192,7 +234,7 @@ $hijri_month_range = ITMMS_Hijri::range_label( $month_start, $last_day_date, $hi
 						<?php endforeach; ?>
 					</select>
 				</label>
-				
+
 				<label>
 					<span class="screen-reader-text"><?php echo esc_html( $active_labels['year'] ); ?></span>
 					<select data-itmms-calendar-year aria-label="<?php echo esc_attr( $active_labels['year'] ); ?>">
@@ -201,54 +243,53 @@ $hijri_month_range = ITMMS_Hijri::range_label( $month_start, $last_day_date, $hi
 						<?php endfor; ?>
 					</select>
 				</label>
-				
+
 				<button type="button" data-itmms-calendar-step="1" aria-label="<?php echo esc_attr( $active_labels['next'] ); ?>" title="<?php echo esc_attr( $active_labels['next'] ); ?>">&#8250;</button>
 				<button type="button" class="itmms-public-calendar__current" data-itmms-calendar-current <?php disabled( $month === (int) $now->format( 'n' ) && $year === (int) $now->format( 'Y' ) ); ?>><?php echo esc_html( $active_labels['current_month'] ); ?></button>
 			</div>
 		<?php endif; ?>
 	</div>
-	
-	<!-- CALENDAR GRID -->
+
 	<div class="itmms-public-calendar__grid-container">
-		
-		<!-- Weekday Labels -->
-		<div class="itmms-public-calendar__weekdays">
+		<div class="itmms-public-calendar__weekdays" aria-hidden="true">
 			<?php foreach ( $active_weekdays as $wday ) : ?>
 				<div class="itmms-public-calendar__weekday-label"><?php echo esc_html( $wday ); ?></div>
 			<?php endforeach; ?>
 		</div>
-		
-		<!-- Calendar Cells -->
-		<div class="itmms-public-calendar__days-grid">
+
+		<div class="itmms-public-calendar__days-grid" role="grid" aria-label="<?php echo esc_attr( (string) $atts['title'] ); ?>">
 			<?php foreach ( $grid_days as $grid_day ) : ?>
 				<?php
-				$g_date = $grid_day['date'];
+				$g_date    = $grid_day['date'];
 				$g_day_str = $g_date->format( 'Y-m-d' );
-				$is_today = ( $g_day_str === $today );
-				
+				$is_today  = ( $g_day_str === $today );
+				$is_friday = ( '5' === $g_date->format( 'N' ) );
+
 				// Compute Hijri Date Details
 				$hijri_details = ITMMS_Hijri::for_date( $g_date, $hijri_adjustment, $language );
-				$h_day = (int) $hijri_details['day'];
-				$h_month = (int) $hijri_details['month'];
-				$h_month_name = (string) $hijri_details['month_name'];
-				
+				$h_day         = (int) $hijri_details['day'];
+				$h_month       = (int) $hijri_details['month'];
+				$h_month_name  = (string) $hijri_details['month_name'];
+
 				// Holy Day Matcher
-				$holy_key = $h_month . '-' . $h_day;
+				$holy_key       = $h_month . '-' . $h_day;
 				$holy_day_label = $active_holy_days[ $holy_key ] ?? '';
-				$is_holy_day = ! empty( $holy_day_label );
-				
+				$is_holy_day    = ! empty( $holy_day_label );
+
 				// Local Events Matcher
 				$day_events = [];
 				foreach ( $events as $event ) {
 					$start_date_str = substr( $event['start_time'], 0, 10 );
-					$end_date_str = $event['end_time'] ? substr( $event['end_time'], 0, 10 ) : $start_date_str;
-					
+					$end_date_str   = $event['end_time'] ? substr( $event['end_time'], 0, 10 ) : $start_date_str;
+
 					if ( $g_day_str >= $start_date_str && $g_day_str <= $end_date_str ) {
 						$day_events[] = $event;
 					}
 				}
-				$has_events = ! empty( $day_events );
-				
+				$has_events      = ! empty( $day_events );
+				$hidden_events   = max( 0, count( $day_events ) - $max_cell_events );
+				$mobile_dot_cap  = min( 3, count( $day_events ) );
+
 				// Class list builder
 				$cell_classes = [ 'itmms-public-calendar__cell' ];
 				if ( ! $grid_day['is_current'] ) {
@@ -257,6 +298,9 @@ $hijri_month_range = ITMMS_Hijri::range_label( $month_start, $last_day_date, $hi
 				if ( $is_today ) {
 					$cell_classes[] = 'is-today';
 				}
+				if ( $is_friday && $grid_day['is_current'] ) {
+					$cell_classes[] = 'is-friday';
+				}
 				if ( $is_holy_day ) {
 					$cell_classes[] = 'is-holy-day';
 				}
@@ -264,16 +308,20 @@ $hijri_month_range = ITMMS_Hijri::range_label( $month_start, $last_day_date, $hi
 					$cell_classes[] = 'has-events';
 				}
 				?>
-				<div class="<?php echo esc_attr( implode( ' ', $cell_classes ) ); ?>" data-gregorian-date="<?php echo esc_attr( $g_day_str ); ?>" data-hijri-date-label="<?php echo esc_attr( $hijri_details['label'] ); ?>">
-					
-					<!-- Day Numbers Header -->
+				<div
+					class="<?php echo esc_attr( implode( ' ', $cell_classes ) ); ?>"
+					role="gridcell"
+					tabindex="0"
+					data-gregorian-date="<?php echo esc_attr( $g_day_str ); ?>"
+					data-hijri-date-label="<?php echo esc_attr( $hijri_details['label'] ); ?>"
+					aria-label="<?php echo esc_attr( $g_date->format( 'j F Y' ) . ( $holy_day_label ? ' — ' . $holy_day_label : '' ) ); ?>"
+				>
 					<div class="itmms-public-calendar__cell-header">
-						<span class="itmms-public-calendar__gregorian-num">
+						<span class="itmms-public-calendar__gregorian-num"<?php echo $is_today ? ' data-today-label="' . esc_attr( $active_labels['today'] ) . '"' : ''; ?>>
 							<?php echo esc_html( ITMMS_Hijri::number( $g_date->format( 'j' ), $language ) ); ?>
 						</span>
 						<span class="itmms-public-calendar__hijri-num" title="<?php echo esc_attr( $hijri_details['label'] ); ?>">
 							<?php
-							// Show month name on Hijri 1st day of the month
 							if ( 1 === $h_day ) {
 								echo esc_html( ITMMS_Hijri::number( (string) $h_day, $language ) . ' ' . $h_month_name );
 							} else {
@@ -282,29 +330,32 @@ $hijri_month_range = ITMMS_Hijri::range_label( $month_start, $last_day_date, $hi
 							?>
 						</span>
 					</div>
-					
-					<!-- Events & Holy Days Body -->
+
 					<div class="itmms-public-calendar__cell-body">
 						<?php if ( $is_holy_day ) : ?>
 							<div class="itmms-public-calendar__holy-label" title="<?php echo esc_attr( $holy_day_label ); ?>">
-								★ <?php echo esc_html( $holy_day_label ); ?>
+								<?php echo esc_html( $holy_day_label ); ?>
 							</div>
 						<?php endif; ?>
-						
+
 						<?php if ( $has_events ) : ?>
 							<div class="itmms-public-calendar__events-list">
-								<?php foreach ( $day_events as $d_event ) : ?>
-									<div class="itmms-public-calendar__event-item" title="<?php echo esc_attr( $d_event['title'] . ( $d_event['location'] ? ' @ ' . $d_event['location'] : '' ) ); ?>">
+								<?php foreach ( $day_events as $event_index => $d_event ) : ?>
+									<div class="itmms-public-calendar__event-item<?php echo $event_index >= $max_cell_events ? ' is-clipped' : ''; ?>" title="<?php echo esc_attr( $d_event['title'] . ( $d_event['location'] ? ' @ ' . $d_event['location'] : '' ) ); ?>">
 										<span class="itmms-public-calendar__event-dot"></span>
 										<span class="itmms-public-calendar__event-title"><?php echo esc_html( $d_event['title'] ); ?></span>
 									</div>
 								<?php endforeach; ?>
+								<?php if ( $hidden_events > 0 ) : ?>
+									<div class="itmms-public-calendar__event-more">
+										<?php echo esc_html( sprintf( $active_labels['more_events'], $hidden_events ) ); ?>
+									</div>
+								<?php endif; ?>
 							</div>
-							<!-- Mobile indicator -->
-							<div class="itmms-public-calendar__mobile-event-dots">
-								<?php foreach ( $day_events as $index => $d_event ) : ?>
+							<div class="itmms-public-calendar__mobile-event-dots" aria-hidden="true">
+								<?php for ( $dot_i = 0; $dot_i < $mobile_dot_cap; $dot_i++ ) : ?>
 									<span class="itmms-public-calendar__mobile-event-dot"></span>
-								<?php endforeach; ?>
+								<?php endfor; ?>
 							</div>
 						<?php endif; ?>
 					</div>
@@ -313,9 +364,14 @@ $hijri_month_range = ITMMS_Hijri::range_label( $month_start, $last_day_date, $hi
 		</div>
 	</div>
 
-	<!-- MOBILE EVENT LIST DRAWER (Shown on tap under the calendar on mobile) -->
-	<div class="itmms-public-calendar__mobile-events-drawer" id="itmms-calendar-mobile-drawer" style="display: none;">
-		<h4 id="itmms-calendar-drawer-title">-</h4>
-		<div class="itmms-public-calendar__drawer-list" id="itmms-calendar-drawer-list"></div>
+	<div class="itmms-public-calendar__legend" aria-label="<?php echo esc_attr( $active_labels['events'] ); ?>">
+		<span class="itmms-public-calendar__legend-item is-today"><span class="itmms-public-calendar__legend-swatch" aria-hidden="true"></span><?php echo esc_html( $active_labels['legend_today'] ); ?></span>
+		<span class="itmms-public-calendar__legend-item is-holy"><span class="itmms-public-calendar__legend-swatch" aria-hidden="true"></span><?php echo esc_html( $active_labels['legend_holy'] ); ?></span>
+		<span class="itmms-public-calendar__legend-item is-event"><span class="itmms-public-calendar__legend-swatch" aria-hidden="true"></span><?php echo esc_html( $active_labels['legend_event'] ); ?></span>
+	</div>
+
+	<div class="itmms-public-calendar__mobile-events-drawer" id="<?php echo esc_attr( $cal_uid ); ?>-drawer" data-itmms-calendar-drawer hidden>
+		<h4 id="<?php echo esc_attr( $cal_uid ); ?>-drawer-title" data-itmms-calendar-drawer-title>-</h4>
+		<div class="itmms-public-calendar__drawer-list" id="<?php echo esc_attr( $cal_uid ); ?>-drawer-list" data-itmms-calendar-drawer-list></div>
 	</div>
 </div>

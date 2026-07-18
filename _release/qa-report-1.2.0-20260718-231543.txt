@@ -1,0 +1,50 @@
+﻿MasjidOS 1.2.0 — Release QA Report
+Generated: 2026-07-18 23:16:13 +06:00
+
+## Automated results
+- Version consistency: masjidos.php Version / ITMMS_VERSION / readme Stable tag = 1.2.0 PASS
+- ITMMS_DB_VERSION: 1.6 (internal schema; OK if != public version)
+- PHP syntax: all plugin PHP files PASS (0 failures)
+- JS syntax: all plugin JS files PASS (0 failures)
+- POT rebuild: 1499 strings (Project-Id-Version 1.2.0)
+- BN pack: 1499/1499 translated; rebuilt .po/.mo/admin JSON PASS
+- AR pack: rebuilt; 95 translated + English fallback PASS
+- Aladhan API: only when prayer_source=aladhan PASS (code review)
+- Release ZIP: masjidos-1.2.0-20260718-231543.zip
+- ZIP size: 814295 bytes
+- ZIP checks: main.php=True; readme=True; uninstall=True; bn.mo=True; ar.mo=True; fonts=8; templates=17; forbidden=0
+
+## Plugin Check / Plugin Review
+- STATUS: SKIPPED — WP-CLI and plugin-check plugin not available in this environment.
+- ACTION: On Local WP site, install Plugin Check, run:
+  wp plugin check masjidos --exclude-directories=_future,_release
+  or use WP Admin → Tools → Plugin Check.
+
+## Manual smoke checklist (do on clean/local site)
+[ ] Activate MasjidOS 1.2.0 from ZIP (clean install)
+[ ] Welcome / setup: timezone, coordinates, method save
+[ ] Admin language EN / BN / AR toggle
+[ ] Shortcodes:
+    [masjidos_prayer_times]
+    [masjidos_prayer_times design="compact" language="bn"]
+    [masjidos_jumuah]
+    [masjidos_monthly_prayer_times]
+    [masjidos_announcements]
+    [masjidos_announcements design="ticker"]
+    [masjidos_events]
+    [masjidos_islamic_calendar]
+    [masjidos_duas_azkar]
+    [masjidos_quran_verse] [masjidos_hadith] [masjidos_allah_names] [masjidos_audio_quran] [masjidos_articles]
+    [masjidos_khatib_this_week] [masjidos_upcoming_khutbah] [masjidos_khutbah_archive] [masjidos_khutbah_search]
+[ ] TV URL /masjidos-display/ loads; countdown + quiet mode
+[ ] BN labels visible with language="bn" and site locale bn_BD
+[ ] No MasjidOS CSS/JS on pages without shortcodes
+[ ] Deactivate/reactivate preserves settings
+[ ] Delete plugin removes data only on uninstall/delete
+[ ] Hard refresh after update (Ctrl+F5)
+
+## Remaining blockers before WordPress.org upload
+1. Run Plugin Check + Plugin Review on a WP install
+2. Complete manual smoke checklist above
+3. Confirm ZIP filename version matches Stable tag (done for this artifact)
+

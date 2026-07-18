@@ -7,10 +7,10 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<div class="itmms-public-monthly itmms-public-monthly--<?php echo esc_attr( $design ); ?> itmms-public-monthly--lang-<?php echo esc_attr( $language ); ?>"<?php if ( $show_navigation ) : ?> data-itmms-monthly data-endpoint="<?php echo esc_url( rest_url( 'masjidos/v1/prayer-times/monthly' ) ); ?>" data-month="<?php echo esc_attr( (string) $month ); ?>" data-year="<?php echo esc_attr( (string) $year ); ?>" data-current-month="<?php echo esc_attr( $now->format( 'n' ) ); ?>" data-current-year="<?php echo esc_attr( $now->format( 'Y' ) ); ?>" data-design="<?php echo esc_attr( $design ); ?>" data-language="<?php echo esc_attr( $language ); ?>" data-iqamah="<?php echo esc_attr( $show_iqamah ? 'yes' : 'no' ); ?>" data-title="<?php echo esc_attr( (string) $atts['title'] ); ?>" data-error="<?php echo esc_attr( $labels['error'] ); ?>"<?php endif; ?>>
+<div class="itmms-public-monthly itmms-public-monthly--<?php echo esc_attr( $design ); ?> itmms-public-monthly--lang-<?php echo esc_attr( $language ); ?>"<?php if ( $show_navigation ) : ?> data-itmms-monthly data-endpoint="<?php echo esc_url( rest_url( 'masjidos/v1/prayer-times/monthly' ) ); ?>" data-month="<?php echo esc_attr( (string) $month ); ?>" data-year="<?php echo esc_attr( (string) $year ); ?>" data-current-month="<?php echo esc_attr( $now->format( 'n' ) ); ?>" data-current-year="<?php echo esc_attr( $now->format( 'Y' ) ); ?>" data-design="<?php echo esc_attr( $design ); ?>" data-language="<?php echo esc_attr( $language ); ?>" data-iqamah="<?php echo esc_attr( $show_iqamah ? 'yes' : 'no' ); ?>" data-extras="<?php echo esc_attr( $show_extras ? 'yes' : 'no' ); ?>" data-title="<?php echo esc_attr( (string) $atts['title'] ); ?>" data-error="<?php echo esc_attr( $labels['error'] ); ?>"<?php endif; ?>>
 	<div class="itmms-public-monthly__header">
 		<div>
-			<span><?php echo esc_html( $meta['location'] ?? get_bloginfo( 'name' ) ); ?></span>
+			<span class="itmms-public-monthly__eyebrow"><?php echo esc_html( $meta['location'] ?? get_bloginfo( 'name' ) ); ?></span>
 			<h2><?php echo esc_html( $atts['title'] ); ?></h2>
 			<p>
 				<span><?php echo esc_html( ITMMS_Hijri::format_label( (string) ( $data['label'] ?? '' ), $language ) ); ?></span>
@@ -63,8 +63,8 @@ defined( 'ABSPATH' ) || exit;
 				<article class="itmms-public-monthly__card <?php echo (string) ( $itmms_day['date'] ?? '' ) === $today ? 'is-today' : ''; ?> <?php echo '5' === date_i18n( 'w', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ? 'is-friday' : ''; ?>">
 					<header>
 						<div>
-							<strong><?php echo esc_html( ITMMS_Hijri::format_label( date_i18n( 'M j', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ), $language ) ); ?></strong>
-							<span><?php echo esc_html( date_i18n( 'l', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ); ?></span>
+							<strong data-today-label="<?php echo esc_attr( (string) ( $labels['today'] ?? __( 'Today', 'masjidos' ) ) ); ?>"><?php echo esc_html( ITMMS_Hijri::format_label( date_i18n( 'M j', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ), $language ) ); ?></strong>
+							<span><?php echo esc_html( $this->weekday_label( (string) ( $itmms_day['date'] ?? '' ), $language, false ) ); ?></span>
 						</div>
 					</header>
 					<div>
@@ -95,8 +95,8 @@ defined( 'ABSPATH' ) || exit;
 						<?php $itmms_prayers = $this->indexed_prayers( (array) ( $itmms_day['prayers'] ?? [] ) ); ?>
 						<tr class="<?php echo (string) ( $itmms_day['date'] ?? '' ) === $today ? 'is-today' : ''; ?> <?php echo '5' === date_i18n( 'w', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ? 'is-friday' : ''; ?>">
 							<td>
-								<strong><?php echo esc_html( ITMMS_Hijri::format_label( date_i18n( 'M j', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ), $language ) ); ?></strong>
-								<span><?php echo esc_html( date_i18n( 'D', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ) ); ?></span>
+								<strong data-today-label="<?php echo esc_attr( (string) ( $labels['today'] ?? __( 'Today', 'masjidos' ) ) ); ?>"><?php echo esc_html( ITMMS_Hijri::format_label( date_i18n( 'M j', strtotime( (string) ( $itmms_day['date'] ?? 'now' ) ) ), $language ) ); ?></strong>
+								<span><?php echo esc_html( $this->weekday_label( (string) ( $itmms_day['date'] ?? '' ), $language, true ) ); ?></span>
 							</td>
 							<?php foreach ( $prayer_keys as $itmms_key ) : ?>
 								<td class="itmms-public-monthly__time-cell">

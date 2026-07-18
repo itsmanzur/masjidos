@@ -8,11 +8,46 @@
 		return String( value ).padStart( 2, '0' );
 	}
 
-	function formatCountdown( target ) {
+	function digitMap( language ) {
+		if ( language === 'bn' ) {
+			return { '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯' };
+		}
+		if ( language === 'ar' ) {
+			return { '0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤', '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩' };
+		}
+		return null;
+	}
+
+	function localizeDigits( value, language ) {
+		var text = String( value );
+		var map = digitMap( language );
+		if ( ! map ) {
+			return text;
+		}
+		return text.replace( /[0-9]/g, function ( digit ) {
+			return map[ digit ] || digit;
+		} );
+	}
+
+	function prayerWidgetLanguage( widget ) {
+		if ( ! widget ) {
+			return 'en';
+		}
+		if ( widget.classList.contains( 'itmms-public-prayer--lang-bn' ) ) {
+			return 'bn';
+		}
+		if ( widget.classList.contains( 'itmms-public-prayer--lang-ar' ) ) {
+			return 'ar';
+		}
+		return 'en';
+	}
+
+	function formatCountdown( target, language ) {
 		var seconds = Math.max( 0, Math.floor( ( target.getTime() - Date.now() ) / 1000 ) );
-		return pad2( Math.floor( seconds / 3600 ) ) + ':' +
+		var text = pad2( Math.floor( seconds / 3600 ) ) + ':' +
 			pad2( Math.floor( ( seconds % 3600 ) / 60 ) ) + ':' +
 			pad2( seconds % 60 );
+		return localizeDigits( text, language || 'en' );
 	}
 
 	function tick( widget ) {
@@ -27,7 +62,7 @@
 			return;
 		}
 
-		output.textContent = formatCountdown( target );
+		output.textContent = formatCountdown( target, prayerWidgetLanguage( widget ) );
 		window.setTimeout( function () {
 			tick( widget );
 		}, 1000 );
@@ -56,6 +91,7 @@
 			design: widget.getAttribute( 'data-design' ) || 'table',
 			language: widget.getAttribute( 'data-language' ) || 'en',
 			iqamah: widget.getAttribute( 'data-iqamah' ) || 'no',
+			extras: widget.getAttribute( 'data-extras' ) || 'no',
 			title: widget.getAttribute( 'data-title' ) || ''
 		} );
 
@@ -325,12 +361,24 @@
 			return;
 		}
 
-		var widget = cell.closest( '[data-itmms-calendar]' );
-		var drawer = widget.querySelector( '#itmms-calendar-mobile-drawer' );
-		var titleEl = widget.querySelector( '#itmms-calendar-drawer-title' );
-		var listEl = widget.querySelector( '#itmms-calendar-drawer-list' );
+		var widget = cell.closest( '.itmms-public-calendar' );
+		if ( ! widget ) {
+			return;
+		}
+
+		var drawer = widget.querySelector( '[data-itmms-calendar-drawer]' );
+		var titleEl = widget.querySelector( '[data-itmms-calendar-drawer-title]' );
+		var listEl = widget.querySelector( '[data-itmms-calendar-drawer-list]' );
 		if ( ! drawer || ! titleEl || ! listEl ) {
 			return;
+		}
+
+		// Drawer is primarily for compact layouts where cell details are hidden.
+		if ( window.matchMedia && window.matchMedia( '(min-width: 721px)' ).matches ) {
+			var compact = widget.clientWidth > 0 && widget.clientWidth <= 720;
+			if ( ! compact ) {
+				return;
+			}
 		}
 
 		widget.querySelectorAll( '.itmms-public-calendar__cell' ).forEach( function ( c ) {
@@ -338,20 +386,26 @@
 		} );
 		cell.classList.add( 'is-selected' );
 
-		var gDateLabel = cell.getAttribute( 'data-gregorian-date' );
-		var hDateLabel = cell.getAttribute( 'data-hijri-date-label' );
-		
+		var gDateLabel = cell.getAttribute( 'data-gregorian-date' ) || '';
+		var hDateLabel = cell.getAttribute( 'data-hijri-date-label' ) || '';
+		var language = widget.getAttribute( 'data-language' ) || 'en';
+		var locale = language === 'bn' ? 'bn-BD' : ( language === 'ar' ? 'ar' : undefined );
+		var formattedGDate = gDateLabel;
 		var parts = gDateLabel.split( '-' );
-		var formattedGDate = new Date( parts[0], parts[1] - 1, parts[2] ).toLocaleDateString( undefined, { day: 'numeric', month: 'long', year: 'numeric' } );
 
-		titleEl.textContent = formattedGDate + ' / ' + hDateLabel;
+		if ( parts.length === 3 ) {
+			formattedGDate = new Date( Number( parts[0] ), Number( parts[1] ) - 1, Number( parts[2] ) )
+				.toLocaleDateString( locale, { day: 'numeric', month: 'long', year: 'numeric' } );
+		}
+
+		titleEl.textContent = formattedGDate + ( hDateLabel ? ' / ' + hDateLabel : '' );
 
 		var eventItems = cell.querySelectorAll( '.itmms-public-calendar__event-item' );
 		var holyLabel = cell.querySelector( '.itmms-public-calendar__holy-label' );
-		
 		var listHtml = '';
+
 		if ( holyLabel ) {
-			listHtml += '<div class="itmms-public-calendar__drawer-item is-holiday">' + holyLabel.innerHTML + '</div>';
+			listHtml += '<div class="itmms-public-calendar__drawer-item is-holiday">' + holyLabel.textContent + '</div>';
 		}
 
 		if ( eventItems.length > 0 ) {
@@ -366,7 +420,20 @@
 		}
 
 		listEl.innerHTML = listHtml;
+		drawer.hidden = false;
 		drawer.style.display = 'block';
+	} );
+
+	document.addEventListener( 'keydown', function ( event ) {
+		if ( event.key !== 'Enter' && event.key !== ' ' ) {
+			return;
+		}
+		var cell = event.target.closest( '.itmms-public-calendar__cell' );
+		if ( ! cell ) {
+			return;
+		}
+		event.preventDefault();
+		cell.click();
 	} );
 
 	function duaStorageKey( key ) {
@@ -393,6 +460,53 @@
 		} catch ( e ) {}
 	}
 
+	function duaDigitMap( language ) {
+		if ( language === 'bn' ) {
+			return { '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯' };
+		}
+		if ( language === 'ar' ) {
+			return { '0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤', '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩' };
+		}
+		return null;
+	}
+
+	function formatDuaCount( value, language ) {
+		var text = String( value );
+		var map = duaDigitMap( language );
+		if ( ! map ) {
+			return text;
+		}
+		return text.replace( /[0-9]/g, function ( digit ) {
+			return map[ digit ] || digit;
+		} );
+	}
+
+	function duaWidgetLanguage( node ) {
+		var widget = node && node.closest ? node.closest( '.itmms-public-duas' ) : null;
+		if ( ! widget ) {
+			return 'en';
+		}
+		if ( widget.classList.contains( 'itmms-public-duas--lang-bn' ) ) {
+			return 'bn';
+		}
+		if ( widget.classList.contains( 'itmms-public-duas--lang-ar' ) ) {
+			return 'ar';
+		}
+		return 'en';
+	}
+
+	function syncDuaCompleteState( item, count ) {
+		if ( ! item ) {
+			return;
+		}
+		var target = Number( item.getAttribute( 'data-itmms-dua-target' ) || '0' );
+		if ( target > 0 && count >= target ) {
+			item.classList.add( 'is-complete' );
+		} else {
+			item.classList.remove( 'is-complete' );
+		}
+	}
+
 	function initDuasAzkar( root ) {
 		( root || document ).querySelectorAll( '.itmms-public-duas__item[data-itmms-dua-key]' ).forEach( function ( item ) {
 			var key = item.getAttribute( 'data-itmms-dua-key' );
@@ -401,7 +515,9 @@
 				return;
 			}
 
-			output.textContent = String( getDuaCount( key ) );
+			var count = getDuaCount( key );
+			output.textContent = formatDuaCount( count, duaWidgetLanguage( item ) );
+			syncDuaCompleteState( item, count );
 		} );
 	}
 
@@ -411,8 +527,34 @@
 			try {
 				if ( id && window.sessionStorage.getItem( 'itmms_popup_dismissed_' + id ) === 'yes' ) {
 					popup.style.display = 'none';
+					return;
 				}
 			} catch ( e ) {}
+
+			if ( popup.getAttribute( 'data-itmms-popup-ready' ) === '1' ) {
+				return;
+			}
+			popup.setAttribute( 'data-itmms-popup-ready', '1' );
+
+			var closeBtn = popup.querySelector( '[data-itmms-popup-close]' );
+			if ( closeBtn ) {
+				window.setTimeout( function () {
+					closeBtn.focus();
+				}, 0 );
+			}
+
+			popup.addEventListener( 'keydown', function ( event ) {
+				if ( event.key !== 'Escape' ) {
+					return;
+				}
+				event.preventDefault();
+				popup.style.display = 'none';
+				try {
+					if ( id ) {
+						window.sessionStorage.setItem( 'itmms_popup_dismissed_' + id, 'yes' );
+					}
+				} catch ( err ) {}
+			} );
 		} );
 	}
 
@@ -457,7 +599,7 @@
 			return;
 		}
 
-		var player = surahSelect.closest( '.itmms-public-audio-quran' ).querySelector( '#itmms-quran-audio-player' );
+		var player = surahSelect.closest( '.itmms-public-audio-quran' ).querySelector( '[data-itmms-quran-player]' );
 		if ( ! player ) {
 			return;
 		}
@@ -488,12 +630,14 @@
 		var countButton = event.target.closest( '[data-itmms-dua-count]' );
 		if ( countButton ) {
 			var countKey = countButton.getAttribute( 'data-itmms-dua-count' );
+			var countItem = countButton.closest( '.itmms-public-duas__item' );
 			var countOutput = countButton.querySelector( '[data-itmms-dua-count-value]' );
 			var nextCount = getDuaCount( countKey ) + 1;
 			setDuaCount( countKey, nextCount );
 			if ( countOutput ) {
-				countOutput.textContent = String( nextCount );
+				countOutput.textContent = formatDuaCount( nextCount, duaWidgetLanguage( countButton ) );
 			}
+			syncDuaCompleteState( countItem, nextCount );
 			return;
 		}
 
@@ -504,8 +648,9 @@
 			var resetOutput = resetItem ? resetItem.querySelector( '[data-itmms-dua-count-value]' ) : null;
 			removeDuaCount( resetKey );
 			if ( resetOutput ) {
-				resetOutput.textContent = '0';
+				resetOutput.textContent = formatDuaCount( 0, duaWidgetLanguage( resetButton ) );
 			}
+			syncDuaCompleteState( resetItem, 0 );
 			return;
 		}
 
@@ -521,8 +666,12 @@
 		var shareButton = event.target.closest( '[data-itmms-dua-share]' );
 		if ( shareButton ) {
 			var shareItem = shareButton.closest( '.itmms-public-duas__item' );
+			var shareRoot = shareButton.closest( '.itmms-public-duas' );
 			var duaShareText = shareItem ? shareItem.getAttribute( 'data-itmms-dua-text' ) : '';
-			shareText( duaShareText, shareButton, '' );
+			var shareSuccess = shareButton.getAttribute( 'data-itmms-share-success' )
+				|| ( shareRoot ? shareRoot.getAttribute( 'data-itmms-share-success' ) : '' )
+				|| '';
+			shareText( duaShareText, shareButton, shareSuccess );
 			return;
 		}
 
@@ -533,7 +682,48 @@
 				educationShareButton,
 				educationShareButton.getAttribute( 'data-itmms-share-success' ) || ''
 			);
+			return;
 		}
+
+		var calToggle = event.target.closest( '[data-itmms-cal-toggle]' );
+		if ( calToggle ) {
+			event.preventDefault();
+			var calWrap = calToggle.closest( '.itmms-public-events__cal' );
+			var calMenu = calWrap ? calWrap.querySelector( '.itmms-public-events__cal-menu' ) : null;
+			var willOpen = calMenu && calMenu.hasAttribute( 'hidden' );
+			document.querySelectorAll( '.itmms-public-events__cal-menu' ).forEach( function ( menu ) {
+				menu.setAttribute( 'hidden', '' );
+			} );
+			document.querySelectorAll( '[data-itmms-cal-toggle]' ).forEach( function ( btn ) {
+				btn.setAttribute( 'aria-expanded', 'false' );
+			} );
+			if ( willOpen && calMenu ) {
+				calMenu.removeAttribute( 'hidden' );
+				calToggle.setAttribute( 'aria-expanded', 'true' );
+			}
+			return;
+		}
+
+		if ( ! event.target.closest( '.itmms-public-events__cal' ) ) {
+			document.querySelectorAll( '.itmms-public-events__cal-menu' ).forEach( function ( menu ) {
+				menu.setAttribute( 'hidden', '' );
+			} );
+			document.querySelectorAll( '[data-itmms-cal-toggle]' ).forEach( function ( btn ) {
+				btn.setAttribute( 'aria-expanded', 'false' );
+			} );
+		}
+	} );
+
+	document.addEventListener( 'keydown', function ( event ) {
+		if ( event.key !== 'Escape' ) {
+			return;
+		}
+		document.querySelectorAll( '.itmms-public-events__cal-menu' ).forEach( function ( menu ) {
+			menu.setAttribute( 'hidden', '' );
+		} );
+		document.querySelectorAll( '[data-itmms-cal-toggle]' ).forEach( function ( btn ) {
+			btn.setAttribute( 'aria-expanded', 'false' );
+		} );
 	} );
 
 	// Initialize on page load

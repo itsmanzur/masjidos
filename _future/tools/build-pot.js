@@ -75,7 +75,7 @@ function potQuote( value ) {
 const header = [
 	'msgid ""',
 	'msgstr ""',
-	'"Project-Id-Version: MasjidOS 1.1.5\\n"',
+	'"Project-Id-Version: MasjidOS 1.2.1\\n"',
 	'"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/masjidos/\\n"',
 	`"POT-Creation-Date: ${ new Date().toISOString() }\\n"`,
 	'"MIME-Version: 1.0\\n"',

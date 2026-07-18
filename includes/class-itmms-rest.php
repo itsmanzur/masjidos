@@ -160,6 +160,15 @@ final class ITMMS_REST {
 					'methods'             => WP_REST_Server::DELETABLE,
 					'callback'            => [ $this, 'clear_prayer_timetable' ],
 					'permission_callback' => [ $this, 'can_manage_prayers' ],
+					'args'                => [
+						'year' => [
+							'required'          => false,
+							'validate_callback' => static function ( $param ) {
+								return is_numeric( $param ) || empty( $param );
+							},
+							'sanitize_callback' => 'absint',
+						],
+					],
 				],
 			]
 		);
@@ -241,6 +250,10 @@ final class ITMMS_REST {
 						'required'          => false,
 						'sanitize_callback' => 'sanitize_text_field',
 					],
+					'extras'   => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_text_field',
+					],
 					'title'    => [
 						'required'          => false,
 						'sanitize_callback' => 'sanitize_text_field',
@@ -291,6 +304,10 @@ final class ITMMS_REST {
 						'sanitize_callback' => 'sanitize_key',
 					],
 					'iqamah'   => [
+						'required'          => false,
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+					'extras'   => [
 						'required'          => false,
 						'sanitize_callback' => 'sanitize_text_field',
 					],
@@ -912,33 +929,41 @@ final class ITMMS_REST {
 		$timezone_ok = ! in_array( $timezone_name, [ '', 'UTC', '+00:00', '-00:00' ], true );
 		$site_timezone = wp_timezone_string();
 
-		return rest_ensure_response(
-			[
-				'settings'    => $settings,
-				'stats'       => [
-					'announcements' => ITMMS_Announcements::count_active(),
-					'events'        => ITMMS_Events::count_active(),
-				],
-				'prayers'     => $prayer_times['prayers'],
-				'next_prayer' => $prayer_times['next_prayer'],
-				'prayer_meta' => $prayer_times['meta'],
-				'hijri_date'  => ITMMS_Hijri::for_date( $day, (int) ( $settings['hijri_adjustment'] ?? 0 ), 'en' ),
-				'announcements' => ITMMS_Announcements::active( 5 ),
-				'events'        => ITMMS_Events::active( 5 ),
-				'modules'     => ITMMS_Settings::module_definitions(),
-				'upcoming_days' => $upcoming_days,
-				'trust'       => [
-					'source'           => (string) ( $prayer_times['meta']['prayer_source'] ?? $settings['prayer_source'] ?? 'local' ),
-					'hijri_adjustment' => (int) ( $settings['hijri_adjustment'] ?? 0 ),
-					'coordinates_ok'   => $coords_ok,
-					'timezone_ok'      => $timezone_ok,
-					'timezone_mismatch'=> $timezone_ok && $site_timezone && $timezone_name !== $site_timezone,
-					'site_timezone'    => $site_timezone,
-					'offsets'          => $settings['prayer_offsets'] ?? [],
-				],
-				'timetable'   => ITMMS_Prayer_Timetable::summary(),
-			]
-		);
+		$payload = [
+			'settings'    => $settings,
+			'stats'       => [
+				'announcements' => ITMMS_Announcements::count_active(),
+				'events'        => ITMMS_Events::count_active(),
+			],
+			'prayers'     => $prayer_times['prayers'],
+			'next_prayer' => $prayer_times['next_prayer'],
+			'prayer_meta' => $prayer_times['meta'],
+			'hijri_date'  => ITMMS_Hijri::for_date( $day, (int) ( $settings['hijri_adjustment'] ?? 0 ), 'en' ),
+			'announcements' => ITMMS_Announcements::active( 5 ),
+			'events'        => ITMMS_Events::active( 5 ),
+			'modules'     => ITMMS_Settings::module_definitions(),
+			'upcoming_days' => $upcoming_days,
+			'trust'       => [
+				'source'           => (string) ( $prayer_times['meta']['prayer_source'] ?? $settings['prayer_source'] ?? 'local' ),
+				'hijri_adjustment' => (int) ( $settings['hijri_adjustment'] ?? 0 ),
+				'coordinates_ok'   => $coords_ok,
+				'timezone_ok'      => $timezone_ok,
+				'timezone_mismatch'=> $timezone_ok && $site_timezone && $timezone_name !== $site_timezone,
+				'site_timezone'    => $site_timezone,
+				'offsets'          => $settings['prayer_offsets'] ?? [],
+			],
+			'timetable'   => ITMMS_Prayer_Timetable::summary(),
+			'pro'         => function_exists( 'masjidos_pro_localize' ) ? masjidos_pro_localize() : [ 'active' => false ],
+		];
+
+		/**
+		 * Filter dashboard REST payload (Pro may append cards / stats).
+		 *
+		 * @param array<string,mixed> $payload Dashboard data.
+		 */
+		$payload = (array) apply_filters( 'masjidos_dashboard_data', $payload );
+
+		return rest_ensure_response( $payload );
 	}
 
 	/**
@@ -1092,9 +1117,10 @@ final class ITMMS_REST {
 	}
 
 	public function import_prayer_timetable( WP_REST_Request $request ): WP_REST_Response|WP_Error {
-		$params = $request->get_json_params();
-		$csv = isset( $params['csv'] ) ? (string) $params['csv'] : '';
-		$mode = isset( $params['mode'] ) ? sanitize_key( (string) $params['mode'] ) : 'merge';
+		$params  = $request->get_json_params();
+		$csv     = isset( $params['csv'] ) ? (string) $params['csv'] : '';
+		$mode    = isset( $params['mode'] ) ? sanitize_key( (string) $params['mode'] ) : 'merge';
+		$dry_run = ! empty( $params['dry_run'] );
 		if ( ! in_array( $mode, [ 'merge', 'replace' ], true ) ) {
 			$mode = 'merge';
 		}
@@ -1103,11 +1129,21 @@ final class ITMMS_REST {
 			return new WP_Error( 'itmms_empty_csv', __( 'CSV content is required.', 'masjidos' ), [ 'status' => 400 ] );
 		}
 
-		$result = ITMMS_Prayer_Timetable::import_csv( $csv, $mode );
+		if ( strlen( $csv ) > 2 * 1024 * 1024 ) {
+			return new WP_Error(
+				'itmms_csv_too_large',
+				__( 'CSV file is too large. Import one year at a time (about 365 rows).', 'masjidos' ),
+				[ 'status' => 413 ]
+			);
+		}
+
+		$result = ITMMS_Prayer_Timetable::import_csv( $csv, $mode, $dry_run );
 		if ( empty( $result['success'] ) ) {
 			return new WP_Error(
 				'itmms_csv_import_failed',
-				__( 'CSV import could not be completed.', 'masjidos' ),
+				$dry_run
+					? __( 'CSV validation found no valid rows.', 'masjidos' )
+					: __( 'CSV import could not be completed.', 'masjidos' ),
 				[
 					'status' => 400,
 					'data'   => $result,
@@ -1128,8 +1164,11 @@ final class ITMMS_REST {
 			$csv = ITMMS_Prayer_Timetable::export_calculated_year_csv( $year );
 			$filename = sprintf( 'masjidos-calculated-%d.csv', $year );
 		} else {
-			$csv = ITMMS_Prayer_Timetable::export_csv();
-			$filename = 'masjidos-prayer-timetable.csv';
+			$filter_year = ( $year >= 1970 && $year <= 2099 ) ? $year : null;
+			$csv         = ITMMS_Prayer_Timetable::export_csv( $filter_year );
+			$filename    = $filter_year
+				? sprintf( 'masjidos-prayer-timetable-%d.csv', $filter_year )
+				: 'masjidos-prayer-timetable.csv';
 		}
 
 		$response = new WP_REST_Response( $csv );
@@ -1146,7 +1185,12 @@ final class ITMMS_REST {
 		return $response;
 	}
 
-	public function clear_prayer_timetable(): WP_REST_Response {
+	public function clear_prayer_timetable( WP_REST_Request $request ): WP_REST_Response {
+		$year = (int) $request->get_param( 'year' );
+		if ( $year >= 1970 && $year <= 2099 ) {
+			return rest_ensure_response( ITMMS_Prayer_Timetable::clear_year( $year ) );
+		}
+
 		ITMMS_Prayer_Timetable::clear();
 		return rest_ensure_response(
 			[
@@ -1190,6 +1234,7 @@ final class ITMMS_REST {
 				'design'     => sanitize_key( (string) $request->get_param( 'design' ) ),
 				'language'   => sanitize_key( (string) $request->get_param( 'language' ) ),
 				'iqamah'     => 'yes' === strtolower( (string) $request->get_param( 'iqamah' ) ) ? 'yes' : 'no',
+				'extras'     => 'yes' === strtolower( (string) $request->get_param( 'extras' ) ) ? 'yes' : 'no',
 				'navigation' => 'yes',
 				'title'      => wp_html_excerpt( sanitize_text_field( (string) $request->get_param( 'title' ) ), 120, '' ),
 			]

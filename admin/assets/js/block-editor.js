@@ -109,7 +109,8 @@
 			language: { type: 'string', default: defaultLanguage },
 			qibla: { type: 'string', default: 'yes' },
 			meta: { type: 'string', default: 'yes' },
-			iqamah: { type: 'string', default: 'yes' }
+			iqamah: { type: 'string', default: 'yes' },
+			hijri: { type: 'string', default: 'yes' }
 		},
 		inspector: function ( attributes, setAttributes ) {
 			return [
@@ -138,7 +139,8 @@
 				} ),
 				yesNoToggle( __( 'Show Qibla', 'masjidos' ), attributes.qibla, function ( value ) { setAttributes( { qibla: value } ); } ),
 				yesNoToggle( __( 'Show Calculations Meta', 'masjidos' ), attributes.meta, function ( value ) { setAttributes( { meta: value } ); } ),
-				yesNoToggle( __( 'Show Iqamah Times', 'masjidos' ), attributes.iqamah, function ( value ) { setAttributes( { iqamah: value } ); } )
+				yesNoToggle( __( 'Show Iqamah Times', 'masjidos' ), attributes.iqamah, function ( value ) { setAttributes( { iqamah: value } ); } ),
+				yesNoToggle( __( 'Show Hijri Date', 'masjidos' ), attributes.hijri, function ( value ) { setAttributes( { hijri: value } ); } )
 			];
 		},
 		previewRows: function ( attributes ) {
@@ -195,7 +197,9 @@
 			title: { type: 'string', default: __( 'Monthly Prayer Timetable', 'masjidos' ) },
 			language: { type: 'string', default: defaultLanguage },
 			design: { type: 'string', default: 'table' },
-			iqamah: { type: 'string', default: 'no' }
+			iqamah: { type: 'string', default: 'no' },
+			navigation: { type: 'string', default: 'yes' },
+			extras: { type: 'string', default: 'no' }
 		},
 		inspector: function ( attributes, setAttributes ) {
 			return [
@@ -222,7 +226,9 @@
 					],
 					onChange: function ( value ) { setAttributes( { design: value } ); }
 				} ),
-				yesNoToggle( __( 'Show Iqamah', 'masjidos' ), attributes.iqamah, function ( value ) { setAttributes( { iqamah: value } ); } )
+				yesNoToggle( __( 'Show Iqamah', 'masjidos' ), attributes.iqamah, function ( value ) { setAttributes( { iqamah: value } ); } ),
+				yesNoToggle( __( 'Month Navigation', 'masjidos' ), attributes.navigation, function ( value ) { setAttributes( { navigation: value } ); } ),
+				yesNoToggle( __( 'Show Ishraq / Zawal', 'masjidos' ), attributes.extras, function ( value ) { setAttributes( { extras: value } ); } )
 			];
 		},
 		previewRows: function ( attributes ) {
@@ -276,6 +282,7 @@
 		previewRows: function ( attributes ) {
 			return [
 				{ label: __( 'Title: ', 'masjidos' ), value: attributes.title },
+				{ label: __( 'Design: ', 'masjidos' ), value: attributes.design },
 				{ label: __( 'Language: ', 'masjidos' ), value: attributes.language }
 			];
 		}
@@ -290,6 +297,7 @@
 			title: { type: 'string', default: __( 'Masjid Notices', 'masjidos' ) },
 			language: { type: 'string', default: defaultLanguage },
 			design: { type: 'string', default: 'list' },
+			type: { type: 'string', default: 'all' },
 			limit: { type: 'string', default: '5' },
 			show_date: { type: 'string', default: 'yes' }
 		},
@@ -308,6 +316,30 @@
 					options: languageOptions,
 					onChange: function ( value ) { setAttributes( { language: value } ); }
 				} ),
+				createElement( SelectControl, {
+					key: 'design',
+					label: __( 'Design', 'masjidos' ),
+					value: attributes.design,
+					options: [
+						{ label: __( 'List', 'masjidos' ), value: 'list' },
+						{ label: __( 'Ticker', 'masjidos' ), value: 'ticker' },
+						{ label: __( 'Banner', 'masjidos' ), value: 'banner' },
+						{ label: __( 'Popup', 'masjidos' ), value: 'popup' }
+					],
+					onChange: function ( value ) { setAttributes( { design: value } ); }
+				} ),
+				createElement( SelectControl, {
+					key: 'type',
+					label: __( 'Type filter', 'masjidos' ),
+					value: attributes.type || 'all',
+					options: [
+						{ label: __( 'All types', 'masjidos' ), value: 'all' },
+						{ label: __( 'General', 'masjidos' ), value: 'general' },
+						{ label: __( 'Urgent', 'masjidos' ), value: 'urgent' },
+						{ label: __( 'Jumuah', 'masjidos' ), value: 'jumuah' }
+					],
+					onChange: function ( value ) { setAttributes( { type: value } ); }
+				} ),
 				createElement( TextControl, {
 					key: 'limit',
 					label: __( 'Limit', 'masjidos' ),
@@ -321,6 +353,8 @@
 		previewRows: function ( attributes ) {
 			return [
 				{ label: __( 'Title: ', 'masjidos' ), value: attributes.title },
+				{ label: __( 'Design: ', 'masjidos' ), value: attributes.design },
+				{ label: __( 'Type: ', 'masjidos' ), value: attributes.type || 'all' },
 				{ label: __( 'Limit: ', 'masjidos' ), value: attributes.limit }
 			];
 		}
@@ -378,7 +412,11 @@
 			language: { type: 'string', default: defaultLanguage },
 			category: { type: 'string', default: 'all' },
 			limit: { type: 'string', default: '4' },
-			design: { type: 'string', default: 'cards' }
+			design: { type: 'string', default: 'cards' },
+			source: { type: 'string', default: 'yes' },
+			counter: { type: 'string', default: 'yes' },
+			share: { type: 'string', default: 'yes' },
+			audio: { type: 'string', default: 'yes' }
 		},
 		inspector: function ( attributes, setAttributes ) {
 			return [
@@ -395,10 +433,35 @@
 					options: languageOptions,
 					onChange: function ( value ) { setAttributes( { language: value } ); }
 				} ),
-				createElement( TextControl, {
+				createElement( SelectControl, {
+					key: 'design',
+					label: __( 'Design', 'masjidos' ),
+					value: attributes.design,
+					options: [
+						{ label: __( 'Cards', 'masjidos' ), value: 'cards' },
+						{ label: __( 'Compact', 'masjidos' ), value: 'compact' }
+					],
+					onChange: function ( value ) { setAttributes( { design: value } ); }
+				} ),
+				createElement( SelectControl, {
 					key: 'category',
 					label: __( 'Category', 'masjidos' ),
 					value: attributes.category,
+					options: [
+						{ label: __( 'All', 'masjidos' ), value: 'all' },
+						{ label: __( 'Daily', 'masjidos' ), value: 'daily' },
+						{ label: __( 'Morning', 'masjidos' ), value: 'morning' },
+						{ label: __( 'Evening', 'masjidos' ), value: 'evening' },
+						{ label: __( 'Food', 'masjidos' ), value: 'food' },
+						{ label: __( 'Sleep', 'masjidos' ), value: 'sleep' },
+						{ label: __( 'Home', 'masjidos' ), value: 'home' },
+						{ label: __( 'Masjid', 'masjidos' ), value: 'masjid' },
+						{ label: __( 'Travel', 'masjidos' ), value: 'travel' },
+						{ label: __( 'Rain', 'masjidos' ), value: 'rain' },
+						{ label: __( 'Forgiveness', 'masjidos' ), value: 'forgiveness' },
+						{ label: __( 'Quranic', 'masjidos' ), value: 'quran' },
+						{ label: __( 'Protection', 'masjidos' ), value: 'protection' }
+					],
 					onChange: function ( value ) { setAttributes( { category: value } ); }
 				} ),
 				createElement( TextControl, {
@@ -407,12 +470,17 @@
 					type: 'number',
 					value: attributes.limit,
 					onChange: function ( value ) { setAttributes( { limit: value } ); }
-				} )
+				} ),
+				yesNoToggle( __( 'Show Source', 'masjidos' ), attributes.source, function ( value ) { setAttributes( { source: value } ); } ),
+				yesNoToggle( __( 'Show Counter', 'masjidos' ), attributes.counter, function ( value ) { setAttributes( { counter: value } ); } ),
+				yesNoToggle( __( 'Show Share', 'masjidos' ), attributes.share, function ( value ) { setAttributes( { share: value } ); } ),
+				yesNoToggle( __( 'Show Audio', 'masjidos' ), attributes.audio, function ( value ) { setAttributes( { audio: value } ); } )
 			];
 		},
 		previewRows: function ( attributes ) {
 			return [
 				{ label: __( 'Title: ', 'masjidos' ), value: attributes.title },
+				{ label: __( 'Design: ', 'masjidos' ), value: attributes.design },
 				{ label: __( 'Category: ', 'masjidos' ), value: attributes.category }
 			];
 		}
@@ -592,7 +660,10 @@
 		icon: 'book',
 		attributes: {
 			title: { type: 'string', default: __( 'Quran Verse of the Day', 'masjidos' ) },
-			language: { type: 'string', default: defaultLanguage }
+			language: { type: 'string', default: defaultLanguage },
+			design: { type: 'string', default: 'classic' },
+			share: { type: 'string', default: 'yes' },
+			tafsir: { type: 'string', default: 'yes' }
 		},
 		inspector: function ( attributes, setAttributes ) {
 			return [
@@ -608,12 +679,25 @@
 					value: attributes.language,
 					options: languageOptions,
 					onChange: function ( value ) { setAttributes( { language: value } ); }
-				} )
+				} ),
+				createElement( SelectControl, {
+					key: 'design',
+					label: __( 'Design', 'masjidos' ),
+					value: attributes.design,
+					options: [
+						{ label: __( 'Classic', 'masjidos' ), value: 'classic' },
+						{ label: __( 'Compact', 'masjidos' ), value: 'compact' }
+					],
+					onChange: function ( value ) { setAttributes( { design: value } ); }
+				} ),
+				yesNoToggle( __( 'Show Tafsir Link', 'masjidos' ), attributes.tafsir, function ( value ) { setAttributes( { tafsir: value } ); } ),
+				yesNoToggle( __( 'Show Share', 'masjidos' ), attributes.share, function ( value ) { setAttributes( { share: value } ); } )
 			];
 		},
 		previewRows: function ( attributes ) {
 			return [
 				{ label: __( 'Title: ', 'masjidos' ), value: attributes.title },
+				{ label: __( 'Design: ', 'masjidos' ), value: attributes.design },
 				{ label: __( 'Language: ', 'masjidos' ), value: attributes.language }
 			];
 		}
@@ -626,7 +710,9 @@
 		icon: 'editor-quote',
 		attributes: {
 			title: { type: 'string', default: __( 'Hadith of the Day', 'masjidos' ) },
-			language: { type: 'string', default: defaultLanguage }
+			language: { type: 'string', default: defaultLanguage },
+			design: { type: 'string', default: 'classic' },
+			share: { type: 'string', default: 'yes' }
 		},
 		inspector: function ( attributes, setAttributes ) {
 			return [
@@ -642,12 +728,24 @@
 					value: attributes.language,
 					options: languageOptions,
 					onChange: function ( value ) { setAttributes( { language: value } ); }
-				} )
+				} ),
+				createElement( SelectControl, {
+					key: 'design',
+					label: __( 'Design', 'masjidos' ),
+					value: attributes.design,
+					options: [
+						{ label: __( 'Classic', 'masjidos' ), value: 'classic' },
+						{ label: __( 'Compact', 'masjidos' ), value: 'compact' }
+					],
+					onChange: function ( value ) { setAttributes( { design: value } ); }
+				} ),
+				yesNoToggle( __( 'Show Share', 'masjidos' ), attributes.share, function ( value ) { setAttributes( { share: value } ); } )
 			];
 		},
 		previewRows: function ( attributes ) {
 			return [
 				{ label: __( 'Title: ', 'masjidos' ), value: attributes.title },
+				{ label: __( 'Design: ', 'masjidos' ), value: attributes.design },
 				{ label: __( 'Language: ', 'masjidos' ), value: attributes.language }
 			];
 		}
@@ -660,7 +758,9 @@
 		icon: 'star-filled',
 		attributes: {
 			title: { type: 'string', default: __( '99 Names of Allah', 'masjidos' ) },
-			language: { type: 'string', default: defaultLanguage }
+			language: { type: 'string', default: defaultLanguage },
+			design: { type: 'string', default: 'grid' },
+			limit: { type: 'string', default: '99' }
 		},
 		inspector: function ( attributes, setAttributes ) {
 			return [
@@ -676,13 +776,31 @@
 					value: attributes.language,
 					options: languageOptions,
 					onChange: function ( value ) { setAttributes( { language: value } ); }
+				} ),
+				createElement( SelectControl, {
+					key: 'design',
+					label: __( 'Design', 'masjidos' ),
+					value: attributes.design,
+					options: [
+						{ label: __( 'Grid', 'masjidos' ), value: 'grid' },
+						{ label: __( 'Compact', 'masjidos' ), value: 'compact' }
+					],
+					onChange: function ( value ) { setAttributes( { design: value } ); }
+				} ),
+				createElement( TextControl, {
+					key: 'limit',
+					label: __( 'Limit', 'masjidos' ),
+					type: 'number',
+					value: attributes.limit,
+					onChange: function ( value ) { setAttributes( { limit: value } ); }
 				} )
 			];
 		},
 		previewRows: function ( attributes ) {
 			return [
 				{ label: __( 'Title: ', 'masjidos' ), value: attributes.title },
-				{ label: __( 'Language: ', 'masjidos' ), value: attributes.language }
+				{ label: __( 'Design: ', 'masjidos' ), value: attributes.design },
+				{ label: __( 'Limit: ', 'masjidos' ), value: attributes.limit }
 			];
 		}
 	} );
@@ -694,7 +812,8 @@
 		icon: 'controls-volumeon',
 		attributes: {
 			title: { type: 'string', default: __( 'Audio Quran Player', 'masjidos' ) },
-			language: { type: 'string', default: defaultLanguage }
+			language: { type: 'string', default: defaultLanguage },
+			design: { type: 'string', default: 'classic' }
 		},
 		inspector: function ( attributes, setAttributes ) {
 			return [
@@ -710,12 +829,23 @@
 					value: attributes.language,
 					options: languageOptions,
 					onChange: function ( value ) { setAttributes( { language: value } ); }
+				} ),
+				createElement( SelectControl, {
+					key: 'design',
+					label: __( 'Design', 'masjidos' ),
+					value: attributes.design,
+					options: [
+						{ label: __( 'Classic', 'masjidos' ), value: 'classic' },
+						{ label: __( 'Compact', 'masjidos' ), value: 'compact' }
+					],
+					onChange: function ( value ) { setAttributes( { design: value } ); }
 				} )
 			];
 		},
 		previewRows: function ( attributes ) {
 			return [
 				{ label: __( 'Title: ', 'masjidos' ), value: attributes.title },
+				{ label: __( 'Design: ', 'masjidos' ), value: attributes.design },
 				{ label: __( 'Language: ', 'masjidos' ), value: attributes.language }
 			];
 		}
@@ -731,7 +861,8 @@
 			language: { type: 'string', default: defaultLanguage },
 			category: { type: 'string', default: '' },
 			limit: { type: 'string', default: '6' },
-			excerpt: { type: 'string', default: 'yes' }
+			excerpt: { type: 'string', default: 'yes' },
+			design: { type: 'string', default: 'grid' }
 		},
 		inspector: function ( attributes, setAttributes ) {
 			return [
@@ -747,6 +878,16 @@
 					value: attributes.language,
 					options: languageOptions,
 					onChange: function ( value ) { setAttributes( { language: value } ); }
+				} ),
+				createElement( SelectControl, {
+					key: 'design',
+					label: __( 'Design', 'masjidos' ),
+					value: attributes.design,
+					options: [
+						{ label: __( 'Grid', 'masjidos' ), value: 'grid' },
+						{ label: __( 'List', 'masjidos' ), value: 'list' }
+					],
+					onChange: function ( value ) { setAttributes( { design: value } ); }
 				} ),
 				createElement( TextControl, {
 					key: 'category',
@@ -768,6 +909,7 @@
 		previewRows: function ( attributes ) {
 			return [
 				{ label: __( 'Title: ', 'masjidos' ), value: attributes.title },
+				{ label: __( 'Design: ', 'masjidos' ), value: attributes.design },
 				{ label: __( 'Category: ', 'masjidos' ), value: attributes.category || '(' + __( 'All', 'masjidos' ) + ')' },
 				{ label: __( 'Limit: ', 'masjidos' ), value: attributes.limit }
 			];

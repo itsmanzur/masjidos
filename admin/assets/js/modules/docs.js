@@ -21,27 +21,30 @@
 
 	function docsHtml() {
 		return '<div class="itmms-docs">' +
-			'<div class="itmms-page-toolbar">' +
-				'<button type="button" class="itmms-btn" data-open-welcome>' + esc( __( 'Welcome', 'masjidos' ) ) + '</button>' +
-				'<button class="itmms-btn itmms-btn-primary" data-open-settings>' + esc( __( 'Prayer Settings', 'masjidos' ) ) + '</button>' +
-			'</div>' +
-			'<div class="itmms-doc-tabs" role="tablist">' +
-				docTabButton( 'overview', __( 'Overview', 'masjidos' ), true ) +
-				docTabButton( 'generators', __( 'Generators', 'masjidos' ), false ) +
-				docTabButton( 'prayer', __( 'Prayer', 'masjidos' ), false ) +
-				docTabButton( 'jumuah', __( 'Jumuah', 'masjidos' ), false ) +
-				docTabButton( 'minbar', __( 'Minbar', 'masjidos' ), false ) +
-				docTabButton( 'calendar', __( 'Calendar', 'masjidos' ), false ) +
-				docTabButton( 'duas', __( 'Duas', 'masjidos' ), false ) +
-				docTabButton( 'notices', __( 'Notices', 'masjidos' ), false ) +
-				docTabButton( 'events', __( 'Events', 'masjidos' ), false ) +
-				docTabButton( 'articles', __( 'Articles', 'masjidos' ), false ) +
-				docTabButton( 'education', __( 'Quran & Hadith', 'masjidos' ), false ) +
-				docTabButton( 'pro', 'Pro', false ) +
-				docTabButton( 'reference', __( 'Reference', 'masjidos' ), false ) +
+			docsHero() +
+			'<div class="itmms-doc-tabs" role="tablist" aria-label="' + esc( __( 'Documentation sections', 'masjidos' ) ) + '">' +
+				'<div class="itmms-doc-tabs__cluster">' +
+					docTabButton( 'overview', __( 'Overview', 'masjidos' ), true ) +
+					docTabButton( 'generators', __( 'Generators', 'masjidos' ), false ) +
+				'</div>' +
+				'<div class="itmms-doc-tabs__cluster" data-label="' + esc( __( 'Widgets', 'masjidos' ) ) + '">' +
+					docTabButton( 'prayer', __( 'Prayer', 'masjidos' ), false ) +
+					docTabButton( 'jumuah', __( 'Jumuah', 'masjidos' ), false ) +
+					docTabButton( 'minbar', __( 'Minbar', 'masjidos' ), false ) +
+					docTabButton( 'calendar', __( 'Calendar', 'masjidos' ), false ) +
+					docTabButton( 'duas', __( 'Duas', 'masjidos' ), false ) +
+					docTabButton( 'notices', __( 'Notices', 'masjidos' ), false ) +
+					docTabButton( 'events', __( 'Events', 'masjidos' ), false ) +
+					docTabButton( 'articles', __( 'Articles', 'masjidos' ), false ) +
+					docTabButton( 'education', __( 'Quran & Hadith', 'masjidos' ), false ) +
+				'</div>' +
+				'<div class="itmms-doc-tabs__cluster">' +
+					docTabButton( 'pro', __( 'Pro', 'masjidos' ), false ) +
+					docTabButton( 'reference', __( 'Reference', 'masjidos' ), false ) +
+				'</div>' +
 			'</div>' +
 			'<div class="itmms-doc-tab-panels">' +
-				docPanel( 'overview', true, firstStepsSection() + pasteShortcodeSection() + languageGuideSection() + featureDiscoverySection() + displayAndBlocksSection() + jumuahDataSection() + checklistSection() + beginnerTipsSection() ) +
+				docPanel( 'overview', true, firstStepsSection() + pasteShortcodeSection() + languageGuideSection() + displayAndBlocksSection() + jumuahDataSection() + checklistSection() + beginnerTipsSection() ) +
 				docPanel( 'generators', false, shortcodeBuilderHtml() ) +
 				docPanel( 'prayer', false, prayerDocsSection() ) +
 				docPanel( 'jumuah', false, jumuahDocsSection() ) +
@@ -58,8 +61,22 @@
 		'</div>';
 	}
 
+	function docsHero() {
+		return '<div class="itmms-docs-hero">' +
+			'<div>' +
+				'<span>' + esc( __( 'Documentation', 'masjidos' ) ) + '</span>' +
+				'<h2>' + esc( __( 'Get masjid widgets live in minutes', 'masjidos' ) ) + '</h2>' +
+				'<p>' + esc( __( 'Follow Overview once, generate shortcodes, or open Features for live previews. Docs stay as your attribute reference.', 'masjidos' ) ) + '</p>' +
+			'</div>' +
+			'<div class="itmms-docs-hero__actions">' +
+				'<button type="button" class="itmms-btn itmms-docs-hero__btn" data-open-welcome>' + esc( __( 'Welcome', 'masjidos' ) ) + '</button>' +
+				'<button type="button" class="itmms-btn itmms-btn-primary itmms-docs-hero__btn itmms-docs-hero__btn--primary" data-open-settings>' + esc( __( 'Prayer Settings', 'masjidos' ) ) + '</button>' +
+			'</div>' +
+		'</div>';
+	}
+
 	function docTabButton( key, label, active ) {
-		return '<button type="button" class="itmms-doc-tab' + ( active ? ' active' : '' ) + '" data-doc-tab="' + esc( key ) + '">' + esc( label ) + '</button>';
+		return '<button type="button" class="itmms-doc-tab' + ( active ? ' active' : '' ) + '" data-doc-tab="' + esc( key ) + '" role="tab" aria-selected="' + ( active ? 'true' : 'false' ) + '">' + esc( label ) + '</button>';
 	}
 
 	function docPanel( key, active, content ) {
@@ -336,10 +353,112 @@
 	}
 
 	function proDocsSection() {
-		return '<section class="itmms-docs-section">' +
-			'<h3>' + esc( __( 'Pro design presets', 'masjidos' ) ) + '</h3>' +
-			'<p class="itmms-docs-note">' + esc( __( 'The free plugin only shows these as available in MasjidOS Pro. The actual Pro design code ships from the Pro plugin, not from this free plugin.', 'masjidos' ) ) + '</p>' +
-			'<div class="itmms-pro-design-grid">' +
+		var data = window.itmms.data || {};
+		var pro = data.pro || {};
+		var url = data.proUrl || pro.url || '';
+		var cta = url
+			? '<p class="itmms-docs-pro-cta"><a class="itmms-btn itmms-btn-primary" href="' + esc( url ) + '" target="_blank" rel="noopener noreferrer">' +
+				esc( pro.active ? ( pro.cta || __( 'Open Pro', 'masjidos' ) ) : ( pro.cta || __( 'Learn about MasjidOS Pro', 'masjidos' ) ) ) +
+			'</a></p>'
+			: '';
+
+		var sections = [];
+		if ( pro.active && Array.isArray( pro.docs ) && pro.docs.length ) {
+			sections = pro.docs.slice();
+		} else if ( ! pro.active ) {
+			sections.push( {
+				id: 'locked',
+				nav: __( 'Pro tools', 'masjidos' ),
+				heading: __( 'Pro tools (when installed)', 'masjidos' ),
+				note: __( 'Donations, Accounts ledger, and Special day collections docs appear here after MasjidOS Pro is active. Shortcode details are maintained by the Pro plugin.', 'masjidos' )
+			} );
+		}
+
+		sections.push( {
+			id: 'designs',
+			nav: __( 'Designs', 'masjidos' ),
+			heading: __( 'Pro design presets', 'masjidos' ),
+			note: __( 'The free plugin only shows these as available in MasjidOS Pro. The actual Pro design code ships from the Pro plugin, not from this free plugin.', 'masjidos' ),
+			_designs: true,
+			_cta: cta
+		} );
+
+		var toc = '<nav class="itmms-docs-toc" aria-label="' + esc( __( 'Pro docs topics', 'masjidos' ) ) + '">' +
+			'<span class="itmms-docs-toc__label">' + esc( __( 'Jump to', 'masjidos' ) ) + '</span>' +
+			sections.map( function ( section, index ) {
+				var id = proDocSectionId( section, index );
+				var label = String( section.nav || section.heading || id );
+				return '<button type="button" class="itmms-docs-toc__btn" data-docs-accordion-open="' + esc( id ) + '">' + esc( label ) + '</button>';
+			} ).join( '' ) +
+		'</nav>';
+
+		var accordions = sections.map( function ( section, index ) {
+			return renderProDocAccordion( section, index, index === 0 );
+		} ).join( '' );
+
+		return '<div class="itmms-docs-pro">' +
+			'<p class="itmms-docs-note">' + esc( __( 'Pick a topic below — sections stay collapsed so the page stays short as Pro grows.', 'masjidos' ) ) + '</p>' +
+			toc +
+			'<div class="itmms-docs-accordions">' + accordions + '</div>' +
+		'</div>';
+	}
+
+	function proDocSectionId( section, index ) {
+		var raw = String( ( section && section.id ) || ( section && section.heading ) || ( 'section-' + index ) );
+		return raw.toLowerCase().replace( /[^a-z0-9\-]+/g, '-' ).replace( /^-+|-+$/g, '' ) || ( 'section-' + index );
+	}
+
+	function renderProDocAccordion( section, index, open ) {
+		if ( ! section || typeof section !== 'object' ) {
+			return '';
+		}
+		var id = proDocSectionId( section, index );
+		var heading = String( section.heading || section.nav || id );
+		var body = '';
+
+		if ( section.note ) {
+			body += '<p class="itmms-docs-note">' + esc( String( section.note ) ) + '</p>';
+		}
+		if ( section._cta ) {
+			body += section._cta;
+		}
+		if ( section.admin_url ) {
+			body += '<p class="itmms-docs-pro-cta"><a class="itmms-btn itmms-btn-primary" href="' + esc( String( section.admin_url ) ) + '">' +
+				esc( String( section.admin_label || __( 'Open in Pro', 'masjidos' ) ) ) +
+			'</a></p>';
+		}
+		if ( Array.isArray( section.steps ) && section.steps.length ) {
+			body += '<div class="itmms-paste-grid">' + section.steps.map( function ( step ) {
+				return pasteItem( String( step.title || '' ), String( step.text || '' ) );
+			} ).join( '' ) + '</div>';
+		}
+		if ( Array.isArray( section.cards ) && section.cards.length ) {
+			body += '<div class="itmms-docs-grid">' + section.cards.map( function ( card ) {
+				var sc = String( card.shortcode || '' );
+				var bullets = Array.isArray( card.bullets ) ? card.bullets.map( String ) : [];
+				if ( ! sc ) {
+					return docInfoCard( String( card.title || '' ), String( card.description || '' ), bullets );
+				}
+				return docCard(
+					String( card.title || '' ),
+					String( card.description || '' ),
+					sc,
+					bullets
+				);
+			} ).join( '' ) + '</div>';
+		}
+		if ( Array.isArray( section.rows ) && section.rows.length ) {
+			body += '<div class="itmms-docs-table">' + section.rows.map( function ( row ) {
+				return docRow(
+					String( row.attr || '' ),
+					String( row.values || '' ),
+					String( row.fallback || '' ),
+					String( row.note || '' )
+				);
+			} ).join( '' ) + '</div>';
+		}
+		if ( section._designs ) {
+			body += '<div class="itmms-pro-design-grid">' +
 				proDesignCard( __( 'Premium Card', 'masjidos' ), '[masjidos_prayer_times design="premium-card"]' ) +
 				proDesignCard( __( 'Mosque Display', 'masjidos' ), '[masjidos_prayer_times design="mosque-display"]' ) +
 				proDesignCard( __( 'Ramadan Special', 'masjidos' ), '[masjidos_prayer_times design="ramadan-special"]' ) +
@@ -350,28 +469,90 @@
 				proDesignCard( __( 'Ramadan Monthly', 'masjidos' ), '[masjidos_monthly_prayer_times design="ramadan-monthly"]' ) +
 				proDesignCard( __( 'Digital Board', 'masjidos' ), '[masjidos_announcements design="digital-board"]' ) +
 				proDesignCard( __( 'Ramadan Banner', 'masjidos' ), '[masjidos_announcements design="ramadan-banner"]' ) +
+			'</div>';
+		}
+
+		return '<details class="itmms-docs-accordion" id="docs-pro-' + esc( id ) + '" data-docs-accordion="' + esc( id ) + '"' + ( open ? ' open' : '' ) + '>' +
+			'<summary class="itmms-docs-accordion__summary">' +
+				'<span>' + esc( heading ) + '</span>' +
+				'<em aria-hidden="true"></em>' +
+			'</summary>' +
+			'<div class="itmms-docs-accordion__body">' + body + '</div>' +
+		'</details>';
+	}
+
+	function renderProDocSection( section ) {
+		return renderProDocAccordion( section, 0, true );
+	}
+
+	function checklistSection() {
+		var status = docsChecklistStatus();
+		var done = Object.keys( status ).filter( function ( key ) { return status[ key ]; } ).length;
+		var total = 10;
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'Recommended setup checklist', 'masjidos' ) ) + '</h3>' +
+			'<p class="itmms-docs-note">' + esc( sprintf( __( '%1$d of %2$d complete — green items are detected from your saved settings.', 'masjidos' ), done, total ) ) + '</p>' +
+			'<div class="itmms-docs-checklist">' +
+				checkItem( 'language', __( 'Choose Admin Language', 'masjidos' ), __( 'Pick English, Bangla, or Arabic from the top bar so menus and Docs feel familiar.', 'masjidos' ), status.language, true ) +
+				checkItem( 'timezone', __( 'Set Timezone', 'masjidos' ), __( 'For Bangladesh use Asia/Dhaka. Wrong timezone is the most common cause of wrong prayer times.', 'masjidos' ), status.timezone, true ) +
+				checkItem( 'coords', __( 'Set Coordinates', 'masjidos' ), __( 'Copy latitude and longitude from Google Maps for the exact masjid location.', 'masjidos' ), status.coords, true ) +
+				checkItem( 'method', __( 'Choose Method', 'masjidos' ), __( 'Pick the method used by your local Islamic authority. For Bangladesh, Karachi + Hanafi is a sensible starting point.', 'masjidos' ), status.method, true ) +
+				checkItem( 'csv', __( 'Import Official CSV Year', 'masjidos' ), __( 'In Prayer Setup → Timetable: Export Calculated Year, edit official times, Validate, then Import. Widgets and TV use imported days.', 'masjidos' ), status.csv, true ) +
+				checkItem( 'iqamah', __( 'Set Iqamah Times', 'masjidos' ), __( 'Use Iqamah rules (fixed or minutes after Azan) in Prayer Setup → Iqamah.', 'masjidos' ), status.iqamah, true ) +
+				checkItem( 'jumuah', __( 'Set Jumuah Details', 'masjidos' ), __( 'Add sessions, topic, language, khatib profile, and notice from Settings > Jumuah Settings, then publish [masjidos_jumuah].', 'masjidos' ), status.jumuah, true ) +
+				checkItem( 'features', __( 'Try Features Preview', 'masjidos' ), __( 'Open MasjidOS > Features to preview widgets before adding them to a public page.', 'masjidos' ), status.features, false ) +
+				checkItem( 'publish', __( 'Publish Prayer Shortcode', 'masjidos' ), __( 'Add [masjidos_prayer_times] to the masjid homepage or a dedicated prayer times page.', 'masjidos' ), status.publish, false ) +
+				checkItem( 'tv', __( 'Optional: TV Display', 'masjidos' ), __( 'Visit /masjidos-display/ on your site if you need a fullscreen board for mosque TVs.', 'masjidos' ), status.tv, false ) +
 			'</div>' +
 		'</section>';
 	}
 
-	function checklistSection() {
-		return '<section class="itmms-docs-section">' +
-			'<h3>' + esc( __( 'Recommended setup checklist', 'masjidos' ) ) + '</h3>' +
-			'<div class="itmms-docs-checklist">' +
-				checkItem( __( 'Choose Admin Language', 'masjidos' ), __( 'Pick English, Bangla, or Arabic from the top bar so menus and Docs feel familiar.', 'masjidos' ) ) +
-				checkItem( __( 'Set Timezone', 'masjidos' ), __( 'For Bangladesh use Asia/Dhaka. Wrong timezone is the most common cause of wrong prayer times.', 'masjidos' ) ) +
-				checkItem( __( 'Set Coordinates', 'masjidos' ), __( 'Copy latitude and longitude from Google Maps for the exact masjid location.', 'masjidos' ) ) +
-				checkItem( __( 'Choose Method', 'masjidos' ), __( 'Pick the method used by your local Islamic authority. For Bangladesh, Karachi + Hanafi is a sensible starting point.', 'masjidos' ) ) +
-				checkItem( __( 'Adjust Hijri Date', 'masjidos' ), __( 'Use Hijri Date Adjustment if your local moon-sighting calendar differs by one day.', 'masjidos' ) ) +
-				checkItem( __( 'Adjust Official Times', 'masjidos' ), __( 'Use Prayer Time Adjustments if the local committee timetable differs by a few minutes.', 'masjidos' ) ) +
-				checkItem( __( 'Set Iqamah Times', 'masjidos' ), __( 'Add jamaat start times for Fajr, Dhuhr, Asr, Maghrib, and Isha.', 'masjidos' ) ) +
-				checkItem( __( 'Set Jumuah Details', 'masjidos' ), __( 'Add sessions, topic, language, khatib profile, and notice from Settings > Jumuah Settings, then publish [masjidos_jumuah].', 'masjidos' ) ) +
-				checkItem( __( 'Try Features Preview', 'masjidos' ), __( 'Open MasjidOS > Features to preview widgets before adding them to a public page.', 'masjidos' ) ) +
-				checkItem( __( 'Publish Prayer Shortcode', 'masjidos' ), __( 'Add [masjidos_prayer_times] to the masjid homepage or a dedicated prayer times page.', 'masjidos' ) ) +
-				checkItem( __( 'Optional: Notices & Articles', 'masjidos' ), __( 'Publish notices from Announcements, and Islamic Articles from Articles > Add New, then show them with their shortcodes.', 'masjidos' ) ) +
-				checkItem( __( 'Optional: TV Display', 'masjidos' ), __( 'Visit /masjidos-display/ on your site if you need a fullscreen board for mosque TVs.', 'masjidos' ) ) +
-			'</div>' +
-		'</section>';
+	function docsChecklistStatus() {
+		var state = window.itmms.state || {};
+		var s = state.settings || {};
+		var lat = Number( s.latitude );
+		var lng = Number( s.longitude );
+		var coordsOk = ! isNaN( lat ) && ! isNaN( lng ) && ( Math.abs( lat ) > 0.0001 || Math.abs( lng ) > 0.0001 ) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
+		var timezone = String( s.timezone || '' );
+		var timezoneOk = !! timezone && [ 'UTC', '+00:00', '-00:00', '' ].indexOf( timezone ) === -1;
+		var timetable = state.timetable || {};
+		var iqamah = s.iqamah_times || {};
+		var iqamahRules = s.iqamah_rules || {};
+		var hasIqamah = [ 'fajr', 'dhuhr', 'asr', 'maghrib', 'isha' ].some( function ( key ) {
+			var rule = iqamahRules[ key ] || {};
+			var mode = rule.mode || ( iqamah[ key ] ? 'fixed' : '' );
+			if ( mode === 'after_azan' || mode === 'before_sunrise' ) {
+				return Number( rule.minutes || 0 ) > 0;
+			}
+			return mode === 'fixed' && !! iqamah[ key ];
+		} );
+		var jumuah = s.jumuah || {};
+		var sessions = ( window.itmms.settings && window.itmms.settings.normalizeJumuahSessions )
+			? window.itmms.settings.normalizeJumuahSessions( jumuah )
+			: ( Array.isArray( jumuah.sessions ) ? jumuah.sessions : [] );
+		var khatib = jumuah.khatib || {};
+		var hasJumuah = !!( jumuah.topic || jumuah.language || khatib.name || sessions.some( function ( row ) { return row && ( row.khutbah_time || row.jamaat_time ); } ) );
+
+		return {
+			language: !!( s.ui_language ),
+			timezone: timezoneOk,
+			coords: coordsOk,
+			method: !!( s.calculation_method && s.asr_method ),
+			csv: !!( timetable.active || Number( timetable.count || 0 ) > 0 ),
+			iqamah: hasIqamah,
+			jumuah: hasJumuah,
+			features: docsCheckSaved( 'features' ),
+			publish: docsCheckSaved( 'publish' ),
+			tv: docsCheckSaved( 'tv' )
+		};
+	}
+
+	function docsCheckSaved( id ) {
+		try {
+			return window.localStorage.getItem( 'itmms_docs_check_' + id ) === '1';
+		} catch ( e ) {
+			return false;
+		}
 	}
 
 	function prayerAttributesSection() {
@@ -520,6 +701,7 @@
 				'<label class="itmms-builder-check"><input type="checkbox" data-builder-qibla checked><span>' + esc( __( 'Show Qibla', 'masjidos' ) ) + '</span></label>' +
 				'<label class="itmms-builder-check"><input type="checkbox" data-builder-meta checked><span>' + esc( __( 'Show Meta', 'masjidos' ) ) + '</span></label>' +
 				'<label class="itmms-builder-check"><input type="checkbox" data-builder-iqamah checked><span>' + esc( __( 'Show Iqamah', 'masjidos' ) ) + '</span></label>' +
+				'<label class="itmms-builder-check"><input type="checkbox" data-builder-hijri checked><span>' + esc( __( 'Show Hijri Date', 'masjidos' ) ) + '</span></label>' +
 			'</div>' +
 			'<div class="itmms-builder-output"><code data-generated-shortcode>[masjidos_prayer_times]</code></div>' +
 			'</section>' +
@@ -633,8 +815,15 @@
 		'</article>';
 	}
 
-	function checkItem( title, text ) {
-		return '<div><b>' + esc( title ) + '</b><span>' + esc( text ) + '</span></div>';
+	function checkItem( id, title, text, done, auto ) {
+		return '<label class="itmms-docs-check' + ( done ? ' is-done' : '' ) + ( auto ? ' is-auto' : '' ) + '">' +
+			'<input type="checkbox" data-docs-check="' + esc( id ) + '"' + ( done ? ' checked' : '' ) + ( auto ? ' disabled' : '' ) + '>' +
+			'<span class="itmms-docs-check__body">' +
+				'<b>' + esc( title ) + '</b>' +
+				'<span>' + esc( text ) + '</span>' +
+				( auto ? '<em>' + esc( __( 'Auto from settings', 'masjidos' ) ) + '</em>' : '' ) +
+			'</span>' +
+		'</label>';
 	}
 
 	function docRow( attr, type, fallback, note ) {

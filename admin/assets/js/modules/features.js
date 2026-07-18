@@ -28,7 +28,7 @@
 		var tvUrl = ( data.siteUrl || '' ) + '/masjidos-display/';
 		var langs = languageOptions();
 
-		return [
+		var list = [
 			{
 				id: 'prayer-times',
 				icon: 'compass',
@@ -281,6 +281,94 @@
 				badge: 'New'
 			}
 		];
+
+		var pro = data.pro || {};
+		var proUrl = data.proUrl || pro.url || '';
+		list.push(
+			{
+				id: 'pro-premium-card',
+				icon: 'star',
+				color: 'gold',
+				group: 'pro',
+				name: __( 'Premium Card design', 'masjidos' ),
+				desc: __( 'Elevated prayer times layout for homepage heroes. Available in MasjidOS Pro.', 'masjidos' ),
+				shortcode: '[masjidos_prayer_times design="premium-card"]',
+				params: [],
+				badge: 'Pro',
+				proLocked: ! pro.active,
+				proUrl: proUrl
+			},
+			{
+				id: 'pro-mosque-display',
+				icon: 'monitor',
+				color: 'gold',
+				group: 'pro',
+				name: __( 'Mosque Display design', 'masjidos' ),
+				desc: __( 'Large lobby-friendly prayer board design. Available in MasjidOS Pro.', 'masjidos' ),
+				shortcode: '[masjidos_prayer_times design="mosque-display"]',
+				params: [],
+				badge: 'Pro',
+				proLocked: ! pro.active,
+				proUrl: proUrl
+			},
+			{
+				id: 'pro-ops',
+				icon: 'ledger',
+				color: 'gold',
+				group: 'pro',
+				name: __( 'Committee operations', 'masjidos' ),
+				desc: __( 'Donations, members, and advanced reporting live in the separate Pro plugin — not in Free.', 'masjidos' ),
+				shortcode: '',
+				params: [],
+				badge: 'Pro',
+				proLocked: ! pro.active,
+				proUrl: proUrl
+			},
+			{
+				id: 'pro-donations',
+				icon: 'donation',
+				color: 'gold',
+				group: 'pro',
+				name: __( 'Donations & campaigns', 'masjidos' ),
+				desc: __( 'Track mosque fundraising campaigns and manual donations in MasjidOS Pro.', 'masjidos' ),
+				shortcode: '[masjidos_campaign slug="building-fund"]',
+				params: [],
+				badge: 'Pro',
+				proLocked: ! pro.active,
+				proUrl: pro.active ? ( ( window.itmms.data && window.itmms.data.adminUrl ) ? window.itmms.data.adminUrl + 'admin.php?page=masjidos-pro-donations' : proUrl ) : proUrl
+			},
+			{
+				id: 'pro-accounts',
+				icon: 'ledger',
+				color: 'gold',
+				group: 'pro',
+				name: __( 'Accounts & ledger', 'masjidos' ),
+				desc: __( 'Multi-fund income and expense ledger with a public transparency shortcode in MasjidOS Pro.', 'masjidos' ),
+				shortcode: '[masjidos_financials]',
+				params: [],
+				badge: 'Pro',
+				proLocked: ! pro.active,
+				proUrl: pro.active ? ( ( window.itmms.data && window.itmms.data.adminUrl ) ? window.itmms.data.adminUrl + 'admin.php?page=masjidos-pro-accounts' : proUrl ) : proUrl
+			},
+			{
+				id: 'pro-collections',
+				icon: 'ledger',
+				color: 'gold',
+				group: 'pro',
+				name: __( 'Special day collections', 'masjidos' ),
+				desc: __( 'Board for Jumuah, Eid, Shab-e-Barat and other day collections — linked to Accounts in MasjidOS Pro.', 'masjidos' ),
+				shortcode: '[masjidos_collections occasion="jumuah"]',
+				params: [
+					{ key: 'occasion', label: __( 'Occasion', 'masjidos' ), type: 'text', placeholder: 'jumuah' },
+					{ key: 'title', label: __( 'Title', 'masjidos' ), type: 'text', placeholder: '' }
+				],
+				badge: 'Pro',
+				proLocked: ! pro.active,
+				proUrl: pro.active ? ( ( window.itmms.data && window.itmms.data.adminUrl ) ? window.itmms.data.adminUrl + 'admin.php?page=masjidos-pro-accounts&tab=collections' : proUrl ) : proUrl
+			}
+		);
+
+		return list;
 	}
 
 	// ── HTML Builder ──────────────────────────────────────────────────
@@ -326,26 +414,33 @@
 			  '<code id="itmms-feat-code-' + esc( f.id ) + '">' + esc( f.tvUrl ) + '</code>' +
 			  '<button type="button" class="itmms-feat-copy" data-feat-copy="' + esc( f.id ) + '" title="' + esc( __( 'Copy URL', 'masjidos' ) ) + '">' + icon( 'ledger' ) + '</button>' +
 			  '</div>'
-			: '<div class="itmms-feat-shortcode"><span class="itmms-feat-shortcode-label">Shortcode</span>' +
-			  '<code id="itmms-feat-code-' + esc( f.id ) + '">' + esc( f.shortcode ) + '</code>' +
-			  '<button type="button" class="itmms-feat-copy" data-feat-copy="' + esc( f.id ) + '" title="' + esc( __( 'Copy shortcode', 'masjidos' ) ) + '">' + icon( 'ledger' ) + '</button>' +
-			  '</div>';
+			: ( f.shortcode
+				? '<div class="itmms-feat-shortcode"><span class="itmms-feat-shortcode-label">Shortcode</span>' +
+				  '<code id="itmms-feat-code-' + esc( f.id ) + '">' + esc( f.shortcode ) + '</code>' +
+				  '<button type="button" class="itmms-feat-copy" data-feat-copy="' + esc( f.id ) + '" title="' + esc( __( 'Copy shortcode', 'masjidos' ) ) + '">' + icon( 'ledger' ) + '</button>' +
+				  '</div>'
+				: '' );
 
 		var actions = '';
-		if ( hasParams ) {
-			actions += '<button type="button" class="itmms-feat-btn itmms-feat-btn--ghost" data-feat-customize="' + esc( f.id ) + '" aria-expanded="false">' +
-				'<span>' + esc( __( 'Customize', 'masjidos' ) ) + '</span></button>';
-		}
-		if ( f.tvUrl ) {
-			actions += '<a class="itmms-feat-btn itmms-feat-btn--preview" href="' + esc( f.tvUrl ) + '" target="_blank" rel="noopener">' +
-				icon( 'external' ) + '<span>' + esc( __( 'Open TV', 'masjidos' ) ) + '</span></a>';
+		if ( f.proLocked && f.proUrl ) {
+			actions += '<a class="itmms-feat-btn itmms-feat-btn--preview" href="' + esc( f.proUrl ) + '" target="_blank" rel="noopener noreferrer">' +
+				icon( 'external' ) + '<span>' + esc( __( 'Learn about Pro', 'masjidos' ) ) + '</span></a>';
 		} else {
-			actions += '<button type="button" class="itmms-feat-btn itmms-feat-btn--preview" data-feat-preview="' + esc( f.id ) + '">' +
-				icon( 'monitor' ) +
-				'<span>' + esc( __( 'Preview', 'masjidos' ) ) + '</span></button>';
+			if ( hasParams ) {
+				actions += '<button type="button" class="itmms-feat-btn itmms-feat-btn--ghost" data-feat-customize="' + esc( f.id ) + '" aria-expanded="false">' +
+					'<span>' + esc( __( 'Customize', 'masjidos' ) ) + '</span></button>';
+			}
+			if ( f.tvUrl ) {
+				actions += '<a class="itmms-feat-btn itmms-feat-btn--preview" href="' + esc( f.tvUrl ) + '" target="_blank" rel="noopener">' +
+					icon( 'external' ) + '<span>' + esc( __( 'Open TV', 'masjidos' ) ) + '</span></a>';
+			} else if ( f.restEndpoint ) {
+				actions += '<button type="button" class="itmms-feat-btn itmms-feat-btn--preview" data-feat-preview="' + esc( f.id ) + '">' +
+					icon( 'monitor' ) +
+					'<span>' + esc( __( 'Preview', 'masjidos' ) ) + '</span></button>';
+			}
 		}
 
-		return '<article class="itmms-feat-card itmms-feat-card--' + esc( f.color ) + '" id="itmms-feat-card-' + esc( f.id ) + '" data-feat-group="' + esc( f.group || 'widgets' ) + '">' +
+		return '<article class="itmms-feat-card itmms-feat-card--' + esc( f.color ) + ( f.proLocked ? ' itmms-feat-card--pro-locked' : '' ) + '" id="itmms-feat-card-' + esc( f.id ) + '" data-feat-group="' + esc( f.group || 'widgets' ) + '">' +
 			'<div class="itmms-feat-card-header">' +
 				'<div class="itmms-feat-icon itmms-feat-icon--' + esc( f.color ) + '">' + icon( f.icon ) + '</div>' +
 				'<span class="itmms-feat-badge ' + badgeClass + '">' + esc( f.badge ) + '</span>' +
@@ -365,7 +460,8 @@
 			{ id: 'all', label: __( 'All', 'masjidos' ) },
 			{ id: 'widgets', label: __( 'Widgets', 'masjidos' ) },
 			{ id: 'minbar', label: __( 'Minbar', 'masjidos' ) },
-			{ id: 'display', label: __( 'Display', 'masjidos' ) }
+			{ id: 'display', label: __( 'Display', 'masjidos' ) },
+			{ id: 'pro', label: __( 'Pro', 'masjidos' ) }
 		];
 
 		return '<div class="itmms-features-page">' +
