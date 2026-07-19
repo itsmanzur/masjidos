@@ -872,19 +872,19 @@ msgstr "Check back later for community lectures, prayers, and charity events."
 
 #: public/class-itmms-public.php:2379
 msgid "Check back later for today’s hadith."
-msgstr "Check back later for today’s hadith."
+msgstr "عد لاحقاً لحديث اليوم."
 
 #: public/class-itmms-public.php:2322
 msgid "Check back later for today’s Quran verse."
-msgstr "Check back later for today’s Quran verse."
+msgstr "عد لاحقاً لآية اليوم."
 
 #: public/class-itmms-public.php:225
 msgid "Check Prayer Setup and try again."
-msgstr "Check Prayer Setup and try again."
+msgstr "تحقق من إعدادات الصلاة ثم أعد المحاولة."
 
 #: public/class-itmms-public.php:114
 msgid "Check Prayer Setup: timezone, coordinates, and calculation method."
-msgstr "Check Prayer Setup: timezone, coordinates, and calculation method."
+msgstr "تحقق من المنطقة الزمنية والإحداثيات وطريقة الحساب."
 
 #: admin/assets/js/modules/settings.js:599
 msgid "Choose a CSV file first."
@@ -1736,7 +1736,7 @@ msgstr "Enable the Events module before using this shortcode."
 
 #: public/class-itmms-public.php:198 public/class-itmms-public.php:92
 msgid "Enable the Prayer Times module before using this shortcode."
-msgstr "Enable the Prayer Times module before using this shortcode."
+msgstr "فعّل وحدة أوقات الصلاة قبل استخدام هذا الشورت كود."
 
 #: admin/assets/js/modules/dashboard.js:278
 msgid "Enabled"
@@ -2748,7 +2748,7 @@ msgstr "Latitude / longitude needed"
 
 #: admin/assets/js/modules/docs.js:361 public/class-itmms-public.php:1380
 msgid "Learn about MasjidOS Pro"
-msgstr "Learn about MasjidOS Pro"
+msgstr "تعرّف على MasjidOS Pro"
 
 #: admin/assets/js/app.js:435 admin/assets/js/modules/dashboard.js:178 admin/assets/js/modules/features.js:427 includes/class-itmms-pro-bridge.php:68
 msgid "Learn about Pro"
@@ -3400,7 +3400,7 @@ msgstr "No articles published yet."
 
 #: public/class-itmms-public.php:442
 msgid "No duas found"
-msgstr "No duas found"
+msgstr "لا توجد أدعية"
 
 #: admin/assets/js/modules/events.js:57
 msgid "No end time"
@@ -3424,7 +3424,7 @@ msgstr "No Friday roster yet. Plan a khatib and topic."
 
 #: public/class-itmms-public.php:2378
 msgid "No hadith available"
-msgstr "No hadith available"
+msgstr "لا يوجد حديث"
 
 #: admin/assets/js/modules/settings.js:435 admin/assets/js/modules/settings.js:572
 msgid "No imported timetable yet"
@@ -3444,11 +3444,11 @@ msgstr "No matching khutbahs."
 
 #: public/class-itmms-public.php:224
 msgid "No monthly timetable available"
-msgstr "No monthly timetable available"
+msgstr "لا يتوفر جدول شهري"
 
 #: public/class-itmms-public.php:2435
 msgid "No names available"
-msgstr "No names available"
+msgstr "لا تتوفر الأسماء"
 
 #: admin/assets/js/modules/minbar.js:300
 msgid "No notes"
@@ -3468,7 +3468,7 @@ msgstr "No plans yet. Click a Friday slot or use the form."
 
 #: public/class-itmms-public.php:113
 msgid "No prayer times available"
-msgstr "No prayer times available"
+msgstr "لا تتوفر أوقات الصلاة"
 
 #: admin/assets/js/modules/minbar.js:465
 msgid "No profiles yet."
@@ -3488,7 +3488,7 @@ msgstr "No schedule entries."
 
 #: public/class-itmms-public.php:2487
 msgid "No surahs available"
-msgstr "No surahs available"
+msgstr "لا توجد سور"
 
 #: public/class-itmms-public.php:573
 msgid "No upcoming events"
@@ -3504,7 +3504,7 @@ msgstr "No upcoming khutbahs listed."
 
 #: public/class-itmms-public.php:2321
 msgid "No verse available"
-msgstr "No verse available"
+msgstr "لا توجد آية"
 
 #: admin/assets/js/block-editor.js:148 admin/assets/js/block-editor.js:185 admin/assets/js/modules/dashboard.js:359
 msgid "None"
@@ -4061,7 +4061,7 @@ msgstr "Prayer Times Generator"
 
 #: public/class-itmms-public.php:197 public/class-itmms-public.php:91
 msgid "Prayer Times is disabled"
-msgstr "Prayer Times is disabled"
+msgstr "أوقات الصلاة معطلة"
 
 #: admin/assets/js/modules/docs.js:163 admin/assets/js/modules/features.js:37
 msgid "Prayer Times Widget"
@@ -5264,11 +5264,11 @@ msgstr "Text"
 
 #: public/class-itmms-public.php:2436
 msgid "The 99 Names collection could not be loaded."
-msgstr "The 99 Names collection could not be loaded."
+msgstr "تعذّر تحميل قائمة أسماء الله الحسنى."
 
 #: public/class-itmms-public.php:2488
 msgid "The Audio Quran list could not be loaded."
-msgstr "The Audio Quran list could not be loaded."
+msgstr "تعذّر تحميل قائمة القرآن الصوتي."
 
 #: includes/class-itmms-events.php:254
 msgid "The event could not be created."
@@ -5528,7 +5528,7 @@ msgstr "Trust in Allah"
 
 #: public/class-itmms-public.php:443
 msgid "Try another category or increase the limit."
-msgstr "Try another category or increase the limit."
+msgstr "جرّب فئة أخرى أو زد الحد."
 
 #: admin/assets/js/modules/docs.js:503
 msgid "Try Features Preview"

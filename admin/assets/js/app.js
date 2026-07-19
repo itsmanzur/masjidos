@@ -542,7 +542,9 @@
 				new FormData( form ).forEach( function ( value, key ) {
 					payload[ key ] = value;
 				} );
-				payload.public_transparency = form.elements.public_transparency.checked;
+				if ( form.elements.public_transparency ) {
+					payload.public_transparency = form.elements.public_transparency.checked;
+				}
 				payload.show_ishraq = !!( form.elements.show_ishraq && form.elements.show_ishraq.checked );
 				payload.show_zawal = !!( form.elements.show_zawal && form.elements.show_zawal.checked );
 				payload.tv_slides = !!( form.elements.tv_slides && form.elements.tv_slides.checked );

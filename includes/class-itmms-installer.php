@@ -68,8 +68,8 @@ class ITMMS_Installer {
 	private static function check_requirements(): void {
 		$errors = [];
 
-		if ( version_compare( get_bloginfo( 'version' ), '6.0', '<' ) ) {
-			$errors[] = __( 'MasjidOS requires WordPress 6.0 or higher.', 'masjidos' );
+		if ( version_compare( get_bloginfo( 'version' ), '6.2', '<' ) ) {
+			$errors[] = __( 'MasjidOS requires WordPress 6.2 or higher.', 'masjidos' );
 		}
 
 		if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {

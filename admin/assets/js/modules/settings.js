@@ -150,21 +150,18 @@
 			tvDisplayHelpUrl( tvDisplayUrl )
 		].join( '' ) );
 
-		var publicPanel = settingsPanel( __( 'Public Options', 'masjidos' ), __( 'Preferences that prepare Free for public finance features shipping in Pro.', 'masjidos' ), [
+		var proData = window.itmms.data || {};
+		var proUrl = proData.proUrl || ( proData.pro && proData.pro.url ) || '';
+		var proCta = proUrl
+			? '<p class="itmms-docs-pro-cta"><a class="itmms-btn itmms-btn-primary" href="' + esc( proUrl ) + '" target="_blank" rel="noopener noreferrer">' +
+				esc( __( 'Learn about MasjidOS Pro', 'masjidos' ) ) + '</a></p>'
+			: '';
+		var publicPanel = settingsPanel( __( 'Coming in Pro', 'masjidos' ), __( 'Finance and public transparency tools ship with MasjidOS Pro — not in the free plugin.', 'masjidos' ), [
 			'<div class="itmms-settings-empty itmms-settings-empty--pro">' +
-				'<strong>' + esc( __( 'Pro finance preview', 'masjidos' ) ) + '</strong>' +
-				'<p>' + esc( __( 'Donations, ledgers, and public transparency reports unlock when MasjidOS Pro is active. Free can still store these preferences now.', 'masjidos' ) ) + '</p>' +
-			'</div>',
-			selectField( __( 'Currency', 'masjidos' ), 'currency', s.currency, [
-				[ 'BDT', 'BDT' ],
-				[ 'USD', 'USD' ],
-				[ 'GBP', 'GBP' ],
-				[ 'EUR', 'EUR' ],
-				[ 'SAR', 'SAR' ]
-			] ),
-			'<p class="itmms-field-wide itmms-settings-note itmms-pro-hint">' + esc( __( 'Currency is saved in Free for future finance reports.', 'masjidos' ) ) + '</p>',
-			'<label class="itmms-check itmms-field-wide"><input type="checkbox" name="public_transparency" ' + ( s.public_transparency ? 'checked' : '' ) + '> ' + esc( __( 'Public transparency reports', 'masjidos' ) ) + '</label>',
-			'<p class="itmms-field-wide itmms-settings-note itmms-pro-hint">' + esc( __( 'Transparency reports become public when MasjidOS Pro finance modules are active.', 'masjidos' ) ) + '</p>'
+				'<strong>' + esc( __( 'Donations, ledgers & transparency', 'masjidos' ) ) + '</strong>' +
+				'<p>' + esc( __( 'Currency, donation tracking, and public transparency reports unlock when MasjidOS Pro is active. Nothing to configure here in Free.', 'masjidos' ) ) + '</p>' +
+				proCta +
+			'</div>'
 		].join( '' ) );
 
 		return '<form class="itmms-settings-form itmms-settings-form--general" id="itmms-settings-form">' +
@@ -172,7 +169,7 @@
 				settingsTabButton( 'profile', __( 'Profile', 'masjidos' ), true, 'general' ) +
 				settingsTabButton( 'jumuah', __( 'Jumuah', 'masjidos' ), false, 'general' ) +
 				settingsTabButton( 'tv', __( 'TV Display', 'masjidos' ), false, 'general' ) +
-				settingsTabButton( 'public', __( 'Public', 'masjidos' ), false, 'general' ) +
+				settingsTabButton( 'public', __( 'Pro', 'masjidos' ), false, 'general' ) +
 				settingsTabButton( 'calculation', __( 'Calculation', 'masjidos' ), false, 'prayer' ) +
 				settingsTabButton( 'timetable', __( 'Timetable', 'masjidos' ), false, 'prayer' ) +
 				settingsTabButton( 'adjustments', __( 'Adjustments', 'masjidos' ), false, 'prayer' ) +
@@ -276,6 +273,25 @@
 		var asr = s.asr_method || 'hanafi';
 		var hijriAdj = Number( s.hijri_adjustment || 0 );
 		var hijriLabel = 0 === hijriAdj ? '0' : ( ( hijriAdj > 0 ? '+' : '' ) + hijriAdj );
+		var days = state.upcomingDays || [];
+		var preview = '';
+		if ( days.length ) {
+			var rows = days.slice( 0, 7 ).map( function ( day ) {
+				var prayers = day.prayers || {};
+				return '<tr class="' + ( day.is_today ? 'is-today' : '' ) + '">' +
+					'<th scope="row">' + esc( day.label || day.date ) + '</th>' +
+					'<td>' + esc( prayers.fajr || '—' ) + '</td>' +
+					'<td>' + esc( prayers.dhuhr || '—' ) + '</td>' +
+					'<td>' + esc( prayers.asr || '—' ) + '</td>' +
+					'<td>' + esc( prayers.maghrib || '—' ) + '</td>' +
+					'<td>' + esc( prayers.isha || '—' ) + '</td>' +
+				'</tr>';
+			} ).join( '' );
+			preview = '<details class="itmms-settings-trust__preview">' +
+				'<summary>' + esc( __( 'Next 7 days preview', 'masjidos' ) ) + ' — ' + esc( __( 'compare with your printed board', 'masjidos' ) ) + '</summary>' +
+				'<div class="itmms-upcoming-scroll"><table class="itmms-upcoming-table"><thead><tr><th scope="col">' + esc( __( 'Date', 'masjidos' ) ) + '</th><th scope="col">' + esc( __( 'Fajr', 'masjidos' ) ) + '</th><th scope="col">' + esc( __( 'Dhuhr', 'masjidos' ) ) + '</th><th scope="col">' + esc( __( 'Asr', 'masjidos' ) ) + '</th><th scope="col">' + esc( __( 'Maghrib', 'masjidos' ) ) + '</th><th scope="col">' + esc( __( 'Isha', 'masjidos' ) ) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+			'</details>';
+		}
 
 		return '<div class="itmms-settings-trust">' +
 			'<div class="itmms-settings-trust__head"><strong>' + esc( __( 'Accuracy checklist', 'masjidos' ) ) + '</strong><span>' + esc( source ) + ' · ' + esc( method ) + ' · ' + esc( asr ) + ' · Hijri ' + esc( hijriLabel ) + '</span></div>' +
@@ -284,6 +300,7 @@
 				'<span class="' + ( timezoneOk ? 'is-ok' : 'is-warn' ) + '">' + esc( timezoneOk ? __( 'Timezone ready', 'masjidos' ) : __( 'Set a real timezone (not UTC)', 'masjidos' ) ) + '</span>' +
 				'<span class="' + ( mismatch ? 'is-warn' : 'is-ok' ) + '">' + esc( mismatch ? sprintf( __( 'Differs from WP timezone (%s)', 'masjidos' ), siteTimezone ) : __( 'Aligned with site timezone', 'masjidos' ) ) + '</span>' +
 			'</div>' +
+			preview +
 		'</div>';
 	}
 

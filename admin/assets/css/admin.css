@@ -1660,6 +1660,24 @@ body.folded .itmms-wp-menu-toggle.is-open {
 	gap: 6px;
 }
 
+.itmms-settings-trust__preview {
+	margin-top: 10px;
+	border-top: 1px solid var(--itmms-border);
+	padding-top: 8px;
+}
+
+.itmms-settings-trust__preview summary {
+	cursor: pointer;
+	color: var(--itmms-muted);
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.itmms-settings-trust__preview .itmms-upcoming-scroll {
+	margin-top: 8px;
+}
+
 .itmms-section-heading {
 	margin-bottom: 18px;
 }
