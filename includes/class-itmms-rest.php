@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
 final class ITMMS_REST {
 
 	use ITMMS_REST_Permissions;
+	use ITMMS_REST_Response;
 	use ITMMS_REST_Dashboard;
 	use ITMMS_REST_Prayer;
 	use ITMMS_REST_Widgets;

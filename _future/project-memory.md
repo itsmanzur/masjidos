@@ -1,6 +1,12 @@
 # MasjidOS Project Memory
 
-Last updated: 2026-07-12
+Last updated: 2026-07-19
+
+## Active focus (do not forget)
+
+- WordPress.org Free is **1.2.0**. Local Free has post-1.2.0 polish ready for a later **1.3.0** — **do not ship Free yet; Free work is paused.**
+- **Current workstream: MasjidOS Pro modules** (`masjidos-pro`, local **0.8.0**).
+- Free release notes / done-vs-not-done live in `_future/release-tracker.md`.
 
 ## Product Direction
 

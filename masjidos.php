@@ -42,6 +42,7 @@ require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-khutbah.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-minbar.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-education.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/rest/trait-itmms-rest-permissions.php';
+require_once ITMMS_PLUGIN_DIR . 'includes/rest/trait-itmms-rest-response.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/rest/trait-itmms-rest-dashboard.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/rest/trait-itmms-rest-prayer.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/rest/trait-itmms-rest-widgets.php';

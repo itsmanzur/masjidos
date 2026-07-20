@@ -13,17 +13,6 @@ defined( 'ABSPATH' ) || exit;
 trait ITMMS_REST_Widgets {
 
 	/**
-	 * Public GET responses that may be cached briefly by browsers/CDNs.
-	 *
-	 * @param mixed $data Response data.
-	 */
-	private function public_cached_response( $data, int $max_age = 60 ): WP_REST_Response {
-		$response = rest_ensure_response( $data );
-		$response->header( 'Cache-Control', 'public, max-age=' . max( 0, $max_age ) );
-		return $response;
-	}
-
-	/**
 	 * Shared args for shortcode preview widget endpoints.
 	 *
 	 * @return array<string,array<string,mixed>>
