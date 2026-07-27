@@ -1,132 +1,120 @@
-# MasjidOS Product Website (Elementor Kit)
+# MasjidOS Elementor Landing + Module Pages
 
-English product landing page as **section HTML + one shared CSS file**. Reorder or delete sections freely — styles are not duplicated per section.
+English-primary marketing kit for **Elementor**: numbered home sections, three-tier pricing (Free / Pro / Pro Network), reusable section templates, and one deep-dive page per product module.
 
-This kit lives under `_future/website/` and is **not** part of the installable plugin ZIP.
+Lives under `_future/website/` — **not** part of the installable plugin ZIP.
 
 ## Folder layout
 
 ```text
 _future/website/
-  README.md                 ← this guide
-  css/mos-landing.css       ← paste once
-  sections/
-    01-hero.html
-    02-trust-strip.html
-    03-promise.html
-    04-how-it-works.html
-    05-prayer.html
-    06-tv-display.html
-    07-friday-minbar.html
-    08-content-learning.html
-    09-languages.html
-    10-screens-gallery.html
-    11-faq.html
-    12-final-cta.html
-    13-footer.html
+  README.md
+  css/mos-landing.css          ← paste once (Site Settings → Custom CSS)
+  js/mos-landing.js            ← optional demo tabs
+  templates/
+    section-shell.html
+    module-card.html
+    pricing-card.html
+    faq-item.html
+    module-page-skeleton.html
+  sections/                    ← Home blocks (Elementor Navigator names)
+    01-hero.html … 13-footer.html
+  pages/
+    home.html                  ← assembled preview (open in browser)
+    compare.html
+    get-started.html
+    features/*.html
+  bn/
+    home.html                  ← Bangla Home clone (key sections)
+    sections/
+    features/                  ← prayer-times, tv-display, donations
 ```
 
 ## Placeholders (replace before publish)
 
-| Placeholder | Use |
-|-------------|-----|
-| `YOUR_WPORG_URL` | WordPress.org plugin page (Install free CTA) |
-| `YOUR_DEMO_URL` | Live demo site |
-| `YOUR_DOCS_URL` | Docs / support page (footer) |
-| `YOUR_MEDIA_URL_SCREENSHOT_1` … `_6` | Media Library URLs for gallery images |
+| Token | Use |
+|-------|-----|
+| `https://wordpress.org/plugins/masjidos/` | Get Free / Download (already wired) |
+| `YOUR_BUY_URL` | Pro checkout / Buy license |
+| `YOUR_CONTACT_URL` | Pro Network / Contact sales |
+| `YOUR_DEMO_URL` | Optional Watch demo (Hero) |
+| `YOUR_DOCS_URL` | Footer docs link |
+| `$XX` / `$YY` | Pro and Network prices (Elementor text) |
 
-**Demo mosque name in mockups:** Madani Masjid.
+Search the kit for `YOUR_` and replace site-wide.
 
-**Suggested WordPress.org URL format:**
+## Elementor method
 
-`https://wordpress.org/plugins/masjidos/`
+1. **Font:** Site Settings → Outfit (CSS also `@import`s Outfit; remove import if Elementor already loads it).
+2. **CSS once:** paste `css/mos-landing.css` into Elementor Custom CSS (or child theme). Do not paste per widget.
+3. **Home:** one top-level Section per file in `sections/`. Name Navigator exactly: `01 Hero`, `02 Trust bar`, … `09 Pricing` (set CSS ID `pricing` on that section), … `12 Final CTA`, `13 Footer`.
+4. **Reorder / insert:** drag in Navigator; to insert mid-page, Add Container above/below. Do not nest the whole home in one Section.
+5. **Templates:** save polished blocks from `templates/` as Elementor Template → Section (`MasjidOS / Hero`, `MasjidOS / Module card`, …).
+6. **Module pages:** create pages at the permalinks below; paste `pages/features/*.html` as M01–M07 sections (see skeleton).
+7. **Demo tabs:** enqueue or paste `js/mos-landing.js` once on pages that include `07-live-demo`.
+8. **Mobile:** pricing stacks to 1 column; CTAs go full-width under 700px (already in CSS).
 
-(Update when the slug is final.)
+## Suggested permalinks
 
-## Elementor install (once)
+| Page | Slug |
+|------|------|
+| Home | `/` |
+| Compare | `/compare/` |
+| Pricing deep-link | `/#pricing` |
+| Get started | `/get-started/` |
+| Prayer Times | `/features/prayer-times/` |
+| TV Display | `/features/tv-display/` |
+| Jumuah & Minbar | `/features/jumuah-minbar/` |
+| Notices & Events | `/features/notices-events/` |
+| Islamic Education | `/features/islamic-education/` |
+| Donations (Pro) | `/features/donations/` |
+| Accounts (Pro) | `/features/accounts/` |
+| Members (Pro) | `/features/members/` |
+| Bangla Home | `/bn/` or Polylang/WPML clone |
 
-### 1. Font (Outfit)
-
-Prefer **Elementor → Site Settings → Global Fonts / Typography** and set primary font to **Outfit** (or “Outfit” via Google Fonts in Elementor).
-
-The CSS file also includes an `@import` for Outfit as a fallback. If Elementor already loads Outfit, you can delete the `@import` line at the top of `mos-landing.css` to avoid double-loading.
-
-### 2. Paste CSS once
-
-1. Open `css/mos-landing.css`.
-2. Copy the full file.
-3. Paste into **Elementor → Site Settings → Custom CSS**  
-   (or your child theme / Customizer Additional CSS).
-
-Do **not** paste the CSS into every HTML widget.
-
-### 3. Build the page (one section = one widget)
-
-1. Create a new page (e.g. “Home” or “MasjidOS”).
-2. Edit with Elementor.
-3. For each kit section you want:
-   - Add an **Elementor Section** (full width recommended for Hero).
-   - Inside it, add an **HTML** widget.
-   - Paste the contents of the matching `sections/0N-….html` file.
-4. Save / publish.
-
-**Important:** Keep the outer `<div class="mos">…</div>` wrapper. All styles are scoped under `.mos`.
-
-## Reorder / remove sections
-
-- Drag Elementor Sections up/down to reorder.
-- Delete any Section you do not need (e.g. Gallery or FAQ).
-- No CSS edits required when removing or reordering — shared primitives live in `mos-landing.css`.
-
-Suggested default order matches the filenames (`01` → `13`).
-
-## Gallery screenshots
-
-Source files (upload to Media Library, then paste URLs into section 10):
-
-| Placeholder | Suggested source |
-|-------------|------------------|
-| `YOUR_MEDIA_URL_SCREENSHOT_1` | `_future/wporg-assets/screenshot-1.png` |
-| `YOUR_MEDIA_URL_SCREENSHOT_2` | `_future/wporg-assets/screenshot-2.png` |
-| `YOUR_MEDIA_URL_SCREENSHOT_3` | `_future/wporg-assets/screenshot-3.png` |
-| `YOUR_MEDIA_URL_SCREENSHOT_4` | `_future/wporg-assets/screenshot-4.png` |
-| `YOUR_MEDIA_URL_SCREENSHOT_5` | `_future/wporg-assets/screenshot-5.png` |
-| `YOUR_MEDIA_URL_SCREENSHOT_6` | `_future/wporg-assets/screenshot-6.png` |
-
-You can use screenshots 7–10 later or swap captions to match.
-
-## Section map
+## Home section map
 
 | # | File | Job |
 |---|------|-----|
-| 01 | `01-hero.html` | Brand + promise + Install / Demo |
-| 02 | `02-trust-strip.html` | Offline-first / languages / free core |
-| 03 | `03-promise.html` | Problem → outcome |
-| 04 | `04-how-it-works.html` | Welcome → Settings → Shortcode |
-| 05 | `05-prayer.html` | Local prayer times story |
-| 06 | `06-tv-display.html` | Fullscreen lobby board |
-| 07 | `07-friday-minbar.html` | Jumuah + Minbar |
-| 08 | `08-content-learning.html` | Articles, Duas, Quran/Hadith |
-| 09 | `09-languages.html` | EN · BN · AR |
-| 10 | `10-screens-gallery.html` | Promo screens |
-| 11 | `11-faq.html` | Accordion FAQ |
-| 12 | `12-final-cta.html` | Install again |
-| 13 | `13-footer.html` | Links + license note |
+| 01 | `01-hero.html` | Brand + promise + Get Free / See Pro / Demo |
+| 02 | `02-trust-bar.html` | Credibility strip |
+| 03 | `03-problem.html` | Why it exists |
+| 04 | `04-free-modules.html` | Free module cards → feature pages |
+| 05 | `05-pro-modules.html` | Pro module cards → `#pricing` |
+| 06 | `06-how-it-works.html` | 3 steps |
+| 07 | `07-live-demo.html` | Prayer / Jumuah / TV tabs |
+| 08 | `08-compare-strip.html` | Compact Free vs Pro + `/compare/` |
+| 09 | `09-pricing.html` | Free / Pro / Pro Network · `#pricing` |
+| 10 | `10-social-proof.html` | Quote placeholders |
+| 11 | `11-faq.html` | Objections |
+| 12 | `12-final-cta.html` | Get Free · Buy Pro · Contact Network |
+| 13 | `13-footer.html` | Links (or Theme Builder footer) |
 
-## Design notes
+## CTAs (wired)
 
-- Brand colors: teal `#1a6b5a`, gold `#c9a84c` (MasjidOS admin brand).
-- Hero is one composition: brand-first, one headline, one sentence, one CTA group, full-bleed visual plane.
-- Namespace: everything under `.mos` to limit theme/Elementor collisions.
+- **Get Free / Download** → WordPress.org MasjidOS plugin URL  
+- **See Pro / View pricing** → `#pricing` or `/#pricing`  
+- **Buy Pro / Buy license** → `YOUR_BUY_URL`  
+- **Contact for Network / Contact sales** → `YOUR_CONTACT_URL`  
+- Module “Learn more” → `/features/…/`  
 
-## Optional later
+## Brand
 
-- Enqueue `mos-landing.css` from a child theme or MU-plugin instead of Site Settings.
-- Bangla clone of every section.
-- Elementor Kit `.json` export (HTML + CSS stays more portable for v1).
+- Teal `#1a6b5a`, gold `#c9a84c`  
+- Outfit headings  
+- Soft patterned/gradient hero (not purple SaaS / cream-serif cliché)  
+- Namespace: all rules under `.mos`
 
-## Out of scope (this pass)
+## Local preview
 
-- Live demo hosting
-- PHP enqueue inside the MasjidOS plugin
-- Full Bangla marketing page
+Open `pages/home.html` in a browser (file://). Module pages under `pages/features/` need the CSS path adjusted if opened alone — prefer Elementor assembly, or use relative `../css/mos-landing.css` from `pages/`.
+
+## Bangla (`bn/`)
+
+Clone of key Home sections + prayer-times, tv-display, donations. Expand remaining modules by copying EN feature pages and translating, or use WPML/Polylang.
+
+## Out of scope
+
+- New plugin PHP features  
+- Final dollar/taka amounts  
+- Elementor Kit `.json` export (HTML + CSS is the portable v1)
