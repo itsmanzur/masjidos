@@ -593,6 +593,49 @@
 		}
 	}
 
+	function setAskImamMessage( form, html ) {
+		var wrap = form.closest( '.itmms-public-qa' );
+		if ( ! wrap ) {
+			return null;
+		}
+
+		var oldMessage = wrap.querySelector( '.itmms-public-qa__message' );
+		if ( oldMessage ) {
+			oldMessage.remove();
+		}
+
+		var template = document.createElement( 'template' );
+		template.innerHTML = html || '';
+		var message = template.content.firstElementChild;
+		if ( ! message ) {
+			return null;
+		}
+
+		wrap.insertBefore( message, form );
+		message.setAttribute( 'tabindex', '-1' );
+		message.focus( { preventScroll: true } );
+		message.scrollIntoView( { behavior: 'smooth', block: 'center' } );
+		return message;
+	}
+
+	function setAskImamLoading( form, isLoading ) {
+		var button = form.querySelector( '.itmms-public-qa__submit' );
+		if ( ! button ) {
+			return;
+		}
+
+		if ( isLoading ) {
+			button.setAttribute( 'data-itmms-original-label', button.textContent );
+			button.textContent = button.getAttribute( 'data-itmms-loading-label' ) || 'Submitting...';
+			button.disabled = true;
+			form.setAttribute( 'aria-busy', 'true' );
+		} else {
+			button.textContent = button.getAttribute( 'data-itmms-original-label' ) || button.textContent;
+			button.disabled = false;
+			form.removeAttribute( 'aria-busy' );
+		}
+	}
+
 	document.addEventListener( 'change', function ( event ) {
 		var surahSelect = event.target.closest( '[data-itmms-quran-surah]' );
 		if ( ! surahSelect ) {
@@ -613,7 +656,67 @@
 		}
 	} );
 
+	document.addEventListener( 'submit', function ( event ) {
+		var form = event.target.closest( '.itmms-public-qa__form' );
+		if ( ! form || ! window.itmmsPublicAskImam || ! window.itmmsPublicAskImam.ajaxUrl ) {
+			return;
+		}
+
+		event.preventDefault();
+		if ( form.getAttribute( 'aria-busy' ) === 'true' ) {
+			return;
+		}
+
+		var data = new FormData( form );
+		data.append( 'action', 'itmms_ask_imam_submit' );
+		setAskImamLoading( form, true );
+
+		fetch( window.itmmsPublicAskImam.ajaxUrl, {
+			method: 'POST',
+			credentials: 'same-origin',
+			body: data
+		} )
+			.then( function ( response ) {
+				return response.json().then( function ( json ) {
+					if ( ! response.ok || ! json.success ) {
+						throw json;
+					}
+					return json;
+				} );
+			} )
+			.then( function ( json ) {
+				var messageHtml = json.data && json.data.message_html ? json.data.message_html : '';
+				setAskImamMessage( form, messageHtml );
+				form.reset();
+				form.hidden = true;
+			} )
+			.catch( function ( json ) {
+				var messageHtml = json && json.data && json.data.message_html ? json.data.message_html : '';
+				setAskImamMessage( form, messageHtml || '<div class="itmms-public-qa__message is-error"><strong class="itmms-public-qa__message-title">Please check the form</strong><span class="itmms-public-qa__message-text">Could not submit the question. Please try again.</span></div>' );
+				setAskImamLoading( form, false );
+			} );
+	} );
+
 	document.addEventListener( 'click', function ( event ) {
+		var askAgainLink = event.target.closest( '.itmms-public-qa__message-link' );
+		if ( askAgainLink ) {
+			var qaWrap = askAgainLink.closest( '.itmms-public-qa' );
+			var qaForm = qaWrap ? qaWrap.querySelector( '.itmms-public-qa__form' ) : null;
+			if ( qaForm && qaForm.hidden ) {
+				event.preventDefault();
+				var qaMessage = qaWrap.querySelector( '.itmms-public-qa__message' );
+				if ( qaMessage ) {
+					qaMessage.remove();
+				}
+				qaForm.hidden = false;
+				var questionField = qaForm.querySelector( '[name="itmms_qa_question"]' );
+				if ( questionField ) {
+					questionField.focus();
+				}
+			}
+			return;
+		}
+
 		var popupClose = event.target.closest( '[data-itmms-popup-close]' );
 		if ( popupClose ) {
 			var popupId = popupClose.getAttribute( 'data-itmms-popup-close' );

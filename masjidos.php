@@ -40,6 +40,7 @@ require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-announcements.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-events.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-khutbah.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-minbar.php';
+require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-ask-imam.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-education.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/rest/trait-itmms-rest-permissions.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/rest/trait-itmms-rest-response.php';

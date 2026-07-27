@@ -131,6 +131,7 @@
 					navGroup( __( 'Minbar', 'masjidos' ),
 						navButton( 'minbar', 'mic', __( 'Overview', 'masjidos' ), { minbarTab: 'dashboard' } ) +
 						navButton( 'minbar', 'book', __( 'Archive', 'masjidos' ), { minbarTab: 'archive', badge: archiveCount } ) +
+						navLink( data.adminUrl + 'edit.php?post_type=itmms_imam_question', 'quote', __( 'Ask the Imam', 'masjidos' ) ) +
 						navButton( 'minbar', 'calendar', __( 'Planner', 'masjidos' ), { minbarTab: 'planner' } ) +
 						navButton( 'minbar', 'books', __( 'References', 'masjidos' ), { minbarTab: 'references' } ) +
 						navButton( 'minbar', 'pen', __( 'Sermon Builder', 'masjidos' ), { minbarTab: 'builder' } ) +

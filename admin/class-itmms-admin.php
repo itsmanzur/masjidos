@@ -121,6 +121,16 @@ final class ITMMS_Admin {
 				'edit.php?post_type=' . ITMMS_Duas_Library::POST_TYPE
 			);
 		}
+
+		if ( post_type_exists( ITMMS_Ask_Imam::POST_TYPE ) ) {
+			add_submenu_page(
+				'masjidos',
+				__( 'Ask the Imam', 'masjidos' ),
+				__( 'Ask the Imam', 'masjidos' ),
+				'edit_posts',
+				'edit.php?post_type=' . ITMMS_Ask_Imam::POST_TYPE
+			);
+		}
 	}
 
 	/**

@@ -56,7 +56,7 @@
 				docPanel( 'articles', false, articlesHowToSection() + articlesDocsSection() ) +
 				docPanel( 'education', false, educationDocsSection() ) +
 				docPanel( 'pro', false, proDocsSection() ) +
-				docPanel( 'reference', false, prayerAttributesSection() + jumuahAttributesSection() + monthlyAttributesSection() + calendarAttributesSection() + duasAttributesSection() + announcementAttributesSection() + eventAttributesSection() + articlesAttributesSection() + khutbahArchiveAttributesSection() + quranVerseAttributesSection() + hadithAttributesSection() + allahNamesAttributesSection() + audioQuranAttributesSection() + tvDisplayReferenceSection() ) +
+				docPanel( 'reference', false, prayerAttributesSection() + jumuahAttributesSection() + monthlyAttributesSection() + calendarAttributesSection() + duasAttributesSection() + announcementAttributesSection() + eventAttributesSection() + articlesAttributesSection() + khutbahArchiveAttributesSection() + askImamAttributesSection() + quranVerseAttributesSection() + hadithAttributesSection() + allahNamesAttributesSection() + audioQuranAttributesSection() + tvDisplayReferenceSection() ) +
 			'</div>' +
 		'</div>';
 	}
@@ -883,6 +883,19 @@
 		'</section>';
 	}
 
+	function askImamAttributesSection() {
+		return '<section class="itmms-docs-section">' +
+			'<h3>' + esc( __( 'Ask the Imam shortcode attributes', 'masjidos' ) ) + '</h3>' +
+			'<div class="itmms-docs-table">' +
+				docRow( 'title', __( 'Text', 'masjidos' ), __( 'Ask the Imam / Answered Questions', 'masjidos' ), __( 'Changes the form or answers widget heading.', 'masjidos' ) ) +
+				docRow( 'language', 'en/bn/ar', 'en', __( 'Changes public Q&A widget labels.', 'masjidos' ) ) +
+				docRow( 'limit', '1-50', '10', __( 'Only for [masjidos_imam_answers]; controls how many answers appear.', 'masjidos' ) ) +
+				docRow( 'category', 'fiqh/aqeedah/akhlaq/daily-life', '', __( 'Only for [masjidos_imam_answers]; filters public answers by category slug.', 'masjidos' ) ) +
+			'</div>' +
+			'<p class="itmms-docs-note">' + esc( __( 'Use [masjidos_ask_imam] for submissions and [masjidos_imam_answers] for the public answered library. Manage questions in MasjidOS > Ask the Imam.', 'masjidos' ) ) + '</p>' +
+		'</section>';
+	}
+
 	function minbarDocsSection() {
 		return '<section class="itmms-docs-section itmms-docs-paste">' +
 			'<h3>' + esc( __( 'How to use Minbar (Friday tools)', 'masjidos' ) ) + '</h3>' +
@@ -892,6 +905,7 @@
 				pasteItem( __( 'Schedule', 'masjidos' ), __( 'Add who will give khutbah on which Friday. This powers [masjidos_khatib_this_week] and upcoming lists.', 'masjidos' ) ) +
 				pasteItem( __( 'Planner', 'masjidos' ), __( 'Park future topic ideas before they are assigned to a Friday.', 'masjidos' ) ) +
 				pasteItem( __( 'Archive', 'masjidos' ), __( 'Save past sermons with audio/PDF so visitors can search them later.', 'masjidos' ) ) +
+				pasteItem( __( 'Ask the Imam', 'masjidos' ), __( 'Review submitted questions, write answers, and mark safe answers as public.', 'masjidos' ) ) +
 				pasteItem( __( 'Sermon Builder', 'masjidos' ), __( 'Draft outline notes for a khutbah. Optional — skip if you only need public schedule widgets.', 'masjidos' ) ) +
 				pasteItem( __( 'References', 'masjidos' ), __( 'Keep ayah, hadith, or notes linked to a sermon for your own preparation.', 'masjidos' ) ) +
 			'</div>' +
@@ -912,6 +926,14 @@
 			docCard( __( 'Khutbah Search', 'masjidos' ), __( 'Compact search box for the archive.', 'masjidos' ), '[masjidos_khutbah_search]', [
 				__( 'Place beside the archive on a dedicated page', 'masjidos' ),
 				__( 'Only published entries are searchable', 'masjidos' )
+			] ) +
+			docCard( __( 'Ask the Imam Form', 'masjidos' ), __( 'Let congregants submit Islamic questions from a public page.', 'masjidos' ), '[masjidos_ask_imam]', [
+				__( 'Questions are saved as pending in MasjidOS > Ask the Imam', 'masjidos' ),
+				__( 'Includes nonce, honeypot, and basic rate limiting', 'masjidos' )
+			] ) +
+			docCard( __( 'Answered Questions', 'masjidos' ), __( 'Show the searchable public Q&A library.', 'masjidos' ), '[masjidos_imam_answers]', [
+				__( 'Only answered questions marked public are shown', 'masjidos' ),
+				__( 'Visitors can search previous answers before submitting a new question', 'masjidos' )
 			] ) +
 		'</div>';
 	}

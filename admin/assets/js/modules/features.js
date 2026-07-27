@@ -201,6 +201,35 @@
 				badge: 'Minbar'
 			},
 			{
+				id: 'ask-imam-form',
+				icon: 'quote',
+				color: 'teal',
+				group: 'minbar',
+				name: __( 'Ask the Imam Form', 'masjidos' ),
+				desc: __( 'Public question form for congregants. Questions wait for imam review in the admin panel.', 'masjidos' ),
+				shortcode: '[masjidos_ask_imam]',
+				params: [
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: langs },
+					{ key: 'title', label: __( 'Title', 'masjidos' ), type: 'text', placeholder: __( 'Ask the Imam', 'masjidos' ) }
+				],
+				badge: 'Minbar'
+			},
+			{
+				id: 'imam-answers',
+				icon: 'search',
+				color: 'teal',
+				group: 'minbar',
+				name: __( 'Imam Answers Library', 'masjidos' ),
+				desc: __( 'Searchable public Q&A library showing only answered questions marked public.', 'masjidos' ),
+				shortcode: '[masjidos_imam_answers]',
+				params: [
+					{ key: 'language', label: __( 'Language', 'masjidos' ), type: 'select', options: langs },
+					{ key: 'limit', label: __( 'Limit', 'masjidos' ), type: 'text', placeholder: '10', default: '10' },
+					{ key: 'category', label: __( 'Category', 'masjidos' ), type: 'text', placeholder: 'fiqh' }
+				],
+				badge: 'Minbar'
+			},
+			{
 				id: 'quran-verse',
 				icon: 'quote',
 				color: 'teal',
