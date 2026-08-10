@@ -41,6 +41,16 @@ function itmms_uninstall_site(): void {
 	remove_role( 'itmms_imam' );
 	remove_role( 'itmms_muazzin' );
 
+	// Ask the Imam (itmms_imam_question) CPT posts and meta
+	$question_ids = get_posts( [
+		'post_type'      => 'itmms_imam_question',
+		'posts_per_page' => -1,
+		'fields'         => 'ids',
+		'post_status'    => 'any',
+	] );
+	foreach ( $question_ids as $qid ) {
+		wp_delete_post( (int) $qid, true );
+	}
 
 	$admin = get_role( 'administrator' );
 	if ( $admin instanceof WP_Role ) {

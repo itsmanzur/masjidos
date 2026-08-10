@@ -1,9 +1,9 @@
-=== MasjidOS ===
+=== MasjidOS — Mosque Management Plugin for WordPress ===
 Contributors: itsmanzur
 Tags: prayer times, mosque, islamic calendar, duas, quran
 Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 1.2.1
+Stable tag: 1.3.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -236,7 +236,7 @@ Public widgets display only what an administrator has explicitly configured: pra
 
 == Changelog ==
 
-= 1.2.1 =
+= 1.3.0 =
 * Public widget polish — Prayer Times, Monthly Timetable, TV Display, Islamic Calendar, and Minbar/Khutbah surfaces (upcoming, this week’s khatib, archive, search).
 * Bangla/Arabic labels, digits, and empty states aligned across public widgets.
 * Plugin Check / coding standards fixes (i18n translators comments, escaping, readme name, prefixed template variables).
@@ -270,7 +270,7 @@ Public widgets display only what an administrator has explicitly configured: pra
 
 == Upgrade Notice ==
 
-= 1.2.1 =
+= 1.3.0 =
 Public widget polish (TV, calendar, khutbah surfaces), Plugin Check compliance fixes, and Bangla pack updates. Recommended for all sites.
 
 = 1.2.0 =
