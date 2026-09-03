@@ -1,0 +1,28 @@
+---
+description: MasjidOS Pro sibling plugin — modules, hooks, and do-not-touch-Free rules
+alwaysApply: true
+---
+
+# MasjidOS Pro (sibling plugin)
+
+Path: `C:\Users\Manzur\Local Sites\powerup\app\public\wp-content\plugins\masjidos-pro`. Local **0.20.0**. Classes `MasjidOS_Pro_*`. Textdomain `masjidos-pro`. Details: Free repo `_future/project-memory.md` (Pro section).
+
+Boot: `plugins_loaded:20` → needs `ITMMS_Core` + Free ≥ **1.2.0** → `MASJIDOS_PRO_ACTIVE`. Schema option `masjidos_pro_db_version` **1.13**.
+
+## What Pro owns
+
+Donations (pending→confirm, bKash/Nagad), Accounts (funds/ledger/budgets/month-lock), Collections (Jumuah/Eid/etc.), Members (families, dues, attendance, print card), Transparency report/PDF, Facilities booking, Madrasa + school fees + `/masjidos-teacher/`, Volunteers, premium widget designs, TV collections slide.
+
+Admin = classic submenu pages under MasjidOS + `admin_post_masjidos_pro_*`. REST `masjidos-pro/v1` is donations/accounts/collections only.
+
+Shortcodes: `masjidos_campaign`, `masjidos_donation_form`, `masjidos_financials`, `masjidos_transparency_report`, `masjidos_collections`, `masjidos_members`, `masjidos_facility_booking`, `masjidos_classes`, `masjidos_volunteers`.
+
+Roles: `masjidos_treasurer`, `masjidos_accounts_viewer`, `masjidos_teacher`. Caps: `itmms_manage_donations|accounts|members`, `itmms_view_accounts`, `itmms_teach_classes`.
+
+## Rules
+
+- Implement Pro features in the Pro plugin. Hook Free filters; never patch Free for Pro behavior.
+- New Pro shortcode → update `includes/class-pro-docs.php` (`masjidos_pro_docs`).
+- License is a local stub (`masjidos_pro_license_key`). Designs unlock while Pro is active.
+- Seeded restricted funds: zakat, sadaqah, lillah, fidya. Currency from Free settings.
+- Public financial widgets need Free `public_transparency`. No Pro `uninstall.php` yet.

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MasjidOS — Mosque OS for WordPress</title>
+	<meta name="description" content="MasjidOS Free: prayer, Friday, TV, notices. MasjidOS Pro: donations, accounts, members, school, hall booking.">
+	<link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+	<header class="nav">
+		<div class="nav__inner">
+			<a class="brand" href="#top">
+				<span class="brand__mark" aria-hidden="true">
+					<svg viewBox="0 0 24 24"><path d="M4 20h16M6 20V10l6-5 6 5v10M10 20v-5h4v5"></path></svg>
+				</span>
+				Masjid<span>OS</span>
+			</a>
+			<nav class="nav__links" aria-label="Primary">
+				<a href="#features" data-i18n="nav_features">Features</a>
+				<a href="#compare" data-i18n="nav_compare">Compare</a>
+				<a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+				<div class="lang" role="group" aria-label="Language">
+					<button type="button" data-lang="en" class="is-on">EN</button>
+					<button type="button" data-lang="bn">বাং</button>
+				</div>
+				<a class="btn nav__cta btn--gold" href="https://wordpress.org/plugins/masjidos/" data-i18n="nav_free">Get Free</a>
+			</nav>
+			<button class="nav__burger" type="button" aria-label="Menu">☰</button>
+		</div>
+	</header>
+
+	<main id="top">
+		<section class="hero">
+			<div class="wrap hero__grid">
+				<div>
+					<div class="hero__badge" data-i18n="hero_badge">WordPress plugin · Free on WordPress.org</div>
+					<h1 data-i18n="hero_title">The mosque OS for WordPress</h1>
+					<p class="lede" data-i18n="hero_lede">Prayer times, Friday, TV, notices, and learning widgets — Free. Donations, accounts, members, school, and hall booking in Pro.</p>
+					<div class="actions">
+						<a class="btn btn--gold" href="https://wordpress.org/plugins/masjidos/" data-i18n="cta_free">Get Free</a>
+						<a class="btn btn--ghost" href="#pricing" data-i18n="cta_pro">See Pro</a>
+					</div>
+					<div class="hero__meta">
+						<div><strong data-i18n="hero_m1t">Local-first</strong><span data-i18n="hero_m1">Prayer calc on your server</span></div>
+						<div><strong data-i18n="hero_m2t">Three languages</strong><span data-i18n="hero_m2">English, Bangla, Arabic</span></div>
+						<div><strong data-i18n="hero_m3t">No telemetry</strong><span data-i18n="hero_m3">Your masjid data stays yours</span></div>
+					</div>
+				</div>
+				<div class="board" aria-label="Prayer times preview">
+					<div class="board__top">
+						<div>
+							<strong>Madani Masjid</strong>
+							<small>Dhaka · Asia/Dhaka</small>
+						</div>
+						<div class="board__hijri" id="board-hijri">22 Muharram 1448</div>
+					</div>
+					<div class="board__next">
+						<small data-i18n="board_next">Next prayer</small>
+						<b id="next-name">Maghrib</b>
+						<div class="board__timer" id="next-timer">00:00:00</div>
+					</div>
+					<div class="board__rows">
+						<div class="board__row" data-prayer-row="0"><span data-prayer-name>Fajr</span><span>4:18 <span class="board__iqamah">Iq 4:35</span></span></div>
+						<div class="board__row" data-prayer-row="1"><span data-prayer-name>Dhuhr</span><span>12:01 <span class="board__iqamah">Iq 12:30</span></span></div>
+						<div class="board__row" data-prayer-row="2"><span data-prayer-name>Asr</span><span>4:12 <span class="board__iqamah">Iq 4:30</span></span></div>
+						<div class="board__row" data-prayer-row="3"><span data-prayer-name>Maghrib</span><span>6:48 <span class="board__iqamah">Iq 6:53</span></span></div>
+						<div class="board__row" data-prayer-row="4"><span data-prayer-name>Isha</span><span>8:15 <span class="board__iqamah">Iq 8:30</span></span></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="section section--tight trust">
+			<div class="wrap trust__row">
+				<div><strong data-i18n="trust1t">WordPress</strong><span data-i18n="trust1">Shortcodes + Gutenberg blocks</span></div>
+				<div><strong data-i18n="trust2t">Local prayer</strong><span data-i18n="trust2">Optional Aladhan / CSV override</span></div>
+				<div><strong data-i18n="trust3t">en / bn / ar</strong><span data-i18n="trust3">Admin + public labels</span></div>
+				<div><strong data-i18n="trust4t">Privacy</strong><span data-i18n="trust4">No tracking in Free or Pro</span></div>
+			</div>
+		</section>
+
+		<section class="section section--paper">
+			<div class="wrap">
+				<p class="kicker" data-i18n="why_k">Why it exists</p>
+				<h2 data-i18n="why_t">Committees should not run on WhatsApp and spreadsheets</h2>
+				<p class="lede" data-i18n="why_l">Scattered prayer times, taped lobby notices, and donation ledgers in chat leave mosques guessing. One WordPress site can run the public face — Pro can run the books.</p>
+				<div class="split">
+					<div class="card">
+						<h3 data-i18n="before_t">Before</h3>
+						<p data-i18n="before_p">WhatsApp times, paper notices, Excel no one trusts.</p>
+					</div>
+					<div class="card card--out">
+						<h3 data-i18n="after_t">After</h3>
+						<p data-i18n="after_p">Live prayer, TV board, Friday tools — plus optional money, members, and school.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="section section--white" id="tour">
+			<div class="wrap">
+				<p class="kicker" data-i18n="tour_k">Live preview</p>
+				<h2 data-i18n="tour_t">Tap a product surface</h2>
+				<p class="lede" data-i18n="tour_l">These are interactive mocks of what visitors and the committee actually see.</p>
+				<div class="tour__tabs" role="tablist">
+					<button type="button" class="tour__tab is-on" data-tour="prayer" data-i18n="tab_prayer">Prayer</button>
+					<button type="button" class="tour__tab" data-tour="friday" data-i18n="tab_friday">Friday</button>
+					<button type="button" class="tour__tab" data-tour="tv" data-i18n="tab_tv">TV lobby</button>
+					<button type="button" class="tour__tab" data-tour="give" data-i18n="tab_give">Donations</button>
+				</div>
+
+				<div class="tour__stage is-on" data-tour="prayer">
+					<div class="tour__copy">
+						<span class="pill pill--free" data-i18n="free">Free</span>
+						<h3 data-i18n="prayer_h">Daily prayer + Iqamah</h3>
+						<p data-i18n="prayer_p">Local solar calculation with method presets, minute offsets, Hijri adjust, and Qibla. CSV timetable wins when you upload masjid-measured times.</p>
+						<ul>
+							<li data-i18n="t_p1">Local engine, Karachi/MWL/… presets</li>
+							<li data-i18n="t_p2">CSV timetable overrides API/local</li>
+							<li data-i18n="t_p3">Monthly print view + 7-day admin preview</li>
+							<li data-i18n="t_p4">Shortcode, block, REST today/month</li>
+						</ul>
+					</div>
+					<div class="mock">
+						<div class="mock__bar"><span>Madani Masjid</span><span data-i18n="mock_local">Local calc · Dhaka</span></div>
+						<div class="mock__body">
+							<div class="mini-row"><span>Fajr</span><span>4:18 · Iqamah 4:35</span></div>
+							<div class="mini-row"><span>Dhuhr</span><span>12:01 · Iqamah 12:30</span></div>
+							<div class="mini-row is-now"><span>Asr</span><span>4:12 · Iqamah 4:30</span></div>
+							<div class="mini-row"><span>Maghrib</span><span>6:48</span></div>
+							<div class="mini-row"><span>Isha</span><span>8:15 · Iqamah 8:30</span></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tour__stage" data-tour="friday">
+					<div class="tour__copy">
+						<span class="pill pill--free" data-i18n="free">Free</span>
+						<h3 data-i18n="friday_h">Jumuah &amp; Minbar</h3>
+						<p data-i18n="friday_p">Two Jumuah sessions, this week’s khatib, upcoming khutbahs, archive, and Ask the Imam.</p>
+						<ul>
+							<li data-i18n="t_f1">This week’s khatib + two sessions</li>
+							<li data-i18n="t_f2">Khutbah archive and search</li>
+							<li data-i18n="t_f3">Khatib profiles and Friday schedule</li>
+							<li data-i18n="t_f4">Ask the Imam public form</li>
+						</ul>
+					</div>
+					<div class="mock">
+						<div class="mock__bar"><strong data-i18n="mock_khatib">This week’s khatib</strong><span data-i18n="mock_jumuah">Jumuah</span></div>
+						<div class="mock__body">
+							<p style="margin:0 0 8px;font-weight:800;font-size:1.25rem;color:var(--teal)">Shaykh Ahmad Rahman</p>
+							<p style="margin:0;color:var(--muted)" data-i18n="topic">Guarding the tongue · 1:15 PM</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="tour__stage" data-tour="tv">
+					<div class="tour__copy">
+						<span class="pill pill--free" data-i18n="free">Free</span>
+						<h3 data-i18n="tv_h">Fullscreen lobby TV</h3>
+						<p data-i18n="tv_p">Open /masjidos-display/ on a stick PC. Layouts, dim nights, quiet mode, rotating slides. Pro adds a collections slide.</p>
+						<ul>
+							<li data-i18n="t_t1">Classic, split, and focus layouts</li>
+							<li data-i18n="t_t2">Dim + quiet minutes around Iqamah</li>
+							<li data-i18n="t_t3">Self-hosted fonts — no Google at runtime</li>
+							<li data-i18n="t_t4">Pro: Jumuah/Eid collections slide</li>
+						</ul>
+					</div>
+					<div class="mock mock--dark">
+						<div class="mock__bar"><strong>Lobby TV</strong><span data-i18n="tv_path">/masjidos-display/</span></div>
+						<div class="mock__body">
+							<div class="tv-slide is-on">
+								<div class="mini-row is-now"><span>Next · Maghrib</span><span class="board__timer" style="font-size:1.1rem" id="tv-sync">—</span></div>
+								<div class="mini-row"><span>Fajr 4:18</span><span>Isha 8:15</span></div>
+							</div>
+							<div class="tv-slide">
+								<div class="mini-row is-now"><span>Notice</span><span>Ramadan iftar 6:40</span></div>
+								<div class="mini-row"><span>Slide 2 / 3</span><span>Ticker</span></div>
+							</div>
+							<div class="tv-slide">
+								<div class="mini-row is-now"><span>Jumuah collection</span><span>৳48,200</span></div>
+								<div class="mini-row"><span>Pro slide</span><span>Transparency on</span></div>
+							</div>
+							<div class="tv-dots"><span class="is-on"></span><span></span><span></span></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tour__stage" data-tour="give">
+					<div class="tour__copy">
+						<span class="pill pill--pro" data-i18n="pro">Pro</span>
+						<h3 data-i18n="give_h">Campaigns that post to the ledger</h3>
+						<p data-i18n="give_p">Public form stays pending until confirm. bKash / Nagad can auto-complete. Confirmed gifts can post into Accounts funds.</p>
+						<ul>
+							<li data-i18n="t_g1">Pending cash until confirm</li>
+							<li data-i18n="t_g2">bKash / Nagad callbacks</li>
+							<li data-i18n="t_g3">Restricted Zakat / Sadaqah funds</li>
+							<li data-i18n="t_g4">Public [masjidos_financials]</li>
+						</ul>
+					</div>
+					<div class="mock">
+						<div class="mock__bar"><strong data-i18n="camp">Masjid expansion</strong><span>BDT</span></div>
+						<div class="mock__body">
+							<div class="progress"><span id="raise-bar"></span></div>
+							<p style="margin:0;font-size:14px;color:var(--muted)" data-i18n="raised">Raised ৳8.47 lakh of ৳20 lakh</p>
+							<div class="pay-row">
+								<div class="pay">bKash</div>
+								<div class="pay">Nagad</div>
+								<div class="pay">Cash</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="section section--paper" id="features">
+			<div class="wrap">
+				<p class="kicker" data-i18n="feat_k">Modules</p>
+				<h2 data-i18n="feat_t">Free toolkit, Pro committee tools</h2>
+				<p class="lede" data-i18n="feat_l">Filter, then open a card. Nothing here is loaded into the plugin — this folder is marketing only.</p>
+				<div class="filter">
+					<button type="button" class="is-on" data-filter="all" data-i18n="all">All</button>
+					<button type="button" data-filter="free" data-i18n="free">Free</button>
+					<button type="button" data-filter="pro" data-i18n="pro">Pro</button>
+				</div>
+				<div class="explorer" id="feat-grid" data-filter="all"></div>
+			</div>
+		</section>
+
+		<section class="section section--white" id="compare">
+			<div class="wrap">
+				<p class="kicker" data-i18n="compare_k">Free vs Pro</p>
+				<h2 data-i18n="compare_t">Same WordPress site. Extra plugin for the books.</h2>
+				<p class="lede" data-i18n="compare_l">Pro requires Free. It extends filters — it does not replace MasjidOS.</p>
+				<div class="compare-tools">
+					<label class="toggle">
+						<input type="checkbox" id="diff-only" checked>
+						<span data-i18n="diff_only">Show differences only</span>
+					</label>
+				</div>
+				<div class="table-wrap">
+					<table class="compare">
+						<thead>
+							<tr>
+								<th data-i18n="col_mod">Module</th>
+								<th data-i18n="col_free">Free</th>
+								<th data-i18n="col_pro">Pro</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="is-same"><td data-i18n="cmp1">Prayer times, Iqamah, Qibla, Hijri</td><td class="yes">●</td><td class="yes">●</td></tr>
+							<tr class="is-same"><td data-i18n="cmp2">TV lobby /masjidos-display/</td><td class="yes">●</td><td class="yes">●</td></tr>
+							<tr class="is-same"><td data-i18n="cmp3">Jumuah, Minbar, Ask the Imam</td><td class="yes">●</td><td class="yes">●</td></tr>
+							<tr class="is-same"><td data-i18n="cmp4">Notices, events, education widgets</td><td class="yes">●</td><td class="yes">●</td></tr>
+							<tr class="is-same"><td data-i18n="cmp5">EN / BN / AR admin</td><td class="yes">●</td><td class="yes">●</td></tr>
+							<tr class="is-same"><td data-i18n="cmp11">Imam / Muazzin roles</td><td class="yes">●</td><td class="yes">●</td></tr>
+							<tr><td data-i18n="cmp6">Donations + bKash / Nagad</td><td class="no">—</td><td class="yes">●</td></tr>
+							<tr><td data-i18n="cmp7">Accounts, collections, transparency PDF</td><td class="no">—</td><td class="yes">●</td></tr>
+							<tr><td data-i18n="cmp8">Members, dues, attendance, cards</td><td class="no">—</td><td class="yes">●</td></tr>
+							<tr><td data-i18n="cmp9">Hall booking, madrasa, volunteers</td><td class="no">—</td><td class="yes">●</td></tr>
+							<tr><td data-i18n="cmp10">Premium widget design packs</td><td class="no">—</td><td class="yes">●</td></tr>
+							<tr><td data-i18n="cmp12">Treasurer / teacher roles</td><td class="no">—</td><td class="yes">●</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+
+		<section class="section section--paper" id="pricing">
+			<div class="wrap">
+				<p class="kicker" data-i18n="price_k">Plans</p>
+				<h2 data-i18n="price_t">Start Free. Add Pro when the committee needs it.</h2>
+				<p class="lede" data-i18n="price_l">Pro price is a placeholder until checkout is live.</p>
+				<div class="pricing">
+					<article class="price">
+						<p class="price__name" data-i18n="plan_free">Free</p>
+						<p class="price__amt" data-i18n="plan_free_amt">$0</p>
+						<p data-i18n="plan_free_p">Public mosque toolkit, forever</p>
+						<ul>
+							<li data-i18n="li_f1">Prayer, TV, Jumuah &amp; Minbar</li>
+							<li data-i18n="li_f2">Notices, events, education widgets</li>
+							<li data-i18n="li_f3">Admin English / Bangla / Arabic</li>
+							<li data-i18n="li_f4">On WordPress.org, forever Free</li>
+						</ul>
+						<a class="btn" href="https://wordpress.org/plugins/masjidos/" data-i18n="cta_free">Get Free</a>
+					</article>
+					<article class="price price--hot">
+						<p class="price__name" data-i18n="plan_pro">Pro</p>
+						<p class="price__amt" data-i18n="plan_pro_amt">License</p>
+						<p data-i18n="plan_pro_p">Money, CRM, school, hall, designs</p>
+						<ul>
+							<li data-i18n="li_p1">Everything in Free</li>
+							<li data-i18n="li_p2">Donations, bKash / Nagad</li>
+							<li data-i18n="li_p3">Accounts, collections, transparency</li>
+							<li data-i18n="li_p4">Members, dues, attendance</li>
+							<li data-i18n="li_p5">Hall, madrasa, volunteers, designs</li>
+						</ul>
+						<a class="btn btn--gold" href="#features" data-i18n="buy_pro">Get Pro (soon)</a>
+					</article>
+					<article class="price">
+						<p class="price__name" data-i18n="plan_net">Pro Network</p>
+						<p class="price__amt" data-i18n="plan_net_amt">Sales</p>
+						<p data-i18n="plan_net_p">Multi-mosque / multisite</p>
+						<ul>
+							<li data-i18n="li_n1">Everything in Pro</li>
+							<li data-i18n="li_n2">License for N sites / network</li>
+							<li data-i18n="li_n3">Federations and WordPress multisite</li>
+						</ul>
+						<a class="btn" href="mailto:hello@masjidos.com" data-i18n="contact">Contact sales</a>
+					</article>
+				</div>
+				<p class="note" data-i18n="price_note">Always requires WordPress. Pro requires Free active.</p>
+			</div>
+		</section>
+
+		<section class="section section--white" id="faq">
+			<div class="wrap">
+				<p class="kicker" data-i18n="faq_k">FAQ</p>
+				<h2 data-i18n="faq_t">Straight answers</h2>
+				<div class="faq">
+					<details open>
+						<summary data-i18n="faq1q">Does prayer calculation need an API?</summary>
+						<p data-i18n="faq1a">No. Local solar calculation is the default. Optional Aladhan or a CSV timetable you upload. Core prayer works without a network call.</p>
+					</details>
+					<details>
+						<summary data-i18n="faq2q">Is Free forever free?</summary>
+						<p data-i18n="faq2a">Yes. The public mosque toolkit stays on WordPress.org. Pro is a separate plugin for committee money, CRM, school, and hall booking.</p>
+					</details>
+					<details>
+						<summary data-i18n="faq3q">Does Pro need Free?</summary>
+						<p data-i18n="faq3a">Yes. Activate MasjidOS first, then MasjidOS Pro. Pro sets MASJIDOS_PRO_ACTIVE and extends Free through filters.</p>
+					</details>
+					<details>
+						<summary data-i18n="faq4q">bKash and Nagad?</summary>
+						<p data-i18n="faq4a">In Pro, with sandbox or live keys. Cash and bank pledges stay pending until a treasurer confirms.</p>
+					</details>
+					<details>
+						<summary data-i18n="faq5q">What is Pro Network?</summary>
+						<p data-i18n="faq5a">A multi-mosque / multisite-oriented license. Contact sales for site count and terms. Price is a placeholder here.</p>
+					</details>
+				</div>
+			</div>
+		</section>
+
+		<section class="section section--ink">
+			<div class="wrap cta-box">
+				<h2 data-i18n="cta_t">Install Free in minutes</h2>
+				<p class="lede" data-i18n="cta_l">Then activate MasjidOS Pro on the same site when you need donations, ledger, and members.</p>
+				<div class="actions" style="justify-content:center">
+					<a class="btn btn--gold" href="https://wordpress.org/plugins/masjidos/" data-i18n="cta_free">Get Free</a>
+					<a class="btn btn--ghost" href="#compare" data-i18n="nav_compare">Compare</a>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="section--ink footer">
+		<div class="wrap footer__row">
+			<div>Masjid<span style="color:var(--gold)">OS</span></div>
+			<p data-i18n="foot">Preview page inside _future/landing — not shipped with the plugin ZIP.</p>
+		</div>
+	</footer>
+
+	<div class="drawer" id="drawer" aria-hidden="true">
+		<div class="drawer__dim" id="drawer-dim"></div>
+		<aside class="drawer__panel" role="dialog" aria-labelledby="drawer-title">
+			<button class="drawer__close" type="button" id="drawer-close" aria-label="Close">×</button>
+			<span class="pill" id="drawer-pill">Free</span>
+			<h3 id="drawer-title"></h3>
+			<ul id="drawer-list"></ul>
+		</aside>
+	</div>
+
+	<script src="js/landing.js"></script>
+	<script>
+		(function () {
+			var src = document.getElementById("next-timer");
+			var dst = document.getElementById("tv-sync");
+			if (!src || !dst) return;
+			setInterval(function () { dst.textContent = src.textContent; }, 1000);
+		})();
+	</script>
+</body>
+</html>

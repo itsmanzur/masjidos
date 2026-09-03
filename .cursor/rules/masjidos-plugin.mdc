@@ -1,0 +1,28 @@
+---
+description: MasjidOS Free plugin architecture, conventions, and Free/Pro boundary
+alwaysApply: true
+---
+
+# MasjidOS (this repo = Free)
+
+Public slug/textdomain `masjidos`; prefix `ITMMS` / `itmms_*`. Local **1.3.0**, schema **1.6**. WP 6.2+, PHP 7.4+. Full map: `_future/project-memory.md`.
+
+Sibling Pro: `../masjidos-pro` (local **0.20.0**, schema **1.13**). Requires Free ≥ 1.2.0. Sets `MASJIDOS_PRO_ACTIVE` after version check.
+
+## Architecture
+
+- Bootstrap: `masjidos.php` → `ITMMS_Core` on `plugins_loaded`.
+- Admin: fullscreen vanilla-JS SPA. REST nonce, not `admin-ajax` (exception: Ask Imam submit).
+- Public: shortcodes + `masjidos/*` blocks + TV `/masjidos-display/`.
+- REST: Free `masjidos/v1`. Pro `masjidos-pro/v1` (donations/accounts/collections only).
+- Prayer: CSV timetable → else Aladhan → else local calc.
+- `_future/` is plans/tools only — never ship it.
+
+## Rules
+
+- Do not put Pro business logic in Free. Pro extends via existing `masjidos_*` filters.
+- Pro docs live in Pro `class-pro-docs.php`. Do not hardcode Pro shortcodes in Free `docs.js`.
+- Keep design-registry and render filters stable. Pro unlocks: prayer `premium-card|mosque-display|ramadan-special`, jumuah `premium-sermon|mosque-notice`, monthly `premium-print|mosque-board|ramadan-monthly`, announcements `digital-board|ramadan-banner`.
+- Prefix Free tables/options/caps `itmms_`. Pro tables `itmms_pro_*`, options `masjidos_pro_*`.
+- Public assets: vanilla JS/CSS, self-hosted fonts, enqueue only when needed.
+- i18n Free: `en` / `bn` / `ar`. Deactivate keeps data; Free uninstall is `uninstall.php` (Pro has none).
