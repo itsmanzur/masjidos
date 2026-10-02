@@ -12,6 +12,40 @@ defined( 'ABSPATH' ) || exit;
  */
 trait ITMMS_Public_Helpers {
 
+	/**
+	 * Locate template with theme override hierarchy support.
+	 *
+	 * Hierarchy:
+	 * 1. Child Theme: {stylesheet_dir}/masjidos/{template_name} or {stylesheet_dir}/masjidos/templates/{template_name}
+	 * 2. Parent Theme: {template_dir}/masjidos/{template_name} or {template_dir}/masjidos/templates/{template_name}
+	 * 3. Plugin Default: {plugin_dir}/public/templates/{template_name}
+	 *
+	 * @param string $template_name Relative template file name (e.g. 'prayer-times.php').
+	 * @return string Absolute file path to the template.
+	 */
+	public function get_template_path( string $template_name ): string {
+		$template_name = ltrim( $template_name, '/' );
+
+		$theme_template = locate_template( [
+			'masjidos/' . $template_name,
+			'masjidos/templates/' . $template_name,
+		] );
+
+		if ( ! empty( $theme_template ) ) {
+			$path = $theme_template;
+		} else {
+			$path = ITMMS_PLUGIN_DIR . 'public/templates/' . $template_name;
+		}
+
+		/**
+		 * Filter the resolved template path.
+		 *
+		 * @param string $path          Resolved absolute path.
+		 * @param string $template_name Relative template name requested.
+		 */
+		return (string) apply_filters( 'masjidos_template_path', $path, $template_name );
+	}
+
 	private function normalize_language( string $language ): string {
 		$language = strtolower( sanitize_key( $language ) );
 		$aliases = [
@@ -606,7 +640,7 @@ trait ITMMS_Public_Helpers {
 	 * @param string $html Raw HTML content.
 	 * @return string Sanitized HTML content.
 	 */
-	private function safe_kses( string $html ): string {
+	public function safe_kses( string $html ): string {
 		$allowed = wp_kses_allowed_html( 'post' );
 
 		$allowed['select'] = [

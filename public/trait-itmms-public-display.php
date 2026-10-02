@@ -40,7 +40,7 @@ trait ITMMS_Public_Display {
 			nocache_headers();
 
 			$settings = ITMMS_Settings::get_all();
-			$template_path = ITMMS_PLUGIN_DIR . 'public/templates/tv-display.php';
+			$template_path = $this->get_template_path( 'tv-display.php' );
 			if ( file_exists( $template_path ) ) {
 				include $template_path;
 				exit;

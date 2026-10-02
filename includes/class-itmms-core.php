@@ -50,6 +50,7 @@ final class ITMMS_Core {
 		ITMMS_Ask_Imam::get_instance()->init();
 		ITMMS_Education::init();
 		ITMMS_Public::get_instance()->init();
+		ITMMS_Elementor::get_instance()->init();
 		( new ITMMS_REST() )->init();
 	}
 }

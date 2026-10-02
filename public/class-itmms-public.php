@@ -154,7 +154,7 @@ final class ITMMS_Public {
 		}
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/prayer-times.php';
+		$template_path = $this->get_template_path( 'prayer-times.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -259,7 +259,7 @@ final class ITMMS_Public {
 		}
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/monthly-prayer-times.php';
+		$template_path = $this->get_template_path( 'monthly-prayer-times.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -361,7 +361,7 @@ final class ITMMS_Public {
 		$today = $now->format( 'Y-m-d' );
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/islamic-calendar.php';
+		$template_path = $this->get_template_path( 'islamic-calendar.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -433,7 +433,7 @@ final class ITMMS_Public {
 		}
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/duas-azkar.php';
+		$template_path = $this->get_template_path( 'duas-azkar.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -500,7 +500,7 @@ final class ITMMS_Public {
 
 		$location = implode( ', ', array_filter( [ $settings['city'] ?? '', $settings['country'] ?? '' ] ) );
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/announcements.php';
+		$template_path = $this->get_template_path( 'announcements.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -558,7 +558,7 @@ final class ITMMS_Public {
 
 		$location = implode( ', ', array_filter( [ $settings['city'] ?? '', $settings['country'] ?? '' ] ) );
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/events.php';
+		$template_path = $this->get_template_path( 'events.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -645,7 +645,7 @@ final class ITMMS_Public {
 		$meta_lite = $has_meta && ! $has_khatib_profile;
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/jumuah.php';
+		$template_path = $this->get_template_path( 'jumuah.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -693,7 +693,7 @@ final class ITMMS_Public {
 		$categories = ITMMS_Khutbah::categories();
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/khutbah-archive.php';
+		$template_path = $this->get_template_path( 'khutbah-archive.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -729,7 +729,7 @@ final class ITMMS_Public {
 		$entry = ITMMS_Minbar::this_week();
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/khatib-this-week.php';
+		$template_path = $this->get_template_path( 'khatib-this-week.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -783,7 +783,7 @@ final class ITMMS_Public {
 		}
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/upcoming-khutbah.php';
+		$template_path = $this->get_template_path( 'upcoming-khutbah.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -821,7 +821,7 @@ final class ITMMS_Public {
 		$khutbahs = '' !== $search ? ITMMS_Khutbah::query( $limit, $search, '', '', true ) : [];
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/khutbah-search.php';
+		$template_path = $this->get_template_path( 'khutbah-search.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -875,7 +875,7 @@ final class ITMMS_Public {
 		}
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/quran-verse.php';
+		$template_path = $this->get_template_path( 'quran-verse.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -927,7 +927,7 @@ final class ITMMS_Public {
 		}
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/hadith.php';
+		$template_path = $this->get_template_path( 'hadith.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -979,7 +979,7 @@ final class ITMMS_Public {
 		}
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/allah-names.php';
+		$template_path = $this->get_template_path( 'allah-names.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -1029,7 +1029,7 @@ final class ITMMS_Public {
 		}
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/audio-quran.php';
+		$template_path = $this->get_template_path( 'audio-quran.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}
@@ -1082,7 +1082,7 @@ final class ITMMS_Public {
 		}
 
 		ob_start();
-		$template_path = ITMMS_PLUGIN_DIR . 'public/templates/articles.php';
+		$template_path = $this->get_template_path( 'articles.php' );
 		if ( file_exists( $template_path ) ) {
 			include $template_path;
 		}

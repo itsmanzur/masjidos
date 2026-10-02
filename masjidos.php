@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MasjidOS
  * Description: Prayer times, Jumuah & Minbar, TV display, Duas, Quran, Hadith, articles, events, and notices for mosques.
- * Version:     1.3.0
+ * Version:     1.4.0
  * Author:      MasjidOS Team
  * Author URI:  https://profiles.wordpress.org/itsmanzur/
  * License:     GPL-2.0-or-later
@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ITMMS_VERSION', '1.3.0' );
+define( 'ITMMS_VERSION', '1.4.0' );
 define( 'ITMMS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ITMMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'ITMMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -50,6 +50,7 @@ require_once ITMMS_PLUGIN_DIR . 'includes/rest/trait-itmms-rest-widgets.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/rest/trait-itmms-rest-content.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/rest/trait-itmms-rest-minbar.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-rest.php';
+require_once ITMMS_PLUGIN_DIR . 'includes/elementor/class-itmms-elementor.php';
 require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-core.php';
 require_once ITMMS_PLUGIN_DIR . 'admin/class-itmms-admin.php';
 require_once ITMMS_PLUGIN_DIR . 'public/trait-itmms-public-helpers.php';

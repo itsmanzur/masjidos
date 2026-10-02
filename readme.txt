@@ -3,7 +3,7 @@ Contributors: itsmanzur
 Tags: prayer times, mosque, islamic calendar, duas, quran
 Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -236,6 +236,12 @@ Public widgets display only what an administrator has explicitly configured: pra
 
 == Changelog ==
 
+= 1.4.0 =
+* **Native Elementor Integration** — 7 dedicated Elementor widgets (Prayer Times, Monthly Timetable, Jumuah & Khatib, Notices & News, Islamic Calendar, Ask the Imam Q&A, and Islamic Learning) with full styling and layout controls.
+* **Theme Template Override System** — WooCommerce-style template hierarchy allowing theme developers to override public widget templates via `your-theme/masjidos/`.
+* Complete output escaping with `wp_kses_post` across all page builder widget renderers.
+* Updated Bangla translation pack with new Elementor widget control strings.
+
 = 1.3.0 =
 * Public widget polish — Prayer Times, Monthly Timetable, TV Display, Islamic Calendar, and Minbar/Khutbah surfaces (upcoming, this week’s khatib, archive, search).
 * Bangla/Arabic labels, digits, and empty states aligned across public widgets.
@@ -269,6 +275,9 @@ Public widgets display only what an administrator has explicitly configured: pra
 * Features page with live shortcode previews and Docs with shortcode generators.
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+Adds 7 native Elementor widgets and WooCommerce-style theme template override support for mosque developers. Recommended update.
 
 = 1.3.0 =
 Public widget polish (TV, calendar, khutbah surfaces), Plugin Check compliance fixes, and Bangla pack updates. Recommended for all sites.

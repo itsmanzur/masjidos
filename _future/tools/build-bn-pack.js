@@ -43,7 +43,7 @@ function poQuote( value ) {
 
 function metadata() {
 	return [
-		'Project-Id-Version: MasjidOS 1.3.0',
+		'Project-Id-Version: MasjidOS 1.4.0',
 		'Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/masjidos/',
 		'Language: bn_BD',
 		'Language-Team: Bengali',
