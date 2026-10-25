@@ -58,6 +58,8 @@ require_once ITMMS_PLUGIN_DIR . 'public/trait-itmms-public-designs.php';
 require_once ITMMS_PLUGIN_DIR . 'public/trait-itmms-public-blocks.php';
 require_once ITMMS_PLUGIN_DIR . 'public/trait-itmms-public-display.php';
 require_once ITMMS_PLUGIN_DIR . 'public/class-itmms-public.php';
+require_once ITMMS_PLUGIN_DIR . 'includes/class-itmms-review-notice.php';
+ITMMS_Review_Notice::init();
 
 register_activation_hook( __FILE__, [ 'ITMMS_Installer', 'activate' ] );
 register_deactivation_hook( __FILE__, [ 'ITMMS_Installer', 'deactivate' ] );

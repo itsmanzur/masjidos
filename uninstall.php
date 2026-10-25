@@ -19,6 +19,8 @@ function itmms_uninstall_site(): void {
 	delete_option( 'itmms_minbar_bookmarks' );
 	delete_option( 'itmms_db_version' );
 	delete_option( 'itmms_show_welcome' );
+	delete_option( 'itmms_installed_at' );
+	delete_option( 'itmms_review_notice' );
 
 	$tables = [
 		$wpdb->prefix . 'itmms_announcements',

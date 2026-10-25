@@ -203,6 +203,22 @@ It must be published; start time must have arrived; end time must be empty or st
 
 Yes. Search for "MasjidOS" in the block editor to find the Prayer Times block, Islamic Calendar block, and other registered MasjidOS blocks.
 
+= Can I show prayer times on a mosque TV or lobby screen with WordPress? =
+
+Yes. MasjidOS has a fullscreen board at `/masjidos-display/` with live prayer times, a next-prayer countdown, the Hijri date, notices and your mosque branding. Open that URL in the browser of a smart TV or a small PC connected to a screen and leave it running. Theme, layout, font size and logo are set under Settings → TV Display, and the board uses self-hosted fonts.
+
+= Which prayer time calculation methods does MasjidOS support? =
+
+It calculates times on your own server and includes major methods such as Karachi, ISNA, MWL, Egypt, Makkah, Tehran, Kuwait, Qatar and Singapore, with a Hanafi or standard Asr choice. Pick the method your local authority follows, then use the per-prayer minute adjustments to match your printed timetable.
+
+= Does MasjidOS show iqamah (jamaat) times and a printable monthly timetable? =
+
+Yes. You can set iqamah times, and the monthly timetable has navigation and a print-friendly view. Place the `[masjidos_monthly_prayer_times]` shortcode on a timetable page.
+
+= Does MasjidOS work for mosques in Bangladesh? =
+
+Yes. Admin screens and public widgets are available in Bangla, English and Arabic, and the timezone setting accepts your real city timezone, for example Asia/Dhaka. Please confirm your prayer times with your local religious authority before publishing.
+
 = Is there a free / Pro difference? =
 
 The free plugin includes the full mosque toolkit described here. Some design presets are documented as Pro placeholders and render only when a Pro add-on is active. All free designs always work from this plugin alone.
