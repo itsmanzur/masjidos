@@ -1,5 +1,5 @@
 === MasjidOS — Mosque Management Plugin for WordPress ===
-Contributors: itsmanzur
+Contributors: itsmanzur, readscope
 Tags: prayer times, mosque, islamic calendar, duas, quran
 Requires at least: 6.2
 Tested up to: 7.0

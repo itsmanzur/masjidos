@@ -3,8 +3,8 @@
  * Plugin Name: MasjidOS
  * Description: Prayer times, Jumuah & Minbar, TV display, Duas, Quran, Hadith, articles, events, and notices for mosques.
  * Version:     1.4.0
- * Author:      MasjidOS Team
- * Author URI:  https://profiles.wordpress.org/itsmanzur/
+ * Author:      The Readscope
+ * Author URI:  https://thereadscope.com
  * License:     GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: masjidos
