@@ -39,6 +39,10 @@ trait ITMMS_Public_Display {
 			// Disable browser cache to keep prayer times accurate
 			nocache_headers();
 
+			if ( ! get_option( 'itmms_tv_previewed' ) ) {
+				update_option( 'itmms_tv_previewed', 1, false );
+			}
+
 			$settings = ITMMS_Settings::get_all();
 			$template_path = $this->get_template_path( 'tv-display.php' );
 			if ( file_exists( $template_path ) ) {

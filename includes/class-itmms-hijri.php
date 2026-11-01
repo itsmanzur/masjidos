@@ -31,8 +31,13 @@ final class ITMMS_Hijri {
 
 		$label = self::format_parts( $parts, $language );
 		if ( 0 !== $adjustment ) {
-			/* translators: %s: Formatted Hijri date. */
-			$label = sprintf( __( '%s adjusted', 'masjidos' ), $label );
+			if ( 'bn' === $language ) {
+				$label = sprintf( '%s সমন্বিত', $label );
+			} elseif ( 'ar' === $language ) {
+				$label = sprintf( '%s معدّل', $label );
+			} else {
+				$label = sprintf( '%s adjusted', $label );
+			}
 		}
 
 		return [
@@ -107,29 +112,37 @@ final class ITMMS_Hijri {
 	 * @param array{year:int,month:int,day:int} $parts Hijri parts.
 	 */
 	private static function format_parts( array $parts, string $language ): string {
+		$era = 'AH';
+		if ( 'bn' === $language ) {
+			$era = 'হিজরি';
+		} elseif ( 'ar' === $language ) {
+			$era = 'هـ';
+		}
+
 		return sprintf(
-			'%1$s %2$s %3$s AH',
+			'%1$s %2$s %3$s %4$s',
 			self::number( (string) $parts['day'], $language ),
 			self::month_name( $parts['month'], $language ),
-			self::number( (string) $parts['year'], $language )
+			self::number( (string) $parts['year'], $language ),
+			$era
 		);
 	}
 
 	private static function month_name( int $month, string $language ): string {
 		$months = [
 			'en' => [
-				1  => __( 'Muharram', 'masjidos' ),
-				2  => __( 'Safar', 'masjidos' ),
-				3  => __( 'Rabi al-awwal', 'masjidos' ),
-				4  => __( 'Rabi al-thani', 'masjidos' ),
-				5  => __( 'Jumada al-awwal', 'masjidos' ),
-				6  => __( 'Jumada al-thani', 'masjidos' ),
-				7  => __( 'Rajab', 'masjidos' ),
-				8  => __( 'Shaban', 'masjidos' ),
-				9  => __( 'Ramadan', 'masjidos' ),
-				10 => __( 'Shawwal', 'masjidos' ),
-				11 => __( 'Dhu al-Qadah', 'masjidos' ),
-				12 => __( 'Dhu al-Hijjah', 'masjidos' ),
+				1  => 'Muharram',
+				2  => 'Safar',
+				3  => 'Rabi al-awwal',
+				4  => 'Rabi al-thani',
+				5  => 'Jumada al-awwal',
+				6  => 'Jumada al-thani',
+				7  => 'Rajab',
+				8  => 'Shaban',
+				9  => 'Ramadan',
+				10 => 'Shawwal',
+				11 => 'Dhu al-Qadah',
+				12 => 'Dhu al-Hijjah',
 			],
 			'bn' => [
 				1  => 'মুহাররম',

@@ -12,9 +12,10 @@
 }
 
 :root {
-	--tv-font-sans: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	--tv-font-arabic: 'Cairo', sans-serif;
-	--tv-font-bengali: 'Noto Sans Bengali', sans-serif;
+	--tv-font-sans: 'Plus Jakarta Sans', 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--tv-font-arabic: 'Readex Pro', 'Cairo', sans-serif;
+	--tv-font-quran: 'Amiri', 'Cairo', serif;
+	--tv-font-bengali: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
 }
 
 /* Theme: Dark Mode (Default) */

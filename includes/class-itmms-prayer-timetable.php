@@ -583,10 +583,173 @@ final class ITMMS_Prayer_Timetable {
 		return self::parse_time( $display );
 	}
 
-	private static function escape_csv_cell( string $value ): string {
-		if ( false !== strpos( $value, ',' ) || false !== strpos( $value, '"' ) || false !== strpos( $value, "\n" ) ) {
-			return '"' . str_replace( '"', '""', $value ) . '"';
+	/**
+	 * Save or update prayer times for a single date.
+	 *
+	 * @param string               $date Date string (YYYY-MM-DD).
+	 * @param array<string,string> $azan Azan times keyed by prayer.
+	 * @param array<string,string> $iqamah Iqamah times keyed by prayer.
+	 * @return array<string,mixed>
+	 */
+	public static function set_day( string $date, array $azan, array $iqamah = [] ): array {
+		$date = self::normalize_date_key( $date );
+		if ( '' === $date ) {
+			return [
+				'success' => false,
+				'error'   => __( 'Invalid date. Use YYYY-MM-DD format.', 'masjidos' ),
+			];
 		}
-		return $value;
+
+		$clean_azan = [];
+		foreach ( self::PRAYER_KEYS as $key ) {
+			$raw = (string) ( $azan[ $key ] ?? '' );
+			$parsed = self::parse_time( $raw );
+			if ( '' === $parsed ) {
+				return [
+					'success' => false,
+					'error'   => sprintf(
+						/* translators: %s: prayer name. */
+						__( 'Invalid time for %s.', 'masjidos' ),
+						ucfirst( $key )
+					),
+				];
+			}
+			$clean_azan[ $key ] = $parsed;
+		}
+
+		$clean_iqamah = [];
+		foreach ( self::IQAMAH_KEYS as $key ) {
+			$raw = (string) ( $iqamah[ $key ] ?? '' );
+			$clean_iqamah[ $key ] = '' !== $raw ? self::parse_time( $raw ) : '';
+		}
+
+		$store = self::get_store();
+		$store['days'][ $date ] = [
+			'azan'   => $clean_azan,
+			'iqamah' => $clean_iqamah,
+		];
+		$store['updated_at'] = gmdate( 'c' );
+		update_option( self::OPTION_KEY, $store, false );
+		ITMMS_Prayer_Times::flush_cache();
+
+		return [
+			'success' => true,
+			'date'    => $date,
+			'day'     => $store['days'][ $date ],
+			'summary' => self::summary(),
+		];
+	}
+
+	/**
+	 * Remove custom timetable override for a single date.
+	 *
+	 * @param string $date Date string (YYYY-MM-DD).
+	 * @return array<string,mixed>
+	 */
+	public static function delete_day( string $date ): array {
+		$date = self::normalize_date_key( $date );
+		if ( '' === $date ) {
+			return [
+				'success' => false,
+				'error'   => __( 'Invalid date.', 'masjidos' ),
+			];
+		}
+
+		$store = self::get_store();
+		if ( isset( $store['days'][ $date ] ) ) {
+			unset( $store['days'][ $date ] );
+			$store['updated_at'] = gmdate( 'c' );
+			update_option( self::OPTION_KEY, $store, false );
+			ITMMS_Prayer_Times::flush_cache();
+		}
+
+		return [
+			'success' => true,
+			'date'    => $date,
+			'summary' => self::summary(),
+		];
+	}
+
+	/**
+	 * Get all days for a calendar month grid with override status.
+	 *
+	 * @param int                      $year Gregorian year.
+	 * @param int                      $month Gregorian month.
+	 * @param array<string,mixed>|null $settings Optional settings array.
+	 * @return array<string,mixed>
+	 */
+	public static function get_month_grid( int $year, int $month, ?array $settings = null ): array {
+		$settings = $settings ?? ITMMS_Settings::get_all();
+		try {
+			$tz_str   = (string) ( $settings['timezone'] ?? '' );
+			$timezone = new DateTimeZone( $tz_str ?: wp_timezone_string() );
+		} catch ( Exception $e ) {
+			$timezone = wp_timezone();
+		}
+		$year     = max( 1970, min( 2099, $year ) );
+		$month    = max( 1, min( 12, $month ) );
+
+		$start      = new DateTimeImmutable( sprintf( '%04d-%02d-01 00:00:00', $year, $month ), $timezone );
+		$total_days = (int) $start->format( 't' );
+		$store      = self::get_store();
+		$today      = ( new DateTimeImmutable( 'now', $timezone ) )->format( 'Y-m-d' );
+
+		$grid_days        = [];
+		$overridden_count = 0;
+
+		for ( $d = 1; $d <= $total_days; $d++ ) {
+			$dt       = $start->setDate( $year, $month, $d );
+			$date_str = $dt->format( 'Y-m-d' );
+			$is_today = ( $date_str === $today );
+			$weekday  = (int) $dt->format( 'w' );
+
+			$stored_row = $store['days'][ $date_str ] ?? null;
+			if ( is_array( $stored_row ) ) {
+				$source = 'override';
+				$overridden_count++;
+				$azan   = (array) ( $stored_row['azan'] ?? [] );
+				$iqamah = (array) ( $stored_row['iqamah'] ?? [] );
+			} else {
+				$source  = 'calculated';
+				$calc    = ITMMS_Prayer_Times::for_date( $dt, $settings, false );
+				$indexed = [];
+				foreach ( (array) ( $calc['prayers'] ?? [] ) as $prayer ) {
+					if ( ! empty( $prayer['key'] ) ) {
+						$indexed[ (string) $prayer['key'] ] = $prayer;
+					}
+				}
+				$azan = [];
+				foreach ( self::PRAYER_KEYS as $k ) {
+					$azan[ $k ] = self::display_time_to_24h( (string) ( $indexed[ $k ]['time'] ?? '' ) );
+				}
+				$iqamah = [];
+				foreach ( self::IQAMAH_KEYS as $k ) {
+					$iqamah[ $k ] = self::display_time_to_24h( (string) ( $indexed[ $k ]['iqamah'] ?? '' ) );
+				}
+			}
+
+			$grid_days[] = [
+				'date'      => $date_str,
+				'day'       => $d,
+				'weekday'   => $dt->format( 'D' ),
+				'day_name'  => $dt->format( 'l' ),
+				'is_today'  => $is_today,
+				'is_friday' => ( 5 === $weekday ),
+				'source'    => $source,
+				'azan'      => $azan,
+				'iqamah'    => $iqamah,
+			];
+		}
+
+		return [
+			'year'             => $year,
+			'month'            => $month,
+			'month_label'      => $start->format( 'F' ),
+			'days'             => $grid_days,
+			'total_days'       => $total_days,
+			'overridden_count' => $overridden_count,
+			'summary'          => self::summary(),
+		];
 	}
 }
+

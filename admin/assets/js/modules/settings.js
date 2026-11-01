@@ -474,8 +474,47 @@
 			( yearsNote ? '<div class="itmms-timetable-summary__years"><strong>' + esc( __( 'By year', 'masjidos' ) ) + '</strong><span data-timetable-years>' + esc( yearsNote ) + '</span></div>' : '' ) +
 		'</div>' +
 		largeWarn +
+		'<div class="itmms-timetable-browser itmms-field-wide">' +
+			'<div class="itmms-timetable-browser__header">' +
+				'<div>' +
+					'<h3 class="itmms-timetable-browser__title">' + esc( __( 'Monthly Schedule & Manual Day Editor', 'masjidos' ) ) + '</h3>' +
+					'<p class="itmms-timetable-browser__desc">' + esc( __( 'View calculated prayer times and apply manual day overrides when your local committee sets custom times.', 'masjidos' ) ) + '</p>' +
+				'</div>' +
+				'<div class="itmms-timetable-browser__controls">' +
+					'<select class="itmms-select" data-timetable-grid-year aria-label="' + esc( __( 'Select Year', 'masjidos' ) ) + '">' +
+						yearOptions.map( function ( opt ) {
+							return '<option value="' + esc( opt[0] ) + '"' + ( opt[0] === selectedYear ? ' selected' : '' ) + '>' + esc( opt[1] ) + '</option>';
+						} ).join( '' ) +
+					'</select>' +
+					'<select class="itmms-select" data-timetable-grid-month aria-label="' + esc( __( 'Select Month', 'masjidos' ) ) + '">' +
+						[
+							[ '1', __( 'January', 'masjidos' ) ],
+							[ '2', __( 'February', 'masjidos' ) ],
+							[ '3', __( 'March', 'masjidos' ) ],
+							[ '4', __( 'April', 'masjidos' ) ],
+							[ '5', __( 'May', 'masjidos' ) ],
+							[ '6', __( 'June', 'masjidos' ) ],
+							[ '7', __( 'July', 'masjidos' ) ],
+							[ '8', __( 'August', 'masjidos' ) ],
+							[ '9', __( 'September', 'masjidos' ) ],
+							[ '10', __( 'October', 'masjidos' ) ],
+							[ '11', __( 'November', 'masjidos' ) ],
+							[ '12', __( 'December', 'masjidos' ) ]
+						].map( function ( m ) {
+							var curMonth = String( new Date().getMonth() + 1 );
+							return '<option value="' + m[0] + '"' + ( m[0] === curMonth ? ' selected' : '' ) + '>' + esc( m[1] ) + '</option>';
+						} ).join( '' ) +
+					'</select>' +
+					'<button type="button" class="itmms-btn itmms-btn-ghost itmms-btn-sm" data-timetable-grid-refresh>' + esc( __( 'Refresh Grid', 'masjidos' ) ) + '</button>' +
+				'</div>' +
+			'</div>' +
+			'<div class="itmms-timetable-grid-status" data-timetable-grid-status></div>' +
+			'<div class="itmms-timetable-grid-container" data-timetable-grid-container>' +
+				'<p class="itmms-timetable-grid-loading">' + esc( __( 'Loading prayer schedule...', 'masjidos' ) ) + '</p>' +
+			'</div>' +
+		'</div>' +
 		'<div class="itmms-field itmms-field-wide">' +
-			'<span>' + esc( __( 'CSV File', 'masjidos' ) ) + '</span>' +
+			'<span>' + esc( __( 'Bulk CSV Import & Export', 'masjidos' ) ) + '</span>' +
 			'<input type="file" accept=".csv,text/csv" data-timetable-file>' +
 			'<small>' + esc( __( 'Columns: date, fajr, sunrise, dhuhr, asr, maghrib, isha, and optional *_iqamah columns. Max ~2 MB / one year.', 'masjidos' ) ) + '</small>' +
 		'</div>' +
@@ -776,6 +815,7 @@
 					setStatus( __( 'Imported timetable cleared.', 'masjidos' ), false );
 					return refreshDashboard();
 				} ).then( function () {
+					loadGrid();
 					if ( typeof window.itmms.render === 'function' ) {
 						window.itmms.render();
 					}
@@ -784,6 +824,314 @@
 				} );
 			} );
 		}
+
+		/* --- Visual Month Grid & Manual Day Editor --- */
+		var gridContainer = root.querySelector( '[data-timetable-grid-container]' );
+		var gridYearSelect = root.querySelector( '[data-timetable-grid-year]' );
+		var gridMonthSelect = root.querySelector( '[data-timetable-grid-month]' );
+		var gridRefreshBtn = root.querySelector( '[data-timetable-grid-refresh]' );
+		var gridStatus = root.querySelector( '[data-timetable-grid-status]' );
+
+		function setGridStatus( msg, isError ) {
+			if ( ! gridStatus ) {
+				return;
+			}
+			gridStatus.textContent = msg || '';
+			gridStatus.className = 'itmms-timetable-grid-status' + ( isError ? ' is-error' : ( msg ? ' is-active' : '' ) );
+		}
+
+		function formatTimeDisplay( val ) {
+			if ( ! val || val === '—' ) {
+				return '—';
+			}
+			return esc( val );
+		}
+
+		function renderGrid( data ) {
+			if ( ! gridContainer ) {
+				return;
+			}
+			if ( ! data || ! data.days || ! data.days.length ) {
+				gridContainer.innerHTML = '<p class="itmms-timetable-grid-empty">' + esc( __( 'No timetable entries found for this month.', 'masjidos' ) ) + '</p>';
+				return;
+			}
+
+			var prayers = [
+				{ key: 'fajr', label: __( 'Fajr', 'masjidos' ) },
+				{ key: 'sunrise', label: __( 'Sunrise', 'masjidos' ) },
+				{ key: 'dhuhr', label: __( 'Dhuhr', 'masjidos' ) },
+				{ key: 'asr', label: __( 'Asr', 'masjidos' ) },
+				{ key: 'maghrib', label: __( 'Maghrib', 'masjidos' ) },
+				{ key: 'isha', label: __( 'Isha', 'masjidos' ) }
+			];
+
+			var html = '<div class="itmms-timetable-grid-scroll">' +
+				'<table class="itmms-timetable-table">' +
+					'<thead>' +
+						'<tr>' +
+							'<th class="itmms-col-date">' + esc( __( 'Date / Day', 'masjidos' ) ) + '</th>';
+
+			prayers.forEach( function ( p ) {
+				html += '<th>' +
+					'<div class="itmms-th-prayer">' +
+						'<span>' + esc( p.label ) + '</span>' +
+						'<small class="itmms-th-sub">' + ( p.key === 'sunrise' ? esc( __( 'Time', 'masjidos' ) ) : esc( __( 'Azan / Iqamah', 'masjidos' ) ) ) + '</small>' +
+					'</div>' +
+				'</th>';
+			} );
+
+			html += '<th class="itmms-col-source">' + esc( __( 'Source', 'masjidos' ) ) + '</th>' +
+				'<th class="itmms-col-actions">' + esc( __( 'Actions', 'masjidos' ) ) + '</th>' +
+			'</tr></thead><tbody>';
+
+			var todayStr = new Date().toISOString().slice( 0, 10 );
+
+			data.days.forEach( function ( day ) {
+				var isToday = day.date === todayStr;
+				var isOverride = day.source === 'override';
+				var rowCls = 'itmms-grid-row' + ( isToday ? ' itmms-grid-row--today' : '' ) + ( isOverride ? ' itmms-grid-row--override' : '' );
+
+				html += '<tr class="' + rowCls + '" data-day-date="' + esc( day.date ) + '">';
+				html += '<td class="itmms-col-date">' +
+					'<strong>' + esc( day.date ) + '</strong>' +
+					'<span class="itmms-grid-dayname">' + esc( day.day_name || '' ) + '</span>' +
+					( isToday ? '<span class="itmms-badge itmms-badge--today">' + esc( __( 'Today', 'masjidos' ) ) + '</span>' : '' ) +
+				'</td>';
+
+				prayers.forEach( function ( p ) {
+					var azanVal = day.azan ? day.azan[ p.key ] : '';
+					var iqamahVal = day.iqamah ? day.iqamah[ p.key ] : '';
+
+					html += '<td class="itmms-col-prayer" data-prayer="' + esc( p.key ) + '">';
+					if ( p.key === 'sunrise' ) {
+						html += '<div class="itmms-cell-single">' + formatTimeDisplay( azanVal ) + '</div>';
+					} else {
+						html += '<div class="itmms-cell-split">' +
+							'<span class="itmms-time-azan" title="' + esc( __( 'Azan', 'masjidos' ) ) + '">' + formatTimeDisplay( azanVal ) + '</span>' +
+							'<span class="itmms-time-iqamah" title="' + esc( __( 'Iqamah', 'masjidos' ) ) + '">' + formatTimeDisplay( iqamahVal ) + '</span>' +
+						'</div>';
+					}
+					html += '</td>';
+				} );
+
+				var badgeHtml = isOverride
+					? '<span class="itmms-badge itmms-badge--override" title="' + esc( __( 'Manual override or imported CSV', 'masjidos' ) ) + '">' + esc( __( 'Manual Override', 'masjidos' ) ) + '</span>'
+					: '<span class="itmms-badge itmms-badge--calc" title="' + esc( __( 'Calculated via astronomical engine', 'masjidos' ) ) + '">' + esc( __( 'Calculated', 'masjidos' ) ) + '</span>';
+
+				html += '<td class="itmms-col-source">' + badgeHtml + '</td>';
+				html += '<td class="itmms-col-actions">' +
+					'<div class="itmms-row-actions">' +
+						'<button type="button" class="itmms-btn itmms-btn-xs itmms-btn-ghost" data-action="edit-day" data-date="' + esc( day.date ) + '">' + esc( __( 'Edit', 'masjidos' ) ) + '</button>' +
+						( isOverride ? '<button type="button" class="itmms-btn itmms-btn-xs itmms-btn-link itmms-text-danger" data-action="revert-day" data-date="' + esc( day.date ) + '" title="' + esc( __( 'Revert to calculation engine', 'masjidos' ) ) + '">' + esc( __( 'Revert', 'masjidos' ) ) + '</button>' : '' ) +
+					'</div>' +
+				'</td>';
+				html += '</tr>';
+			} );
+
+			html += '</tbody></table></div>';
+			gridContainer.innerHTML = html;
+
+			bindGridRowActions( data );
+		}
+
+		var currentGridData = null;
+
+		function loadGrid() {
+			if ( ! gridContainer || ! gridYearSelect || ! gridMonthSelect ) {
+				return;
+			}
+			var year = gridYearSelect.value || new Date().getFullYear();
+			var month = gridMonthSelect.value || ( new Date().getMonth() + 1 );
+
+			gridContainer.innerHTML = '<p class="itmms-timetable-grid-loading">' + esc( __( 'Loading prayer schedule...', 'masjidos' ) ) + '</p>';
+			setGridStatus( '' );
+
+			api( 'prayer-times/timetable/grid?year=' + encodeURIComponent( year ) + '&month=' + encodeURIComponent( month ) )
+				.then( function ( response ) {
+					currentGridData = response;
+					renderGrid( response );
+				} )
+				.catch( function ( err ) {
+					gridContainer.innerHTML = '<p class="itmms-timetable-grid-empty itmms-text-danger">' + esc( err.message || __( 'Failed to load timetable grid.', 'masjidos' ) ) + '</p>';
+					setGridStatus( err.message || __( 'Failed to load grid.', 'masjidos' ), true );
+				} );
+		}
+
+		function bindGridRowActions( data ) {
+			if ( ! gridContainer ) {
+				return;
+			}
+
+			// Edit Day button click
+			gridContainer.querySelectorAll( '[data-action="edit-day"]' ).forEach( function ( btn ) {
+				btn.addEventListener( 'click', function () {
+					var date = btn.getAttribute( 'data-date' );
+					var dayObj = data.days.find( function ( d ) { return d.date === date; } );
+					if ( dayObj ) {
+						openDayEditorModal( dayObj );
+					}
+				} );
+			} );
+
+			// Revert Day button click
+			gridContainer.querySelectorAll( '[data-action="revert-day"]' ).forEach( function ( btn ) {
+				btn.addEventListener( 'click', function () {
+					var date = btn.getAttribute( 'data-date' );
+					if ( ! window.confirm( sprintf( __( 'Revert prayer schedule for %s back to calculated engine?', 'masjidos' ), date ) ) ) {
+						return;
+					}
+					btn.disabled = true;
+					setGridStatus( __( 'Reverting day...', 'masjidos' ) );
+
+					api( 'prayer-times/timetable/day?date=' + encodeURIComponent( date ), { method: 'DELETE' } )
+						.then( function ( res ) {
+							setGridStatus( res.message || __( 'Day reverted to calculated engine.', 'masjidos' ), false );
+							if ( res.summary ) {
+								applySummary( res.summary );
+							}
+							loadGrid();
+							refreshDashboard();
+						} )
+						.catch( function ( err ) {
+							setGridStatus( err.message || __( 'Could not revert day.', 'masjidos' ), true );
+							btn.disabled = false;
+						} );
+				} );
+			} );
+		}
+
+		function openDayEditorModal( day ) {
+			var existingModal = document.querySelector( '.itmms-day-editor-modal' );
+			if ( existingModal ) {
+				existingModal.remove();
+			}
+
+			var prayers = [
+				{ key: 'fajr', label: __( 'Fajr', 'masjidos' ) },
+				{ key: 'sunrise', label: __( 'Sunrise', 'masjidos' ) },
+				{ key: 'dhuhr', label: __( 'Dhuhr', 'masjidos' ) },
+				{ key: 'asr', label: __( 'Asr', 'masjidos' ) },
+				{ key: 'maghrib', label: __( 'Maghrib', 'masjidos' ) },
+				{ key: 'isha', label: __( 'Isha', 'masjidos' ) }
+			];
+
+			var azan = day.azan || {};
+			var iqamah = day.iqamah || {};
+
+			var modal = document.createElement( 'div' );
+			modal.className = 'itmms-day-editor-modal';
+			modal.innerHTML = '<div class="itmms-day-editor-dialog">' +
+				'<div class="itmms-day-editor-header">' +
+					'<div>' +
+						'<h3>' + esc( sprintf( __( 'Edit Prayer Times: %1$s (%2$s)', 'masjidos' ), day.date, day.day_name || '' ) ) + '</h3>' +
+						'<p>' + esc( __( 'Override Azan and Iqamah times for this day. Leave Iqamah empty if automatic rule should apply.', 'masjidos' ) ) + '</p>' +
+					'</div>' +
+					'<button type="button" class="itmms-day-editor-close" data-close-editor aria-label="' + esc( __( 'Close', 'masjidos' ) ) + '">&times;</button>' +
+				'</div>' +
+				'<form class="itmms-day-editor-form" data-day-form>' +
+					'<div class="itmms-day-editor-grid">' +
+						prayers.map( function ( p ) {
+							var aVal = azan[ p.key ] || '';
+							var iVal = iqamah[ p.key ] || '';
+							return '<div class="itmms-day-editor-card">' +
+								'<h4>' + esc( p.label ) + '</h4>' +
+								'<div class="itmms-form-group">' +
+									'<label>' + ( p.key === 'sunrise' ? esc( __( 'Sunrise Time', 'masjidos' ) ) : esc( __( 'Azan Time', 'masjidos' ) ) ) + '</label>' +
+									'<input type="text" class="itmms-input" name="azan_' + p.key + '" value="' + esc( aVal ) + '" placeholder="HH:MM" pattern="^(0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$" required>' +
+								'</div>' +
+								( p.key !== 'sunrise' ? (
+									'<div class="itmms-form-group">' +
+										'<label>' + esc( __( 'Iqamah Time (Optional)', 'masjidos' ) ) + '</label>' +
+										'<input type="text" class="itmms-input" name="iqamah_' + p.key + '" value="' + esc( iVal ) + '" placeholder="HH:MM" pattern="^(0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$">' +
+									'</div>'
+								) : '' ) +
+							'</div>';
+						} ).join( '' ) +
+					'</div>' +
+					'<div class="itmms-day-editor-footer">' +
+						'<span class="itmms-day-editor-status" data-editor-status></span>' +
+						'<div class="itmms-day-editor-actions">' +
+							'<button type="button" class="itmms-btn itmms-btn-ghost" data-close-editor>' + esc( __( 'Cancel', 'masjidos' ) ) + '</button>' +
+							'<button type="submit" class="itmms-btn itmms-btn-primary" data-save-day>' + esc( __( 'Save Override', 'masjidos' ) ) + '</button>' +
+						'</div>' +
+					'</div>' +
+				'</form>' +
+			'</div>';
+
+			document.body.appendChild( modal );
+
+			function closeModal() {
+				modal.remove();
+			}
+
+			modal.querySelectorAll( '[data-close-editor]' ).forEach( function ( b ) {
+				b.addEventListener( 'click', closeModal );
+			} );
+
+			var form = modal.querySelector( '[data-day-form]' );
+			var editorStatus = modal.querySelector( '[data-editor-status]' );
+			var saveBtn = modal.querySelector( '[data-save-day]' );
+
+			form.addEventListener( 'submit', function ( ev ) {
+				ev.preventDefault();
+				saveBtn.disabled = true;
+				editorStatus.textContent = __( 'Saving override...', 'masjidos' );
+				editorStatus.className = 'itmms-day-editor-status';
+
+				var newAzan = {};
+				var newIqamah = {};
+
+				prayers.forEach( function ( p ) {
+					var aInput = form.querySelector( '[name="azan_' + p.key + '"]' );
+					if ( aInput && aInput.value ) {
+						newAzan[ p.key ] = aInput.value.trim();
+					}
+					if ( p.key !== 'sunrise' ) {
+						var iInput = form.querySelector( '[name="iqamah_' + p.key + '"]' );
+						if ( iInput && iInput.value ) {
+							newIqamah[ p.key ] = iInput.value.trim();
+						}
+					}
+				} );
+
+				api( 'prayer-times/timetable/day', {
+					method: 'POST',
+					body: JSON.stringify( {
+						date: day.date,
+						azan: newAzan,
+						iqamah: newIqamah
+					} )
+				} ).then( function ( res ) {
+					editorStatus.textContent = res.message || __( 'Saved successfully!', 'masjidos' );
+					editorStatus.className = 'itmms-day-editor-status itmms-text-success';
+					if ( res.summary ) {
+						applySummary( res.summary );
+					}
+					setTimeout( function () {
+						closeModal();
+						loadGrid();
+						refreshDashboard();
+					}, 400 );
+				} ).catch( function ( err ) {
+					editorStatus.textContent = err.message || __( 'Failed to save override.', 'masjidos' );
+					editorStatus.className = 'itmms-day-editor-status itmms-text-danger';
+					saveBtn.disabled = false;
+				} );
+			} );
+		}
+
+		if ( gridYearSelect ) {
+			gridYearSelect.addEventListener( 'change', loadGrid );
+		}
+		if ( gridMonthSelect ) {
+			gridMonthSelect.addEventListener( 'change', loadGrid );
+		}
+		if ( gridRefreshBtn ) {
+			gridRefreshBtn.addEventListener( 'click', loadGrid );
+		}
+
+		// Initial grid load
+		loadGrid();
 	}
 
 	function settingsHtml() {

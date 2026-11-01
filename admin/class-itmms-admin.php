@@ -35,6 +35,7 @@ final class ITMMS_Admin {
 
 		add_action( 'admin_menu', [ $this, 'register_menu' ] );
 		add_action( 'admin_menu', [ $this, 'reorder_submenu' ], 999 );
+		add_action( 'wp_dashboard_setup', [ $this, 'register_wp_dashboard_widget' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'maybe_switch_ui_locale' ], 1 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		add_filter( 'admin_body_class', [ $this, 'add_fullscreen_class' ] );
@@ -197,21 +198,21 @@ final class ITMMS_Admin {
 			'itmms-fonts',
 			ITMMS_PLUGIN_URL . 'public/assets/css/tv-fonts.css',
 			[],
-			ITMMS_VERSION
+			ITMMS_VERSION . '.' . (string) @filemtime( ITMMS_PLUGIN_DIR . 'public/assets/css/tv-fonts.css' )
 		);
 
 		wp_enqueue_style(
 			'itmms-admin',
 			ITMMS_PLUGIN_URL . 'admin/assets/css/admin.css',
 			[ 'itmms-fonts' ],
-			ITMMS_VERSION
+			ITMMS_VERSION . '.' . (string) @filemtime( ITMMS_PLUGIN_DIR . 'admin/assets/css/admin.css' )
 		);
 
 		wp_enqueue_style(
 			'itmms-public',
 			ITMMS_PLUGIN_URL . 'public/assets/css/public.css',
 			[ 'itmms-fonts' ],
-			ITMMS_VERSION
+			ITMMS_VERSION . '.' . (string) @filemtime( ITMMS_PLUGIN_DIR . 'public/assets/css/public.css' )
 		);
 
 		wp_register_script(
@@ -226,7 +227,7 @@ final class ITMMS_Admin {
 			'itmms-admin-dashboard',
 			ITMMS_PLUGIN_URL . 'admin/assets/js/modules/dashboard.js',
 			[ 'itmms-admin-shared' ],
-			ITMMS_VERSION,
+			ITMMS_VERSION . '.' . (string) @filemtime( ITMMS_PLUGIN_DIR . 'admin/assets/js/modules/dashboard.js' ),
 			true
 		);
 
@@ -234,7 +235,7 @@ final class ITMMS_Admin {
 			'itmms-admin-settings',
 			ITMMS_PLUGIN_URL . 'admin/assets/js/modules/settings.js',
 			[ 'itmms-admin-shared' ],
-			ITMMS_VERSION,
+			ITMMS_VERSION . '.' . (string) @filemtime( ITMMS_PLUGIN_DIR . 'admin/assets/js/modules/settings.js' ),
 			true
 		);
 
@@ -250,7 +251,7 @@ final class ITMMS_Admin {
 			'itmms-admin-welcome',
 			ITMMS_PLUGIN_URL . 'admin/assets/js/modules/welcome.js',
 			[ 'itmms-admin-shared', 'itmms-admin-dashboard' ],
-			ITMMS_VERSION,
+			ITMMS_VERSION . '.' . (string) @filemtime( ITMMS_PLUGIN_DIR . 'admin/assets/js/modules/welcome.js' ),
 			true
 		);
 
@@ -290,7 +291,7 @@ final class ITMMS_Admin {
 			'itmms-admin-features',
 			ITMMS_PLUGIN_URL . 'admin/assets/js/modules/features.js',
 			[ 'itmms-admin-shared' ],
-			ITMMS_VERSION,
+			ITMMS_VERSION . '.' . (string) @filemtime( ITMMS_PLUGIN_DIR . 'admin/assets/js/modules/features.js' ),
 			true
 		);
 
@@ -327,14 +328,8 @@ final class ITMMS_Admin {
 			'itmms-admin',
 			ITMMS_PLUGIN_URL . 'admin/assets/js/app.js',
 			$admin_deps,
-			ITMMS_VERSION,
+			ITMMS_VERSION . '.' . (string) @filemtime( ITMMS_PLUGIN_DIR . 'admin/assets/js/app.js' ),
 			true
-		);
-
-		wp_set_script_translations(
-			'itmms-admin',
-			'masjidos',
-			ITMMS_PLUGIN_DIR . 'languages'
 		);
 
 		$this->inject_ui_script_translations( 'itmms-admin' );
@@ -369,6 +364,7 @@ final class ITMMS_Admin {
 				'settings'     => ITMMS_Settings::get_all(),
 				'modules'      => ITMMS_Settings::module_definitions(),
 				'timetable'    => ITMMS_Prayer_Timetable::summary(),
+				'onboarding'   => ITMMS_REST::get_onboarding_status(),
 				'showWelcome'  => (int) get_option( 'itmms_show_welcome', 0 ) === 1,
 				'user'         => [
 					'id'   => get_current_user_id(),
@@ -390,6 +386,11 @@ final class ITMMS_Admin {
 	private function inject_ui_script_translations( string $handle ): void {
 		$locale = ITMMS_Settings::ui_locale();
 		if ( in_array( $locale, [ 'en_US', 'en' ], true ) ) {
+			wp_add_inline_script(
+				'wp-i18n',
+				'if ( window.wp && window.wp.i18n && window.wp.i18n.setLocaleData ) { window.wp.i18n.setLocaleData( { "": { domain: "messages", lang: "en_US", "plural-forms": "nplurals=2; plural=(n != 1);" } }, "masjidos" ); }',
+				'after'
+			);
 			return;
 		}
 
@@ -451,6 +452,96 @@ final class ITMMS_Admin {
 				'meta'  => [ 'class' => 'itmms-exit-link' ],
 			]
 		);
+	}
+
+	/**
+	 * Register native WordPress Admin Dashboard widget (wp-admin/index.php).
+	 */
+	public function register_wp_dashboard_widget(): void {
+		if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'itmms_manage_prayers' ) ) {
+			return;
+		}
+
+		wp_add_dashboard_widget(
+			'itmms_wp_dashboard_widget',
+			__( 'MasjidOS — Prayer Times & Setup Checklist', 'masjidos' ),
+			[ $this, 'render_wp_dashboard_widget' ]
+		);
+	}
+
+	/**
+	 * Render native WordPress Admin Dashboard widget.
+	 */
+	public function render_wp_dashboard_widget(): void {
+		$settings     = ITMMS_Settings::get_all();
+		$prayer_times = ITMMS_Prayer_Times::today();
+		$next_prayer  = $prayer_times['next_prayer'] ?? [];
+		$onboarding   = ITMMS_REST::get_onboarding_status( $settings );
+		$hijri        = ITMMS_Hijri::for_date( new DateTimeImmutable( 'now', wp_timezone() ), (int) ( $settings['hijri_adjustment'] ?? 0 ), ITMMS_Settings::ui_language() );
+
+		$step_labels = [
+			'location'      => __( 'Location & timezone configured', 'masjidos' ),
+			'iqamah_jumuah' => __( 'Iqamah & Jumuah times set', 'masjidos' ),
+			'starter_page'  => __( 'Prayer times page published', 'masjidos' ),
+			'first_content' => __( 'First notice or khutbah added', 'masjidos' ),
+			'tv_preview'    => __( 'Mosque TV display previewed', 'masjidos' ),
+		];
+		?>
+		<div class="itmms-wp-widget" style="font-size:13px;line-height:1.5;color:#1e293b;">
+			<div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#064e3b,#047857);color:#fff;padding:12px 14px;border-radius:8px;margin-bottom:12px;">
+				<div>
+					<div style="font-size:11px;opacity:.85;text-transform:uppercase;letter-spacing:.04em;"><?php echo esc_html__( 'Next Prayer', 'masjidos' ); ?></div>
+					<strong style="font-size:16px;"><?php echo esc_html( (string) ( $next_prayer['name'] ?? '—' ) ); ?> · <?php echo esc_html( (string) ( $next_prayer['time'] ?? '' ) ); ?></strong>
+				</div>
+				<div style="text-align:right;font-size:12px;opacity:.92;">
+					<div><?php echo esc_html( (string) ( $hijri['label'] ?? '' ) ); ?></div>
+					<small><?php echo esc_html( (string) ( $settings['city'] ?? '' ) ); ?></small>
+				</div>
+			</div>
+
+			<div style="margin-bottom:12px;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+				<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+					<strong><?php echo esc_html__( 'Masjid Setup Progress', 'masjidos' ); ?></strong>
+					<span style="font-weight:700;color:#047857;">
+						<?php
+						printf(
+							/* translators: 1: completed steps, 2: total steps, 3: percent */
+							esc_html__( '%1$d/%2$d (%3$d%%)', 'masjidos' ),
+							(int) $onboarding['completed'],
+							(int) $onboarding['total'],
+							(int) $onboarding['percent']
+						);
+						?>
+					</span>
+				</div>
+				<div style="height:7px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-bottom:8px;">
+					<div style="height:100%;width:<?php echo esc_attr( (string) (int) $onboarding['percent'] ); ?>%;background:#059669;border-radius:999px;"></div>
+				</div>
+				<ul style="margin:0;padding:0;list-style:none;display:grid;gap:4px;">
+					<?php foreach ( (array) $onboarding['steps'] as $step ) : ?>
+						<?php
+						$key   = (string) ( $step['key'] ?? '' );
+						$done  = ! empty( $step['done'] );
+						$label = $step_labels[ $key ] ?? $key;
+						?>
+						<li style="display:flex;align-items:center;gap:6px;color:<?php echo $done ? '#065f46' : '#64748b'; ?>;">
+							<span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;font-size:10px;font-weight:700;background:<?php echo $done ? '#d1fae5' : '#e2e8f0'; ?>;color:<?php echo $done ? '#047857' : '#64748b'; ?>;">
+								<?php echo $done ? '&#10003;' : '&bull;'; ?>
+							</span>
+							<span><?php echo esc_html( $label ); ?></span>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+
+			<div style="display:flex;flex-wrap:wrap;gap:6px;">
+				<a class="button button-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=masjidos' ) ); ?>"><?php echo esc_html__( 'Open MasjidOS', 'masjidos' ); ?></a>
+				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=masjidos&itmms_view=welcome' ) ); ?>"><?php echo esc_html__( 'Setup Wizard', 'masjidos' ); ?></a>
+				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=masjidos&itmms_view=announcements' ) ); ?>"><?php echo esc_html__( 'Add Notice', 'masjidos' ); ?></a>
+				<a class="button" href="<?php echo esc_url( home_url( '/masjidos-display/' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'TV Display', 'masjidos' ); ?></a>
+			</div>
+		</div>
+		<?php
 	}
 
 	/**

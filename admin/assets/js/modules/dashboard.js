@@ -71,6 +71,29 @@
 		} ).join( '' );
 	}
 
+	function calculationMethodLabel( raw ) {
+		var key = String( raw || '' ).toLowerCase().trim();
+		var map = {
+			karachi: __( 'Karachi', 'masjidos' ),
+			mwl: __( 'Muslim World League', 'masjidos' ),
+			'muslim world league': __( 'Muslim World League', 'masjidos' ),
+			isna: __( 'ISNA (North America)', 'masjidos' ),
+			'isna (north america)': __( 'ISNA (North America)', 'masjidos' ),
+			egypt: __( 'Egyptian Authority', 'masjidos' ),
+			'egyptian authority': __( 'Egyptian Authority', 'masjidos' ),
+			makkah: __( 'Umm al-Qura, Makkah', 'masjidos' ),
+			'umm al-qura, makkah': __( 'Umm al-Qura, Makkah', 'masjidos' ),
+			dubai: __( 'Dubai', 'masjidos' ),
+			qatar: __( 'Qatar', 'masjidos' ),
+			kuwait: __( 'Kuwait', 'masjidos' ),
+			singapore: __( 'Singapore', 'masjidos' ),
+			tehran: __( 'Tehran', 'masjidos' ),
+			turkey: __( 'Turkey (Diyanet)', 'masjidos' ),
+			'turkey (diyanet)': __( 'Turkey (Diyanet)', 'masjidos' )
+		};
+		return map[ key ] || raw || __( 'Karachi', 'masjidos' );
+	}
+
 	function prayerNameLabel( prayer ) {
 		return {
 			fajr: __( 'Fajr', 'masjidos' ),
@@ -88,13 +111,15 @@
 		var state = window.itmms.state;
 		var active = state.settings.modules || {};
 		return state.modules.map( function ( module ) {
+			var modName = __( module.name, 'masjidos' );
+			var modDesc = __( module.description, 'masjidos' );
 			return '<article class="itmms-module-card">' +
 				'<div class="itmms-module-card-top">' +
 					'<div class="itmms-module-icon ' + esc( module.color ) + '">' + icon( module.icon ) + '</div>' +
-					'<button class="itmms-toggle' + ( active[ module.key ] ? ' on' : '' ) + '" data-module="' + esc( module.key ) + '" aria-label="' + esc( sprintf( __( 'Toggle %s', 'masjidos' ), module.name ) ) + '"></button>' +
+					'<button class="itmms-toggle' + ( active[ module.key ] ? ' on' : '' ) + '" data-module="' + esc( module.key ) + '" aria-label="' + esc( sprintf( __( 'Toggle %s', 'masjidos' ), modName ) ) + '"></button>' +
 				'</div>' +
-				'<h3>' + esc( module.name ) + '</h3>' +
-				'<p>' + esc( module.description ) + '</p>' +
+				'<h3>' + esc( modName ) + '</h3>' +
+				'<p>' + esc( modDesc ) + '</p>' +
 			'</article>';
 		} ).join( '' );
 	}
@@ -175,7 +200,7 @@
 			html += '<article class="itmms-pro-dash-card itmms-pro-dash-card--upsell">' +
 				'<h3>' + esc( __( 'MasjidOS Pro', 'masjidos' ) ) + ' <span class="itmms-feat-badge itmms-feat-badge--pro">Pro</span></h3>' +
 				'<p>' + esc( __( 'Premium designs and committee tools in a separate Pro plugin.', 'masjidos' ) ) + '</p>' +
-				( url ? '<a class="itmms-btn itmms-btn-primary itmms-btn-sm" href="' + esc( url ) + '" target="_blank" rel="noopener noreferrer">' + esc( pro.cta || __( 'Learn about Pro', 'masjidos' ) ) + '</a>' : '' ) +
+				( url ? '<a class="itmms-btn itmms-btn-primary itmms-btn-sm" href="' + esc( url ) + '" target="_blank" rel="noopener noreferrer">' + esc( __( 'Learn about Pro', 'masjidos' ) ) + '</a>' : '' ) +
 			'</article>';
 		}
 
@@ -187,6 +212,118 @@
 			'<header class="itmms-pro-dash__head"><h3>' + esc( __( 'Pro', 'masjidos' ) ) + '</h3>' +
 			'<button type="button" class="itmms-link-btn" data-tab="docs" data-docs-tab="pro">' + esc( __( 'Docs', 'masjidos' ) ) + '</button></header>' +
 			'<div class="itmms-pro-dash__grid">' + html + '</div>' +
+		'</section>';
+	}
+
+	function onboardingChecklistCard() {
+		var state = window.itmms.state || {};
+		var data = window.itmms.data || {};
+		var ob = state.onboarding || data.onboarding || null;
+		if ( ! ob ) {
+			return '';
+		}
+
+		var completed = Number( ob.completed || 0 );
+		var total = Number( ob.total || 5 );
+		var percent = Number( ob.percent || 0 );
+		var tvUrl = ob.tv_url || ( ( data.siteUrl || '' ).replace( /\/$/, '' ) + '/masjidos-display/' );
+
+		if ( ob.dismissed ) {
+			return '<div class="itmms-onboarding-Minimized">' +
+				'<span>' + icon( 'crescent' ) + ' <strong>' + esc( __( 'Masjid Setup Checklist', 'masjidos' ) ) + ':</strong> ' +
+				esc( sprintf( __( '%1$d of %2$d steps completed (%3$d%%)', 'masjidos' ), completed, total, percent ) ) + '</span>' +
+				'<div class="itmms-onboarding-minimized-actions">' +
+					'<button type="button" class="itmms-link-btn" data-onboarding-reopen>' + esc( __( 'Show Checklist', 'masjidos' ) ) + '</button>' +
+					'<button type="button" class="itmms-link-btn" data-tab="welcome">' + esc( __( 'Setup Wizard', 'masjidos' ) ) + '</button>' +
+				'</div>' +
+			'</div>';
+		}
+
+		var stepMap = {};
+		( ob.steps || [] ).forEach( function ( s ) {
+			if ( s && s.key ) {
+				stepMap[ s.key ] = !! s.done;
+			}
+		} );
+
+		var items = [
+			{
+				num: 1,
+				key: 'location',
+				done: !! stepMap.location,
+				title: __( 'Location & Timezone', 'masjidos' ),
+				desc: __( 'Set city coordinates, calculation method & local timezone.', 'masjidos' ),
+				actionHtml: '<button type="button" class="itmms-btn itmms-btn-sm"' + navAttrs( 'settings', { settingsTab: 'profile' } ) + '>' + esc( stepMap.location ? __( 'Review', 'masjidos' ) : __( 'Configure', 'masjidos' ) ) + '</button>'
+			},
+			{
+				num: 2,
+				key: 'iqamah_jumuah',
+				done: !! stepMap.iqamah_jumuah,
+				title: __( 'Iqamah & Jumuah', 'masjidos' ),
+				desc: __( 'Configure daily jamaat rules and Friday khutbah schedule.', 'masjidos' ),
+				actionHtml: '<button type="button" class="itmms-btn itmms-btn-sm"' + navAttrs( 'settings', { settingsTab: 'iqamah' } ) + '>' + esc( stepMap.iqamah_jumuah ? __( 'Adjust', 'masjidos' ) : __( 'Set Times', 'masjidos' ) ) + '</button>'
+			},
+			{
+				num: 3,
+				key: 'starter_page',
+				done: !! stepMap.starter_page,
+				title: __( 'Website Prayer Page', 'masjidos' ),
+				desc: __( 'Publish a ready-to-use Prayer Times & Masjid Board page.', 'masjidos' ),
+				actionHtml: ( stepMap.starter_page && ob.starter_page_url )
+					? '<div class="itmms-onboarding-step-links">' +
+						'<a class="itmms-btn itmms-btn-sm" href="' + esc( ob.starter_page_url ) + '" target="_blank" rel="noopener noreferrer">' + esc( __( 'View Page', 'masjidos' ) ) + '</a>' +
+						( ob.starter_page_edit ? '<a class="itmms-link-btn" href="' + esc( ob.starter_page_edit ) + '" target="_blank" rel="noopener noreferrer">' + esc( __( 'Edit', 'masjidos' ) ) + '</a>' : '' ) +
+					'</div>'
+					: '<button type="button" class="itmms-btn itmms-btn-primary itmms-btn-sm" data-onboarding-create-page>' + esc( __( 'Create Page (1-Click)', 'masjidos' ) ) + '</button>'
+			},
+			{
+				num: 4,
+				key: 'first_content',
+				done: !! stepMap.first_content,
+				title: __( 'First Notice or Khutbah', 'masjidos' ),
+				desc: __( 'Post an active announcement or archive a Friday sermon.', 'masjidos' ),
+				actionHtml: '<button type="button" class="itmms-btn itmms-btn-sm"' + navAttrs( 'announcements' ) + '>' + esc( stepMap.first_content ? __( 'Manage Notices', 'masjidos' ) : __( 'Add Notice', 'masjidos' ) ) + '</button>'
+			},
+			{
+				num: 5,
+				key: 'tv_preview',
+				done: !! stepMap.tv_preview,
+				title: __( 'Mosque TV Display', 'masjidos' ),
+				desc: __( 'Preview the fullscreen digital signage for prayer hall & lobby.', 'masjidos' ),
+				actionHtml: '<a class="itmms-btn itmms-btn-sm" href="' + esc( tvUrl ) + '" target="_blank" rel="noopener noreferrer" data-onboarding-tv>' + esc( __( 'Open TV Display', 'masjidos' ) ) + '</a>'
+			}
+		];
+
+		return '<section class="itmms-card itmms-onboarding-widget" aria-label="' + esc( __( 'Masjid Setup Checklist', 'masjidos' ) ) + '">' +
+			'<header class="itmms-onboarding-head">' +
+				'<div class="itmms-onboarding-title-wrap">' +
+					'<span class="itmms-onboarding-eyebrow">' + esc( __( 'Getting Started', 'masjidos' ) ) + '</span>' +
+					'<h3>' + esc( __( 'Masjid Setup Checklist', 'masjidos' ) ) + '</h3>' +
+					'<p>' + esc( __( 'Complete these 5 quick steps to get your mosque website and TV display live.', 'masjidos' ) ) + '</p>' +
+				'</div>' +
+				'<div class="itmms-onboarding-meta">' +
+					'<span class="itmms-onboarding-badge' + ( completed >= total ? ' is-complete' : '' ) + '">' +
+						esc( sprintf( __( '%1$d of %2$d complete (%3$d%%)', 'masjidos' ), completed, total, percent ) ) +
+					'</span>' +
+					'<button type="button" class="itmms-btn itmms-btn-sm"' + navAttrs( 'welcome' ) + '>' + icon( 'crescent' ) + ' <span>' + esc( __( '1-Min Setup Wizard', 'masjidos' ) ) + '</span></button>' +
+					'<button type="button" class="itmms-link-btn" data-onboarding-dismiss title="' + esc( __( 'Hide checklist', 'masjidos' ) ) + '">' + esc( __( 'Hide', 'masjidos' ) ) + '</button>' +
+				'</div>' +
+			'</header>' +
+			'<div class="itmms-onboarding-progress-bar" role="progressbar" aria-valuenow="' + esc( percent ) + '" aria-valuemin="0" aria-valuemax="100">' +
+				'<span style="width:' + esc( percent ) + '%"></span>' +
+			'</div>' +
+			'<div class="itmms-onboarding-grid">' +
+				items.map( function ( item ) {
+					return '<article class="itmms-onboarding-step' + ( item.done ? ' is-done' : '' ) + '">' +
+						'<div class="itmms-onboarding-step-top">' +
+							'<span class="itmms-onboarding-check" aria-hidden="true">' + ( item.done ? '&#10003;' : esc( item.num ) ) + '</span>' +
+							'<strong>' + esc( item.title ) + '</strong>' +
+						'</div>' +
+						'<p>' + esc( item.desc ) + '</p>' +
+						'<div class="itmms-onboarding-step-foot">' + item.actionHtml + '</div>' +
+					'</article>';
+				} ).join( '' ) +
+			'</div>' +
 		'</section>';
 	}
 
@@ -202,7 +339,7 @@
 			: __( 'No active notices. Click to add one.', 'masjidos' );
 		var hijriLabel = state.hijriDate && state.hijriDate.label ? state.hijriDate.label : '';
 		var minbarStats = ( state.minbarDash && state.minbarDash.stats ) || {};
-		var method = ( state.prayerMeta || {} ).calculation_method || 'Karachi';
+		var method = calculationMethodLabel( ( state.prayerMeta || {} ).calculation_method || ( state.settings && state.settings.calculation_method ) || 'Karachi' );
 
 		return '<div class="itmms-dashboard">' +
 			'<div class="itmms-dashboard-head">' +
@@ -212,6 +349,8 @@
 				'</div>' +
 				'<div class="itmms-arabic">&#1576;&#1616;&#1587;&#1618;&#1605;&#1616; &#1575;&#1604;&#1604;&#1617;&#1614;&#1607;&#1616;</div>' +
 			'</div>' +
+
+			onboardingChecklistCard() +
 
 			'<button type="button" class="itmms-ticker itmms-ticker--action"' + navAttrs( 'announcements' ) + '>' +
 				'<strong>' + esc( noticeType ) + '</strong>' +
@@ -315,7 +454,8 @@
 		var settings = state.settings || {};
 		var qibla = meta.qibla_direction == null ? '...' : meta.qibla_direction + '°';
 		var location = meta.location || __( 'Not set', 'masjidos' );
-		var method = meta.calculation_method || 'Karachi';
+		var method = calculationMethodLabel( meta.calculation_method || settings.calculation_method || 'Karachi' );
+		var asrLabel = String( meta.asr_method || settings.asr_method || 'Hanafi' ).toLowerCase() === 'hanafi' ? __( 'Hanafi', 'masjidos' ) : __( 'Standard (Shafi, Maliki, Hanbali)', 'masjidos' );
 		var timezone = meta.timezone || settings.timezone || 'Asia/Dhaka';
 		var coords = meta.latitude && meta.longitude ? Number( meta.latitude ).toFixed( 4 ) + ', ' + Number( meta.longitude ).toFixed( 4 ) : __( 'Not set', 'masjidos' );
 		var source = 'aladhan' === ( trust.source || settings.prayer_source ) ? __( 'Auto API (Aladhan)', 'masjidos' ) : __( 'Local calculation', 'masjidos' );
@@ -353,7 +493,7 @@
 					'<span><b>' + esc( __( 'Location', 'masjidos' ) ) + '</b><em>' + esc( location ) + '</em></span>' +
 					'<span><b>' + esc( __( 'Coordinates', 'masjidos' ) ) + '</b><em>' + esc( coords ) + '</em></span>' +
 					'<span><b>' + esc( __( 'Method', 'masjidos' ) ) + '</b><em>' + esc( method ) + '</em></span>' +
-					'<span><b>' + esc( __( 'Asr', 'masjidos' ) ) + '</b><em>' + esc( meta.asr_method || 'Hanafi' ) + '</em></span>' +
+					'<span><b>' + esc( __( 'Asr', 'masjidos' ) ) + '</b><em>' + esc( asrLabel ) + '</em></span>' +
 					'<span><b>' + esc( __( 'Timezone', 'masjidos' ) ) + '</b><em>' + esc( timezone ) + '</em></span>' +
 					'<span><b>' + esc( __( 'Hijri adjustment', 'masjidos' ) ) + '</b><em>' + esc( hijriLabel ) + '</em></span>' +
 					'<span><b>' + esc( __( 'Offsets', 'masjidos' ) ) + '</b><em>' + esc( offsetParts.length ? offsetParts.join( ', ' ) : __( 'None', 'masjidos' ) ) + '</em></span>' +
@@ -419,6 +559,77 @@
 				var label = btn.querySelector( 'span' );
 				if ( label ) {
 					label.textContent = open ? __( 'Hide details', 'masjidos' ) : __( 'Details', 'masjidos' );
+				}
+			} );
+		} );
+
+		app.querySelectorAll( '[data-onboarding-create-page]' ).forEach( function ( btn ) {
+			btn.addEventListener( 'click', function () {
+				var api = window.itmms.api;
+				if ( ! api ) {
+					return;
+				}
+				btn.disabled = true;
+				btn.textContent = __( 'Creating...', 'masjidos' );
+				api( 'onboarding/create-page', { method: 'POST', body: '{}' } ).then( function ( res ) {
+					if ( res && res.onboarding ) {
+						window.itmms.state.onboarding = res.onboarding;
+						if ( window.itmms.data ) {
+							window.itmms.data.onboarding = res.onboarding;
+						}
+					}
+					if ( window.itmms.render ) {
+						window.itmms.render();
+					}
+				} ).catch( function () {
+					btn.disabled = false;
+					btn.textContent = __( 'Create Page (1-Click)', 'masjidos' );
+				} );
+			} );
+		} );
+
+		app.querySelectorAll( '[data-onboarding-dismiss]' ).forEach( function ( btn ) {
+			btn.addEventListener( 'click', function () {
+				var api = window.itmms.api;
+				if ( window.itmms.state && window.itmms.state.onboarding ) {
+					window.itmms.state.onboarding.dismissed = true;
+				}
+				if ( window.itmms.render ) {
+					window.itmms.render();
+				}
+				if ( api ) {
+					api( 'onboarding/dismiss', { method: 'POST', body: JSON.stringify( { dismissed: true } ) } );
+				}
+			} );
+		} );
+
+		app.querySelectorAll( '[data-onboarding-reopen]' ).forEach( function ( btn ) {
+			btn.addEventListener( 'click', function () {
+				var api = window.itmms.api;
+				if ( window.itmms.state && window.itmms.state.onboarding ) {
+					window.itmms.state.onboarding.dismissed = false;
+				}
+				if ( window.itmms.render ) {
+					window.itmms.render();
+				}
+				if ( api ) {
+					api( 'onboarding/dismiss', { method: 'POST', body: JSON.stringify( { dismissed: false } ) } );
+				}
+			} );
+		} );
+
+		app.querySelectorAll( '[data-onboarding-tv]' ).forEach( function ( link ) {
+			link.addEventListener( 'click', function () {
+				var api = window.itmms.api;
+				if ( api ) {
+					api( 'onboarding/tv-previewed', { method: 'POST', body: '{}' } ).then( function ( res ) {
+						if ( res && res.onboarding ) {
+							window.itmms.state.onboarding = res.onboarding;
+							if ( window.itmms.render ) {
+								window.itmms.render();
+							}
+						}
+					} );
 				}
 			} );
 		} );

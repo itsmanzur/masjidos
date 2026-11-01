@@ -62,7 +62,7 @@ final class ITMMS_Prayer_Times {
 					$source,
 					$settings['city'] ?? '',
 					$settings['country'] ?? '',
-					'calculation-registry-v5',
+					'calculation-registry-v6',
 				]
 			)
 		);

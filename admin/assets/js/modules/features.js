@@ -431,6 +431,13 @@
 
 	function featureCardHtml( f ) {
 		var badgeClass = f.badge === 'New' ? 'itmms-feat-badge--new' : ( f.badge === 'Pro' ? 'itmms-feat-badge--pro' : ( f.badge === 'Minbar' ? 'itmms-feat-badge--minbar' : '' ) );
+		var badgeLabels = {
+			Core: __( 'Core', 'masjidos' ),
+			New: __( 'New', 'masjidos' ),
+			Minbar: __( 'Minbar', 'masjidos' ),
+			Pro: __( 'Pro', 'masjidos' )
+		};
+		var badgeText = badgeLabels[ f.badge ] || f.badge;
 		var hasParams = f.params && f.params.length;
 		var paramsHtml = hasParams
 			? '<div class="itmms-feat-params" id="itmms-feat-params-' + esc( f.id ) + '" hidden>' +
@@ -439,12 +446,12 @@
 			: '';
 
 		var shortcodeBox = f.tvUrl
-			? '<div class="itmms-feat-shortcode"><span class="itmms-feat-shortcode-label">URL</span>' +
+			? '<div class="itmms-feat-shortcode"><span class="itmms-feat-shortcode-label">' + esc( __( 'URL', 'masjidos' ) ) + '</span>' +
 			  '<code id="itmms-feat-code-' + esc( f.id ) + '">' + esc( f.tvUrl ) + '</code>' +
 			  '<button type="button" class="itmms-feat-copy" data-feat-copy="' + esc( f.id ) + '" title="' + esc( __( 'Copy URL', 'masjidos' ) ) + '">' + icon( 'ledger' ) + '</button>' +
 			  '</div>'
 			: ( f.shortcode
-				? '<div class="itmms-feat-shortcode"><span class="itmms-feat-shortcode-label">Shortcode</span>' +
+				? '<div class="itmms-feat-shortcode"><span class="itmms-feat-shortcode-label">' + esc( __( 'Shortcode', 'masjidos' ) ) + '</span>' +
 				  '<code id="itmms-feat-code-' + esc( f.id ) + '">' + esc( f.shortcode ) + '</code>' +
 				  '<button type="button" class="itmms-feat-copy" data-feat-copy="' + esc( f.id ) + '" title="' + esc( __( 'Copy shortcode', 'masjidos' ) ) + '">' + icon( 'ledger' ) + '</button>' +
 				  '</div>'
@@ -472,7 +479,7 @@
 		return '<article class="itmms-feat-card itmms-feat-card--' + esc( f.color ) + ( f.proLocked ? ' itmms-feat-card--pro-locked' : '' ) + '" id="itmms-feat-card-' + esc( f.id ) + '" data-feat-group="' + esc( f.group || 'widgets' ) + '">' +
 			'<div class="itmms-feat-card-header">' +
 				'<div class="itmms-feat-icon itmms-feat-icon--' + esc( f.color ) + '">' + icon( f.icon ) + '</div>' +
-				'<span class="itmms-feat-badge ' + badgeClass + '">' + esc( f.badge ) + '</span>' +
+				'<span class="itmms-feat-badge ' + badgeClass + '">' + esc( badgeText ) + '</span>' +
 			'</div>' +
 			'<h3 class="itmms-feat-name">' + esc( f.name ) + '</h3>' +
 			'<p class="itmms-feat-desc">' + esc( f.desc ) + '</p>' +
@@ -731,7 +738,7 @@
 		var titleEl = document.getElementById( 'itmms-preview-modal-title' );
 		if ( ! modal || ! loading || ! content ) return;
 
-		var f = features.find( function(x){ return x.id === featId; } );
+		var f = getFeatures().find( function(x){ return x.id === featId; } );
 		if ( ! f ) return;
 
 		// Show modal
@@ -740,7 +747,7 @@
 		loading.style.display = 'flex';
 		content.innerHTML = '';
 		content.removeAttribute( 'data-viewport' );
-		if ( titleEl ) { titleEl.textContent = f.name + ' — Live Preview'; }
+		if ( titleEl ) { titleEl.textContent = f.name + ' — ' + __( 'Live Preview', 'masjidos' ); }
 
 		// Reset viewport buttons
 		var app = document.getElementById( 'itmms-app' );

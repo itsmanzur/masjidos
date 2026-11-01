@@ -55,6 +55,36 @@ final class ITMMS_REST {
 
 		register_rest_route(
 			self::NAMESPACE,
+			'/onboarding/create-page',
+			[
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'create_starter_page' ],
+				'permission_callback' => [ $this, 'can_manage_settings' ],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/onboarding/dismiss',
+			[
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'dismiss_onboarding' ],
+				'permission_callback' => [ $this, 'can_read' ],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/onboarding/tv-previewed',
+			[
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => [ $this, 'mark_tv_previewed' ],
+				'permission_callback' => [ $this, 'can_read' ],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
 			'/settings',
 			[
 				[
@@ -209,6 +239,67 @@ final class ITMMS_REST {
 							return is_numeric( $param ) || empty( $param );
 						},
 						'sanitize_callback' => 'absint',
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/prayer-times/timetable/grid',
+			[
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_prayer_timetable_grid' ],
+				'permission_callback' => [ $this, 'can_manage_prayers' ],
+				'args'                => [
+					'year'  => [
+						'required'          => false,
+						'validate_callback' => static function ( $param ) {
+							return is_numeric( $param ) || empty( $param );
+						},
+						'sanitize_callback' => 'absint',
+					],
+					'month' => [
+						'required'          => false,
+						'validate_callback' => static function ( $param ) {
+							return is_numeric( $param ) || empty( $param );
+						},
+						'sanitize_callback' => 'absint',
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/prayer-times/timetable/day',
+			[
+				[
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => [ $this, 'save_prayer_timetable_day' ],
+					'permission_callback' => [ $this, 'can_manage_prayers' ],
+					'args'                => [
+						'date'   => [
+							'required'          => true,
+							'sanitize_callback' => 'sanitize_text_field',
+						],
+						'azan'   => [
+							'required' => true,
+						],
+						'iqamah' => [
+							'required' => false,
+						],
+					],
+				],
+				[
+					'methods'             => WP_REST_Server::DELETABLE,
+					'callback'            => [ $this, 'delete_prayer_timetable_day' ],
+					'permission_callback' => [ $this, 'can_manage_prayers' ],
+					'args'                => [
+						'date' => [
+							'required'          => true,
+							'sanitize_callback' => 'sanitize_text_field',
+						],
 					],
 				],
 			]

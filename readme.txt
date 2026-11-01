@@ -3,7 +3,7 @@ Contributors: itsmanzur, readscope
 Tags: prayer times, mosque, islamic calendar, duas, quran
 Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -252,6 +252,13 @@ Public widgets display only what an administrator has explicitly configured: pra
 
 == Changelog ==
 
+= 1.5.0 =
+* **5-Step Mosque Onboarding Widget** — integrated in both MasjidOS Dashboard and native WordPress admin dashboard (`wp-admin/index.php`) with 1-click starter page creation, progress tracking, and TV preview checklist.
+* **Interactive 1-Minute Setup Wizard** — fast 4-step onboarding experience covering identity & language, location presets with browser geo-detection, quick Iqamah offsets & Jumuah times, and 1-click page publishing.
+* **Self-Hosted High-Legibility Fonts** — packaged 14 local `.woff2` font files for Plus Jakarta Sans (English/numbers), Hind Siliguri (Bangla), Amiri (Quranic Arabic), and Readex Pro (Arabic UI & TV). Eliminates Google Fonts dependency, improving privacy and loading speed.
+* **Complete Trilingual Admin Experience** — full parity across English, Bangla, and Arabic for all admin modules, live preview badges, calculation methods, trust checklists, and widget showcase cards.
+* **Visual Polish & High-Contrast Design** — overhauled wizard panels, buttons, chips, and color contrast on dark and light surfaces.
+
 = 1.4.0 =
 * **Native Elementor Integration** — 7 dedicated Elementor widgets (Prayer Times, Monthly Timetable, Jumuah & Khatib, Notices & News, Islamic Calendar, Ask the Imam Q&A, and Islamic Learning) with full styling and layout controls.
 * **Theme Template Override System** — WooCommerce-style template hierarchy allowing theme developers to override public widget templates via `your-theme/masjidos/`.
@@ -291,6 +298,9 @@ Public widgets display only what an administrator has explicitly configured: pra
 * Features page with live shortcode previews and Docs with shortcode generators.
 
 == Upgrade Notice ==
+
+= 1.5.0 =
+Features new 5-step onboarding, 1-minute setup wizard, local self-hosted fonts, and complete Arabic/Bangla translation coverage. Highly recommended update.
 
 = 1.4.0 =
 Adds 7 native Elementor widgets and WooCommerce-style theme template override support for mosque developers. Recommended update.

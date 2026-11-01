@@ -208,7 +208,105 @@ trait ITMMS_REST_Prayer {
 	}
 
 	/**
-	 * Return a public prayer times widget for the Features preview modal.
+	 * Get timetable month grid with calculation and override status.
 	 */
+	public function get_prayer_timetable_grid( WP_REST_Request $request ): WP_REST_Response {
+		$now   = current_datetime();
+		$year  = (int) $request->get_param( 'year' );
+		$month = (int) $request->get_param( 'month' );
 
+		if ( $year < 1970 || $year > 2099 ) {
+			$year = (int) $now->format( 'Y' );
+		}
+		if ( $month < 1 || $month > 12 ) {
+			$month = (int) $now->format( 'n' );
+		}
+
+		$data = ITMMS_Prayer_Timetable::get_month_grid( $year, $month );
+		return rest_ensure_response( $data );
+	}
+
+	/**
+	 * Save manual day override for prayer timetable.
+	 */
+	public function save_prayer_timetable_day( WP_REST_Request $request ): WP_REST_Response {
+		$date   = sanitize_text_field( (string) $request->get_param( 'date' ) );
+		$azan   = (array) $request->get_param( 'azan' );
+		$iqamah = (array) $request->get_param( 'iqamah' );
+
+		if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date ) ) {
+			return new WP_REST_Response(
+				[
+					'success' => false,
+					'message' => __( 'Invalid date format. Expected YYYY-MM-DD.', 'masjidos' ),
+				],
+				400
+			);
+		}
+
+		$sanitized_azan = [];
+		foreach ( $azan as $k => $v ) {
+			$key = sanitize_key( $k );
+			$val = sanitize_text_field( (string) $v );
+			if ( $val !== '' ) {
+				$sanitized_azan[ $key ] = $val;
+			}
+		}
+
+		$sanitized_iqamah = [];
+		foreach ( $iqamah as $k => $v ) {
+			$key = sanitize_key( $k );
+			$val = sanitize_text_field( (string) $v );
+			if ( $val !== '' ) {
+				$sanitized_iqamah[ $key ] = $val;
+			}
+		}
+
+		$res = ITMMS_Prayer_Timetable::set_day( $date, $sanitized_azan, $sanitized_iqamah );
+		if ( ! empty( $res['error'] ) ) {
+			return new WP_REST_Response(
+				[
+					'success' => false,
+					'message' => $res['error'],
+				],
+				400
+			);
+		}
+
+		return rest_ensure_response(
+			[
+				'success' => true,
+				'message' => __( 'Day prayer schedule saved successfully.', 'masjidos' ),
+				'entry'   => $res['entry'] ?? null,
+				'summary' => ITMMS_Prayer_Timetable::summary(),
+			]
+		);
+	}
+
+	/**
+	 * Delete a manual override for a specific date (revert to calculation engine).
+	 */
+	public function delete_prayer_timetable_day( WP_REST_Request $request ): WP_REST_Response {
+		$date = sanitize_text_field( (string) $request->get_param( 'date' ) );
+
+		if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date ) ) {
+			return new WP_REST_Response(
+				[
+					'success' => false,
+					'message' => __( 'Invalid date format. Expected YYYY-MM-DD.', 'masjidos' ),
+				],
+				400
+			);
+		}
+
+		$res = ITMMS_Prayer_Timetable::delete_day( $date );
+		return rest_ensure_response(
+			[
+				'success' => true,
+				'message' => __( 'Manual override removed. Reverted to calculated schedule.', 'masjidos' ),
+				'removed' => $res['removed'] ?? false,
+				'summary' => ITMMS_Prayer_Timetable::summary(),
+			]
+		);
+	}
 }

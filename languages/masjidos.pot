@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MasjidOS 1.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/masjidos/\n"
-"POT-Creation-Date: 2026-10-02T16:20:54.011Z\n"
+"POT-Creation-Date: 2026-10-12T12:44:12.435Z\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -170,6 +170,10 @@ msgstr ""
 
 #: admin/assets/js/modules/settings.js:297
 msgid "Accuracy checklist"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:884
+msgid "Actions"
 msgstr ""
 
 #: admin/assets/js/modules/announcements.js:78 admin/assets/js/modules/minbar.js:463
@@ -436,7 +440,7 @@ msgstr ""
 msgid "Apple Calendar (.ics)"
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:791
+#: admin/assets/js/modules/docs.js:791 admin/assets/js/modules/settings.js:494
 msgid "April"
 msgstr ""
 
@@ -560,7 +564,7 @@ msgstr ""
 msgid "Asma ul Husna"
 msgstr ""
 
-#: admin/assets/js/modules/dashboard.js:356 admin/assets/js/modules/dashboard.js:390 admin/assets/js/modules/dashboard.js:55 admin/assets/js/modules/dashboard.js:81 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:90 admin/assets/js/modules/settings.js:99 admin/assets/js/modules/welcome.js:103 public/trait-itmms-public-helpers.php:152 public/trait-itmms-public-helpers.php:331 public/trait-itmms-public-helpers.php:428
+#: admin/assets/js/modules/dashboard.js:356 admin/assets/js/modules/dashboard.js:390 admin/assets/js/modules/dashboard.js:55 admin/assets/js/modules/dashboard.js:81 admin/assets/js/modules/settings.js:1013 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:863 admin/assets/js/modules/settings.js:90 admin/assets/js/modules/settings.js:99 admin/assets/js/modules/welcome.js:103 public/trait-itmms-public-helpers.php:152 public/trait-itmms-public-helpers.php:331 public/trait-itmms-public-helpers.php:428
 msgid "Asr"
 msgstr ""
 
@@ -620,7 +624,7 @@ msgstr ""
 msgid "Audio URL"
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:795
+#: admin/assets/js/modules/docs.js:795 admin/assets/js/modules/settings.js:498
 msgid "August"
 msgstr ""
 
@@ -670,6 +674,18 @@ msgstr ""
 
 #: admin/assets/js/modules/dashboard.js:331
 msgid "Avoid UTC / +00:00 for local masjid times"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:910
+msgid "Azan"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:878
+msgid "Azan / Iqamah"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:1039
+msgid "Azan Time"
 msgstr ""
 
 #: includes/elementor/widgets/class-itmms-elementor-prayer-times.php:167
@@ -805,12 +821,24 @@ msgstr ""
 msgid "Bukhari and Muslim"
 msgstr ""
 
+#: admin/assets/js/modules/settings.js:517
+msgid "Bulk CSV Import & Export"
+msgstr ""
+
 #: admin/assets/js/modules/settings.js:474
 msgid "By year"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:742
+#: admin/assets/js/modules/settings.js:919
+msgid "Calculated"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:781
 msgid "Calculated export failed."
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:919
+msgid "Calculated via astronomical engine"
 msgstr ""
 
 #: admin/assets/js/modules/docs.js:170
@@ -849,7 +877,7 @@ msgstr ""
 msgid "Can show khatib photo, name, bio, topic, and language"
 msgstr ""
 
-#: admin/assets/js/modules/announcements.js:44 admin/assets/js/modules/events.js:41 admin/assets/js/modules/minbar.js:200 admin/assets/js/modules/minbar.js:282 admin/assets/js/modules/minbar.js:464 admin/assets/js/modules/minbar.js:512
+#: admin/assets/js/modules/announcements.js:44 admin/assets/js/modules/events.js:41 admin/assets/js/modules/minbar.js:200 admin/assets/js/modules/minbar.js:282 admin/assets/js/modules/minbar.js:464 admin/assets/js/modules/minbar.js:512 admin/assets/js/modules/settings.js:1054
 msgid "Cancel"
 msgstr ""
 
@@ -1005,7 +1033,7 @@ msgstr ""
 msgid "Check Prayer Setup: timezone, coordinates, and calculation method."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:616
+#: admin/assets/js/modules/settings.js:655
 msgid "Choose a CSV file first."
 msgstr ""
 
@@ -1069,15 +1097,15 @@ msgstr ""
 msgid "Clean monthly prayer timetable table."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:494
+#: admin/assets/js/modules/settings.js:533
 msgid "Clear All"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:493
+#: admin/assets/js/modules/settings.js:532
 msgid "Clear Year"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:756
+#: admin/assets/js/modules/settings.js:795
 msgid "Cleared %1$d day(s) from %2$s."
 msgstr ""
 
@@ -1101,6 +1129,10 @@ msgstr ""
 msgid "Clockwise from true north"
 msgstr ""
 
+#: admin/assets/js/modules/settings.js:1029
+msgid "Close"
+msgstr ""
+
 #: public/templates/announcements.php:40
 msgid "Close popup"
 msgstr ""
@@ -1113,7 +1145,7 @@ msgstr ""
 msgid "Closed"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:480
+#: admin/assets/js/modules/settings.js:519
 msgid "Columns: date, fajr, sunrise, dhuhr, asr, maghrib, isha, and optional *_iqamah columns. Max ~2 MB / one year."
 msgstr ""
 
@@ -1277,11 +1309,11 @@ msgstr ""
 msgid "Core identity, location, and timezone details used across widgets."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:783
+#: admin/assets/js/modules/settings.js:823
 msgid "Could not clear timetable."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:763
+#: admin/assets/js/modules/settings.js:802
 msgid "Could not clear year."
 msgstr ""
 
@@ -1301,8 +1333,12 @@ msgstr ""
 msgid "Could not delete schedule entry."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:628
+#: admin/assets/js/modules/settings.js:667
 msgid "Could not read the CSV file."
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:996
+msgid "Could not revert day."
 msgstr ""
 
 #: admin/assets/js/app.js:1626 admin/assets/js/app.js:336
@@ -1377,15 +1413,11 @@ msgstr ""
 msgid "CSV content is required."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:478
-msgid "CSV File"
-msgstr ""
-
 #: includes/class-itmms-prayer-timetable.php:357
 msgid "CSV file is empty."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:620 includes/rest/trait-itmms-rest-prayer.php:142
+#: admin/assets/js/modules/settings.js:659 includes/rest/trait-itmms-rest-prayer.php:142
 msgid "CSV file is too large. Import one year at a time (about 365 rows)."
 msgstr ""
 
@@ -1485,8 +1517,20 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:505
+#: admin/assets/js/modules/settings.js:872
+msgid "Date / Day"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:544
 msgid "Dates without CSV rows still use your calculation settings and Iqamah rules."
+msgstr ""
+
+#: includes/rest/trait-itmms-rest-prayer.php:279
+msgid "Day prayer schedule saved successfully."
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:988
+msgid "Day reverted to calculated engine."
 msgstr ""
 
 #: admin/assets/js/modules/settings.js:472
@@ -1497,7 +1541,7 @@ msgstr ""
 msgid "Days, -3 to +3. Use this if your local moon-sighting calendar is one day different."
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:799
+#: admin/assets/js/modules/docs.js:799 admin/assets/js/modules/settings.js:502
 msgid "December"
 msgstr ""
 
@@ -1585,7 +1629,7 @@ msgstr ""
 msgid "Dhu al-Qadah"
 msgstr ""
 
-#: admin/assets/js/modules/dashboard.js:390 admin/assets/js/modules/dashboard.js:54 admin/assets/js/modules/dashboard.js:80 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:89 admin/assets/js/modules/settings.js:98 admin/assets/js/modules/welcome.js:102
+#: admin/assets/js/modules/dashboard.js:390 admin/assets/js/modules/dashboard.js:54 admin/assets/js/modules/dashboard.js:80 admin/assets/js/modules/settings.js:1012 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:862 admin/assets/js/modules/settings.js:89 admin/assets/js/modules/settings.js:98 admin/assets/js/modules/welcome.js:102
 msgid "Dhuhr"
 msgstr ""
 
@@ -1813,7 +1857,7 @@ msgstr ""
 msgid "e.g. Imam, Guest khatib"
 msgstr ""
 
-#: admin/assets/js/modules/announcements.js:61 admin/assets/js/modules/dashboard.js:252 admin/assets/js/modules/events.js:58 admin/assets/js/modules/minbar.js:247 admin/assets/js/modules/minbar.js:302 admin/assets/js/modules/minbar.js:484 admin/assets/js/modules/minbar.js:630
+#: admin/assets/js/modules/announcements.js:61 admin/assets/js/modules/dashboard.js:252 admin/assets/js/modules/events.js:58 admin/assets/js/modules/minbar.js:247 admin/assets/js/modules/minbar.js:302 admin/assets/js/modules/minbar.js:484 admin/assets/js/modules/minbar.js:630 admin/assets/js/modules/settings.js:924
 msgid "Edit"
 msgstr ""
 
@@ -1837,6 +1881,10 @@ msgstr ""
 msgid "Edit plan"
 msgstr ""
 
+#: admin/assets/js/modules/settings.js:1026
+msgid "Edit Prayer Times: %1$s (%2$s)"
+msgstr ""
+
 #: admin/assets/js/modules/minbar.js:435
 msgid "Edit profile"
 msgstr ""
@@ -1849,7 +1897,7 @@ msgstr ""
 msgid "Edit slot"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:503
+#: admin/assets/js/modules/settings.js:542
 msgid "Edit times to match your official mosque committee table (YYYY-MM-DD + 24h or AM/PM)."
 msgstr ""
 
@@ -2049,19 +2097,19 @@ msgstr ""
 msgid "Explicitly use the free table design."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:492
+#: admin/assets/js/modules/settings.js:531
 msgid "Export Calculated Year"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:502
+#: admin/assets/js/modules/settings.js:541
 msgid "Export Calculated Year as a starting template, or download the Sample CSV."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:729
+#: admin/assets/js/modules/settings.js:768
 msgid "Export failed."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:491
+#: admin/assets/js/modules/settings.js:530
 msgid "Export Imported Year"
 msgstr ""
 
@@ -2073,7 +2121,19 @@ msgstr ""
 msgid "Facebook"
 msgstr ""
 
-#: admin/assets/js/modules/dashboard.js:390 admin/assets/js/modules/dashboard.js:52 admin/assets/js/modules/dashboard.js:76 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:87 admin/assets/js/modules/settings.js:97 admin/assets/js/modules/welcome.js:101
+#: admin/assets/js/modules/settings.js:956
+msgid "Failed to load grid."
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:955
+msgid "Failed to load timetable grid."
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:1116
+msgid "Failed to save override."
+msgstr ""
+
+#: admin/assets/js/modules/dashboard.js:390 admin/assets/js/modules/dashboard.js:52 admin/assets/js/modules/dashboard.js:76 admin/assets/js/modules/settings.js:1010 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:860 admin/assets/js/modules/settings.js:87 admin/assets/js/modules/settings.js:97 admin/assets/js/modules/welcome.js:101
 msgid "Fajr"
 msgstr ""
 
@@ -2089,7 +2149,7 @@ msgstr ""
 msgid "Features vs Docs"
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:789
+#: admin/assets/js/modules/docs.js:789 admin/assets/js/modules/settings.js:492
 msgid "February"
 msgstr ""
 
@@ -2463,7 +2523,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:500
+#: admin/assets/js/modules/settings.js:539
 msgid "How CSV timetable works"
 msgstr ""
 
@@ -2511,15 +2571,15 @@ msgstr ""
 msgid "Imam's answer"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:490
+#: admin/assets/js/modules/settings.js:529
 msgid "Import CSV"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:702
+#: admin/assets/js/modules/settings.js:741
 msgid "Import failed."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:483
+#: admin/assets/js/modules/settings.js:522
 msgid "Import Mode"
 msgstr ""
 
@@ -2527,15 +2587,15 @@ msgstr ""
 msgid "Import Official CSV Year"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:691
+#: admin/assets/js/modules/settings.js:730
 msgid "Imported %1$d day(s). Skipped %2$d row(s)."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:776
+#: admin/assets/js/modules/settings.js:815
 msgid "Imported timetable cleared."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:677
+#: admin/assets/js/modules/settings.js:716
 msgid "Importing timetable..."
 msgstr ""
 
@@ -2635,19 +2695,40 @@ msgstr ""
 msgid "Introduction"
 msgstr ""
 
+#: includes/rest/trait-itmms-rest-prayer.php:241 includes/rest/trait-itmms-rest-prayer.php:296
+msgid "Invalid date format. Expected YYYY-MM-DD."
+msgstr ""
+
+#: includes/class-itmms-prayer-timetable.php:654
+msgid "Invalid date."
+msgstr ""
+
+#: includes/class-itmms-prayer-timetable.php:599
+msgid "Invalid date. Use YYYY-MM-DD format."
+msgstr ""
+
 #: includes/rest/trait-itmms-rest-prayer.php:36
 msgid "Invalid date. Use YYYY-MM-DD."
 msgstr ""
 
-#: admin/assets/js/modules/dashboard.js:68 admin/assets/js/modules/settings.js:176 public/trait-itmms-public-helpers.php:148 public/trait-itmms-public-helpers.php:317
+#. translators: %s: prayer name.
+#: includes/class-itmms-prayer-timetable.php:612
+msgid "Invalid time for %s."
+msgstr ""
+
+#: admin/assets/js/modules/dashboard.js:68 admin/assets/js/modules/settings.js:176 admin/assets/js/modules/settings.js:911 public/trait-itmms-public-helpers.php:148 public/trait-itmms-public-helpers.php:317
 msgid "Iqamah"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:1044
+msgid "Iqamah Time (Optional)"
 msgstr ""
 
 #: admin/assets/js/modules/settings.js:95
 msgid "Iqamah Times"
 msgstr ""
 
-#: admin/assets/js/modules/dashboard.js:390 admin/assets/js/modules/dashboard.js:57 admin/assets/js/modules/dashboard.js:83 admin/assets/js/modules/settings.js:101 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:92 admin/assets/js/modules/welcome.js:105
+#: admin/assets/js/modules/dashboard.js:390 admin/assets/js/modules/dashboard.js:57 admin/assets/js/modules/dashboard.js:83 admin/assets/js/modules/settings.js:101 admin/assets/js/modules/settings.js:1015 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:865 admin/assets/js/modules/settings.js:92 admin/assets/js/modules/welcome.js:105
 msgid "Isha"
 msgstr ""
 
@@ -2719,11 +2800,11 @@ msgstr ""
 msgid "Jamaat start time"
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:788
+#: admin/assets/js/modules/docs.js:788 admin/assets/js/modules/settings.js:491
 msgid "January"
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:794
+#: admin/assets/js/modules/docs.js:794 admin/assets/js/modules/settings.js:497
 msgid "July"
 msgstr ""
 
@@ -2805,7 +2886,7 @@ msgstr ""
 msgid "Jumuah Without Meta"
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:793
+#: admin/assets/js/modules/docs.js:793 admin/assets/js/modules/settings.js:496
 msgid "June"
 msgstr ""
 
@@ -3160,6 +3241,10 @@ msgstr ""
 msgid "Live Ticker (Marquee)"
 msgstr ""
 
+#: admin/assets/js/modules/settings.js:513 admin/assets/js/modules/settings.js:946
+msgid "Loading prayer schedule..."
+msgstr ""
+
 #: admin/assets/js/modules/features.js:532
 msgid "Loading preview…"
 msgstr ""
@@ -3188,7 +3273,7 @@ msgstr ""
 msgid "Lower = faster continuous ticker scroll (3 to 30)."
 msgstr ""
 
-#: admin/assets/js/modules/dashboard.js:390 admin/assets/js/modules/dashboard.js:56 admin/assets/js/modules/dashboard.js:82 admin/assets/js/modules/settings.js:100 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:91 admin/assets/js/modules/welcome.js:104 admin/assets/js/modules/welcome.js:23
+#: admin/assets/js/modules/dashboard.js:390 admin/assets/js/modules/dashboard.js:56 admin/assets/js/modules/dashboard.js:82 admin/assets/js/modules/settings.js:100 admin/assets/js/modules/settings.js:1014 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:864 admin/assets/js/modules/settings.js:91 admin/assets/js/modules/welcome.js:104 admin/assets/js/modules/welcome.js:23
 msgid "Maghrib"
 msgstr ""
 
@@ -3228,7 +3313,19 @@ msgstr ""
 msgid "Management"
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:790
+#: admin/assets/js/modules/settings.js:918
+msgid "Manual Override"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:918
+msgid "Manual override or imported CSV"
+msgstr ""
+
+#: includes/rest/trait-itmms-rest-prayer.php:306
+msgid "Manual override removed. Reverted to calculated schedule."
+msgstr ""
+
+#: admin/assets/js/modules/docs.js:790 admin/assets/js/modules/settings.js:493
 msgid "March"
 msgstr ""
 
@@ -3368,7 +3465,7 @@ msgstr ""
 msgid "Maximum limit is 20"
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:792
+#: admin/assets/js/modules/docs.js:792 admin/assets/js/modules/settings.js:495
 msgid "May"
 msgstr ""
 
@@ -3380,7 +3477,7 @@ msgstr ""
 msgid "Media library unavailable."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:484
+#: admin/assets/js/modules/settings.js:523
 msgid "Merge rows by date"
 msgstr ""
 
@@ -3486,6 +3583,10 @@ msgstr ""
 
 #: admin/assets/js/block-editor.js:197 admin/assets/js/modules/docs.js:595 includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php:29 includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php:70 includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php:71 public/class-itmms-public.php:174 public/trait-itmms-public-blocks.php:62 public/trait-itmms-public-helpers.php:314
 msgid "Monthly Prayer Timetable"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:480
+msgid "Monthly Schedule & Manual Day Editor"
 msgstr ""
 
 #: admin/assets/js/modules/docs.js:186
@@ -3709,7 +3810,7 @@ msgstr ""
 msgid "No hadith available"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:452 admin/assets/js/modules/settings.js:589
+#: admin/assets/js/modules/settings.js:452 admin/assets/js/modules/settings.js:628
 msgid "No imported timetable yet"
 msgstr ""
 
@@ -3783,6 +3884,10 @@ msgstr ""
 
 #: public/trait-itmms-public-helpers.php:135
 msgid "No surahs available"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:855
+msgid "No timetable entries found for this month."
 msgstr ""
 
 #: public/class-itmms-public.php:554
@@ -3873,7 +3978,7 @@ msgstr ""
 msgid "Notices Widget"
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:798
+#: admin/assets/js/modules/docs.js:798 admin/assets/js/modules/settings.js:501
 msgid "November"
 msgstr ""
 
@@ -3921,7 +4026,7 @@ msgstr ""
 msgid "Occasion"
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:797
+#: admin/assets/js/modules/docs.js:797 admin/assets/js/modules/settings.js:500
 msgid "October"
 msgstr ""
 
@@ -4187,6 +4292,10 @@ msgstr ""
 
 #: public/templates/events.php:19
 msgid "Outlook"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:1027
+msgid "Override Azan and Iqamah times for this day. Leave Iqamah empty if automatic rule should apply."
 msgstr ""
 
 #: admin/assets/js/modules/settings.js:433
@@ -4789,6 +4898,10 @@ msgstr ""
 msgid "References"
 msgstr ""
 
+#: admin/assets/js/modules/settings.js:508
+msgid "Refresh Grid"
+msgstr ""
+
 #: admin/assets/js/modules/docs.js:991 admin/assets/js/modules/docs.js:995
 msgid "Refreshes every day automatically"
 msgstr ""
@@ -4801,11 +4914,11 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:751
+#: admin/assets/js/modules/settings.js:790
 msgid "Remove all imported days for %s?"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:771
+#: admin/assets/js/modules/settings.js:810
 msgid "Remove all imported timetable days?"
 msgstr ""
 
@@ -4817,7 +4930,7 @@ msgstr ""
 msgid "Repeat Count"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:485
+#: admin/assets/js/modules/settings.js:524
 msgid "Replace all imported days"
 msgstr ""
 
@@ -4835,6 +4948,22 @@ msgstr ""
 
 #: admin/assets/js/modules/minbar.js:329
 msgid "Results"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:925
+msgid "Revert"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:980
+msgid "Revert prayer schedule for %s back to calculated engine?"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:925
+msgid "Revert to calculation engine"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:984
+msgid "Reverting day..."
 msgstr ""
 
 #: admin/assets/js/modules/docs.js:908
@@ -4861,11 +4990,11 @@ msgstr ""
 msgid "Safar"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:488
+#: admin/assets/js/modules/settings.js:527
 msgid "Sample CSV"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:716
+#: admin/assets/js/modules/settings.js:755
 msgid "Sample download failed."
 msgstr ""
 
@@ -4875,6 +5004,10 @@ msgstr ""
 
 #: admin/assets/js/modules/minbar.js:401
 msgid "Save outline to archive"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:1055
+msgid "Save Override"
 msgstr ""
 
 #: admin/assets/js/modules/docs.js:907
@@ -4905,8 +5038,16 @@ msgstr ""
 msgid "Saved khutbahs"
 msgstr ""
 
+#: admin/assets/js/modules/settings.js:1105
+msgid "Saved successfully!"
+msgstr ""
+
 #: admin/assets/js/modules/docs.js:305
 msgid "Saves dismissal status in session storage to avoid repeating"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:1078
+msgid "Saving override..."
 msgstr ""
 
 #: admin/assets/js/app.js:1584 admin/assets/js/app.js:735 admin/assets/js/app.js:777 admin/assets/js/modules/minbar.js:1180 admin/assets/js/modules/minbar.js:1468 admin/assets/js/modules/minbar.js:951
@@ -5085,6 +5226,10 @@ msgstr ""
 msgid "Select Khatib Photo"
 msgstr ""
 
+#: admin/assets/js/modules/settings.js:489
+msgid "Select Month"
+msgstr ""
+
 #: admin/assets/js/modules/minbar.js:788
 msgid "Select PDF"
 msgstr ""
@@ -5099,6 +5244,10 @@ msgstr ""
 
 #: public/templates/audio-quran.php:12
 msgid "Select Surah"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:484
+msgid "Select Year"
 msgstr ""
 
 #: admin/assets/js/modules/minbar.js:493
@@ -5129,7 +5278,7 @@ msgstr ""
 msgid "Selects the monthly timetable design. Pro designs are rendered by the Pro plugin."
 msgstr ""
 
-#: admin/assets/js/modules/docs.js:796
+#: admin/assets/js/modules/docs.js:796 admin/assets/js/modules/settings.js:499
 msgid "September"
 msgstr ""
 
@@ -5581,7 +5730,7 @@ msgstr ""
 msgid "Sorted by priority and start date"
 msgstr ""
 
-#: admin/assets/js/modules/dashboard.js:352 includes/class-itmms-duas-azkar.php:26 includes/class-itmms-duas-library.php:260 includes/class-itmms-duas-library.php:305 includes/class-itmms-education.php:460 public/class-itmms-public.php:1075 public/trait-itmms-public-helpers.php:155 public/trait-itmms-public-helpers.php:326 public/trait-itmms-public-helpers.php:426
+#: admin/assets/js/modules/dashboard.js:352 admin/assets/js/modules/settings.js:883 includes/class-itmms-duas-azkar.php:26 includes/class-itmms-duas-library.php:260 includes/class-itmms-duas-library.php:305 includes/class-itmms-education.php:460 public/class-itmms-public.php:1075 public/trait-itmms-public-helpers.php:155 public/trait-itmms-public-helpers.php:326 public/trait-itmms-public-helpers.php:426
 msgid "Source"
 msgstr ""
 
@@ -5665,8 +5814,12 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
-#: admin/assets/js/modules/dashboard.js:53 admin/assets/js/modules/dashboard.js:77 admin/assets/js/modules/settings.js:88
+#: admin/assets/js/modules/dashboard.js:53 admin/assets/js/modules/dashboard.js:77 admin/assets/js/modules/settings.js:1011 admin/assets/js/modules/settings.js:861 admin/assets/js/modules/settings.js:88
 msgid "Sunrise"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:1039
+msgid "Sunrise Time"
 msgstr ""
 
 #: admin/assets/js/modules/docs.js:178
@@ -5837,7 +5990,7 @@ msgstr ""
 msgid "TikTok"
 msgstr ""
 
-#: public/templates/events.php:16
+#: admin/assets/js/modules/settings.js:878 public/templates/events.php:16
 msgid "Time"
 msgstr ""
 
@@ -5897,7 +6050,7 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: public/templates/events.php:24 public/templates/monthly-prayer-times.php:66 public/templates/monthly-prayer-times.php:98 public/trait-itmms-public-helpers.php:316
+#: admin/assets/js/modules/settings.js:898 public/templates/events.php:24 public/templates/monthly-prayer-times.php:66 public/templates/monthly-prayer-times.php:98 public/trait-itmms-public-helpers.php:316
 msgid "Today"
 msgstr ""
 
@@ -6341,23 +6494,23 @@ msgstr ""
 msgid "Valid schedule date is required."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:655
+#: admin/assets/js/modules/settings.js:694
 msgid "Valid: %1$d day(s). Errors: %2$d. Range: %3$s → %4$s."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:489
+#: admin/assets/js/modules/settings.js:528
 msgid "Validate CSV"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:504
+#: admin/assets/js/modules/settings.js:543
 msgid "Validate CSV, then Import. Widgets and TV use imported days as official times."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:642
+#: admin/assets/js/modules/settings.js:681
 msgid "Validating CSV..."
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:666
+#: admin/assets/js/modules/settings.js:705
 msgid "Validation failed."
 msgstr ""
 
@@ -6371,6 +6524,10 @@ msgstr ""
 
 #: includes/class-itmms-education.php:55
 msgid "View Article"
+msgstr ""
+
+#: admin/assets/js/modules/settings.js:481
+msgid "View calculated prayer times and apply manual day overrides when your local committee sets custom times."
 msgstr ""
 
 #: includes/class-itmms-duas-library.php:54
@@ -6465,7 +6622,7 @@ msgstr ""
 msgid "words"
 msgstr ""
 
-#: admin/assets/js/modules/settings.js:482
+#: admin/assets/js/modules/settings.js:521
 msgid "Working year"
 msgstr ""
 

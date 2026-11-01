@@ -49,6 +49,8 @@
 		trust: null,
 		upcomingDays: [],
 		timetable: data.timetable || { count: 0, active: false },
+		onboarding: data.onboarding || null,
+		wizardStep: 1,
 		announcements: [],
 		dashboardAnnouncements: [],
 		editingAnnouncement: 0,
@@ -329,6 +331,22 @@
 				if ( response.modules ) {
 					state.modules = response.modules;
 				}
+				return api( 'dashboard' ).catch( function () {
+					return null;
+				} );
+			} ).then( function ( dash ) {
+				if ( dash ) {
+					state.settings = dash.settings || state.settings;
+					state.modules = dash.modules || state.modules;
+					state.stats = dash.stats || state.stats;
+					state.prayers = dash.prayers || state.prayers;
+					state.nextPrayer = dash.next_prayer || state.nextPrayer;
+					state.prayerMeta = dash.prayer_meta || state.prayerMeta;
+					state.hijriDate = dash.hijri_date || state.hijriDate;
+					state.trust = dash.trust || state.trust;
+					state.upcomingDays = dash.upcoming_days || state.upcomingDays;
+					state.onboarding = dash.onboarding || state.onboarding;
+				}
 				return applyUiLanguage( next );
 			} ).catch( function () {
 				select.disabled = false;
@@ -433,7 +451,7 @@
 
 		if ( ! pro.active && ( data.proUrl || pro.url ) ) {
 			html += navGroup( __( 'Pro', 'masjidos' ),
-				navLink( data.proUrl || pro.url, 'star', pro.cta || __( 'Learn about Pro', 'masjidos' ) )
+				navLink( data.proUrl || pro.url, 'star', __( 'Learn about Pro', 'masjidos' ) )
 			);
 		}
 
@@ -1614,6 +1632,7 @@
 			state.trust = response.trust || state.trust;
 			state.upcomingDays = response.upcoming_days || [];
 			state.timetable = response.timetable || state.timetable;
+			state.onboarding = response.onboarding || state.onboarding;
 			state.dashboardAnnouncements = response.announcements || state.dashboardAnnouncements;
 			render();
 			switchTab( 'settings' );
@@ -1643,6 +1662,7 @@
 			state.trust = response.trust || state.trust;
 			state.upcomingDays = response.upcoming_days || [];
 			state.timetable = response.timetable || state.timetable;
+			state.onboarding = response.onboarding || state.onboarding;
 			state.dashboardAnnouncements = response.announcements || [];
 			state.dashboardEvents = response.events || [];
 			state.pro = response.pro || data.pro || {};
@@ -1701,6 +1721,8 @@
 	window.itmms.render = render;
 	window.itmms.switchTab = switchTab;
 	window.itmms.activateSettingsTab = activateSettingsTab;
+	window.itmms.loadDashboard = loadDashboard;
+	window.itmms.applyUiLanguage = applyUiLanguage;
 	window.addEventListener( 'popstate', function () {
 		var view = readViewState();
 		state.settingsTab = view.settingsTab;
