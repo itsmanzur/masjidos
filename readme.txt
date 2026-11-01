@@ -159,7 +159,7 @@ Service: https://aladhan.com | Privacy: https://aladhan.com/privacy
 The Audio Quran widget streams Surah recitation files from download.quranicaudio.com directly in the visitor's browser. No visitor data is uploaded from your server to that service.
 Service: https://quranicaudio.com
 
-TV Display and admin UI use self-hosted Outfit, Cairo, and Noto Sans Bengali fonts (SIL Open Font License). They do not call Google Fonts at runtime.
+TV Display and admin UI use self-hosted fonts (SIL Open Font License): Outfit, Cairo, Noto Sans Bengali, Plus Jakarta Sans, Hind Siliguri, Amiri, and Readex Pro. They do not call Google Fonts at runtime.
 
 == Frequently Asked Questions ==
 
