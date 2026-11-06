@@ -58,10 +58,14 @@ for (const item of items) {
 // Run Compress-Archive via powershell
 console.log(`Zipping to ${zipPath}...`);
 try {
-    execSync(`powershell -Command "Compress-Archive -Path _release/masjidos -DestinationPath _release/${zipName} -Force"`, {
-        cwd: rootDir,
-        stdio: 'inherit'
-    });
+    try {
+        execSync(`tar -a -c -f "_release/${zipName}" -C "_release" masjidos`, { cwd: rootDir, stdio: 'inherit' });
+    } catch (e) {
+        execSync(`powershell -Command "Compress-Archive -Path _release/masjidos -DestinationPath _release/${zipName} -Force"`, {
+            cwd: rootDir,
+            stdio: 'inherit'
+        });
+    }
 } catch (err) {
     console.error('Error zipping archive:', err.message);
     process.exit(1);
