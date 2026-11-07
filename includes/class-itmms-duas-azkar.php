@@ -149,9 +149,10 @@ final class ITMMS_Duas_Azkar {
 	 * @param string $language Active widget language.
 	 * @param string $category Requested category.
 	 * @param int    $limit Maximum number of items.
+	 * @param bool   $custom_only Only return duas from the Duas Library (skip bundled duas).
 	 * @return array<int,array<string,mixed>>
 	 */
-	public static function items( string $language, string $category, int $limit ): array {
+	public static function items( string $language, string $category, int $limit, bool $custom_only = false ): array {
 		$items = [
 			[
 				'key'        => 'rabbana-atina',
@@ -479,7 +480,9 @@ final class ITMMS_Duas_Azkar {
 			],
 		];
 
-		if ( class_exists( 'ITMMS_Duas_Library' ) ) {
+		if ( $custom_only ) {
+			$items = class_exists( 'ITMMS_Duas_Library' ) ? ITMMS_Duas_Library::items() : [];
+		} elseif ( class_exists( 'ITMMS_Duas_Library' ) ) {
 			$items = array_merge( $items, ITMMS_Duas_Library::items() );
 		}
 		$items = self::unique_items( $items );

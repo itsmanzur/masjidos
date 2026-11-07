@@ -1744,5 +1744,12 @@
 		"%d مشاهدات",
 		"%d مشاهدة",
 		"%d مشاهدة"
-	]
+	],
+	"MasjidOS Custom Duas": "أدعية MasjidOS المخصصة",
+	"Show only the duas you added in MasjidOS > Duas Library.": "عرض الأدعية التي أضفتها فقط في MasjidOS > مكتبة الأدعية.",
+	"Dua Library category": "تصنيف مكتبة الأدعية",
+	"Categories come from MasjidOS > Duas Library.": "التصنيفات تأتي من MasjidOS > مكتبة الأدعية.",
+	"Add duas in MasjidOS > Duas Library and click Publish": "أضف الأدعية في MasjidOS > مكتبة الأدعية ثم اضغط نشر",
+	"Assign a Dua Category, then add category=\"slug\" to show only that group": "عيّن تصنيفًا للدعاء ثم أضف category=\"slug\" لعرض تلك المجموعة فقط",
+	"Also available as the MasjidOS Custom Duas block and Elementor widget": "متاح أيضًا ككتلة أدعية MasjidOS المخصصة وكأداة Elementor"
 }

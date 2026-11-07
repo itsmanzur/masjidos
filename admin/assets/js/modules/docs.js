@@ -271,9 +271,10 @@
 				__( 'Good for Bangla mosque websites', 'masjidos' ),
 				__( 'Arabic dua text remains unchanged', 'masjidos' )
 			] ) +
-			docCard( __( 'Duas Library', 'masjidos' ), __( 'Add your own duas from the native WordPress library screen.', 'masjidos' ), __( 'MasjidOS > Duas Library', 'masjidos' ), [
-				__( 'Publish a dua to include it in the public widget', 'masjidos' ),
-				__( 'Assign native Dua Categories such as morning, food, or travel', 'masjidos' ),
+			docCard( __( 'Duas Library', 'masjidos' ), __( 'Show only the duas you added in MasjidOS > Duas Library.', 'masjidos' ), '[masjidos_custom_duas]', [
+				__( 'Add duas in MasjidOS > Duas Library and click Publish', 'masjidos' ),
+				__( 'Assign a Dua Category, then add category="slug" to show only that group', 'masjidos' ),
+				__( 'Also available as the MasjidOS Custom Duas block and Elementor widget', 'masjidos' ),
 				__( 'Use Select Audio to choose pronunciation audio from the Media Library', 'masjidos' )
 			] ) +
 		'</div>';

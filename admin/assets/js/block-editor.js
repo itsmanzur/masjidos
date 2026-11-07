@@ -486,6 +486,85 @@
 		}
 	} );
 
+	var customDuaCategories = ( window.itmmsBlockData && window.itmmsBlockData.customDuaCategories ) || {};
+	var customDuaCategoryOptions = [ { label: __( 'All', 'masjidos' ), value: 'all' } ].concat(
+		Object.keys( customDuaCategories ).map( function ( slug ) {
+			return { label: customDuaCategories[ slug ], value: slug };
+		} )
+	);
+
+	registerMasjidBlock( {
+		name: 'masjidos/custom-duas',
+		title: __( 'MasjidOS Custom Duas', 'masjidos' ),
+		description: __( 'Show only the duas you added in MasjidOS > Duas Library.', 'masjidos' ),
+		icon: 'book-alt',
+		keywords: [ 'dua', 'azkar', 'masjid', 'library' ],
+		attributes: {
+			title: { type: 'string', default: __( 'Duas & Azkar', 'masjidos' ) },
+			language: { type: 'string', default: defaultLanguage },
+			category: { type: 'string', default: 'all' },
+			limit: { type: 'string', default: '12' },
+			design: { type: 'string', default: 'cards' },
+			source: { type: 'string', default: 'yes' },
+			counter: { type: 'string', default: 'yes' },
+			share: { type: 'string', default: 'yes' },
+			audio: { type: 'string', default: 'yes' }
+		},
+		inspector: function ( attributes, setAttributes ) {
+			return [
+				createElement( TextControl, {
+					key: 'title',
+					label: __( 'Title', 'masjidos' ),
+					value: attributes.title,
+					onChange: function ( value ) { setAttributes( { title: value } ); }
+				} ),
+				createElement( SelectControl, {
+					key: 'language',
+					label: __( 'Language', 'masjidos' ),
+					value: attributes.language,
+					options: languageOptions,
+					onChange: function ( value ) { setAttributes( { language: value } ); }
+				} ),
+				createElement( SelectControl, {
+					key: 'category',
+					label: __( 'Dua Library category', 'masjidos' ),
+					value: attributes.category,
+					options: customDuaCategoryOptions,
+					help: __( 'Categories come from MasjidOS > Duas Library.', 'masjidos' ),
+					onChange: function ( value ) { setAttributes( { category: value } ); }
+				} ),
+				createElement( SelectControl, {
+					key: 'design',
+					label: __( 'Design', 'masjidos' ),
+					value: attributes.design,
+					options: [
+						{ label: __( 'Cards', 'masjidos' ), value: 'cards' },
+						{ label: __( 'Compact', 'masjidos' ), value: 'compact' }
+					],
+					onChange: function ( value ) { setAttributes( { design: value } ); }
+				} ),
+				createElement( TextControl, {
+					key: 'limit',
+					label: __( 'Limit', 'masjidos' ),
+					type: 'number',
+					value: attributes.limit,
+					onChange: function ( value ) { setAttributes( { limit: value } ); }
+				} ),
+				yesNoToggle( __( 'Show Source', 'masjidos' ), attributes.source, function ( value ) { setAttributes( { source: value } ); } ),
+				yesNoToggle( __( 'Show Counter', 'masjidos' ), attributes.counter, function ( value ) { setAttributes( { counter: value } ); } ),
+				yesNoToggle( __( 'Show Share', 'masjidos' ), attributes.share, function ( value ) { setAttributes( { share: value } ); } ),
+				yesNoToggle( __( 'Show Audio', 'masjidos' ), attributes.audio, function ( value ) { setAttributes( { audio: value } ); } )
+			];
+		},
+		previewRows: function ( attributes ) {
+			return [
+				{ label: __( 'Title: ', 'masjidos' ), value: attributes.title },
+				{ label: __( 'Category: ', 'masjidos' ), value: attributes.category },
+				{ label: __( 'Limit: ', 'masjidos' ), value: attributes.limit }
+			];
+		}
+	} );
+
 	registerMasjidBlock( {
 		name: 'masjidos/khutbah-archive',
 		title: __( 'MasjidOS Khutbah Archive', 'masjidos' ),

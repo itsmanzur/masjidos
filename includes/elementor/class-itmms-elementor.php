@@ -69,6 +69,7 @@ final class ITMMS_Elementor {
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-islamic-calendar.php';
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-ask-imam.php';
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-education.php';
+		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-custom-duas.php';
 
 		$widgets_manager->register( new ITMMS_Elementor_Prayer_Times() );
 		$widgets_manager->register( new ITMMS_Elementor_Monthly_Timetable() );
@@ -77,6 +78,7 @@ final class ITMMS_Elementor {
 		$widgets_manager->register( new ITMMS_Elementor_Islamic_Calendar() );
 		$widgets_manager->register( new ITMMS_Elementor_Ask_Imam() );
 		$widgets_manager->register( new ITMMS_Elementor_Education() );
+		$widgets_manager->register( new ITMMS_Elementor_Custom_Duas() );
 	}
 
 	/**

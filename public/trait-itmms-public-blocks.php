@@ -128,6 +128,24 @@ trait ITMMS_Public_Blocks {
 		);
 
 		register_block_type(
+			'masjidos/custom-duas',
+			[
+				'render_callback' => [ $this, 'render_custom_duas_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Duas & Azkar', 'masjidos' ) ),
+					'language' => $language_attr,
+					'category' => [ 'type' => 'string', 'default' => 'all' ],
+					'limit'    => [ 'type' => 'string', 'default' => '12' ],
+					'design'   => [ 'type' => 'string', 'default' => 'cards' ],
+					'source'   => [ 'type' => 'string', 'default' => 'yes' ],
+					'counter'  => [ 'type' => 'string', 'default' => 'yes' ],
+					'share'    => [ 'type' => 'string', 'default' => 'yes' ],
+					'audio'    => [ 'type' => 'string', 'default' => 'yes' ],
+				],
+			]
+		);
+
+		register_block_type(
 			'masjidos/khutbah-archive',
 			[
 				'render_callback' => [ $this, 'render_khutbah_archive_block' ],
@@ -271,6 +289,10 @@ trait ITMMS_Public_Blocks {
 		return $this->render_duas_azkar_shortcode( $attributes );
 	}
 
+	public function render_custom_duas_block( array $attributes ): string {
+		return $this->render_custom_duas_shortcode( $attributes );
+	}
+
 	public function render_khutbah_archive_block( array $attributes ): string {
 		return $this->render_khutbah_archive_shortcode( $attributes );
 	}
@@ -327,7 +349,8 @@ trait ITMMS_Public_Blocks {
 			'itmms-block-editor',
 			'itmmsBlockData',
 			[
-				'defaultLanguage' => ITMMS_Settings::ui_language(),
+				'defaultLanguage'     => ITMMS_Settings::ui_language(),
+				'customDuaCategories' => class_exists( 'ITMMS_Duas_Library' ) ? ITMMS_Duas_Library::category_options() : [],
 			]
 		);
 	}

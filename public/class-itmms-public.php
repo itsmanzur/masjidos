@@ -44,6 +44,7 @@ final class ITMMS_Public {
 		add_shortcode( 'masjidos_islamic_calendar', [ $this, 'render_islamic_calendar_shortcode' ] );
 		add_shortcode( 'itmms_calendar', [ $this, 'render_islamic_calendar_shortcode' ] );
 		add_shortcode( 'masjidos_duas_azkar', [ $this, 'render_duas_azkar_shortcode' ] );
+		add_shortcode( 'masjidos_custom_duas', [ $this, 'render_custom_duas_shortcode' ] );
 		add_shortcode( 'masjidos_khutbah_archive', [ $this, 'render_khutbah_archive_shortcode' ] );
 		add_shortcode( 'masjidos_khatib_this_week', [ $this, 'render_khatib_this_week_shortcode' ] );
 		add_shortcode( 'masjidos_upcoming_khutbah', [ $this, 'render_upcoming_khutbah_shortcode' ] );
@@ -388,6 +389,7 @@ final class ITMMS_Public {
 				'counter'  => 'yes',
 				'share'    => 'yes',
 				'audio'    => 'yes',
+				'custom'   => 'no',
 			],
 			$atts,
 			'masjidos_duas_azkar'
@@ -415,12 +417,13 @@ final class ITMMS_Public {
 		}
 
 		$category = sanitize_key( (string) $atts['category'] ) ?: 'all';
-		$limit = max( 1, min( 12, absint( $atts['limit'] ) ?: 4 ) );
+		$custom_only = 'yes' === strtolower( (string) $atts['custom'] );
+		$limit = max( 1, min( $custom_only ? 50 : 12, absint( $atts['limit'] ) ?: 4 ) );
 		$show_source = 'no' !== strtolower( (string) $atts['source'] );
 		$show_counter = 'no' !== strtolower( (string) $atts['counter'] );
 		$show_share = 'no' !== strtolower( (string) $atts['share'] );
 		$show_audio = 'no' !== strtolower( (string) $atts['audio'] );
-		$items = ITMMS_Duas_Azkar::items( $language, $category, $limit );
+		$items = ITMMS_Duas_Azkar::items( $language, $category, $limit, $custom_only );
 		$category_labels = ITMMS_Duas_Azkar::category_labels( $language );
 		$category_label = $category_labels[ $category ] ?? ucwords( str_replace( '-', ' ', $category ) );
 
@@ -438,6 +441,20 @@ final class ITMMS_Public {
 			include $template_path;
 		}
 		return $this->safe_kses( (string) ob_get_clean() );
+	}
+
+	/**
+	 * Render only the duas added in MasjidOS > Duas Library.
+	 *
+	 * @param array<string,mixed>|string $atts Shortcode attributes.
+	 */
+	public function render_custom_duas_shortcode( $atts = [] ): string {
+		$atts           = is_array( $atts ) ? $atts : [];
+		$atts['custom'] = 'yes';
+		if ( ! isset( $atts['limit'] ) || '' === trim( (string) $atts['limit'] ) ) {
+			$atts['limit'] = '12';
+		}
+		return $this->render_duas_azkar_shortcode( $atts );
 	}
 
 	/**

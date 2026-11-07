@@ -264,6 +264,31 @@ final class ITMMS_Duas_Library {
 	}
 
 	/**
+	 * Dua Library categories for pickers (block editor, Elementor).
+	 *
+	 * @return array<string,string> Category slug => name.
+	 */
+	public static function category_options(): array {
+		$terms = get_terms(
+			[
+				'taxonomy'   => self::TAXONOMY,
+				'hide_empty' => false,
+			]
+		);
+		if ( ! is_array( $terms ) ) {
+			return [];
+		}
+
+		$options = [];
+		foreach ( $terms as $term ) {
+			if ( $term instanceof WP_Term ) {
+				$options[ sanitize_key( $term->slug ) ] = $term->name;
+			}
+		}
+		return $options;
+	}
+
+	/**
 	 * @return string[]
 	 */
 	private static function split_categories( string $value ): array {

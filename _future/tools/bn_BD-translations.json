@@ -1871,5 +1871,12 @@
 	"Website Prayer Page": "ওয়েবসাইটের নামাজের পেজ",
 	"Welcome to %s": "%s-এ স্বাগতম",
 	"Works offline after setup · Gutenberg & Elementor ready · Free core forever": "সেটআপের পর অফলাইনেও কাজ করে · Gutenberg ও Elementor প্রস্তুত · ফ্রি কোর চিরকাল",
-	"Your prayer calculation is ready! Publish a ready-to-use Prayer Times page in one click or open the Mosque TV screen.": "আপনার নামাজের গণনা প্রস্তুত! এক ক্লিকে তৈরি নামাজের সময়ের পেজ প্রকাশ করুন অথবা মসজিদের TV স্ক্রিন খুলুন।"
+	"Your prayer calculation is ready! Publish a ready-to-use Prayer Times page in one click or open the Mosque TV screen.": "আপনার নামাজের গণনা প্রস্তুত! এক ক্লিকে তৈরি নামাজের সময়ের পেজ প্রকাশ করুন অথবা মসজিদের TV স্ক্রিন খুলুন।",
+	"MasjidOS Custom Duas": "MasjidOS কাস্টম দোয়া",
+	"Show only the duas you added in MasjidOS > Duas Library.": "MasjidOS > দোয়া লাইব্রেরিতে আপনার যোগ করা দোয়াগুলোই শুধু দেখান।",
+	"Dua Library category": "দোয়া লাইব্রেরি ক্যাটাগরি",
+	"Categories come from MasjidOS > Duas Library.": "ক্যাটাগরিগুলো MasjidOS > দোয়া লাইব্রেরি থেকে আসে।",
+	"Add duas in MasjidOS > Duas Library and click Publish": "MasjidOS > দোয়া লাইব্রেরিতে দোয়া যোগ করে প্রকাশ (Publish) করুন",
+	"Assign a Dua Category, then add category=\"slug\" to show only that group": "একটি দোয়া ক্যাটাগরি দিন, তারপর শুধু ওই গ্রুপ দেখাতে category=\"slug\" যোগ করুন",
+	"Also available as the MasjidOS Custom Duas block and Elementor widget": "MasjidOS কাস্টম দোয়া ব্লক ও Elementor উইজেট হিসেবেও পাওয়া যায়"
 }
