@@ -14,6 +14,8 @@ Mosque management for WordPress: prayer times, Jumuah & Minbar, Duas, Quran, Isl
 
 **MasjidOS** is the all-in-one mosque management plugin for WordPress.
 
+https://www.youtube.com/watch?v=88we3Oal4iY
+
 It helps mosque committees, imams, and volunteers publish accurate prayer times, Friday (Jumuah) information, notices, events, and Islamic learning content — without coding and without depending on an external prayer API by default.
 
 Activate MasjidOS, follow the **Welcome** guide, set your location once, then paste a shortcode (or use a Gutenberg block). Visitors see live prayer times; your lobby TV can open a fullscreen board; your website stays yours.
