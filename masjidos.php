@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MasjidOS
  * Description: Prayer times, Jumuah & Minbar, TV display, Duas, Quran, Hadith, articles, events, and notices for mosques.
- * Version:     1.5.0
+ * Version:     1.6.0
  * Author:      The Readscope
  * Author URI:  https://thereadscope.com
  * License:     GPL-2.0-or-later
@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ITMMS_VERSION', '1.5.0' );
+define( 'ITMMS_VERSION', '1.6.0' );
 define( 'ITMMS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ITMMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'ITMMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

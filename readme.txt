@@ -3,7 +3,7 @@ Contributors: itsmanzur, readscope
 Tags: prayer times, mosque, islamic calendar, duas, quran
 Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -254,6 +254,13 @@ Public widgets display only what an administrator has explicitly configured: pra
 
 == Changelog ==
 
+= 1.6.0 =
+* **Custom Duas everywhere** — new `[masjidos_custom_duas]` shortcode, **MasjidOS Custom Duas** Gutenberg block and Elementor widget show only the duas you add in MasjidOS > Duas Library, with category filtering.
+* **Setup checklist and Welcome wizard now follow the plugin language** (English, Bangla, Arabic).
+* **Complete Arabic translation** and finished Bangla coverage for the Docs page and block editor strings.
+* Docs: updated Duas Library card with copy-ready shortcode and steps.
+* Added intro video to the plugin description.
+
 = 1.5.0 =
 * **5-Step Mosque Onboarding Widget** — integrated in both MasjidOS Dashboard and native WordPress admin dashboard (`wp-admin/index.php`) with 1-click starter page creation, progress tracking, and TV preview checklist.
 * **Interactive 1-Minute Setup Wizard** — fast 4-step onboarding experience covering identity & language, location presets with browser geo-detection, quick Iqamah offsets & Jumuah times, and 1-click page publishing.
@@ -300,6 +307,9 @@ Public widgets display only what an administrator has explicitly configured: pra
 * Features page with live shortcode previews and Docs with shortcode generators.
 
 == Upgrade Notice ==
+
+= 1.6.0 =
+Adds Custom Duas shortcode, block and Elementor widget, plus full Arabic and Bangla translation coverage.
 
 = 1.5.0 =
 Features new 5-step onboarding, 1-minute setup wizard, local self-hosted fonts, and complete Arabic/Bangla translation coverage. Highly recommended update.
