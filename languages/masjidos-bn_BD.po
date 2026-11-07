@@ -25,11 +25,11 @@ msgstr "%1$d/%2$d সম্পন্ন — সবুজ আইটেম আপ�
 
 #: admin/assets/js/modules/dashboard.js:306
 msgid "%1$d of %2$d complete (%3$d%%)"
-msgstr "%1$d of %2$d complete (%3$d%%)"
+msgstr "%1$d/%2$d সম্পন্ন (%3$d%%)"
 
 #: admin/assets/js/modules/dashboard.js:234
 msgid "%1$d of %2$d steps completed (%3$d%%)"
-msgstr "%1$d of %2$d steps completed (%3$d%%)"
+msgstr "%1$d/%2$d ধাপ সম্পন্ন (%3$d%%)"
 
 #: includes/class-itmms-ask-imam.php:293
 msgid "%1$d views, %2$d helpful"
@@ -84,7 +84,7 @@ msgstr[1] "%d ভিউ"
 #. translators: %s: masjid name
 #: includes/rest/trait-itmms-rest-dashboard.php:257
 msgid "%s — Prayer Times & Masjid Board"
-msgstr "%s — Prayer Times & Masjid Board"
+msgstr "%s — নামাজের সময় ও মসজিদ বোর্ড"
 
 #. translators: %s: number of days remaining
 #: public/templates/events.php:22
@@ -102,7 +102,7 @@ msgstr "%s-এর জামাত"
 
 #: admin/assets/js/modules/welcome.js:231
 msgid "%s Iqamah (minutes after Azan)"
-msgstr "%s Iqamah (minutes after Azan)"
+msgstr "%s ইকামাহ (আযানের কত মিনিট পর)"
 
 #: admin/assets/js/modules/settings.js:349
 msgid "%s offset"
@@ -110,7 +110,7 @@ msgstr "%s সমন্বয়"
 
 #: admin/assets/js/modules/welcome.js:205 admin/assets/js/modules/welcome.js:243 admin/assets/js/modules/welcome.js:283
 msgid "← Back"
-msgstr "← Back"
+msgstr "← পিছনে"
 
 #: public/trait-itmms-public-helpers.php:482
 msgid "1 active notice"
@@ -126,19 +126,19 @@ msgstr "১টি ইভেন্ট"
 
 #: admin/assets/js/modules/dashboard.js:308
 msgid "1-Min Setup Wizard"
-msgstr "1-Min Setup Wizard"
+msgstr "১ মিনিটের সেটআপ উইজার্ড"
 
 #: admin/assets/js/modules/welcome.js:53
 msgid "1-Minute Setup Wizard"
-msgstr "1-Minute Setup Wizard"
+msgstr "১ মিনিটের সেটআপ উইজার্ড"
 
 #: admin/assets/js/modules/welcome.js:102
 msgid "1. Identity"
-msgstr "1. Identity"
+msgstr "১. পরিচিতি"
 
 #: admin/assets/js/modules/welcome.js:259
 msgid "1. Starter Prayer Times Page"
-msgstr "1. Starter Prayer Times Page"
+msgstr "১. শুরুর নামাজের সময়ের পেজ"
 
 #: admin/assets/js/modules/settings.js:138
 msgid "12-hour (2:30:05 PM)"
@@ -146,11 +146,11 @@ msgstr "১২-ঘণ্টা (২:৩০:০৫ PM)"
 
 #: admin/assets/js/modules/welcome.js:103
 msgid "2. Location"
-msgstr "2. Location"
+msgstr "২. অবস্থান"
 
 #: admin/assets/js/modules/welcome.js:271
 msgid "2. Mosque TV Display"
-msgstr "2. Mosque TV Display"
+msgstr "২. মসজিদ TV ডিসপ্লে"
 
 #: admin/assets/js/modules/settings.js:137
 msgid "24-hour (14:30:05)"
@@ -158,15 +158,15 @@ msgstr "২৪-ঘণ্টা (১৪:৩০:০৫)"
 
 #: admin/assets/js/modules/welcome.js:277
 msgid "3. Copy Shortcode"
-msgstr "3. Copy Shortcode"
+msgstr "৩. শর্টকোড কপি"
 
 #: admin/assets/js/modules/welcome.js:104
 msgid "3. Iqamah & Jumuah"
-msgstr "3. Iqamah & Jumuah"
+msgstr "৩. ইকামাহ ও জুমুআ"
 
 #: admin/assets/js/modules/welcome.js:105
 msgid "4. Publish & TV"
-msgstr "4. Publish & TV"
+msgstr "৪. প্রকাশ ও TV"
 
 #: admin/assets/js/block-editor.js:760 admin/assets/js/modules/docs.js:1033 admin/assets/js/modules/docs.js:998 admin/assets/js/modules/features.js:263 public/class-itmms-public.php:947 public/trait-itmms-public-blocks.php:210
 msgid "99 Names of Allah"
@@ -178,11 +178,11 @@ msgstr "আল্লাহর ৯৯ নাম (আসমাউল হুসন�
 
 #: admin/assets/js/modules/features.js:251
 msgid "A daily Hadith from authentic collections with meanings and sharing buttons."
-msgstr "A daily Hadith from authentic collections with meanings and sharing buttons."
+msgstr "সহীহ সংকলন থেকে প্রতিদিনের হাদিস, অর্থ ও শেয়ার বাটন সহ।"
 
 #: admin/assets/js/modules/features.js:238
 msgid "A daily verse from the Holy Quran in Arabic with English or Bangla meanings."
-msgstr "A daily verse from the Holy Quran in Arabic with English or Bangla meanings."
+msgstr "পবিত্র কুরআনের প্রতিদিনের আয়াত আরবিতে, ইংরেজি বা বাংলা অর্থ সহ।"
 
 #: admin/assets/js/modules/docs.js:322
 msgid "A narrow Jumuah card for sidebars, footers, or mobile-first layouts."
@@ -206,7 +206,7 @@ msgstr "হিসাব"
 
 #: admin/assets/js/modules/features.js:374
 msgid "Accounts & ledger"
-msgstr "Accounts & ledger"
+msgstr "হিসাব ও খতিয়ান"
 
 #: admin/assets/js/modules/dashboard.js:476
 msgid "Accuracy & Trust"
@@ -214,7 +214,7 @@ msgstr "নির্ভুলতা ও বিশ্বাস"
 
 #: admin/assets/js/modules/settings.js:297
 msgid "Accuracy checklist"
-msgstr "Accuracy checklist"
+msgstr "নির্ভুলতার চেকলিস্ট"
 
 #: admin/assets/js/modules/settings.js:884
 msgid "Actions"
@@ -246,11 +246,11 @@ msgstr "শুক্রবারের খুতবা যোগ করুন"
 
 #: admin/assets/js/modules/events.js:33
 msgid "Add an event"
-msgstr "Add an event"
+msgstr "ইভেন্ট যোগ করুন"
 
 #: admin/assets/js/modules/events.js:35
 msgid "Add event details, schedule, or prerequisites..."
-msgstr "Add event details, schedule, or prerequisites..."
+msgstr "ইভেন্টের বিবরণ, সময়সূচি বা পূর্বশর্ত লিখুন..."
 
 #: admin/assets/js/modules/docs.js:95
 msgid "Add Jumuah details, notices, articles, or Minbar schedule only when you need them."
@@ -334,7 +334,7 @@ msgstr "নামাজের সময়ের পাশে জামাতের
 
 #: admin/assets/js/modules/dashboard.js:264
 msgid "Adjust"
-msgstr "Adjust"
+msgstr "সমন্বয়"
 
 #: admin/assets/js/modules/settings.js:175
 msgid "Adjustments"
@@ -342,7 +342,7 @@ msgstr "সমন্বয়"
 
 #: admin/assets/js/modules/welcome.js:136
 msgid "Admin & Widget Language"
-msgstr "Admin & Widget Language"
+msgstr "অ্যাডমিন ও উইজেটের ভাষা"
 
 #: admin/assets/js/modules/docs.js:117 admin/assets/js/modules/docs.js:92
 msgid "Admin language"
@@ -382,7 +382,7 @@ msgstr "আখলাক"
 
 #: admin/assets/js/modules/settings.js:301
 msgid "Aligned with site timezone"
-msgstr "Aligned with site timezone"
+msgstr "সাইটের টাইমজোনের সাথে মিলেছে"
 
 #: admin/assets/js/block-editor.js:451 admin/assets/js/block-editor.js:534 admin/assets/js/block-editor.js:913 admin/assets/js/modules/docs.js:751 admin/assets/js/modules/features.js:496 admin/assets/js/modules/features.js:92 admin/assets/js/modules/minbar.js:321 includes/class-itmms-duas-azkar.php:97
 msgid "All"
@@ -438,7 +438,7 @@ msgstr "Also available: [masjidos_khatib_this_week], [masjidos_upcoming_khutbah]
 
 #: admin/assets/js/modules/features.js:277
 msgid "An embedded audio player for listening to Surah recitations."
-msgstr "An embedded audio player for listening to Surah recitations."
+msgstr "সূরার তিলাওয়াত শোনার জন্য এমবেডেড অডিও প্লেয়ার।"
 
 #: admin/assets/js/modules/settings.js:141
 msgid "Announcement Scroll Speed"
@@ -538,11 +538,11 @@ msgstr "আর্কাইভ মোট"
 
 #: admin/assets/js/article-editor.js:52 includes/class-itmms-education.php:221
 msgid "Article Details"
-msgstr "Article Details"
+msgstr "প্রবন্ধের বিবরণ"
 
 #: admin/assets/js/article-editor.js:59 includes/class-itmms-education.php:246
 msgid "Article Language"
-msgstr "Article Language"
+msgstr "প্রবন্ধের ভাষা"
 
 #: admin/assets/js/modules/docs.js:119
 msgid "Article titles, notice text, khutbah topics, and khatib names are never auto-translated. Write them in the language your community reads."
@@ -622,7 +622,7 @@ msgstr "আসর"
 
 #: admin/assets/js/modules/welcome.js:197
 msgid "Asr Juristic Method"
-msgstr "Asr Juristic Method"
+msgstr "আসরের ফিকহি পদ্ধতি"
 
 #: admin/assets/js/modules/settings.js:76
 msgid "Asr Method"
@@ -650,7 +650,7 @@ msgstr "অ্যাট্রিবিউট রেফারেন্স, পে
 
 #: includes/class-itmms-education.php:244
 msgid "Attribution and extras for this article. Titles stay as you type them."
-msgstr "Attribution and extras for this article. Titles stay as you type them."
+msgstr "এই প্রবন্ধের সূত্র ও অতিরিক্ত তথ্য। শিরোনাম আপনি যেভাবে লিখবেন সেভাবেই থাকবে।"
 
 #: admin/assets/js/modules/minbar.js:170 admin/assets/js/modules/minbar.js:240 includes/class-itmms-duas-azkar.php:54 includes/class-itmms-duas-library.php:306
 msgid "Audio"
@@ -686,11 +686,11 @@ msgstr "আগস্ট"
 
 #: includes/class-itmms-education.php:385 includes/class-itmms-education.php:454
 msgid "Author"
-msgstr "Author"
+msgstr "লেখক"
 
 #: admin/assets/js/article-editor.js:72 includes/class-itmms-education.php:264
 msgid "Author / Scholar"
-msgstr "Author / Scholar"
+msgstr "লেখক / আলেম"
 
 #: admin/assets/js/modules/settings.js:271 public/trait-itmms-public-helpers.php:157 public/trait-itmms-public-helpers.php:328 public/trait-itmms-public-helpers.php:454
 msgid "Auto API"
@@ -698,11 +698,11 @@ msgstr "অটো API"
 
 #: admin/assets/js/modules/settings.js:60
 msgid "Auto API (Aladhan.com)"
-msgstr "Auto API (Aladhan.com)"
+msgstr "অটো API (Aladhan.com)"
 
 #: admin/assets/js/modules/dashboard.js:461
 msgid "Auto API (Aladhan)"
-msgstr "Auto API (Aladhan)"
+msgstr "অটো API (আলাদান)"
 
 #: admin/assets/js/modules/docs.js:824
 msgid "Auto from settings"
@@ -714,7 +714,7 @@ msgstr "স্বয়ংক্রিয় অবস্থান, আজান ক�
 
 #: admin/assets/js/modules/docs.js:848
 msgid "Automatically hides past events based on their end time"
-msgstr "Automatically hides past events based on their end time"
+msgstr "শেষের সময় অনুযায়ী অতীত ইভেন্ট নিজে থেকে লুকিয়ে ফেলে"
 
 #: public/trait-itmms-public-designs.php:119 public/trait-itmms-public-designs.php:124 public/trait-itmms-public-designs.php:129 public/trait-itmms-public-designs.php:173 public/trait-itmms-public-designs.php:178 public/trait-itmms-public-designs.php:36 public/trait-itmms-public-designs.php:41 public/trait-itmms-public-designs.php:46 public/trait-itmms-public-designs.php:80 public/trait-itmms-public-designs.php:85
 msgid "Available in MasjidOS Pro."
@@ -766,7 +766,7 @@ msgstr "বাংলা দোয়া"
 
 #: admin/assets/js/modules/docs.js:854
 msgid "Bangla Events"
-msgstr "Bangla Events"
+msgstr "বাংলা ইভেন্ট"
 
 #: admin/assets/js/modules/docs.js:240
 msgid "Bangla Islamic Calendar"
@@ -831,7 +831,7 @@ msgstr "ব্লক এডিটর"
 
 #: admin/assets/js/modules/features.js:388
 msgid "Board for Jumuah, Eid, Shab-e-Barat and other day collections — linked to Accounts in MasjidOS Pro."
-msgstr "Board for Jumuah, Eid, Shab-e-Barat and other day collections — linked to Accounts in MasjidOS Pro."
+msgstr "জুমুআ, ঈদ, শবে বরাত ও অন্যান্য দিনের সংগ্রহের বোর্ড — MasjidOS Pro-তে হিসাবের সাথে যুক্ত।"
 
 #: admin/assets/js/modules/minbar.js:355
 msgid "Bookmark"
@@ -855,7 +855,7 @@ msgstr "বর্ডার রেডিয়াস"
 
 #: admin/assets/js/block-editor.js:492
 msgid "Browse published Jumuah khutbah records with search and filters."
-msgstr "Browse published Jumuah khutbah records with search and filters."
+msgstr "সার্চ ও ফিল্টার সহ প্রকাশিত জুমুআর খুতবার রেকর্ড দেখুন।"
 
 #: admin/assets/js/app.js:1578
 msgid "Browse widgets, copy shortcodes, and preview before publishing."
@@ -963,11 +963,11 @@ msgstr "ক্যাটাগরি ফিল্টার"
 
 #: admin/assets/js/block-editor.js:894 admin/assets/js/modules/features.js:294
 msgid "Category slug"
-msgstr "Category slug"
+msgstr "ক্যাটাগরি স্লাগ"
 
 #: admin/assets/js/block-editor.js:484 admin/assets/js/block-editor.js:534 admin/assets/js/block-editor.js:913
 msgid "Category: "
-msgstr "Category: "
+msgstr "ক্যাটাগরি: "
 
 #: admin/assets/js/modules/docs.js:199
 msgid "Change the widget heading for a homepage or masjid page."
@@ -983,7 +983,7 @@ msgstr "ক্যালেন্ডারের লেবেল, মাসের
 
 #: admin/assets/js/modules/docs.js:855
 msgid "Changes headers, dates, and location prefixes"
-msgstr "Changes headers, dates, and location prefixes"
+msgstr "হেডার, তারিখ ও স্থানের উপসর্গ বদলে দেয়"
 
 #: admin/assets/js/modules/docs.js:1044
 msgid "Changes player option labels."
@@ -1007,7 +1007,7 @@ msgstr "পাবলিক উইজেটের লেবেল ও নাম�
 
 #: admin/assets/js/modules/docs.js:867 admin/assets/js/modules/docs.js:878
 msgid "Changes public widget labels."
-msgstr "Changes public widget labels."
+msgstr "প্রকাশ্য উইজেটের লেবেল বদলে দেয়।"
 
 #: admin/assets/js/modules/docs.js:1014 admin/assets/js/modules/docs.js:1024
 msgid "Changes public widget translations."
@@ -1023,7 +1023,7 @@ msgstr "ক্যালেন্ডারের শিরোনাম বদল�
 
 #: admin/assets/js/modules/docs.js:865
 msgid "Changes the events list heading."
-msgstr "Changes the events list heading."
+msgstr "ইভেন্ট তালিকার শিরোনাম বদলে দেয়।"
 
 #: admin/assets/js/modules/docs.js:890
 msgid "Changes the form or answers widget heading."
@@ -1071,7 +1071,7 @@ msgstr "উইজেট লেবেল বদলায়। আর্টিকে
 
 #: public/class-itmms-public.php:555
 msgid "Check back later for community lectures, prayers, and charity events."
-msgstr "Check back later for community lectures, prayers, and charity events."
+msgstr "কমিউনিটির আলোচনা, নামাজ ও দান কার্যক্রমের জন্য পরে আবার দেখুন।"
 
 #: public/trait-itmms-public-helpers.php:132
 msgid "Check back later for today’s hadith."
@@ -1119,7 +1119,7 @@ msgstr "লোকাল নামাজের সময় হিসাবের �
 
 #: admin/assets/js/modules/welcome.js:134
 msgid "Choose your preferred interface language and enter your masjid name."
-msgstr "Choose your preferred interface language and enter your masjid name."
+msgstr "আপনার পছন্দের ইন্টারফেস ভাষা বেছে নিন এবং মসজিদের নাম লিখুন।"
 
 #: admin/assets/js/modules/settings.js:43 admin/assets/js/modules/welcome.js:185
 msgid "City"
@@ -1167,7 +1167,7 @@ msgstr "%2$s থেকে %1$d দিন মুছেছে।"
 
 #: admin/assets/js/modules/welcome.js:176
 msgid "Click a city preset or use your browser location to auto-fill coordinates, timezone, and calculation method."
-msgstr "Click a city preset or use your browser location to auto-fill coordinates, timezone, and calculation method."
+msgstr "একটি শহর বেছে নিন বা ব্রাউজারের অবস্থান ব্যবহার করুন; স্থানাঙ্ক, টাইমজোন ও গণনা পদ্ধতি নিজে থেকে বসে যাবে।"
 
 #: admin/assets/js/modules/docs.js:93
 msgid "Click Prayer Settings. Set timezone, city coordinates, calculation method, then save."
@@ -1211,7 +1211,7 @@ msgstr "কলাম: date, fajr, sunrise, dhuhr, asr, maghrib, isha, এবং 
 
 #: admin/assets/js/modules/docs.js:341
 msgid "Combines schedule roster and planner topics"
-msgstr "Combines schedule roster and planner topics"
+msgstr "সময়সূচির রোস্টার ও পরিকল্পনার বিষয় একসাথে দেখায়"
 
 #: admin/assets/js/modules/settings.js:159
 msgid "Coming in Pro"
@@ -1223,11 +1223,11 @@ msgstr "কমা দিয়ে আলাদা"
 
 #: admin/assets/js/modules/features.js:348
 msgid "Committee operations"
-msgstr "Committee operations"
+msgstr "কমিটির কার্যক্রম"
 
 #: admin/assets/js/modules/settings.js:82
 msgid "Common range is 15–20 minutes after sunrise."
-msgstr "Common range is 15–20 minutes after sunrise."
+msgstr "সাধারণত সূর্যোদয়ের ১৫–২০ মিনিট পর।"
 
 #: admin/assets/js/block-editor.js:129 admin/assets/js/block-editor.js:225 admin/assets/js/block-editor.js:275 admin/assets/js/block-editor.js:442 admin/assets/js/block-editor.js:689 admin/assets/js/block-editor.js:738 admin/assets/js/block-editor.js:786 admin/assets/js/block-editor.js:839 admin/assets/js/modules/docs.js:698 admin/assets/js/modules/docs.js:711 admin/assets/js/modules/docs.js:721 admin/assets/js/modules/docs.js:749 admin/assets/js/modules/features.js:42 admin/assets/js/modules/features.js:91 includes/elementor/widgets/class-itmms-elementor-jumuah.php:83 public/trait-itmms-public-designs.php:112 public/trait-itmms-public-designs.php:29 public/trait-itmms-public-designs.php:73
 msgid "Compact"
@@ -1279,7 +1279,7 @@ msgstr "আপনার প্রিন্ট করা বোর্ডের �
 
 #: admin/assets/js/modules/dashboard.js:302
 msgid "Complete these 5 quick steps to get your mosque website and TV display live."
-msgstr "Complete these 5 quick steps to get your mosque website and TV display live."
+msgstr "৫টি সহজ ধাপ সম্পন্ন করে আপনার মসজিদের ওয়েবসাইট ও TV ডিসপ্লে চালু করুন।"
 
 #: admin/assets/js/modules/minbar.js:1209 admin/assets/js/modules/minbar.js:392
 msgid "Conclusion"
@@ -1295,7 +1295,7 @@ msgstr "হিসাব, সময়সূচি, সমন্বয় ও জাম
 
 #: admin/assets/js/modules/dashboard.js:263
 msgid "Configure daily jamaat rules and Friday khutbah schedule."
-msgstr "Configure daily jamaat rules and Friday khutbah schedule."
+msgstr "দৈনিক জামাতের নিয়ম ও জুমুআর খুতবার সময়সূচি ঠিক করুন।"
 
 #: admin/assets/js/modules/settings.js:119
 msgid "Configure fullscreen mosque display layout, slides, quiet mode, overnight dim, theme, and font size."
@@ -1327,7 +1327,7 @@ msgstr "কোঅর্ডিনেট ঠিক আছে"
 
 #: admin/assets/js/modules/settings.js:299
 msgid "Coordinates ready"
-msgstr "Coordinates ready"
+msgstr "স্থানাঙ্ক প্রস্তুত"
 
 #: admin/assets/js/app.js:1428 includes/class-itmms-duas-azkar.php:55 public/templates/hadith.php:13 public/templates/quran-verse.php:14
 msgid "Copied"
@@ -1343,7 +1343,7 @@ msgstr "কপি"
 
 #: admin/assets/js/modules/welcome.js:279
 msgid "Copy [masjidos_prayer_times]"
-msgstr "Copy [masjidos_prayer_times]"
+msgstr "[masjidos_prayer_times] কপি করুন"
 
 #: admin/assets/js/modules/features.js:510
 msgid "Copy a shortcode, customize options, then paste on any page. Need attribute details? See Docs."
@@ -1395,23 +1395,23 @@ msgstr "বছর মুছা যায়নি।"
 
 #: includes/class-itmms-minbar.php:156
 msgid "Could not create khatib profile."
-msgstr "Could not create khatib profile."
+msgstr "খতিবের প্রোফাইল তৈরি করা যায়নি।"
 
 #: includes/class-itmms-minbar.php:405
 msgid "Could not create schedule entry."
-msgstr "Could not create schedule entry."
+msgstr "সময়সূচির এন্ট্রি তৈরি করা যায়নি।"
 
 #: includes/rest/trait-itmms-rest-minbar.php:110
 msgid "Could not delete profile."
-msgstr "Could not delete profile."
+msgstr "প্রোফাইল মুছে ফেলা যায়নি।"
 
 #: includes/rest/trait-itmms-rest-minbar.php:149
 msgid "Could not delete schedule entry."
-msgstr "Could not delete schedule entry."
+msgstr "সময়সূচির এন্ট্রি মুছে ফেলা যায়নি।"
 
 #: admin/assets/js/modules/settings.js:667
 msgid "Could not read the CSV file."
-msgstr "Could not read the CSV file."
+msgstr "CSV ফাইলটি পড়া যায়নি।"
 
 #: admin/assets/js/modules/settings.js:996
 msgid "Could not revert day."
@@ -1427,11 +1427,11 @@ msgstr "প্রশ্নটি জমা দেওয়া যায়নি। �
 
 #: includes/class-itmms-minbar.php:190
 msgid "Could not update khatib profile."
-msgstr "Could not update khatib profile."
+msgstr "খতিবের প্রোফাইল আপডেট করা যায়নি।"
 
 #: includes/class-itmms-minbar.php:432
 msgid "Could not update schedule entry."
-msgstr "Could not update schedule entry."
+msgstr "সময়সূচির এন্ট্রি আপডেট করা যায়নি।"
 
 #: admin/assets/js/modules/settings.js:44 admin/assets/js/modules/welcome.js:186
 msgid "Country"
@@ -1443,7 +1443,7 @@ msgstr "কভারেজ"
 
 #: admin/assets/js/modules/welcome.js:266
 msgid "Create & Publish Page (1-Click)"
-msgstr "Create & Publish Page (1-Click)"
+msgstr "পেজ তৈরি ও প্রকাশ করুন (১ ক্লিক)"
 
 #: admin/assets/js/modules/docs.js:696
 msgid "Create a copy-ready prayer widget shortcode without memorizing attributes."
@@ -1467,7 +1467,7 @@ msgstr "public দোয়া ও আজকার উইজেট shortcode তৈ
 
 #: admin/assets/js/modules/docs.js:775
 msgid "Create a public events feed shortcode for community pages or mosque notice boards."
-msgstr "Create a public events feed shortcode for community pages or mosque notice boards."
+msgstr "কমিউনিটি পেজ বা মসজিদের নোটিশ বোর্ডের জন্য প্রকাশ্য ইভেন্ট ফিডের শর্টকোড তৈরি করুন।"
 
 #: admin/assets/js/modules/docs.js:762
 msgid "Create a public notice list or compact ticker from your active announcements."
@@ -1483,11 +1483,11 @@ msgstr "নোটিশ স্ক্রিন থেকে নোটিশ ত�
 
 #: admin/assets/js/modules/events.js:41
 msgid "Create Event"
-msgstr "Create Event"
+msgstr "ইভেন্ট তৈরি করুন"
 
 #: admin/assets/js/modules/dashboard.js:277 admin/assets/js/modules/dashboard.js:586
 msgid "Create Page (1-Click)"
-msgstr "Create Page (1-Click)"
+msgstr "পেজ তৈরি করুন (১ ক্লিক)"
 
 #: admin/assets/js/app.js:1569
 msgid "Create public notices, urgent updates, and scheduled Jumuah messages."
@@ -1495,19 +1495,19 @@ msgstr "পাবলিক নোটিশ, জরুরি আপডেট ও 
 
 #: admin/assets/js/modules/welcome.js:260
 msgid "Creates a published WordPress page with daily Prayer Times, Jumuah card, Announcements, and Monthly Timetable."
-msgstr "Creates a published WordPress page with daily Prayer Times, Jumuah card, Announcements, and Monthly Timetable."
+msgstr "দৈনিক নামাজের সময়, জুমুআ কার্ড, ঘোষণা ও মাসিক সময়সূচি সহ একটি প্রকাশিত WordPress পেজ তৈরি করে।"
 
 #: admin/assets/js/modules/dashboard.js:573
 msgid "Creating..."
-msgstr "Creating..."
+msgstr "তৈরি হচ্ছে..."
 
 #: includes/rest/trait-itmms-rest-prayer.php:136
 msgid "CSV content is required."
-msgstr "CSV content is required."
+msgstr "CSV-এর বিষয়বস্তু প্রয়োজন।"
 
 #: includes/class-itmms-prayer-timetable.php:357
 msgid "CSV file is empty."
-msgstr "CSV file is empty."
+msgstr "CSV ফাইলটি ফাঁকা।"
 
 #: admin/assets/js/modules/settings.js:659 includes/rest/trait-itmms-rest-prayer.php:142
 msgid "CSV file is too large. Import one year at a time (about 365 rows)."
@@ -1515,15 +1515,15 @@ msgstr "CSV ফাইল অনেক বড়। একবারে এক বছ
 
 #: includes/class-itmms-prayer-timetable.php:366
 msgid "CSV header row is missing."
-msgstr "CSV header row is missing."
+msgstr "CSV-এর হেডার সারি নেই।"
 
 #: includes/rest/trait-itmms-rest-prayer.php:153
 msgid "CSV import could not be completed."
-msgstr "CSV import could not be completed."
+msgstr "CSV ইম্পোর্ট সম্পন্ন করা যায়নি।"
 
 #: includes/class-itmms-prayer-timetable.php:375
 msgid "CSV must include a date column."
-msgstr "CSV must include a date column."
+msgstr "CSV-তে তারিখের কলাম থাকতে হবে।"
 
 #: admin/assets/js/modules/settings.js:104
 msgid "CSV Timetable"
@@ -1579,7 +1579,7 @@ msgstr "দৈনিক"
 
 #: admin/assets/js/modules/features.js:87
 msgid "Daily duas and azkar with Arabic, meaning, counter, share, and audio."
-msgstr "Daily duas and azkar with Arabic, meaning, counter, share, and audio."
+msgstr "আরবি, অর্থ, কাউন্টার, শেয়ার ও অডিও সহ প্রতিদিনের দোয়া ও আযকার।"
 
 #: includes/class-itmms-settings.php:240
 msgid "Daily duas, azkar counters, sharing, and audio-ready cards"
@@ -1647,7 +1647,7 @@ msgstr "ডিফল্ট"
 
 #: admin/assets/js/modules/docs.js:851
 msgid "Defaults to 5 events"
-msgstr "Defaults to 5 events"
+msgstr "ডিফল্ট ৫টি ইভেন্ট"
 
 #: admin/assets/js/modules/announcements.js:61 admin/assets/js/modules/events.js:58 admin/assets/js/modules/minbar.js:250 admin/assets/js/modules/minbar.js:305 admin/assets/js/modules/minbar.js:486 admin/assets/js/modules/minbar.js:632
 msgid "Delete"
@@ -1679,7 +1679,7 @@ msgstr "এই সময়সূচির এন্ট্রি মুছে ফ�
 
 #: admin/assets/js/modules/events.js:35
 msgid "Description"
-msgstr "Description"
+msgstr "বিবরণ"
 
 #: admin/assets/js/block-editor.js:125 admin/assets/js/block-editor.js:221 admin/assets/js/block-editor.js:271 admin/assets/js/block-editor.js:321 admin/assets/js/block-editor.js:438 admin/assets/js/block-editor.js:685 admin/assets/js/block-editor.js:734 admin/assets/js/block-editor.js:782 admin/assets/js/block-editor.js:835 admin/assets/js/block-editor.js:884 admin/assets/js/modules/docs.js:698 admin/assets/js/modules/docs.js:711 admin/assets/js/modules/docs.js:721 admin/assets/js/modules/docs.js:749 admin/assets/js/modules/docs.js:765 admin/assets/js/modules/docs.js:777 admin/assets/js/modules/features.js:126 admin/assets/js/modules/features.js:42 admin/assets/js/modules/features.js:91
 msgid "Design"
@@ -1723,7 +1723,7 @@ msgstr "যোহর"
 
 #: admin/assets/js/modules/settings.js:301
 msgid "Differs from WP timezone (%s)"
-msgstr "Differs from WP timezone (%s)"
+msgstr "WP টাইমজোন (%s) থেকে ভিন্ন"
 
 #: admin/assets/js/modules/docs.js:470 public/trait-itmms-public-designs.php:171
 msgid "Digital Board"
@@ -1743,7 +1743,7 @@ msgstr "নিষ্ক্রিয়"
 
 #: public/trait-itmms-public-designs.php:168
 msgid "Dismissible modal for urgent announcements."
-msgstr "Dismissible modal for urgent announcements."
+msgstr "জরুরি ঘোষণার জন্য বন্ধ করা যায় এমন পপআপ।"
 
 #: admin/assets/js/modules/features.js:499
 msgid "Display"
@@ -1755,7 +1755,7 @@ msgstr "ইসলামিক বিশেষ দিন ও ইভেন্ট�
 
 #: admin/assets/js/block-editor.js:408
 msgid "Display curated duas and azkar with optional counter and share buttons."
-msgstr "Display curated duas and azkar with optional counter and share buttons."
+msgstr "বাছাই করা দোয়া ও আযকার দেখান, ঐচ্ছিক কাউন্টার ও শেয়ার বাটন সহ।"
 
 #: admin/assets/js/block-editor.js:103
 msgid "Display daily prayer times, countdown, Qibla compass, and timezone details."
@@ -1763,7 +1763,7 @@ msgstr "দৈনিক নামাজের সময়, কাউন্টড�
 
 #: admin/assets/js/block-editor.js:246
 msgid "Display Friday prayer sessions, khutbah times, and khatib details."
-msgstr "Display Friday prayer sessions, khutbah times, and khatib details."
+msgstr "জুমুআর নামাজের সেশন, খুতবার সময় ও খতিবের বিবরণ দেখান।"
 
 #: includes/elementor/widgets/class-itmms-elementor-ask-imam.php:68
 msgid "Display Mode"
@@ -1775,7 +1775,7 @@ msgstr "ডিসপ্লে মোড ও ব্লক"
 
 #: admin/assets/js/block-editor.js:757
 msgid "Display the 99 Names of Allah with meanings."
-msgstr "Display the 99 Names of Allah with meanings."
+msgstr "আল্লাহর ৯৯ নাম অর্থ সহ দেখান।"
 
 #: admin/assets/js/modules/docs.js:999
 msgid "Displays Arabic, transliteration, and meanings"
@@ -1787,7 +1787,7 @@ msgstr "ইভেন্ট কার্ডের হেডারে featured ima
 
 #: admin/assets/js/modules/features.js:264
 msgid "Displays the beautiful 99 names of Allah (Asmaul Husna) in a grid with meanings."
-msgstr "Displays the beautiful 99 names of Allah (Asmaul Husna) in a grid with meanings."
+msgstr "আল্লাহর ৯৯ নাম (আসমাউল হুসনা) অর্থ সহ গ্রিডে দেখায়।"
 
 #: admin/assets/js/modules/docs.js:300
 msgid "Displays the highest priority notice as a slim strip banner"
@@ -1827,11 +1827,11 @@ msgstr "দান"
 
 #: admin/assets/js/modules/features.js:361
 msgid "Donations & campaigns"
-msgstr "Donations & campaigns"
+msgstr "দান ও ক্যাম্পেইন"
 
 #: admin/assets/js/modules/docs.js:373
 msgid "Donations, Accounts ledger, and Special day collections docs appear here after MasjidOS Pro is active. Shortcode details are maintained by the Pro plugin."
-msgstr "Donations, Accounts ledger, and Special day collections docs appear here after MasjidOS Pro is active. Shortcode details are maintained by the Pro plugin."
+msgstr "MasjidOS Pro সক্রিয় হলে দান, হিসাবের খতিয়ান ও বিশেষ দিনের সংগ্রহের ডকুমেন্টেশন এখানে দেখা যাবে। শর্টকোডের বিবরণ Pro প্লাগিন নিজেই রাখে।"
 
 #: admin/assets/js/modules/settings.js:161
 msgid "Donations, ledgers & transparency"
@@ -1839,11 +1839,11 @@ msgstr "অনুদান, লেজার ও স্বচ্ছতা"
 
 #: admin/assets/js/modules/features.js:349
 msgid "Donations, members, and advanced reporting live in the separate Pro plugin — not in Free."
-msgstr "Donations, members, and advanced reporting live in the separate Pro plugin — not in Free."
+msgstr "দান, সদস্য ও উন্নত রিপোর্ট আলাদা Pro প্লাগিনে আছে — ফ্রিতে নেই।"
 
 #: public/templates/khutbah-archive.php:19
 msgid "Download PDF"
-msgstr "Download PDF"
+msgstr "PDF ডাউনলোড"
 
 #: admin/assets/js/modules/announcements.js:81
 msgid "Draft"
@@ -1927,7 +1927,7 @@ msgstr "সময়কাল (মিনিট)"
 
 #: admin/assets/js/modules/welcome.js:151
 msgid "e.g. Baitul Aman Jame Masjid"
-msgstr "e.g. Baitul Aman Jame Masjid"
+msgstr "যেমন: বায়তুল আমান জামে মসজিদ"
 
 #: admin/assets/js/modules/minbar.js:452
 msgid "e.g. Bangla, English, Arabic"
@@ -1935,7 +1935,7 @@ msgstr "যেমন: বাংলা, ইংরেজি, আরবি"
 
 #: admin/assets/js/article-editor.js:93 includes/class-itmms-education.php:271
 msgid "e.g. Book, hadith collection, citation"
-msgstr "e.g. Book, hadith collection, citation"
+msgstr "যেমন: বই, হাদিস গ্রন্থ, উদ্ধৃতি"
 
 #: admin/assets/js/modules/minbar.js:451
 msgid "e.g. Fiqh, Seerah"
@@ -1943,7 +1943,7 @@ msgstr "যেমন: ফিকহ, সীরাত"
 
 #: admin/assets/js/article-editor.js:77 includes/class-itmms-education.php:265
 msgid "e.g. Imam / Scholar name"
-msgstr "e.g. Imam / Scholar name"
+msgstr "যেমন: ইমাম / আলেমের নাম"
 
 #: admin/assets/js/modules/minbar.js:448
 msgid "e.g. Imam, Guest khatib"
@@ -1971,7 +1971,7 @@ msgstr "দোয়া ক্যাটাগরি সম্পাদনা কর
 
 #: admin/assets/js/modules/welcome.js:264
 msgid "Edit Page"
-msgstr "Edit Page"
+msgstr "পেজ সম্পাদনা"
 
 #: admin/assets/js/modules/minbar.js:274
 msgid "Edit plan"
@@ -2003,7 +2003,7 @@ msgstr "সম্পাদনা করা হচ্ছে"
 
 #: admin/assets/js/modules/events.js:33
 msgid "Editing event"
-msgstr "Editing event"
+msgstr "ইভেন্ট সম্পাদনা হচ্ছে"
 
 #: admin/assets/js/modules/announcements.js:34
 msgid "Editing notice"
@@ -2027,7 +2027,7 @@ msgstr "ঈদের ঘোষণা"
 
 #: admin/assets/js/modules/features.js:323
 msgid "Elevated prayer times layout for homepage heroes. Available in MasjidOS Pro."
-msgstr "Elevated prayer times layout for homepage heroes. Available in MasjidOS Pro."
+msgstr "হোমপেজের হিরো অংশের জন্য আকর্ষণীয় নামাজের সময়ের লেআউট। MasjidOS Pro-তে পাওয়া যায়।"
 
 #: admin/assets/js/modules/minbar.js:450 includes/class-itmms-ask-imam.php:928
 msgid "Email"
@@ -2035,7 +2035,7 @@ msgstr "ইমেইল"
 
 #: admin/assets/js/block-editor.js:811
 msgid "Embed an audio Quran player for selected Surahs."
-msgstr "Embed an audio Quran player for selected Surahs."
+msgstr "নির্বাচিত সূরার জন্য অডিও কুরআন প্লেয়ার এমবেড করুন।"
 
 #: public/class-itmms-public.php:599
 msgid "Enable Jumuah in Prayer Setup → Jumuah, then publish this block or shortcode."
@@ -2059,7 +2059,7 @@ msgstr "এই shortcode ব্যবহারের আগে Duas & Azkar modu
 
 #: public/class-itmms-public.php:533
 msgid "Enable the Events module before using this shortcode."
-msgstr "Enable the Events module before using this shortcode."
+msgstr "এই শর্টকোড ব্যবহারের আগে Events মডিউল চালু করুন।"
 
 #: public/trait-itmms-public-helpers.php:122
 msgid "Enable the Prayer Times module before using this shortcode."
@@ -2087,7 +2087,7 @@ msgstr "ইংরেজি অর্থ"
 
 #: public/templates/khutbah-search.php:15
 msgid "Enter a topic or khatib name to search."
-msgstr "Enter a topic or khatib name to search."
+msgstr "খুঁজতে একটি বিষয় বা খতিবের নাম লিখুন।"
 
 #: includes/class-itmms-duas-azkar.php:466 includes/class-itmms-duas-azkar.php:468
 msgid "Entering home"
@@ -2111,23 +2111,23 @@ msgstr "ইভেন্ট তৈরি হয়েছে।"
 
 #: includes/class-itmms-events.php:271 includes/rest/trait-itmms-rest-content.php:127 public/trait-itmms-public-display.php:146
 msgid "Event not found."
-msgstr "Event not found."
+msgstr "ইভেন্ট পাওয়া যায়নি।"
 
 #: admin/assets/js/modules/docs.js:863
 msgid "Event shortcode attributes"
-msgstr "Event shortcode attributes"
+msgstr "ইভেন্ট শর্টকোডের অ্যাট্রিবিউট"
 
 #: includes/class-itmms-events.php:239 includes/class-itmms-events.php:279
 msgid "Event start time is required."
-msgstr "Event start time is required."
+msgstr "ইভেন্ট শুরুর সময় প্রয়োজন।"
 
 #: admin/assets/js/modules/events.js:34
 msgid "Event Title"
-msgstr "Event Title"
+msgstr "ইভেন্টের শিরোনাম"
 
 #: includes/class-itmms-events.php:236 includes/class-itmms-events.php:276
 msgid "Event title is required."
-msgstr "Event title is required."
+msgstr "ইভেন্টের শিরোনাম প্রয়োজন।"
 
 #: admin/assets/js/app.js:767
 msgid "Event updated."
@@ -2139,19 +2139,19 @@ msgstr "ইভেন্ট"
 
 #: public/class-itmms-public.php:532
 msgid "Events are disabled"
-msgstr "Events are disabled"
+msgstr "ইভেন্ট বন্ধ আছে"
 
 #: includes/class-itmms-settings.php:239
 msgid "Events calendar, timings, and location registration"
-msgstr "Events calendar, timings, and location registration"
+msgstr "ইভেন্ট ক্যালেন্ডার, সময় ও স্থান নিবন্ধন"
 
 #: admin/assets/js/modules/docs.js:775
 msgid "Events Generator"
-msgstr "Events Generator"
+msgstr "ইভেন্ট জেনারেটর"
 
 #: admin/assets/js/modules/docs.js:841
 msgid "Events List"
-msgstr "Events List"
+msgstr "ইভেন্টের তালিকা"
 
 #: admin/assets/js/modules/features.js:137
 msgid "Events Widget"
@@ -2159,7 +2159,7 @@ msgstr "ইভেন্ট উইজেট"
 
 #: admin/assets/js/modules/events.js:34
 msgid "Example: Eid-ul-Fitr Prayer Gathering"
-msgstr "Example: Eid-ul-Fitr Prayer Gathering"
+msgstr "যেমন: ঈদুল ফিতরের নামাজের জামাত"
 
 #: admin/assets/js/modules/announcements.js:35
 msgid "Example: Friday parking update"
@@ -2175,7 +2175,7 @@ msgstr "উদাহরণ: শুক্রবারের গোসল কি �
 
 #: admin/assets/js/modules/events.js:39
 msgid "Example: Main Prayer Hall"
-msgstr "Example: Main Prayer Hall"
+msgstr "যেমন: প্রধান নামাজঘর"
 
 #: admin/assets/js/modules/minbar.js:451
 msgid "Expertise"
@@ -2195,7 +2195,7 @@ msgstr "স্পষ্টভাবে ফ্রি টেবিল ডিজা
 
 #: admin/assets/js/modules/welcome.js:93
 msgid "Explore Widgets"
-msgstr "Explore Widgets"
+msgstr "উইজেট দেখুন"
 
 #: admin/assets/js/modules/settings.js:531
 msgid "Export Calculated Year"
@@ -2263,7 +2263,7 @@ msgstr "নোটিশের ধরন অনুযায়ী ফিল্টা
 
 #: admin/assets/js/modules/docs.js:333
 msgid "Filter by topic, khatib, category, or date"
-msgstr "Filter by topic, khatib, category, or date"
+msgstr "বিষয়, খতিব, ক্যাটাগরি বা তারিখ দিয়ে ফিল্টার করুন"
 
 #: admin/assets/js/modules/docs.js:295
 msgid "Filter the widget to a single notice type."
@@ -2295,7 +2295,7 @@ msgstr "মসজিদের অফিসিয়াল সময়সূচির 
 
 #: admin/assets/js/modules/welcome.js:284
 msgid "Finish Setup — Open Dashboard ✓"
-msgstr "Finish Setup — Open Dashboard ✓"
+msgstr "সেটআপ শেষ — ড্যাশবোর্ড খুলুন ✓"
 
 #: includes/class-itmms-ask-imam.php:1026 includes/class-itmms-khutbah.php:24
 msgid "Fiqh"
@@ -2311,7 +2311,7 @@ msgstr "প্রথমে MasjidOS > নোটিশ থেকে একটি 
 
 #: admin/assets/js/modules/docs.js:842
 msgid "First create and schedule an event from MasjidOS > Events"
-msgstr "First create and schedule an event from MasjidOS > Events"
+msgstr "আগে MasjidOS > Events থেকে একটি ইভেন্ট তৈরি ও নির্ধারণ করুন"
 
 #: admin/assets/js/modules/settings.js:108 admin/assets/js/modules/settings.js:417 public/trait-itmms-public-helpers.php:257
 msgid "First Jumuah"
@@ -2319,11 +2319,11 @@ msgstr "প্রথম জুমা"
 
 #: admin/assets/js/modules/dashboard.js:283
 msgid "First Notice or Khutbah"
-msgstr "First Notice or Khutbah"
+msgstr "প্রথম নোটিশ বা খুতবা"
 
 #: admin/class-itmms-admin.php:486
 msgid "First notice or khutbah added"
-msgstr "First notice or khutbah added"
+msgstr "প্রথম নোটিশ বা খুতবা যোগ হয়েছে"
 
 #: admin/assets/js/modules/minbar.js:389
 msgid "First supporting argument with evidence."
@@ -2375,15 +2375,15 @@ msgstr "শুক্র"
 
 #: public/templates/jumuah.php:18 public/templates/khatib-this-week.php:16 public/trait-itmms-public-helpers.php:254
 msgid "Friday"
-msgstr "Friday"
+msgstr "শুক্রবার"
 
 #: admin/assets/js/modules/welcome.js:238
 msgid "Friday Jumuah Jamaat Time"
-msgstr "Friday Jumuah Jamaat Time"
+msgstr "জুমুআর জামাতের সময়"
 
 #: admin/assets/js/modules/welcome.js:235
 msgid "Friday Jumuah Khutbah Time"
-msgstr "Friday Jumuah Khutbah Time"
+msgstr "জুমুআর খুতবার সময়"
 
 #. translators: %s: Khatib name
 #: includes/class-itmms-events.php:525 includes/elementor/widgets/class-itmms-elementor-jumuah.php:70 includes/elementor/widgets/class-itmms-elementor-jumuah.php:71
@@ -2404,7 +2404,7 @@ msgstr "সংরক্ষিত TV Display সেটিংস ব্যবহ�
 
 #: admin/assets/js/modules/features.js:306
 msgid "Fullscreen mosque TV board — prayer times, countdown, Hijri date, and notices."
-msgstr "Fullscreen mosque TV board — prayer times, countdown, Hijri date, and notices."
+msgstr "ফুলস্ক্রিন মসজিদ TV বোর্ড — নামাজের সময়, কাউন্টডাউন, হিজরি তারিখ ও নোটিশ।"
 
 #: admin/assets/js/block-editor.js:337 admin/assets/js/modules/announcements.js:67 admin/assets/js/modules/docs.js:767 includes/elementor/widgets/class-itmms-elementor-announcements.php:112 public/class-itmms-public.php:1074 public/trait-itmms-public-helpers.php:485
 msgid "General"
@@ -2413,7 +2413,7 @@ msgstr "সাধারণ"
 #. translators: 1: calculation source label, 2: location string (city/country).
 #: public/trait-itmms-public-helpers.php:336
 msgid "Generated using %1$s for %2$s. Hijri dates may differ by local moon sighting."
-msgstr "Generated using %1$s for %2$s. Hijri dates may differ by local moon sighting."
+msgstr "%2$s-এর জন্য %1$s ব্যবহার করে তৈরি। স্থানীয় চাঁদ দেখার ওপর ভিত্তি করে হিজরি তারিখ ভিন্ন হতে পারে।"
 
 #: admin/assets/js/modules/docs.js:28
 msgid "Generators"
@@ -2441,7 +2441,7 @@ msgstr "কয়েক মিনিটেই আপনার মসজিদ অ�
 
 #: admin/assets/js/modules/dashboard.js:300
 msgid "Getting Started"
-msgstr "Getting Started"
+msgstr "শুরু করুন"
 
 #: includes/class-itmms-duas-azkar.php:239
 msgid "Glory is to Allah and praise is to Him."
@@ -2453,7 +2453,7 @@ msgstr "পবিত্র তিনি, যিনি এটিকে আমা�
 
 #: admin/assets/js/modules/welcome.js:94
 msgid "Go to Dashboard"
-msgstr "Go to Dashboard"
+msgstr "ড্যাশবোর্ডে যান"
 
 #: admin/assets/js/modules/docs.js:153
 msgid "Go to Settings > Jumuah Settings. Add First Jumuah and optional Second Jumuah times."
@@ -2545,7 +2545,7 @@ msgstr "হাদিস shortcode attributes"
 
 #: admin/assets/js/modules/dashboard.js:458 admin/assets/js/modules/welcome.js:199
 msgid "Hanafi"
-msgstr "Hanafi"
+msgstr "হানাফি"
 
 #: includes/elementor/widgets/class-itmms-elementor-prayer-times.php:216
 msgid "Heading Color"
@@ -2565,11 +2565,11 @@ msgstr "লুকানো"
 
 #: admin/assets/js/modules/dashboard.js:309
 msgid "Hide"
-msgstr "Hide"
+msgstr "লুকান"
 
 #: admin/assets/js/modules/dashboard.js:309
 msgid "Hide checklist"
-msgstr "Hide checklist"
+msgstr "চেকলিস্ট লুকান"
 
 #: admin/assets/js/modules/docs.js:307
 msgid "Hide Dates"
@@ -2597,7 +2597,7 @@ msgstr "অতিরিক্ত তথ্য লুকান"
 
 #: admin/assets/js/modules/features.js:628
 msgid "Hide options"
-msgstr "Hide options"
+msgstr "অপশন লুকান"
 
 #: admin/assets/js/modules/docs.js:217
 msgid "Hide Qibla"
@@ -2725,7 +2725,7 @@ msgstr "অফিশিয়াল CSV বছর ইমপোর্ট"
 
 #: admin/assets/js/modules/settings.js:730
 msgid "Imported %1$d day(s). Skipped %2$d row(s)."
-msgstr "Imported %1$d day(s). Skipped %2$d row(s)."
+msgstr "%1$d দিন ইম্পোর্ট হয়েছে। %2$d সারি বাদ গেছে।"
 
 #: admin/assets/js/modules/settings.js:815
 msgid "Imported timetable cleared."
@@ -2845,7 +2845,7 @@ msgstr "অকার্যকর তারিখ। YYYY-MM-DD ফরম্য�
 
 #: includes/rest/trait-itmms-rest-prayer.php:36
 msgid "Invalid date. Use YYYY-MM-DD."
-msgstr "Invalid date. Use YYYY-MM-DD."
+msgstr "অবৈধ তারিখ। YYYY-MM-DD ফরম্যাট ব্যবহার করুন।"
 
 #. translators: %s: prayer name.
 #: includes/class-itmms-prayer-timetable.php:612
@@ -2858,11 +2858,11 @@ msgstr "জামাত"
 
 #: admin/assets/js/modules/dashboard.js:262
 msgid "Iqamah & Jumuah"
-msgstr "Iqamah & Jumuah"
+msgstr "ইকামাহ ও জুমুআ"
 
 #: admin/class-itmms-admin.php:484
 msgid "Iqamah & Jumuah times set"
-msgstr "Iqamah & Jumuah times set"
+msgstr "ইকামাহ ও জুমুআর সময় নির্ধারিত"
 
 #: admin/assets/js/modules/settings.js:1044
 msgid "Iqamah Time (Optional)"
@@ -2874,7 +2874,7 @@ msgstr "জামাতের সময়"
 
 #: admin/assets/js/modules/welcome.js:307
 msgid "Iqamah:"
-msgstr "Iqamah:"
+msgstr "ইকামাহ:"
 
 #: admin/assets/js/modules/dashboard.js:106 admin/assets/js/modules/dashboard.js:530 admin/assets/js/modules/dashboard.js:57 admin/assets/js/modules/settings.js:101 admin/assets/js/modules/settings.js:1015 admin/assets/js/modules/settings.js:292 admin/assets/js/modules/settings.js:865 admin/assets/js/modules/settings.js:92 admin/assets/js/modules/welcome.js:219 admin/assets/js/modules/welcome.js:296
 msgid "Isha"
@@ -2886,7 +2886,7 @@ msgstr "ইশরাক"
 
 #: admin/assets/js/modules/settings.js:82
 msgid "Ishraq Minutes After Sunrise"
-msgstr "Ishraq Minutes After Sunrise"
+msgstr "সূর্যোদয়ের কত মিনিট পর ইশরাক"
 
 #: admin/assets/js/block-editor.js:860 admin/assets/js/modules/docs.js:979 admin/assets/js/modules/features.js:289 public/class-itmms-public.php:1048 public/class-itmms-public.php:1071 public/class-itmms-public.php:1080 public/trait-itmms-public-blocks.php:235
 msgid "Islamic Articles"
@@ -2938,7 +2938,7 @@ msgstr "ISNA"
 
 #: admin/assets/js/modules/dashboard.js:80 admin/assets/js/modules/dashboard.js:81
 msgid "ISNA (North America)"
-msgstr "ISNA (North America)"
+msgstr "ISNA (উত্তর আমেরিকা)"
 
 #: admin/assets/js/modules/settings.js:73 includes/class-itmms-prayer-times.php:533
 msgid "Jafari"
@@ -2962,7 +2962,7 @@ msgstr "জুলাই"
 
 #: admin/assets/js/modules/docs.js:387
 msgid "Jump to"
-msgstr "Jump to"
+msgstr "যান"
 
 #: admin/assets/js/block-editor.js:339 admin/assets/js/modules/announcements.js:67 admin/assets/js/modules/announcements.js:73 admin/assets/js/modules/dashboard.js:414 admin/assets/js/modules/docs.js:32 admin/assets/js/modules/docs.js:767 admin/assets/js/modules/minbar.js:504 admin/assets/js/modules/settings.js:170 includes/class-itmms-salahapi.php:284 public/trait-itmms-public-helpers.php:487
 msgid "Jumuah"
@@ -3076,15 +3076,15 @@ msgstr "আপনার নির্ধারিত বিষয় ও খতি�
 
 #: admin/assets/js/modules/docs.js:856
 msgid "Keeps your custom event title and description unchanged"
-msgstr "Keeps your custom event title and description unchanged"
+msgstr "আপনার লেখা ইভেন্টের শিরোনাম ও বিবরণ অপরিবর্তিত রাখে"
 
 #: includes/class-itmms-education.php:474
 msgid "Key takeaway"
-msgstr "Key takeaway"
+msgstr "মূল শিক্ষা"
 
 #: admin/assets/js/article-editor.js:96 includes/class-itmms-education.php:273
 msgid "Key Takeaway"
-msgstr "Key Takeaway"
+msgstr "মূল শিক্ষা"
 
 #: admin/assets/js/modules/dashboard.js:420 admin/assets/js/modules/minbar.js:189 admin/assets/js/modules/minbar.js:493 includes/class-itmms-minbar.php:53 public/templates/khatib-this-week.php:12 public/templates/khutbah-archive.php:17 public/templates/khutbah-search.php:16 public/templates/upcoming-khutbah.php:13 public/trait-itmms-public-helpers.php:259
 msgid "Khatib"
@@ -3096,7 +3096,7 @@ msgstr "খতিবের নাম"
 
 #: includes/class-itmms-khutbah.php:355
 msgid "Khatib name is required."
-msgstr "Khatib name is required."
+msgstr "খতিবের নাম প্রয়োজন।"
 
 #: admin/assets/js/modules/settings.js:113
 msgid "Khatib Photo"
@@ -3108,7 +3108,7 @@ msgstr "খতিবের প্রোফাইল"
 
 #: includes/class-itmms-minbar.php:168 includes/rest/trait-itmms-rest-minbar.php:107
 msgid "Khatib profile not found."
-msgstr "Khatib profile not found."
+msgstr "খতিবের প্রোফাইল পাওয়া যায়নি।"
 
 #: admin/assets/js/modules/minbar.js:435
 msgid "Khatib profiles"
@@ -3140,7 +3140,7 @@ msgstr "খুতবা আর্কাইভ"
 
 #: includes/class-itmms-khutbah.php:358
 msgid "Khutbah date is required."
-msgstr "Khutbah date is required."
+msgstr "খুতবার তারিখ প্রয়োজন।"
 
 #: admin/assets/js/modules/settings.js:111
 msgid "Khutbah Language"
@@ -3148,7 +3148,7 @@ msgstr "খুতবার ভাষা"
 
 #: includes/class-itmms-khutbah.php:254 includes/rest/trait-itmms-rest-minbar.php:67
 msgid "Khutbah not found."
-msgstr "Khutbah not found."
+msgstr "খুতবা পাওয়া যায়নি।"
 
 #: admin/assets/js/modules/minbar.js:1485
 msgid "Khutbah saved."
@@ -3164,7 +3164,7 @@ msgstr "খুতবার বিষয়"
 
 #: includes/class-itmms-khutbah.php:352
 msgid "Khutbah topic is required."
-msgstr "Khutbah topic is required."
+msgstr "খুতবার বিষয় প্রয়োজন।"
 
 #: admin/assets/js/modules/minbar.js:385
 msgid "Khutbah topic…"
@@ -3188,7 +3188,7 @@ msgstr "ভাষা"
 
 #: admin/assets/js/article-editor.js:69
 msgid "Language of this article’s content. Does not auto-translate the title."
-msgstr "Language of this article’s content. Does not auto-translate the title."
+msgstr "এই প্রবন্ধের বিষয়বস্তুর ভাষা। শিরোনাম স্বয়ংক্রিয়ভাবে অনুবাদ হয় না।"
 
 #: admin/assets/js/block-editor.js:150 admin/assets/js/block-editor.js:186 admin/assets/js/block-editor.js:238 admin/assets/js/block-editor.js:286 admin/assets/js/block-editor.js:701 admin/assets/js/block-editor.js:749 admin/assets/js/block-editor.js:849
 msgid "Language: "
@@ -3204,7 +3204,7 @@ msgstr "বড়"
 
 #: admin/assets/js/modules/features.js:336
 msgid "Large lobby-friendly prayer board design. Available in MasjidOS Pro."
-msgstr "Large lobby-friendly prayer board design. Available in MasjidOS Pro."
+msgstr "লবির জন্য উপযোগী বড় নামাজ বোর্ডের ডিজাইন। MasjidOS Pro-তে পাওয়া যায়।"
 
 #: admin/assets/js/modules/settings.js:468
 msgid "Large store detected. Prefer one year per import, or clear an old year to keep the site light."
@@ -3216,11 +3216,11 @@ msgstr "অক্ষাংশ"
 
 #: admin/assets/js/modules/settings.js:299
 msgid "Latitude / longitude needed"
-msgstr "Latitude / longitude needed"
+msgstr "অক্ষাংশ / দ্রাঘিমাংশ প্রয়োজন"
 
 #: admin/assets/js/modules/docs.js:361 admin/assets/js/modules/settings.js:157 public/trait-itmms-public-designs.php:247
 msgid "Learn about MasjidOS Pro"
-msgstr "Learn about MasjidOS Pro"
+msgstr "MasjidOS Pro সম্পর্কে জানুন"
 
 #: admin/assets/js/app.js:454 admin/assets/js/modules/dashboard.js:203 admin/assets/js/modules/features.js:463 includes/class-itmms-pro-bridge.php:68
 msgid "Learn about Pro"
@@ -3276,7 +3276,7 @@ msgstr "সীমা"
 
 #: admin/assets/js/modules/docs.js:342
 msgid "limit attribute controls how many rows show"
-msgstr "limit attribute controls how many rows show"
+msgstr "limit অ্যাট্রিবিউট ঠিক করে কয়টি সারি দেখাবে"
 
 #: admin/assets/js/modules/docs.js:920
 msgid "limit controls how many rows show"
@@ -3284,15 +3284,15 @@ msgstr "limit কতগুলো সারি দেখাবে তা নি�
 
 #: admin/assets/js/modules/docs.js:850
 msgid "Limit Events"
-msgstr "Limit Events"
+msgstr "ইভেন্টের সংখ্যা সীমা"
 
 #: admin/assets/js/modules/docs.js:850
 msgid "Limit the number of events displayed on the page."
-msgstr "Limit the number of events displayed on the page."
+msgstr "পেজে কয়টি ইভেন্ট দেখাবে তার সীমা দিন।"
 
 #: admin/assets/js/block-editor.js:358 admin/assets/js/block-editor.js:400 admin/assets/js/block-editor.js:533 admin/assets/js/block-editor.js:609 admin/assets/js/block-editor.js:651 admin/assets/js/block-editor.js:803 admin/assets/js/block-editor.js:914
 msgid "Limit: "
-msgstr "Limit: "
+msgstr "সীমা: "
 
 #: admin/assets/js/modules/docs.js:639
 msgid "Limits the number of active notices shown."
@@ -3300,7 +3300,7 @@ msgstr "দেখানো সক্রিয় নোটিশের সংখ্
 
 #: admin/assets/js/modules/docs.js:868
 msgid "Limits the number of events shown."
-msgstr "Limits the number of events shown."
+msgstr "কয়টি ইভেন্ট দেখাবে তার সীমা ঠিক করে।"
 
 #: admin/assets/js/modules/docs.js:879
 msgid "Limits the number of khutbahs shown."
@@ -3309,17 +3309,17 @@ msgstr "কতটি খুতবা দেখাবে তা সীমিত �
 #. translators: 1: CSV line number, 2: invalid date value.
 #: includes/class-itmms-prayer-timetable.php:396
 msgid "Line %1$d: invalid date \"%2$s\"."
-msgstr "Line %1$d: invalid date \"%2$s\"."
+msgstr "লাইন %1$d: অবৈধ তারিখ \"%2$s\"।"
 
 #. translators: %d: CSV line number.
 #: includes/class-itmms-prayer-timetable.php:154
 msgid "Line %d: missing or invalid date."
-msgstr "Line %d: missing or invalid date."
+msgstr "লাইন %d: তারিখ নেই বা অবৈধ।"
 
 #. translators: %d: CSV line number.
 #: includes/class-itmms-prayer-timetable.php:429
 msgid "Line %d: no prayer or Iqamah times found."
-msgstr "Line %d: no prayer or Iqamah times found."
+msgstr "লাইন %d: নামাজ বা ইকামাহর কোনো সময় পাওয়া যায়নি।"
 
 #: admin/assets/js/modules/minbar.js:458 admin/assets/js/modules/minbar.js:564
 msgid "LinkedIn"
@@ -3331,11 +3331,11 @@ msgstr "তালিকা"
 
 #: admin/assets/js/block-editor.js:857
 msgid "List published Islamic articles from the MasjidOS Articles CPT."
-msgstr "List published Islamic articles from the MasjidOS Articles CPT."
+msgstr "MasjidOS Articles থেকে প্রকাশিত ইসলামিক প্রবন্ধের তালিকা দেখান।"
 
 #: admin/assets/js/modules/features.js:290
 msgid "List published Islamic articles with optional category filter."
-msgstr "List published Islamic articles with optional category filter."
+msgstr "প্রকাশিত ইসলামিক প্রবন্ধের তালিকা, ঐচ্ছিক ক্যাটাগরি ফিল্টার সহ।"
 
 #: admin/assets/js/modules/docs.js:918
 msgid "List upcoming Friday topics from schedule and planner."
@@ -3343,7 +3343,7 @@ msgstr "সময়সূচি ও প্ল্যানার থেকে আ�
 
 #: admin/assets/js/block-editor.js:366
 msgid "List upcoming mosque events and community gatherings."
-msgstr "List upcoming mosque events and community gatherings."
+msgstr "আসন্ন মসজিদের ইভেন্ট ও কমিউনিটি সমাবেশের তালিকা দেখান।"
 
 #: admin/assets/js/modules/features.js:181
 msgid "List upcoming scheduled or planned Friday topics for your congregation."
@@ -3351,11 +3351,11 @@ msgstr "মুসল্লিদের জন্য আসন্ন বা প�
 
 #: admin/assets/js/block-editor.js:575 admin/assets/js/modules/docs.js:340
 msgid "List upcoming scheduled or planned Friday topics."
-msgstr "List upcoming scheduled or planned Friday topics."
+msgstr "আসন্ন নির্ধারিত বা পরিকল্পিত জুমুআর বিষয়ের তালিকা দেখান।"
 
 #: includes/class-itmms-education.php:479
 msgid "Listen"
-msgstr "Listen"
+msgstr "শুনুন"
 
 #: public/templates/khutbah-archive.php:18
 msgid "Listen to Khutbah"
@@ -3399,7 +3399,7 @@ msgstr "লোকাল হিসাব"
 
 #: admin/assets/js/modules/settings.js:59
 msgid "Local Calculation (Offline)"
-msgstr "Local Calculation (Offline)"
+msgstr "স্থানীয় গণনা (অফলাইন)"
 
 #: admin/assets/js/modules/dashboard.js:493 admin/assets/js/modules/events.js:39 admin/assets/js/modules/minbar.js:453 admin/assets/js/modules/welcome.js:82 public/templates/events.php:14 public/trait-itmms-public-helpers.php:150 public/trait-itmms-public-helpers.php:262
 msgid "Location"
@@ -3407,11 +3407,11 @@ msgstr "অবস্থান"
 
 #: admin/assets/js/modules/dashboard.js:254
 msgid "Location & Timezone"
-msgstr "Location & Timezone"
+msgstr "অবস্থান ও টাইমজোন"
 
 #: admin/class-itmms-admin.php:483
 msgid "Location & timezone configured"
-msgstr "Location & timezone configured"
+msgstr "অবস্থান ও টাইমজোন ঠিক করা হয়েছে"
 
 #: admin/assets/js/app.js:897
 msgid "Location detected and coordinates updated."
@@ -3459,11 +3459,11 @@ msgstr "খতিব প্রোফাইল ও শুক্রবারের
 
 #: admin/assets/js/modules/dashboard.js:384
 msgid "Manage modules"
-msgstr "Manage modules"
+msgstr "মডিউল পরিচালনা"
 
 #: admin/assets/js/modules/dashboard.js:285
 msgid "Manage Notices"
-msgstr "Manage Notices"
+msgstr "নোটিশ পরিচালনা"
 
 #: admin/assets/js/app.js:142
 msgid "Management"
@@ -3495,7 +3495,7 @@ msgstr "মসজিদ প্রশাসক"
 
 #: includes/class-itmms-prayer-times.php:760 public/trait-itmms-public-helpers.php:158 public/trait-itmms-public-helpers.php:329 public/trait-itmms-public-helpers.php:450
 msgid "Masjid CSV Timetable"
-msgstr "Masjid CSV Timetable"
+msgstr "মসজিদের CSV সময়সূচি"
 
 #: admin/assets/js/modules/settings.js:42 admin/assets/js/modules/welcome.js:150
 msgid "Masjid Name"
@@ -3515,11 +3515,11 @@ msgstr "মসজিদের প্রোফাইল"
 
 #: admin/assets/js/modules/dashboard.js:233 admin/assets/js/modules/dashboard.js:297 admin/assets/js/modules/dashboard.js:301
 msgid "Masjid Setup Checklist"
-msgstr "Masjid Setup Checklist"
+msgstr "মসজিদ সেটআপ চেকলিস্ট"
 
 #: admin/class-itmms-admin.php:504
 msgid "Masjid Setup Progress"
-msgstr "Masjid Setup Progress"
+msgstr "মসজিদ সেটআপের অগ্রগতি"
 
 #: admin/class-itmms-admin.php:98 admin/class-itmms-admin.php:99 includes/elementor/class-itmms-elementor.php:53
 msgid "MasjidOS"
@@ -3531,39 +3531,39 @@ msgstr "MasjidOS - সক্রিয়করণ ত্রুটি"
 
 #: admin/class-itmms-admin.php:467
 msgid "MasjidOS — Prayer Times & Setup Checklist"
-msgstr "MasjidOS — Prayer Times & Setup Checklist"
+msgstr "MasjidOS — নামাজের সময় ও সেটআপ চেকলিস্ট"
 
 #: admin/assets/js/modules/docs.js:274
 msgid "MasjidOS > Duas Library"
-msgstr "MasjidOS > Duas Library"
+msgstr "MasjidOS > দোয়া লাইব্রেরি"
 
 #: admin/assets/js/block-editor.js:756
 msgid "MasjidOS 99 Names"
-msgstr "MasjidOS 99 Names"
+msgstr "MasjidOS ৯৯ নাম"
 
 #: admin/assets/js/block-editor.js:856
 msgid "MasjidOS Articles"
-msgstr "MasjidOS Articles"
+msgstr "MasjidOS প্রবন্ধ"
 
 #: admin/assets/js/block-editor.js:810
 msgid "MasjidOS Audio Quran"
-msgstr "MasjidOS Audio Quran"
+msgstr "MasjidOS অডিও কুরআন"
 
 #: admin/assets/js/modules/settings.js:332
 msgid "MasjidOS calculation timezone (%1$s) does not match your WordPress site settings timezone (%2$s). This can cause widget countdown calculations to be incorrect. Please align them."
-msgstr "MasjidOS calculation timezone (%1$s) does not match your WordPress site settings timezone (%2$s). This can cause widget countdown calculations to be incorrect. Please align them."
+msgstr "MasjidOS-এর গণনার টাইমজোন (%1$s) আপনার WordPress সাইটের টাইমজোনের (%2$s) সাথে মেলে না। এতে উইজেটের কাউন্টডাউন ভুল হতে পারে। অনুগ্রহ করে দুটি মিলিয়ে নিন।"
 
 #: admin/assets/js/block-editor.js:407
 msgid "MasjidOS Duas & Azkar"
-msgstr "MasjidOS Duas & Azkar"
+msgstr "MasjidOS দোয়া ও আযকার"
 
 #: admin/assets/js/block-editor.js:365
 msgid "MasjidOS Events"
-msgstr "MasjidOS Events"
+msgstr "MasjidOS ইভেন্ট"
 
 #: admin/assets/js/block-editor.js:708
 msgid "MasjidOS Hadith"
-msgstr "MasjidOS Hadith"
+msgstr "MasjidOS হাদিস"
 
 #: admin/assets/js/block-editor.js:157
 msgid "MasjidOS Islamic Calendar"
@@ -3571,23 +3571,23 @@ msgstr "MasjidOS ইসলামিক ক্যালেন্ডার"
 
 #: admin/assets/js/block-editor.js:245
 msgid "MasjidOS Jumuah"
-msgstr "MasjidOS Jumuah"
+msgstr "MasjidOS জুমুআ"
 
 #: admin/assets/js/block-editor.js:491
 msgid "MasjidOS Khutbah Archive"
-msgstr "MasjidOS Khutbah Archive"
+msgstr "MasjidOS খুতবা আর্কাইভ"
 
 #: admin/assets/js/block-editor.js:616
 msgid "MasjidOS Khutbah Search"
-msgstr "MasjidOS Khutbah Search"
+msgstr "MasjidOS খুতবা সার্চ"
 
 #: admin/assets/js/block-editor.js:193
 msgid "MasjidOS Monthly Timetable"
-msgstr "MasjidOS Monthly Timetable"
+msgstr "MasjidOS মাসিক সময়সূচি"
 
 #: admin/assets/js/block-editor.js:293
 msgid "MasjidOS Notices"
-msgstr "MasjidOS Notices"
+msgstr "MasjidOS নোটিশ"
 
 #: admin/assets/js/block-editor.js:102
 msgid "MasjidOS Prayer Times"
@@ -3599,15 +3599,15 @@ msgstr "MasjidOS Pro"
 
 #: includes/class-itmms-pro-bridge.php:64
 msgid "MasjidOS Pro is active"
-msgstr "MasjidOS Pro is active"
+msgstr "MasjidOS Pro সক্রিয়"
 
 #: admin/assets/js/block-editor.js:658
 msgid "MasjidOS Quran Verse"
-msgstr "MasjidOS Quran Verse"
+msgstr "MasjidOS কুরআনের আয়াত"
 
 #: includes/class-itmms-installer.php:76
 msgid "MasjidOS requires PHP 7.4 or higher."
-msgstr "MasjidOS requires PHP 7.4 or higher."
+msgstr "MasjidOS-এর জন্য PHP ৭.৪ বা তার বেশি প্রয়োজন।"
 
 #: includes/class-itmms-installer.php:72
 msgid "MasjidOS requires WordPress 6.2 or higher."
@@ -3615,11 +3615,11 @@ msgstr "MasjidOS ব্যবহারের জন্য ওয়ার্ড�
 
 #: admin/assets/js/block-editor.js:541
 msgid "MasjidOS This Week's Khatib"
-msgstr "MasjidOS This Week's Khatib"
+msgstr "MasjidOS এই সপ্তাহের খতিব"
 
 #: admin/assets/js/block-editor.js:574
 msgid "MasjidOS Upcoming Khutbahs"
-msgstr "MasjidOS Upcoming Khutbahs"
+msgstr "MasjidOS আসন্ন খুতবা"
 
 #: includes/class-itmms-duas-azkar.php:196
 msgid "Master supplication for forgiveness"
@@ -3631,7 +3631,7 @@ msgstr "ওয়ার্ডপ্রেস টাইমজোনের সাথ�
 
 #: admin/assets/js/modules/docs.js:852
 msgid "Maximum limit is 20"
-msgstr "Maximum limit is 20"
+msgstr "সর্বোচ্চ সীমা ২০"
 
 #: admin/assets/js/modules/docs.js:792 admin/assets/js/modules/settings.js:495
 msgid "May"
@@ -3655,7 +3655,7 @@ msgstr "পদ্ধতি"
 
 #: admin/assets/js/modules/dashboard.js:385
 msgid "Method & timetable"
-msgstr "Method & timetable"
+msgstr "পদ্ধতি ও সময়সূচি"
 
 #: admin/assets/js/modules/settings.js:343
 msgid "Method tip:"
@@ -3791,7 +3791,7 @@ msgstr "মসজিদ বোর্ড"
 
 #: admin/assets/js/modules/events.js:43
 msgid "Mosque calendar"
-msgstr "Mosque calendar"
+msgstr "মসজিদের ক্যালেন্ডার"
 
 #: admin/assets/js/modules/docs.js:463 public/trait-itmms-public-designs.php:39
 msgid "Mosque Display"
@@ -3799,7 +3799,7 @@ msgstr "মসজিদ ডিসপ্লে"
 
 #: admin/assets/js/modules/features.js:335
 msgid "Mosque Display design"
-msgstr "Mosque Display design"
+msgstr "মসজিদ ডিসপ্লে ডিজাইন"
 
 #: includes/class-itmms-events.php:536
 msgid "Mosque Main Hall"
@@ -3811,7 +3811,7 @@ msgstr "মসজিদ নোটিশ"
 
 #: admin/assets/js/modules/dashboard.js:291
 msgid "Mosque TV Display"
-msgstr "Mosque TV Display"
+msgstr "মসজিদ TV ডিসপ্লে"
 
 #: admin/assets/js/modules/settings.js:426
 msgid "Mosque TV Display Link"
@@ -3819,7 +3819,7 @@ msgstr "মসজিদ TV ডিসপ্লে লিংক"
 
 #: admin/class-itmms-admin.php:487
 msgid "Mosque TV display previewed"
-msgstr "Mosque TV display previewed"
+msgstr "মসজিদ TV ডিসপ্লে দেখা হয়েছে"
 
 #: includes/class-itmms-roles.php:63
 msgid "Muazzin"
@@ -3827,7 +3827,7 @@ msgstr "মুয়াজ্জিন"
 
 #: admin/assets/js/modules/features.js:375
 msgid "Multi-fund income and expense ledger with a public transparency shortcode in MasjidOS Pro."
-msgstr "Multi-fund income and expense ledger with a public transparency shortcode in MasjidOS Pro."
+msgstr "একাধিক তহবিলের আয়-ব্যয়ের খতিয়ান ও প্রকাশ্য স্বচ্ছতার শর্টকোড — MasjidOS Pro-তে।"
 
 #: includes/class-itmms-duas-azkar.php:369 includes/class-itmms-duas-azkar.php:387
 msgid "Muslim"
@@ -3888,11 +3888,11 @@ msgstr "নতুন এন্ট্রি"
 
 #: admin/assets/js/modules/events.js:33
 msgid "New event"
-msgstr "New event"
+msgstr "নতুন ইভেন্ট"
 
 #: admin/assets/js/modules/events.js:29
 msgid "New Event"
-msgstr "New Event"
+msgstr "নতুন ইভেন্ট"
 
 #: admin/assets/js/modules/announcements.js:34
 msgid "New notice"
@@ -3932,7 +3932,7 @@ msgstr "পরবর্তী ওয়াক্ত"
 
 #: admin/assets/js/modules/features.js:296 includes/elementor/widgets/class-itmms-elementor-announcements.php:139 includes/elementor/widgets/class-itmms-elementor-jumuah.php:108 includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php:108 includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php:120 includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php:132 includes/elementor/widgets/class-itmms-elementor-prayer-times.php:111 includes/elementor/widgets/class-itmms-elementor-prayer-times.php:123 includes/elementor/widgets/class-itmms-elementor-prayer-times.php:135 includes/elementor/widgets/class-itmms-elementor-prayer-times.php:147
 msgid "No"
-msgstr "No"
+msgstr "না"
 
 #: public/class-itmms-public.php:496
 msgid "No active notices"
@@ -3956,7 +3956,7 @@ msgstr "কোনো আর্টিকেল পাওয়া যায়নি।
 
 #: public/class-itmms-public.php:1072
 msgid "No articles published yet."
-msgstr "No articles published yet."
+msgstr "এখনো কোনো প্রবন্ধ প্রকাশিত হয়নি।"
 
 #: public/trait-itmms-public-helpers.php:127
 msgid "No duas found"
@@ -3964,11 +3964,11 @@ msgstr "কোনো দোয়া পাওয়া যায়নি"
 
 #: admin/assets/js/modules/events.js:57
 msgid "No end time"
-msgstr "No end time"
+msgstr "শেষের সময় নেই"
 
 #: admin/assets/js/modules/events.js:50
 msgid "No events registered yet. Create the first one using the editor."
-msgstr "No events registered yet. Create the first one using the editor."
+msgstr "এখনো কোনো ইভেন্ট নেই। এডিটর ব্যবহার করে প্রথমটি তৈরি করুন।"
 
 #: admin/assets/js/modules/announcements.js:60
 msgid "No expiry"
@@ -3996,7 +3996,7 @@ msgstr "কোনো খুতবা পাওয়া যায়নি।"
 
 #: admin/assets/js/modules/events.js:55
 msgid "No Location"
-msgstr "No Location"
+msgstr "স্থান নেই"
 
 #: admin/assets/js/modules/minbar.js:211
 msgid "No matching khutbahs."
@@ -4048,7 +4048,7 @@ msgstr "কোনো প্রশ্ন পাওয়া যায়নি।"
 
 #: public/templates/khutbah-search.php:14
 msgid "No results."
-msgstr "No results."
+msgstr "কোনো ফলাফল নেই।"
 
 #: admin/assets/js/modules/settings.js:381
 msgid "No rounding"
@@ -4068,7 +4068,7 @@ msgstr "এই মাসের জন্য কোনো সময়সূচি �
 
 #: public/class-itmms-public.php:554
 msgid "No upcoming events"
-msgstr "No upcoming events"
+msgstr "কোনো আসন্ন ইভেন্ট নেই"
 
 #: admin/assets/js/modules/minbar.js:132
 msgid "No upcoming holy days in range."
@@ -4076,7 +4076,7 @@ msgstr "এই পরিসরে কোনো আসন্ন পবিত্�
 
 #: public/templates/upcoming-khutbah.php:12
 msgid "No upcoming khutbahs listed."
-msgstr "No upcoming khutbahs listed."
+msgstr "কোনো আসন্ন খুতবা তালিকাভুক্ত নেই।"
 
 #: public/trait-itmms-public-helpers.php:129
 msgid "No verse available"
@@ -4092,7 +4092,7 @@ msgstr "সাধারণ"
 
 #: includes/class-itmms-review-notice.php:100
 msgid "Not allowed."
-msgstr "Not allowed."
+msgstr "অনুমতি নেই।"
 
 #: admin/assets/js/modules/dashboard.js:456 admin/assets/js/modules/dashboard.js:460 admin/assets/js/modules/dashboard.js:68
 msgid "Not set"
@@ -4204,7 +4204,7 @@ msgstr "হে আল্লাহ, আপনি ক্ষমাশীল, ক্
 
 #: admin/assets/js/modules/features.js:391
 msgid "Occasion"
-msgstr "Occasion"
+msgstr "উপলক্ষ"
 
 #: admin/assets/js/modules/docs.js:797 admin/assets/js/modules/settings.js:500
 msgid "October"
@@ -4216,15 +4216,15 @@ msgstr "সমন্বয়"
 
 #: includes/class-itmms-education.php:274
 msgid "One-line summary for readers"
-msgstr "One-line summary for readers"
+msgstr "পাঠকদের জন্য এক লাইনের সারাংশ"
 
 #: admin/assets/js/article-editor.js:101
 msgid "One-line summary shown above the article."
-msgstr "One-line summary shown above the article."
+msgstr "প্রবন্ধের ওপরে দেখানো এক লাইনের সারাংশ।"
 
 #: admin/assets/js/modules/events.js:30 admin/assets/js/modules/events.js:66
 msgid "Ongoing"
-msgstr "Ongoing"
+msgstr "চলমান"
 
 #: admin/assets/js/modules/docs.js:935
 msgid "Only answered questions marked public are shown"
@@ -4240,7 +4240,7 @@ msgstr "শুধুমাত্র [masjidos_imam_answers] এর জন্য;
 
 #: admin/assets/js/modules/docs.js:332 admin/assets/js/modules/docs.js:923
 msgid "Only public archive entries are shown"
-msgstr "Only public archive entries are shown"
+msgstr "শুধু প্রকাশ্য আর্কাইভ এন্ট্রি দেখানো হয়"
 
 #: admin/assets/js/modules/docs.js:346
 msgid "Only published archive entries appear in results"
@@ -4256,15 +4256,15 @@ msgstr "খুলুন"
 
 #: admin/assets/js/modules/welcome.js:273
 msgid "Open /masjidos-display/"
-msgstr "Open /masjidos-display/"
+msgstr "/masjidos-display/ খুলুন"
 
 #: admin/assets/js/modules/docs.js:141
 msgid "Open /masjidos-display/ on the site to show a fullscreen mosque board with prayer times, Iqamah, Hijri date, Jumuah, and notices."
-msgstr "Open /masjidos-display/ on the site to show a fullscreen mosque board with prayer times, Iqamah, Hijri date, Jumuah, and notices."
+msgstr "সাইটে /masjidos-display/ খুলুন; নামাজের সময়, ইকামাহ, হিজরি তারিখ, জুমুআ ও নোটিশ সহ ফুলস্ক্রিন মসজিদ বোর্ড দেখাবে।"
 
 #: admin/assets/js/modules/dashboard.js:380
 msgid "Open announcements"
-msgstr "Open announcements"
+msgstr "ঘোষণা খুলুন"
 
 #: admin/assets/js/modules/docs.js:946
 msgid "Open Articles"
@@ -4280,7 +4280,7 @@ msgstr "ডকস খুলুন"
 
 #: admin/assets/js/modules/dashboard.js:381
 msgid "Open events"
-msgstr "Open events"
+msgstr "ইভেন্ট খুলুন"
 
 #: admin/assets/js/modules/docs.js:94
 msgid "Open Features, pick Prayer Times, copy the shortcode, and paste it on a WordPress page."
@@ -4296,11 +4296,11 @@ msgstr "গুগল ম্যাপস খুলে মসজিদের ন�
 
 #: admin/assets/js/modules/docs.js:427
 msgid "Open in Pro"
-msgstr "Open in Pro"
+msgstr "Pro-তে খুলুন"
 
 #: admin/class-itmms-admin.php:538
 msgid "Open MasjidOS"
-msgstr "Open MasjidOS"
+msgstr "MasjidOS খুলুন"
 
 #: admin/assets/js/modules/docs.js:503
 msgid "Open MasjidOS > Features to preview widgets before adding them to a public page."
@@ -4328,15 +4328,15 @@ msgstr "প্ল্যানার খুলুন"
 
 #: admin/assets/js/modules/docs.js:361 includes/class-itmms-pro-bridge.php:67
 msgid "Open Pro"
-msgstr "Open Pro"
+msgstr "Pro খুলুন"
 
 #: includes/class-itmms-education.php:467
 msgid "Open source link"
-msgstr "Open source link"
+msgstr "মূল লিংক খুলুন"
 
 #: admin/assets/js/modules/welcome.js:272
 msgid "Open the fullscreen digital clock & jamaat board designed for lobby or prayer hall screens."
-msgstr "Open the fullscreen digital clock & jamaat board designed for lobby or prayer hall screens."
+msgstr "লবি বা নামাজঘরের স্ক্রিনের জন্য তৈরি ফুলস্ক্রিন ডিজিটাল ঘড়ি ও জামাত বোর্ড খুলুন।"
 
 #: admin/assets/js/modules/settings.js:427
 msgid "Open this URL on your mosque TV, monitor, or display screen to show a beautiful fullscreen board with real-time clock, prayer table, countdown, and announcements."
@@ -4368,11 +4368,11 @@ msgstr "ঐচ্ছিক আরবি display title."
 
 #: admin/assets/js/article-editor.js:120 includes/class-itmms-education.php:280
 msgid "Optional audio narration URL"
-msgstr "Optional audio narration URL"
+msgstr "ঐচ্ছিক অডিও পাঠের URL"
 
 #: admin/assets/js/modules/docs.js:334
 msgid "Optional audio player and PDF download links"
-msgstr "Optional audio player and PDF download links"
+msgstr "ঐচ্ছিক অডিও প্লেয়ার ও PDF ডাউনলোডের লিংক"
 
 #: admin/assets/js/modules/docs.js:959
 msgid "Optional author, source, and language badges when set"
@@ -4384,7 +4384,7 @@ msgstr "ঐচ্ছিক বাংলা display title."
 
 #: admin/assets/js/modules/docs.js:880
 msgid "Optional category filter for the archive."
-msgstr "Optional category filter for the archive."
+msgstr "আর্কাইভের জন্য ঐচ্ছিক ক্যাটাগরি ফিল্টার।"
 
 #: admin/assets/js/modules/docs.js:981
 msgid "Optional category slug filter."
@@ -4412,19 +4412,19 @@ msgstr "ঐচ্ছিক পাবলিক নোট, যেমন: অনু
 
 #: admin/assets/js/article-editor.js:85 includes/class-itmms-education.php:268
 msgid "Optional translator name"
-msgstr "Optional translator name"
+msgstr "ঐচ্ছিক অনুবাদকের নাম"
 
 #: admin/assets/js/modules/docs.js:667
 msgid "Optional URL override for display labels."
-msgstr "Optional URL override for display labels."
+msgstr "ডিসপ্লে লেবেলের জন্য ঐচ্ছিক URL।"
 
 #: admin/assets/js/modules/docs.js:668
 msgid "Optional URL override for large screens."
-msgstr "Optional URL override for large screens."
+msgstr "বড় স্ক্রিনের জন্য ঐচ্ছিক URL।"
 
 #: admin/assets/js/modules/docs.js:665
 msgid "Optional URL override, for example /masjidos-display/?theme=light."
-msgstr "Optional URL override, for example /masjidos-display/?theme=light."
+msgstr "ঐচ্ছিক URL, যেমন /masjidos-display/?theme=light।"
 
 #: includes/class-itmms-ask-imam.php:930
 msgid "Optional, never shown publicly"
@@ -4436,11 +4436,11 @@ msgstr "ঐচ্ছিক: TV ডিসপ্লে"
 
 #: admin/assets/js/modules/events.js:38
 msgid "Optional."
-msgstr "Optional."
+msgstr "ঐচ্ছিক।"
 
 #: admin/assets/js/block-editor.js:895
 msgid "Optional. Example: fiqh, aqeedah, seerah"
-msgstr "Optional. Example: fiqh, aqeedah, seerah"
+msgstr "ঐচ্ছিক। যেমন: ফিকহ, আকীদা, সীরাত"
 
 #: admin/assets/js/modules/announcements.js:41
 msgid "Optional. Uses the same timezone."
@@ -4456,11 +4456,11 @@ msgstr "মসজিদের প্রোফাইল, নামাজের �
 
 #: includes/class-itmms-education.php:467
 msgid "Original"
-msgstr "Original"
+msgstr "মূল"
 
 #: admin/assets/js/article-editor.js:105 includes/class-itmms-education.php:276
 msgid "Original / External URL"
-msgstr "Original / External URL"
+msgstr "মূল / বাইরের URL"
 
 #: admin/assets/js/modules/minbar.js:507 includes/class-itmms-khutbah.php:28
 msgid "Other"
@@ -4500,11 +4500,11 @@ msgstr "পেজেস > নতুন যোগ করুন থেকে এ�
 
 #: includes/class-itmms-education.php:86
 msgid "Parent Category"
-msgstr "Parent Category"
+msgstr "মূল ক্যাটাগরি"
 
 #: includes/class-itmms-education.php:87
 msgid "Parent Category:"
-msgstr "Parent Category:"
+msgstr "মূল ক্যাটাগরি:"
 
 #: admin/assets/js/modules/docs.js:906
 msgid "Park future topic ideas before they are assigned to a Friday."
@@ -4512,11 +4512,11 @@ msgstr "কোনো জুমায় বরাদ্দের আগে ভব�
 
 #: admin/assets/js/modules/events.js:67
 msgid "Past"
-msgstr "Past"
+msgstr "অতীত"
 
 #: admin/assets/js/modules/welcome.js:278
 msgid "Paste [masjidos_prayer_times] anywhere, or use our 16 Gutenberg blocks & 7 Elementor widgets."
-msgstr "Paste [masjidos_prayer_times] anywhere, or use our 16 Gutenberg blocks & 7 Elementor widgets."
+msgstr "[masjidos_prayer_times] যেকোনো জায়গায় পেস্ট করুন, অথবা আমাদের ১৬টি Gutenberg ব্লক ও ৭টি Elementor উইজেট ব্যবহার করুন।"
 
 #: admin/assets/js/modules/settings.js:316
 msgid "Paste the first number into Latitude and the second number into Longitude."
@@ -4556,7 +4556,7 @@ msgstr "সাধারণ একটি জোন বেছে নিন অথ�
 
 #: admin/assets/js/modules/docs.js:400
 msgid "Pick a topic below — sections stay collapsed so the page stays short as Pro grows."
-msgstr "Pick a topic below — sections stay collapsed so the page stays short as Pro grows."
+msgstr "নিচ থেকে একটি বিষয় বেছে নিন — অংশগুলো বন্ধ থাকে, তাই Pro বাড়লেও পেজ ছোট থাকে।"
 
 #: admin/assets/js/modules/docs.js:496
 msgid "Pick English, Bangla, or Arabic from the top bar so menus and Docs feel familiar."
@@ -4576,7 +4576,7 @@ msgstr "একটি শুক্রবার পরিকল্পনা কর
 
 #: includes/class-itmms-minbar.php:550
 msgid "Plan date and topic are required."
-msgstr "Plan date and topic are required."
+msgstr "পরিকল্পনার তারিখ ও বিষয় প্রয়োজন।"
 
 #: admin/assets/js/app.js:1543
 msgid "Plan upcoming topics around Islamic days and seasons."
@@ -4624,11 +4624,11 @@ msgstr "জনপ্রিয়তা"
 
 #: admin/assets/js/block-editor.js:327
 msgid "Popup"
-msgstr "Popup"
+msgstr "পপআপ"
 
 #: admin/assets/js/modules/docs.js:765 admin/assets/js/modules/features.js:126 includes/elementor/widgets/class-itmms-elementor-announcements.php:85 public/trait-itmms-public-designs.php:166
 msgid "Popup Modal"
-msgstr "Popup Modal"
+msgstr "পপআপ মডাল"
 
 #: admin/assets/js/modules/docs.js:303
 msgid "Popup Notice"
@@ -4636,7 +4636,7 @@ msgstr "পপআপ নোটিশ"
 
 #: admin/assets/js/modules/dashboard.js:284
 msgid "Post an active announcement or archive a Friday sermon."
-msgstr "Post an active announcement or archive a Friday sermon."
+msgstr "একটি সক্রিয় ঘোষণা দিন বা জুমুআর খুতবা আর্কাইভ করুন।"
 
 #: admin/assets/js/modules/docs.js:105
 msgid "Post or Article"
@@ -4660,7 +4660,7 @@ msgstr "নামাজের সময় হিসাব"
 
 #: public/templates/prayer-times.php:23
 msgid "Prayer calculation details"
-msgstr "Prayer calculation details"
+msgstr "নামাজ গণনার বিবরণ"
 
 #: includes/elementor/widgets/class-itmms-elementor-prayer-times.php:236
 msgid "Prayer Names Color"
@@ -4697,7 +4697,7 @@ msgstr "নামাজের সময়"
 #. translators: 1: city, 2: calculation method label
 #: includes/class-itmms-salahapi.php:37
 msgid "Prayer times for %1$s using %2$s"
-msgstr "Prayer times for %1$s using %2$s"
+msgstr "%2$s পদ্ধতিতে %1$s-এর নামাজের সময়"
 
 #: admin/assets/js/modules/docs.js:696
 msgid "Prayer Times Generator"
@@ -4709,7 +4709,7 @@ msgstr "Prayer Times নিষ্ক্রিয়"
 
 #: admin/class-itmms-admin.php:485
 msgid "Prayer times page published"
-msgstr "Prayer times page published"
+msgstr "নামাজের সময়ের পেজ প্রকাশিত"
 
 #: admin/assets/js/modules/docs.js:163 admin/assets/js/modules/features.js:37
 msgid "Prayer Times Widget"
@@ -4725,7 +4725,7 @@ msgstr "প্রিমিয়াম কার্ড"
 
 #: admin/assets/js/modules/features.js:322
 msgid "Premium Card design"
-msgstr "Premium Card design"
+msgstr "প্রিমিয়াম কার্ড ডিজাইন"
 
 #: admin/assets/js/modules/dashboard.js:202
 msgid "Premium designs and committee tools in a separate Pro plugin."
@@ -4749,7 +4749,7 @@ msgstr "modal popup overlay-এর ভিতরে নোটিশ দেখা�
 
 #: admin/assets/js/modules/features.js:475
 msgid "Preview"
-msgstr "Preview"
+msgstr "প্রিভিউ"
 
 #: admin/assets/js/modules/docs.js:94
 msgid "Preview in Features"
@@ -4757,7 +4757,7 @@ msgstr "Features-এ প্রিভিউ"
 
 #: admin/assets/js/modules/dashboard.js:292
 msgid "Preview the fullscreen digital signage for prayer hall & lobby."
-msgstr "Preview the fullscreen digital signage for prayer hall & lobby."
+msgstr "নামাজঘর ও লবির জন্য ফুলস্ক্রিন ডিজিটাল ডিসপ্লে প্রিভিউ করুন।"
 
 #: public/trait-itmms-public-helpers.php:319
 msgid "Previous month"
@@ -4797,7 +4797,7 @@ msgstr "Pro ডিজাইন প্রিসেট"
 
 #: admin/assets/js/modules/docs.js:386
 msgid "Pro docs topics"
-msgstr "Pro docs topics"
+msgstr "Pro ডকুমেন্টেশনের বিষয়"
 
 #: admin/assets/js/modules/minbar.js:376
 msgid "Pro feature"
@@ -4805,11 +4805,11 @@ msgstr "Pro ফিচার"
 
 #: admin/assets/js/modules/docs.js:371
 msgid "Pro tools"
-msgstr "Pro tools"
+msgstr "Pro টুল"
 
 #: admin/assets/js/modules/docs.js:372
 msgid "Pro tools (when installed)"
-msgstr "Pro tools (when installed)"
+msgstr "Pro টুল (ইনস্টল থাকলে)"
 
 #: admin/assets/js/modules/docs.js:132
 msgid "Pro-safe Designs"
@@ -4869,7 +4869,7 @@ msgstr "public widget-এ দেখাতে দোয়াটি publish কর�
 
 #: admin/assets/js/modules/dashboard.js:271
 msgid "Publish a ready-to-use Prayer Times & Masjid Board page."
-msgstr "Publish a ready-to-use Prayer Times & Masjid Board page."
+msgstr "নামাজের সময় ও মসজিদ বোর্ডের একটি তৈরি পেজ প্রকাশ করুন।"
 
 #: admin/assets/js/modules/announcements.js:34
 msgid "Publish an update"
@@ -4949,7 +4949,7 @@ msgstr "কোয়ায়েট সময়কাল"
 
 #: admin/assets/js/modules/settings.js:433
 msgid "Quiet mode: "
-msgstr "Quiet mode: "
+msgstr "নীরব মোড: "
 
 #: admin/assets/js/modules/minbar.js:322 public/templates/quran-verse.php:11
 msgid "Quran"
@@ -5040,7 +5040,7 @@ msgstr "সহজপাঠ্য পাবলিক নোটিশ বোর্
 #. translators: %d: estimated reading minutes
 #: includes/class-itmms-education.php:464
 msgid "Reading time"
-msgstr "Reading time"
+msgstr "পড়ার সময়"
 
 #: admin/assets/js/modules/docs.js:958
 msgid "Reading time is estimated automatically"
@@ -5152,7 +5152,7 @@ msgstr "হিসাবকৃত ইঞ্জিনে ফেরানো হচ
 
 #: admin/assets/js/modules/dashboard.js:256
 msgid "Review"
-msgstr "Review"
+msgstr "পর্যালোচনা"
 
 #: admin/assets/js/modules/docs.js:908
 msgid "Review submitted questions, write answers, and mark safe answers as public."
@@ -5188,15 +5188,15 @@ msgstr "সংরক্ষণ"
 
 #: admin/assets/js/modules/welcome.js:206
 msgid "Save & Next: Iqamah & Jumuah →"
-msgstr "Save & Next: Iqamah & Jumuah →"
+msgstr "সংরক্ষণ ও পরবর্তী: ইকামাহ ও জুমুআ →"
 
 #: admin/assets/js/modules/welcome.js:155
 msgid "Save & Next: Location →"
-msgstr "Save & Next: Location →"
+msgstr "সংরক্ষণ ও পরবর্তী: অবস্থান →"
 
 #: admin/assets/js/modules/welcome.js:244
 msgid "Save & Next: Publish & TV →"
-msgstr "Save & Next: Publish & TV →"
+msgstr "সংরক্ষণ ও পরবর্তী: প্রকাশ ও TV →"
 
 #: admin/assets/js/modules/minbar.js:401
 msgid "Save outline to archive"
@@ -5256,7 +5256,7 @@ msgstr "শুক্রবার নির্ধারণ করুন"
 
 #: includes/class-itmms-minbar.php:417 includes/rest/trait-itmms-rest-minbar.php:146
 msgid "Schedule entry not found."
-msgstr "Schedule entry not found."
+msgstr "সময়সূচির এন্ট্রি পাওয়া যায়নি।"
 
 #: admin/assets/js/app.js:1573
 msgid "Schedule special lectures, community gatherings, Eid prayers, or charity events."
@@ -5268,7 +5268,7 @@ msgstr "নির্ধারিত"
 
 #: admin/assets/js/modules/events.js:43
 msgid "Scheduled events"
-msgstr "Scheduled events"
+msgstr "নির্ধারিত ইভেন্ট"
 
 #: includes/class-itmms-settings.php:238
 msgid "Scheduled notices, public list, ticker"
@@ -5276,7 +5276,7 @@ msgstr "নির্ধারিত নোটিশ, পাবলিক তা�
 
 #: admin/assets/js/modules/features.js:122
 msgid "Scrolling or list-style mosque announcements with priority, types, and expiry dates."
-msgstr "Scrolling or list-style mosque announcements with priority, types, and expiry dates."
+msgstr "অগ্রাধিকার, ধরন ও মেয়াদ সহ স্ক্রলিং বা তালিকা আকারে মসজিদের ঘোষণা।"
 
 #: admin/assets/js/modules/minbar.js:326 includes/class-itmms-ask-imam.php:948 public/templates/khutbah-archive.php:13 public/templates/khutbah-search.php:13
 msgid "Search"
@@ -5304,11 +5304,11 @@ msgstr "দোয়া খুঁজুন"
 
 #: admin/assets/js/modules/docs.js:108
 msgid "Search for MasjidOS blocks when you prefer a block instead of manually pasting a shortcode."
-msgstr "Search for MasjidOS blocks when you prefer a block instead of manually pasting a shortcode."
+msgstr "শর্টকোড হাতে পেস্ট না করে ব্লক ব্যবহার করতে চাইলে MasjidOS ব্লক খুঁজুন।"
 
 #: admin/assets/js/block-editor.js:620 public/class-itmms-public.php:803 public/class-itmms-public.php:816 public/trait-itmms-public-blocks.php:171
 msgid "Search Khutbah Archive"
-msgstr "Search Khutbah Archive"
+msgstr "খুতবা আর্কাইভে খুঁজুন"
 
 #: public/templates/khutbah-search.php:11
 msgid "Search khutbahs"
@@ -5320,7 +5320,7 @@ msgstr "খুতবা খুঁজুন (বিষয়, খতিব)..."
 
 #: public/templates/khutbah-search.php:12
 msgid "Search khutbahs…"
-msgstr "Search khutbahs…"
+msgstr "খুতবা খুঁজুন…"
 
 #: includes/class-itmms-ask-imam.php:61
 msgid "Search Question Categories"
@@ -5464,7 +5464,7 @@ msgstr "ফ্রি জুমা ডিজাইন প্রিসেট ন�
 
 #: admin/assets/js/modules/docs.js:866
 msgid "Selects the layout style."
-msgstr "Selects the layout style."
+msgstr "লেআউটের ধরন বেছে নেয়।"
 
 #: admin/assets/js/modules/docs.js:593
 msgid "Selects the monthly timetable design. Pro designs are rendered by the Pro plugin."
@@ -5480,11 +5480,11 @@ msgstr "খুতবা নির্মাতা"
 
 #: admin/assets/js/modules/settings.js:300
 msgid "Set a real timezone (not UTC)"
-msgstr "Set a real timezone (not UTC)"
+msgstr "একটি প্রকৃত টাইমজোন দিন (UTC নয়)"
 
 #: admin/assets/js/modules/dashboard.js:255
 msgid "Set city coordinates, calculation method & local timezone."
-msgstr "Set city coordinates, calculation method & local timezone."
+msgstr "শহরের স্থানাঙ্ক, গণনা পদ্ধতি ও স্থানীয় টাইমজোন সেট করুন।"
 
 #: admin/assets/js/modules/docs.js:498
 msgid "Set Coordinates"
@@ -5500,7 +5500,7 @@ msgstr "শুক্রবারের সেশন, খতিবের প্�
 
 #: admin/assets/js/modules/welcome.js:223
 msgid "Set how many minutes after Azan each Jamaat starts (you can set fixed times or seasonal rules anytime in Settings)."
-msgstr "Set how many minutes after Azan each Jamaat starts (you can set fixed times or seasonal rules anytime in Settings)."
+msgstr "আযানের কত মিনিট পর প্রতিটি জামাত শুরু হবে তা ঠিক করুন (নির্দিষ্ট সময় বা মৌসুমি নিয়ম পরে সেটিংসে যেকোনো সময় দিতে পারবেন)।"
 
 #: admin/assets/js/modules/docs.js:501
 msgid "Set Iqamah Times"
@@ -5516,7 +5516,7 @@ msgstr "অক্ষাংশ ও দ্রাঘিমাংশ সেট ক�
 
 #: admin/assets/js/modules/dashboard.js:264
 msgid "Set Times"
-msgstr "Set Times"
+msgstr "সময় নির্ধারণ"
 
 #: admin/assets/js/modules/docs.js:497
 msgid "Set Timezone"
@@ -5536,7 +5536,7 @@ msgstr "সেটিংস বিভাগ"
 
 #: admin/assets/js/modules/dashboard.js:237 admin/class-itmms-admin.php:539
 msgid "Setup Wizard"
-msgstr "Setup Wizard"
+msgstr "সেটআপ উইজার্ড"
 
 #: includes/class-itmms-duas-azkar.php:52 public/templates/hadith.php:12 public/templates/quran-verse.php:12
 msgid "Share"
@@ -5548,7 +5548,7 @@ msgstr "সংক্ষিপ্ত শিরোনাম"
 
 #: admin/assets/js/modules/features.js:454
 msgid "Shortcode"
-msgstr "Shortcode"
+msgstr "শর্টকোড"
 
 #: admin/assets/js/modules/docs.js:118
 msgid "Shortcode language=\"bn\" (or en/ar), or leave empty to follow the admin language default. Changes visitor-facing labels on the website."
@@ -5572,7 +5572,7 @@ msgstr "যে কোনো public page-এ নির্বাচিত দৈ�
 
 #: admin/assets/js/modules/docs.js:244
 msgid "Show a fixed Gregorian month while still displaying Hijri dates inside each day."
-msgstr "Show a fixed Gregorian month while still displaying Hijri dates inside each day."
+msgstr "নির্দিষ্ট গ্রেগরিয়ান মাস দেখান, প্রতিটি দিনের ভেতরে হিজরি তারিখ সহ।"
 
 #: admin/assets/js/modules/docs.js:182
 msgid "Show a fixed month and year timetable."
@@ -5580,19 +5580,19 @@ msgstr "নির্দিষ্ট মাস ও বছরের সময়স�
 
 #: admin/assets/js/block-editor.js:194
 msgid "Show a full-month prayer timetable with navigation and print support."
-msgstr "Show a full-month prayer timetable with navigation and print support."
+msgstr "নেভিগেশন ও প্রিন্ট সুবিধা সহ পুরো মাসের নামাজের সময়সূচি দেখান।"
 
 #: admin/assets/js/modules/docs.js:234
 msgid "Show a Hijri + Gregorian calendar with Islamic dates, holy days, and mosque events."
-msgstr "Show a Hijri + Gregorian calendar with Islamic dates, holy days, and mosque events."
+msgstr "হিজরি ও গ্রেগরিয়ান ক্যালেন্ডার দেখান, ইসলামি তারিখ, পবিত্র দিন ও মসজিদের ইভেন্ট সহ।"
 
 #: admin/assets/js/block-editor.js:709
 msgid "Show a rotating Hadith of the day with translation."
-msgstr "Show a rotating Hadith of the day with translation."
+msgstr "অনুবাদ সহ পালাক্রমে আজকের হাদিস দেখান।"
 
 #: admin/assets/js/block-editor.js:659
 msgid "Show a rotating Quran verse of the day with translation."
-msgstr "Show a rotating Quran verse of the day with translation."
+msgstr "অনুবাদ সহ পালাক্রমে আজকের কুরআনের আয়াত দেখান।"
 
 #: admin/assets/js/modules/docs.js:969
 msgid "Show a tighter card without the short summary."
@@ -5600,7 +5600,7 @@ msgstr "সংক্ষিপ্ত সারাংশ ছাড়া আরও �
 
 #: admin/assets/js/block-editor.js:294
 msgid "Show active mosque notices and announcements."
-msgstr "Show active mosque notices and announcements."
+msgstr "সক্রিয় মসজিদের নোটিশ ও ঘোষণা দেখান।"
 
 #: admin/assets/js/modules/docs.js:284
 msgid "Show active notices as a readable public notice board."
@@ -5616,15 +5616,15 @@ msgstr "অডিও বাটন দেখান"
 
 #: admin/assets/js/block-editor.js:141
 msgid "Show Calculations Meta"
-msgstr "Show Calculations Meta"
+msgstr "গণনার তথ্য দেখান"
 
 #: admin/assets/js/modules/docs.js:240
 msgid "Show calendar labels and Hijri month names in Bangla."
-msgstr "Show calendar labels and Hijri month names in Bangla."
+msgstr "ক্যালেন্ডারের লেবেল ও হিজরি মাসের নাম বাংলায় দেখান।"
 
 #: admin/assets/js/modules/dashboard.js:236
 msgid "Show Checklist"
-msgstr "Show Checklist"
+msgstr "চেকলিস্ট দেখান"
 
 #: admin/assets/js/block-editor.js:475 admin/assets/js/modules/docs.js:755 admin/assets/js/modules/features.js:93
 msgid "Show Counter"
@@ -5640,15 +5640,15 @@ msgstr "তারিখ ব্যাজ দেখান"
 
 #: admin/assets/js/block-editor.js:350
 msgid "Show Dates"
-msgstr "Show Dates"
+msgstr "তারিখ দেখান"
 
 #: admin/assets/js/modules/features.js:296
 msgid "Show excerpt"
-msgstr "Show excerpt"
+msgstr "সারাংশ দেখান"
 
 #: admin/assets/js/block-editor.js:906
 msgid "Show Excerpt"
-msgstr "Show Excerpt"
+msgstr "সারাংশ দেখান"
 
 #: admin/assets/js/modules/docs.js:316
 msgid "Show Friday khutbah and jamaat time on any public page."
@@ -5664,11 +5664,11 @@ msgstr "জামাতের সময় দেখান"
 
 #: admin/assets/js/block-editor.js:142 includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php:105 includes/elementor/widgets/class-itmms-elementor-prayer-times.php:108
 msgid "Show Iqamah Times"
-msgstr "Show Iqamah Times"
+msgstr "ইকামাহর সময় দেখান"
 
 #: admin/assets/js/modules/settings.js:81
 msgid "Show Ishraq (sunrise + minutes)"
-msgstr "Show Ishraq (sunrise + minutes)"
+msgstr "ইশরাক দেখান (সূর্যোদয় + মিনিট)"
 
 #: admin/assets/js/block-editor.js:231
 msgid "Show Ishraq / Zawal"
@@ -5768,7 +5768,7 @@ msgstr "এই জুমার নির্ধারিত খতিব ও ব�
 
 #: admin/assets/js/modules/docs.js:841
 msgid "Show upcoming community gatherings, lectures, and special prayers."
-msgstr "Show upcoming community gatherings, lectures, and special prayers."
+msgstr "আসন্ন কমিউনিটি সমাবেশ, আলোচনা ও বিশেষ নামাজ দেখান।"
 
 #: admin/assets/js/modules/docs.js:303
 msgid "Show urgent announcements inside a dismissible popup window."
@@ -5784,11 +5784,11 @@ msgstr "MasjidOS পাশে WordPress অ্যাডমিন মেনু �
 
 #: admin/assets/js/modules/settings.js:83
 msgid "Show Zawal (solar noon / makruh start)"
-msgstr "Show Zawal (solar noon / makruh start)"
+msgstr "যাওয়াল দেখান (সূর্য মাথার ওপর / মাকরূহ শুরু)"
 
 #: admin/assets/js/modules/docs.js:606
 msgid "Shows a specific Gregorian month with Hijri dates inside the grid."
-msgstr "Shows a specific Gregorian month with Hijri dates inside the grid."
+msgstr "একটি নির্দিষ্ট গ্রেগরিয়ান মাস দেখায়, গ্রিডের ভেতরে হিজরি তারিখ সহ।"
 
 #: admin/assets/js/modules/docs.js:591
 msgid "Shows a specific Gregorian month."
@@ -5808,7 +5808,7 @@ msgstr "dynamic X days remaining reminder badge দেখায়"
 
 #: admin/assets/js/modules/docs.js:236
 msgid "Shows mosque events on matching days"
-msgstr "Shows mosque events on matching days"
+msgstr "মিল থাকা দিনগুলোতে মসজিদের ইভেন্ট দেখায়"
 
 #: admin/assets/js/modules/docs.js:166
 msgid "Shows next prayer countdown"
@@ -5844,7 +5844,7 @@ msgstr "নোটিশের শুরুর তারিখ দেখায় �
 
 #: admin/assets/js/modules/docs.js:610
 msgid "Shows or hides reload-free calendar controls."
-msgstr "Shows or hides reload-free calendar controls."
+msgstr "রিলোড ছাড়া চলা ক্যালেন্ডার নিয়ন্ত্রণ দেখায় বা লুকায়।"
 
 #: admin/assets/js/modules/docs.js:597
 msgid "Shows or hides reload-free month and year controls."
@@ -5916,7 +5916,7 @@ msgstr "স্লিম ব্যানার"
 
 #: public/trait-itmms-public-designs.php:163
 msgid "Slim top banner for the highest-priority notice."
-msgstr "Slim top banner for the highest-priority notice."
+msgstr "সর্বোচ্চ অগ্রাধিকারের নোটিশের জন্য সরু ওপরের ব্যানার।"
 
 #: admin/assets/js/modules/docs.js:981
 msgid "slug"
@@ -5936,7 +5936,7 @@ msgstr "উৎস"
 
 #: admin/assets/js/article-editor.js:88 includes/class-itmms-education.php:270
 msgid "Source / Reference"
-msgstr "Source / Reference"
+msgstr "সূত্র / রেফারেন্স"
 
 #: admin/assets/js/modules/minbar.js:505
 msgid "Special"
@@ -5944,7 +5944,7 @@ msgstr "বিশেষ"
 
 #: admin/assets/js/modules/features.js:387
 msgid "Special day collections"
-msgstr "Special day collections"
+msgstr "বিশেষ দিনের সংগ্রহ"
 
 #: admin/assets/js/modules/docs.js:244
 msgid "Specific Calendar Month"
@@ -5964,7 +5964,7 @@ msgstr "স্ট্যান্ডার্ড"
 
 #: admin/assets/js/modules/dashboard.js:458 admin/assets/js/modules/welcome.js:200
 msgid "Standard (Shafi, Maliki, Hanbali)"
-msgstr "Standard (Shafi, Maliki, Hanbali)"
+msgstr "স্ট্যান্ডার্ড (শাফেয়ী, মালিকী, হাম্বলী)"
 
 #: admin/assets/js/modules/docs.js:650
 msgid "Start in Features, not Reference"
@@ -5972,7 +5972,7 @@ msgstr "রেফারেন্স নয় — Features দিয়ে শুর�
 
 #: admin/assets/js/modules/welcome.js:83
 msgid "Starter Page"
-msgstr "Starter Page"
+msgstr "শুরুর পেজ"
 
 #: admin/assets/js/modules/announcements.js:40 admin/assets/js/modules/events.js:37
 msgid "Starts"
@@ -5988,19 +5988,19 @@ msgstr "স্ট্যাটাস"
 
 #: admin/assets/js/modules/welcome.js:133
 msgid "Step 1: Language & Masjid Identity"
-msgstr "Step 1: Language & Masjid Identity"
+msgstr "ধাপ ১: ভাষা ও মসজিদের পরিচিতি"
 
 #: admin/assets/js/modules/welcome.js:175
 msgid "Step 2: City Preset, Coordinates & Calculation"
-msgstr "Step 2: City Preset, Coordinates & Calculation"
+msgstr "ধাপ ২: শহরের প্রিসেট, স্থানাঙ্ক ও গণনা"
 
 #: admin/assets/js/modules/welcome.js:222
 msgid "Step 3: Quick Iqamah & Friday Jumuah Setup"
-msgstr "Step 3: Quick Iqamah & Friday Jumuah Setup"
+msgstr "ধাপ ৩: দ্রুত ইকামাহ ও জুমুআ সেটআপ"
 
 #: admin/assets/js/modules/welcome.js:254
 msgid "Step 4: Publish Website Page & Open TV Display"
-msgstr "Step 4: Publish Website Page & Open TV Display"
+msgstr "ধাপ ৪: ওয়েবসাইট পেজ প্রকাশ ও TV ডিসপ্লে খুলুন"
 
 #: admin/assets/js/modules/docs.js:250
 msgid "Still shows Hijri dates and event markers"
@@ -6100,19 +6100,19 @@ msgstr "অডিও কুরআন তালিকা লোড করা য�
 
 #: includes/class-itmms-events.php:254
 msgid "The event could not be created."
-msgstr "The event could not be created."
+msgstr "ইভেন্ট তৈরি করা যায়নি।"
 
 #: includes/rest/trait-itmms-rest-content.php:131
 msgid "The event could not be deleted."
-msgstr "The event could not be deleted."
+msgstr "ইভেন্ট মুছে ফেলা যায়নি।"
 
 #: includes/class-itmms-events.php:295
 msgid "The event could not be updated."
-msgstr "The event could not be updated."
+msgstr "ইভেন্ট আপডেট করা যায়নি।"
 
 #: includes/class-itmms-events.php:242 includes/class-itmms-events.php:282
 msgid "The event end time must be after its start time."
-msgstr "The event end time must be after its start time."
+msgstr "ইভেন্টের শেষের সময় শুরুর সময়ের পরে হতে হবে।"
 
 #: admin/assets/js/modules/docs.js:381
 msgid "The free plugin only shows these as available in MasjidOS Pro. The actual Pro design code ships from the Pro plugin, not from this free plugin."
@@ -6120,15 +6120,15 @@ msgstr "ফ্রি প্লাগিনে এগুলো শুধু Masji
 
 #: includes/class-itmms-khutbah.php:238
 msgid "The khutbah could not be created."
-msgstr "The khutbah could not be created."
+msgstr "খুতবা তৈরি করা যায়নি।"
 
 #: includes/rest/trait-itmms-rest-minbar.php:71
 msgid "The khutbah could not be deleted."
-msgstr "The khutbah could not be deleted."
+msgstr "খুতবা মুছে ফেলা যায়নি।"
 
 #: includes/class-itmms-khutbah.php:288
 msgid "The khutbah could not be updated."
-msgstr "The khutbah could not be updated."
+msgstr "খুতবা আপডেট করা যায়নি।"
 
 #: includes/class-itmms-announcements.php:180
 msgid "The notice could not be created."
@@ -6192,7 +6192,7 @@ msgstr "এই সপ্তাহের খতিব"
 
 #: public/templates/khatib-this-week.php:14
 msgid "This week's khatib is not scheduled yet."
-msgstr "This week's khatib is not scheduled yet."
+msgstr "এই সপ্তাহের খতিব এখনো ঠিক হয়নি।"
 
 #: admin/assets/js/modules/dashboard.js:433 admin/assets/js/modules/dashboard.js:444
 msgid "This Week's Minbar"
@@ -6240,7 +6240,7 @@ msgstr "টাইমজোন mismatch warning:"
 
 #: admin/assets/js/modules/settings.js:300
 msgid "Timezone ready"
-msgstr "Timezone ready"
+msgstr "টাইমজোন প্রস্তুত"
 
 #: admin/assets/js/modules/settings.js:318 admin/assets/js/modules/settings.js:433
 msgid "Tip:"
@@ -6320,7 +6320,7 @@ msgstr "মোট"
 
 #: admin/assets/js/modules/features.js:362
 msgid "Track mosque fundraising campaigns and manual donations in MasjidOS Pro."
-msgstr "Track mosque fundraising campaigns and manual donations in MasjidOS Pro."
+msgstr "MasjidOS Pro-তে মসজিদের তহবিল সংগ্রহ ক্যাম্পেইন ও হাতে-লেখা দান ট্র্যাক করুন।"
 
 #: includes/class-itmms-duas-azkar.php:48
 msgid "Track recitation count"
@@ -6328,7 +6328,7 @@ msgstr "পড়ার সংখ্যা রাখুন"
 
 #: admin/assets/js/modules/docs.js:854
 msgid "Translate event labels and titles into Bangla."
-msgstr "Translate event labels and titles into Bangla."
+msgstr "ইভেন্টের লেবেল ও শিরোনাম বাংলায় অনুবাদ করে।"
 
 #: admin/assets/js/modules/docs.js:328
 msgid "Translates widget title and labels"
@@ -6336,7 +6336,7 @@ msgstr "উইজেটের শিরোনাম ও লেবেল অন�
 
 #: admin/assets/js/article-editor.js:80 includes/class-itmms-education.php:267 includes/class-itmms-education.php:457
 msgid "Translator"
-msgstr "Translator"
+msgstr "অনুবাদক"
 
 #: includes/class-itmms-duas-library.php:256
 msgid "Transliteration"
@@ -6368,7 +6368,7 @@ msgstr "Features Preview দেখুন"
 
 #: admin/assets/js/modules/dashboard.js:91 admin/assets/js/modules/dashboard.js:92
 msgid "Turkey (Diyanet)"
-msgstr "Turkey (Diyanet)"
+msgstr "তুরস্ক (দিয়ানেত)"
 
 #: admin/assets/js/app.js:1582
 msgid "Turn modules on only when your masjid needs them. Disabled modules stay light."
@@ -6456,7 +6456,7 @@ msgstr "নোটিশটি ব্যক্তিগত রাখতে টি
 
 #: includes/class-itmms-pro-bridge.php:65
 msgid "Unlock with MasjidOS Pro"
-msgstr "Unlock with MasjidOS Pro"
+msgstr "MasjidOS Pro দিয়ে আনলক করুন"
 
 #: admin/assets/js/modules/minbar.js:854
 msgid "Untitled"
@@ -6468,11 +6468,11 @@ msgstr "নামহীন খতিব"
 
 #: admin/assets/js/modules/events.js:30 admin/assets/js/modules/events.js:65
 msgid "Upcoming"
-msgstr "Upcoming"
+msgstr "আসন্ন"
 
 #: admin/assets/js/block-editor.js:369 admin/assets/js/modules/docs.js:865 public/class-itmms-public.php:520 public/class-itmms-public.php:546 public/trait-itmms-public-blocks.php:105
 msgid "Upcoming Events"
-msgstr "Upcoming Events"
+msgstr "আসন্ন ইভেন্ট"
 
 #: admin/assets/js/modules/minbar.js:94
 msgid "Upcoming Islamic days"
@@ -6508,7 +6508,7 @@ msgstr "দোয়া ক্যাটাগরি আপডেট করুন"
 
 #: admin/assets/js/modules/events.js:41
 msgid "Update Event"
-msgstr "Update Event"
+msgstr "ইভেন্ট আপডেট করুন"
 
 #: admin/assets/js/modules/announcements.js:44
 msgid "Update Notice"
@@ -6528,7 +6528,7 @@ msgstr "সময়সূচি আপডেট"
 
 #: admin/assets/js/modules/welcome.js:85
 msgid "Updates live as you save each step of the wizard."
-msgstr "Updates live as you save each step of the wizard."
+msgstr "উইজার্ডের প্রতিটি ধাপ সংরক্ষণ করার সাথে সাথে এটি লাইভ আপডেট হয়।"
 
 #: admin/assets/js/modules/settings.js:255
 msgid "Upload or choose an image from WordPress Media Library."
@@ -6648,7 +6648,7 @@ msgstr "শুধু কমপ্যাক্ট নামাজের টেব
 
 #: admin/assets/js/modules/docs.js:248
 msgid "Use this when you want a fixed embedded month."
-msgstr "Use this when you want a fixed embedded month."
+msgstr "নির্দিষ্ট মাস এমবেড করতে চাইলে এটি ব্যবহার করুন।"
 
 #: admin/assets/js/modules/docs.js:227
 msgid "Useful before Iqamah times are finalized"
@@ -6668,7 +6668,7 @@ msgstr "দীর্ঘমেয়াদি নোটিশের জন্য উ
 
 #: admin/assets/js/modules/docs.js:246
 msgid "Useful for Ramadan, Eid, or event archive pages"
-msgstr "Useful for Ramadan, Eid, or event archive pages"
+msgstr "রমজান, ঈদ বা ইভেন্ট আর্কাইভ পেজের জন্য উপযোগী"
 
 #: admin/assets/js/modules/docs.js:350
 msgid "Useful for very simple pages"
@@ -6680,7 +6680,7 @@ msgstr "সাইডবার বা ঘন লেআউটে উপযোগ�
 
 #: admin/assets/js/modules/docs.js:338
 msgid "Useful on homepage or Jumuah pages"
-msgstr "Useful on homepage or Jumuah pages"
+msgstr "হোমপেজ বা জুমুআর পেজে উপযোগী"
 
 #: admin/assets/js/modules/docs.js:919
 msgid "Useful under the Jumuah widget"
@@ -6700,7 +6700,7 @@ msgstr "যেসব প্রকাশিত নোটিশের সময়স
 
 #: admin/assets/js/modules/docs.js:238
 msgid "Uses the Hijri Date Adjustment from Settings > Calculation"
-msgstr "Uses the Hijri Date Adjustment from Settings > Calculation"
+msgstr "Settings > Calculation-এর হিজরি তারিখ সমন্বয় ব্যবহার করে"
 
 #: admin/assets/js/modules/docs.js:317
 msgid "Uses the Jumuah Settings section"
@@ -6712,11 +6712,11 @@ msgstr "সংরক্ষিত অবস্থান, পদ্ধতি, স�
 
 #: includes/class-itmms-minbar.php:473
 msgid "Valid khatib is required."
-msgstr "Valid khatib is required."
+msgstr "সঠিক খতিব নির্বাচন প্রয়োজন।"
 
 #: includes/class-itmms-minbar.php:476
 msgid "Valid schedule date is required."
-msgstr "Valid schedule date is required."
+msgstr "সঠিক সময়সূচির তারিখ প্রয়োজন।"
 
 #: admin/assets/js/modules/settings.js:694
 msgid "Valid: %1$d day(s). Errors: %2$d. Range: %3$s → %4$s."
@@ -6760,11 +6760,11 @@ msgstr "দোয়া দেখুন"
 
 #: admin/assets/js/modules/dashboard.js:274
 msgid "View Page"
-msgstr "View Page"
+msgstr "পেজ দেখুন"
 
 #: admin/assets/js/modules/welcome.js:263
 msgid "View Published Page"
-msgstr "View Published Page"
+msgstr "প্রকাশিত পেজ দেখুন"
 
 #: includes/class-itmms-ask-imam.php:92
 msgid "View Question"
@@ -6784,7 +6784,7 @@ msgstr "দৃশ্যমানতা"
 
 #: admin/assets/js/modules/docs.js:505
 msgid "Visit /masjidos-display/ on your site if you need a fullscreen board for mosque TVs."
-msgstr "Visit /masjidos-display/ on your site if you need a fullscreen board for mosque TVs."
+msgstr "মসজিদের TV-র জন্য ফুলস্ক্রিন বোর্ড দরকার হলে আপনার সাইটের /masjidos-display/ দেখুন।"
 
 #: admin/assets/js/modules/docs.js:936
 msgid "Visitors can search previous answers before submitting a new question"
@@ -6800,7 +6800,7 @@ msgstr "ওয়েবসাইট"
 
 #: admin/assets/js/modules/dashboard.js:270
 msgid "Website Prayer Page"
-msgstr "Website Prayer Page"
+msgstr "ওয়েবসাইটের নামাজের পেজ"
 
 #: includes/class-itmms-events.php:533
 msgid "Weekly Friday congregational prayer and khutbah."
@@ -6812,7 +6812,7 @@ msgstr "স্বাগতম"
 
 #: admin/assets/js/modules/welcome.js:54
 msgid "Welcome to %s"
-msgstr "Welcome to %s"
+msgstr "%s-এ স্বাগতম"
 
 #: includes/class-itmms-duas-azkar.php:412 includes/class-itmms-duas-azkar.php:414
 msgid "When it rains"
@@ -6840,7 +6840,7 @@ msgstr "উইজেট সেটিংস"
 
 #: admin/assets/js/modules/docs.js:30 admin/assets/js/modules/features.js:497
 msgid "Widgets"
-msgstr "Widgets"
+msgstr "উইজেট"
 
 #: admin/assets/js/modules/minbar.js:371
 msgid "Word count"
@@ -6864,7 +6864,7 @@ msgstr "ওয়ার্কিং বছর"
 
 #: admin/assets/js/modules/welcome.js:90
 msgid "Works offline after setup · Gutenberg & Elementor ready · Free core forever"
-msgstr "Works offline after setup · Gutenberg & Elementor ready · Free core forever"
+msgstr "সেটআপের পর অফলাইনেও কাজ করে · Gutenberg ও Elementor প্রস্তুত · ফ্রি কোর চিরকাল"
 
 #: admin/assets/js/modules/docs.js:211
 msgid "Works with classic and compact designs"
@@ -6904,7 +6904,7 @@ msgstr "বছর"
 
 #: admin/assets/js/modules/features.js:296 includes/elementor/widgets/class-itmms-elementor-announcements.php:138 includes/elementor/widgets/class-itmms-elementor-jumuah.php:107 includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php:107 includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php:119 includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php:131 includes/elementor/widgets/class-itmms-elementor-prayer-times.php:110 includes/elementor/widgets/class-itmms-elementor-prayer-times.php:122 includes/elementor/widgets/class-itmms-elementor-prayer-times.php:134 includes/elementor/widgets/class-itmms-elementor-prayer-times.php:146
 msgid "Yes"
-msgstr "Yes"
+msgstr "হ্যাঁ"
 
 #: admin/assets/js/modules/docs.js:89
 msgid "You do not need to read every tab. Follow these steps once, then open Features to preview widgets."
@@ -6916,7 +6916,7 @@ msgstr "আপনার নিজের কনটেন্ট"
 
 #: admin/assets/js/modules/welcome.js:255
 msgid "Your prayer calculation is ready! Publish a ready-to-use Prayer Times page in one click or open the Mosque TV screen."
-msgstr "Your prayer calculation is ready! Publish a ready-to-use Prayer Times page in one click or open the Mosque TV screen."
+msgstr "আপনার নামাজের গণনা প্রস্তুত! এক ক্লিকে তৈরি নামাজের সময়ের পেজ প্রকাশ করুন অথবা মসজিদের TV স্ক্রিন খুলুন।"
 
 #: includes/class-itmms-ask-imam.php:923
 msgid "Your question"

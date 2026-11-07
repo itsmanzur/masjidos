@@ -1,0 +1,235 @@
+/**
+ * bn_BD (all) and ar (wizard + setup progress) translations for the Welcome wizard, setup
+ * progress, events, settings, features, article editor and public strings.
+ * Then run build-bn-pack.js and build-ar-pack.js.
+ *
+ * Usage: node _future/tools/patch-wizard-i18n.js
+ */
+const fs = require( 'node:fs' );
+const path = require( 'node:path' );
+
+// key: [ bn_BD, ar or null ]
+const T = {
+	// --- Welcome wizard ---
+	'1-Minute Setup Wizard': [ '১ মিনিটের সেটআপ উইজার্ড', 'معالج الإعداد في دقيقة واحدة' ],
+	'Welcome to %s': [ '%s-এ স্বাগতম', 'مرحبًا بك في %s' ],
+	'1. Identity': [ '১. পরিচিতি', '١. الهوية' ],
+	'2. Location': [ '২. অবস্থান', '٢. الموقع' ],
+	'3. Iqamah & Jumuah': [ '৩. ইকামাহ ও জুমুআ', '٣. الإقامة والجمعة' ],
+	'4. Publish & TV': [ '৪. প্রকাশ ও TV', '٤. النشر والشاشة' ],
+	'Step 1: Language & Masjid Identity': [ 'ধাপ ১: ভাষা ও মসজিদের পরিচিতি', 'الخطوة 1: اللغة وهوية المسجد' ],
+	'Choose your preferred interface language and enter your masjid name.': [ 'আপনার পছন্দের ইন্টারফেস ভাষা বেছে নিন এবং মসজিদের নাম লিখুন।', 'اختر لغة الواجهة المفضلة لديك وأدخل اسم المسجد.' ],
+	'Admin & Widget Language': [ 'অ্যাডমিন ও উইজেটের ভাষা', 'لغة لوحة التحكم والأدوات' ],
+	'e.g. Baitul Aman Jame Masjid': [ 'যেমন: বায়তুল আমান জামে মসজিদ', 'مثال: مسجد بيت الأمان الجامع' ],
+	'Save & Next: Location →': [ 'সংরক্ষণ ও পরবর্তী: অবস্থান →', 'حفظ والتالي: الموقع ←' ],
+	'Step 2: City Preset, Coordinates & Calculation': [ 'ধাপ ২: শহরের প্রিসেট, স্থানাঙ্ক ও গণনা', 'الخطوة 2: المدينة والإحداثيات والحساب' ],
+	'Click a city preset or use your browser location to auto-fill coordinates, timezone, and calculation method.': [ 'একটি শহর বেছে নিন বা ব্রাউজারের অবস্থান ব্যবহার করুন; স্থানাঙ্ক, টাইমজোন ও গণনা পদ্ধতি নিজে থেকে বসে যাবে।', 'اختر مدينة أو استخدم موقع المتصفح لملء الإحداثيات والمنطقة الزمنية وطريقة الحساب تلقائيًا.' ],
+	'Asr Juristic Method': [ 'আসরের ফিকহি পদ্ধতি', 'طريقة العصر الفقهية' ],
+	'← Back': [ '← পিছনে', '→ رجوع' ],
+	'Step 3: Quick Iqamah & Friday Jumuah Setup': [ 'ধাপ ৩: দ্রুত ইকামাহ ও জুমুআ সেটআপ', 'الخطوة 3: إعداد سريع للإقامة وصلاة الجمعة' ],
+	'Set how many minutes after Azan each Jamaat starts (you can set fixed times or seasonal rules anytime in Settings).': [ 'আযানের কত মিনিট পর প্রতিটি জামাত শুরু হবে তা ঠিক করুন (নির্দিষ্ট সময় বা মৌসুমি নিয়ম পরে সেটিংসে যেকোনো সময় দিতে পারবেন)।', 'حدد بعد كم دقيقة من الأذان تبدأ كل جماعة (يمكنك ضبط أوقات ثابتة أو قواعد موسمية في أي وقت من الإعدادات).' ],
+	'%s Iqamah (minutes after Azan)': [ '%s ইকামাহ (আযানের কত মিনিট পর)', 'إقامة %s (بالدقائق بعد الأذان)' ],
+	'Friday Jumuah Khutbah Time': [ 'জুমুআর খুতবার সময়', 'وقت خطبة الجمعة' ],
+	'Friday Jumuah Jamaat Time': [ 'জুমুআর জামাতের সময়', 'وقت جماعة الجمعة' ],
+	'Save & Next: Publish & TV →': [ 'সংরক্ষণ ও পরবর্তী: প্রকাশ ও TV →', 'حفظ والتالي: النشر والشاشة ←' ],
+	'Step 4: Publish Website Page & Open TV Display': [ 'ধাপ ৪: ওয়েবসাইট পেজ প্রকাশ ও TV ডিসপ্লে খুলুন', 'الخطوة 4: انشر صفحة الموقع وافتح شاشة العرض' ],
+	'Your prayer calculation is ready! Publish a ready-to-use Prayer Times page in one click or open the Mosque TV screen.': [ 'আপনার নামাজের গণনা প্রস্তুত! এক ক্লিকে তৈরি নামাজের সময়ের পেজ প্রকাশ করুন অথবা মসজিদের TV স্ক্রিন খুলুন।', 'حساب الصلاة جاهز! انشر صفحة مواقيت الصلاة بنقرة واحدة أو افتح شاشة المسجد.' ],
+	'1. Starter Prayer Times Page': [ '১. শুরুর নামাজের সময়ের পেজ', '١. صفحة مواقيت الصلاة الأولية' ],
+	'Creates a published WordPress page with daily Prayer Times, Jumuah card, Announcements, and Monthly Timetable.': [ 'দৈনিক নামাজের সময়, জুমুআ কার্ড, ঘোষণা ও মাসিক সময়সূচি সহ একটি প্রকাশিত WordPress পেজ তৈরি করে।', 'ينشئ صفحة ووردبريس منشورة تتضمن مواقيت الصلاة اليومية وبطاقة الجمعة والإعلانات والجدول الشهري.' ],
+	'Create & Publish Page (1-Click)': [ 'পেজ তৈরি ও প্রকাশ করুন (১ ক্লিক)', 'إنشاء الصفحة ونشرها (بنقرة واحدة)' ],
+	'View Published Page': [ 'প্রকাশিত পেজ দেখুন', 'عرض الصفحة المنشورة' ],
+	'Edit Page': [ 'পেজ সম্পাদনা', 'تعديل الصفحة' ],
+	'2. Mosque TV Display': [ '২. মসজিদ TV ডিসপ্লে', '٢. شاشة عرض المسجد' ],
+	'Open the fullscreen digital clock & jamaat board designed for lobby or prayer hall screens.': [ 'লবি বা নামাজঘরের স্ক্রিনের জন্য তৈরি ফুলস্ক্রিন ডিজিটাল ঘড়ি ও জামাত বোর্ড খুলুন।', 'افتح الساعة الرقمية بملء الشاشة ولوحة الجماعة المصممة لشاشات الردهة أو قاعة الصلاة.' ],
+	'Open /masjidos-display/': [ '/masjidos-display/ খুলুন', 'افتح /masjidos-display/' ],
+	'3. Copy Shortcode': [ '৩. শর্টকোড কপি', '٣. نسخ الرمز القصير' ],
+	'Paste [masjidos_prayer_times] anywhere, or use our 16 Gutenberg blocks & 7 Elementor widgets.': [ '[masjidos_prayer_times] যেকোনো জায়গায় পেস্ট করুন, অথবা আমাদের ১৬টি Gutenberg ব্লক ও ৭টি Elementor উইজেট ব্যবহার করুন।', 'الصق [masjidos_prayer_times] في أي مكان، أو استخدم 16 كتلة جوتنبرج و7 أدوات إلمنتور.' ],
+	'Copy [masjidos_prayer_times]': [ '[masjidos_prayer_times] কপি করুন', 'انسخ [masjidos_prayer_times]' ],
+	'Explore Widgets': [ 'উইজেট দেখুন', 'استكشف الأدوات' ],
+	'Finish Setup — Open Dashboard ✓': [ 'সেটআপ শেষ — ড্যাশবোর্ড খুলুন ✓', 'إنهاء الإعداد — افتح لوحة التحكم ✓' ],
+	'Go to Dashboard': [ 'ড্যাশবোর্ডে যান', 'اذهب إلى لوحة التحكم' ],
+	'Starter Page': [ 'শুরুর পেজ', 'الصفحة الأولية' ],
+	'Updates live as you save each step of the wizard.': [ 'উইজার্ডের প্রতিটি ধাপ সংরক্ষণ করার সাথে সাথে এটি লাইভ আপডেট হয়।', 'يتحدث مباشرة عند حفظ كل خطوة من المعالج.' ],
+	'Works offline after setup · Gutenberg & Elementor ready · Free core forever': [ 'সেটআপের পর অফলাইনেও কাজ করে · Gutenberg ও Elementor প্রস্তুত · ফ্রি কোর চিরকাল', 'يعمل دون اتصال بعد الإعداد · جاهز لجوتنبرج وإلمنتور · النواة المجانية دائمًا' ],
+	'Iqamah:': [ 'ইকামাহ:', 'الإقامة:' ],
+
+	// --- Setup progress (admin PHP) ---
+	'%1$d/%2$d (%3$d%%)': [ '%1$d/%2$d (%3$d%%)', '%1$d/%2$d (%3$d%%)' ],
+	'First notice or khutbah added': [ 'প্রথম নোটিশ বা খুতবা যোগ হয়েছে', 'تمت إضافة أول إعلان أو خطبة' ],
+	'Iqamah & Jumuah times set': [ 'ইকামাহ ও জুমুআর সময় নির্ধারিত', 'تم ضبط أوقات الإقامة والجمعة' ],
+	'Location & timezone configured': [ 'অবস্থান ও টাইমজোন ঠিক করা হয়েছে', 'تم ضبط الموقع والمنطقة الزمنية' ],
+	'Masjid Setup Progress': [ 'মসজিদ সেটআপের অগ্রগতি', 'تقدم إعداد المسجد' ],
+	'MasjidOS — Prayer Times & Setup Checklist': [ 'MasjidOS — নামাজের সময় ও সেটআপ চেকলিস্ট', 'MasjidOS — مواقيت الصلاة وقائمة الإعداد' ],
+	'Mosque TV display previewed': [ 'মসজিদ TV ডিসপ্লে দেখা হয়েছে', 'تمت معاينة شاشة عرض المسجد' ],
+	'Open MasjidOS': [ 'MasjidOS খুলুন', 'افتح MasjidOS' ],
+	'Prayer times page published': [ 'নামাজের সময়ের পেজ প্রকাশিত', 'تم نشر صفحة مواقيت الصلاة' ],
+	'%s — Prayer Times & Masjid Board': [ '%s — নামাজের সময় ও মসজিদ বোর্ড', '%s — مواقيت الصلاة ولوحة المسجد' ],
+
+	// --- Events admin ---
+	'Add an event': [ 'ইভেন্ট যোগ করুন', null ],
+	'Add event details, schedule, or prerequisites...': [ 'ইভেন্টের বিবরণ, সময়সূচি বা পূর্বশর্ত লিখুন...', null ],
+	'Create Event': [ 'ইভেন্ট তৈরি করুন', null ],
+	'Description': [ 'বিবরণ', null ],
+	'Editing event': [ 'ইভেন্ট সম্পাদনা হচ্ছে', null ],
+	'Event Title': [ 'ইভেন্টের শিরোনাম', null ],
+	'Example: Eid-ul-Fitr Prayer Gathering': [ 'যেমন: ঈদুল ফিতরের নামাজের জামাত', null ],
+	'Example: Main Prayer Hall': [ 'যেমন: প্রধান নামাজঘর', null ],
+	'Mosque calendar': [ 'মসজিদের ক্যালেন্ডার', null ],
+	'New Event': [ 'নতুন ইভেন্ট', null ],
+	'New event': [ 'নতুন ইভেন্ট', null ],
+	'No Location': [ 'স্থান নেই', null ],
+	'No end time': [ 'শেষের সময় নেই', null ],
+	'No events registered yet. Create the first one using the editor.': [ 'এখনো কোনো ইভেন্ট নেই। এডিটর ব্যবহার করে প্রথমটি তৈরি করুন।', null ],
+	'Ongoing': [ 'চলমান', null ],
+	'Optional.': [ 'ঐচ্ছিক।', null ],
+	'Past': [ 'অতীত', null ],
+	'Scheduled events': [ 'নির্ধারিত ইভেন্ট', null ],
+	'Upcoming': [ 'আসন্ন', null ],
+	'Update Event': [ 'ইভেন্ট আপডেট করুন', null ],
+
+	// --- Settings ---
+	'Accuracy checklist': [ 'নির্ভুলতার চেকলিস্ট', null ],
+	'Aligned with site timezone': [ 'সাইটের টাইমজোনের সাথে মিলেছে', null ],
+	'Auto API (Aladhan.com)': [ 'অটো API (Aladhan.com)', null ],
+	'Common range is 15–20 minutes after sunrise.': [ 'সাধারণত সূর্যোদয়ের ১৫–২০ মিনিট পর।', null ],
+	'Coordinates ready': [ 'স্থানাঙ্ক প্রস্তুত', null ],
+	'Could not read the CSV file.': [ 'CSV ফাইলটি পড়া যায়নি।', null ],
+	'Differs from WP timezone (%s)': [ 'WP টাইমজোন (%s) থেকে ভিন্ন', null ],
+	'Imported %1$d day(s). Skipped %2$d row(s).': [ '%1$d দিন ইম্পোর্ট হয়েছে। %2$d সারি বাদ গেছে।', null ],
+	'Ishraq Minutes After Sunrise': [ 'সূর্যোদয়ের কত মিনিট পর ইশরাক', null ],
+	'Latitude / longitude needed': [ 'অক্ষাংশ / দ্রাঘিমাংশ প্রয়োজন', null ],
+	'Local Calculation (Offline)': [ 'স্থানীয় গণনা (অফলাইন)', null ],
+	'MasjidOS calculation timezone (%1$s) does not match your WordPress site settings timezone (%2$s). This can cause widget countdown calculations to be incorrect. Please align them.': [ 'MasjidOS-এর গণনার টাইমজোন (%1$s) আপনার WordPress সাইটের টাইমজোনের (%2$s) সাথে মেলে না। এতে উইজেটের কাউন্টডাউন ভুল হতে পারে। অনুগ্রহ করে দুটি মিলিয়ে নিন।', null ],
+	'Quiet mode: ': [ 'নীরব মোড: ', null ],
+	'Set a real timezone (not UTC)': [ 'একটি প্রকৃত টাইমজোন দিন (UTC নয়)', null ],
+	'Show Ishraq (sunrise + minutes)': [ 'ইশরাক দেখান (সূর্যোদয় + মিনিট)', null ],
+	'Show Zawal (solar noon / makruh start)': [ 'যাওয়াল দেখান (সূর্য মাথার ওপর / মাকরূহ শুরু)', null ],
+	'Timezone ready': [ 'টাইমজোন প্রস্তুত', null ],
+
+	// --- Features ---
+	'A daily Hadith from authentic collections with meanings and sharing buttons.': [ 'সহীহ সংকলন থেকে প্রতিদিনের হাদিস, অর্থ ও শেয়ার বাটন সহ।', null ],
+	'A daily verse from the Holy Quran in Arabic with English or Bangla meanings.': [ 'পবিত্র কুরআনের প্রতিদিনের আয়াত আরবিতে, ইংরেজি বা বাংলা অর্থ সহ।', null ],
+	'Accounts & ledger': [ 'হিসাব ও খতিয়ান', null ],
+	'An embedded audio player for listening to Surah recitations.': [ 'সূরার তিলাওয়াত শোনার জন্য এমবেডেড অডিও প্লেয়ার।', null ],
+	'Board for Jumuah, Eid, Shab-e-Barat and other day collections — linked to Accounts in MasjidOS Pro.': [ 'জুমুআ, ঈদ, শবে বরাত ও অন্যান্য দিনের সংগ্রহের বোর্ড — MasjidOS Pro-তে হিসাবের সাথে যুক্ত।', null ],
+	'Committee operations': [ 'কমিটির কার্যক্রম', null ],
+	'Daily duas and azkar with Arabic, meaning, counter, share, and audio.': [ 'আরবি, অর্থ, কাউন্টার, শেয়ার ও অডিও সহ প্রতিদিনের দোয়া ও আযকার।', null ],
+	'Displays the beautiful 99 names of Allah (Asmaul Husna) in a grid with meanings.': [ 'আল্লাহর ৯৯ নাম (আসমাউল হুসনা) অর্থ সহ গ্রিডে দেখায়।', null ],
+	'Donations & campaigns': [ 'দান ও ক্যাম্পেইন', null ],
+	'Donations, members, and advanced reporting live in the separate Pro plugin — not in Free.': [ 'দান, সদস্য ও উন্নত রিপোর্ট আলাদা Pro প্লাগিনে আছে — ফ্রিতে নেই।', null ],
+	'Elevated prayer times layout for homepage heroes. Available in MasjidOS Pro.': [ 'হোমপেজের হিরো অংশের জন্য আকর্ষণীয় নামাজের সময়ের লেআউট। MasjidOS Pro-তে পাওয়া যায়।', null ],
+	'Fullscreen mosque TV board — prayer times, countdown, Hijri date, and notices.': [ 'ফুলস্ক্রিন মসজিদ TV বোর্ড — নামাজের সময়, কাউন্টডাউন, হিজরি তারিখ ও নোটিশ।', null ],
+	'Hide options': [ 'অপশন লুকান', null ],
+	'Large lobby-friendly prayer board design. Available in MasjidOS Pro.': [ 'লবির জন্য উপযোগী বড় নামাজ বোর্ডের ডিজাইন। MasjidOS Pro-তে পাওয়া যায়।', null ],
+	'List published Islamic articles with optional category filter.': [ 'প্রকাশিত ইসলামিক প্রবন্ধের তালিকা, ঐচ্ছিক ক্যাটাগরি ফিল্টার সহ।', null ],
+	'Mosque Display design': [ 'মসজিদ ডিসপ্লে ডিজাইন', null ],
+	'Multi-fund income and expense ledger with a public transparency shortcode in MasjidOS Pro.': [ 'একাধিক তহবিলের আয়-ব্যয়ের খতিয়ান ও প্রকাশ্য স্বচ্ছতার শর্টকোড — MasjidOS Pro-তে।', null ],
+	'No': [ 'না', null ],
+	'Yes': [ 'হ্যাঁ', null ],
+	'Occasion': [ 'উপলক্ষ', null ],
+	'Premium Card design': [ 'প্রিমিয়াম কার্ড ডিজাইন', null ],
+	'Scrolling or list-style mosque announcements with priority, types, and expiry dates.': [ 'অগ্রাধিকার, ধরন ও মেয়াদ সহ স্ক্রলিং বা তালিকা আকারে মসজিদের ঘোষণা।', null ],
+	'Show excerpt': [ 'সারাংশ দেখান', null ],
+	'Special day collections': [ 'বিশেষ দিনের সংগ্রহ', null ],
+	'Track mosque fundraising campaigns and manual donations in MasjidOS Pro.': [ 'MasjidOS Pro-তে মসজিদের তহবিল সংগ্রহ ক্যাম্পেইন ও হাতে-লেখা দান ট্র্যাক করুন।', null ],
+
+	// --- Article editor ---
+	'Article Details': [ 'প্রবন্ধের বিবরণ', null ],
+	'Article Language': [ 'প্রবন্ধের ভাষা', null ],
+	'Author / Scholar': [ 'লেখক / আলেম', null ],
+	'Key Takeaway': [ 'মূল শিক্ষা', null ],
+	'Key takeaway': [ 'মূল শিক্ষা', null ],
+	'Language of this article’s content. Does not auto-translate the title.': [ 'এই প্রবন্ধের বিষয়বস্তুর ভাষা। শিরোনাম স্বয়ংক্রিয়ভাবে অনুবাদ হয় না।', null ],
+	'One-line summary shown above the article.': [ 'প্রবন্ধের ওপরে দেখানো এক লাইনের সারাংশ।', null ],
+	'One-line summary for readers': [ 'পাঠকদের জন্য এক লাইনের সারাংশ', null ],
+	'Optional audio narration URL': [ 'ঐচ্ছিক অডিও পাঠের URL', null ],
+	'Optional translator name': [ 'ঐচ্ছিক অনুবাদকের নাম', null ],
+	'Original / External URL': [ 'মূল / বাইরের URL', null ],
+	'Source / Reference': [ 'সূত্র / রেফারেন্স', null ],
+	'Translator': [ 'অনুবাদক', null ],
+	'e.g. Book, hadith collection, citation': [ 'যেমন: বই, হাদিস গ্রন্থ, উদ্ধৃতি', null ],
+	'e.g. Imam / Scholar name': [ 'যেমন: ইমাম / আলেমের নাম', null ],
+	'Attribution and extras for this article. Titles stay as you type them.': [ 'এই প্রবন্ধের সূত্র ও অতিরিক্ত তথ্য। শিরোনাম আপনি যেভাবে লিখবেন সেভাবেই থাকবে।', null ],
+	'Open source link': [ 'মূল লিংক খুলুন', null ],
+	'Original': [ 'মূল', null ],
+	'Parent Category': [ 'মূল ক্যাটাগরি', null ],
+	'Parent Category:': [ 'মূল ক্যাটাগরি:', null ],
+	'Reading time': [ 'পড়ার সময়', null ],
+
+	// --- Error messages ---
+	'Event not found.': [ 'ইভেন্ট পাওয়া যায়নি।', null ],
+	'Event start time is required.': [ 'ইভেন্ট শুরুর সময় প্রয়োজন।', null ],
+	'Event title is required.': [ 'ইভেন্টের শিরোনাম প্রয়োজন।', null ],
+	'The event could not be created.': [ 'ইভেন্ট তৈরি করা যায়নি।', null ],
+	'The event could not be updated.': [ 'ইভেন্ট আপডেট করা যায়নি।', null ],
+	'The event could not be deleted.': [ 'ইভেন্ট মুছে ফেলা যায়নি।', null ],
+	'The event end time must be after its start time.': [ 'ইভেন্টের শেষের সময় শুরুর সময়ের পরে হতে হবে।', null ],
+	'Khatib name is required.': [ 'খতিবের নাম প্রয়োজন।', null ],
+	'Khutbah date is required.': [ 'খুতবার তারিখ প্রয়োজন।', null ],
+	'Khutbah not found.': [ 'খুতবা পাওয়া যায়নি।', null ],
+	'Khutbah topic is required.': [ 'খুতবার বিষয় প্রয়োজন।', null ],
+	'The khutbah could not be created.': [ 'খুতবা তৈরি করা যায়নি।', null ],
+	'The khutbah could not be updated.': [ 'খুতবা আপডেট করা যায়নি।', null ],
+	'The khutbah could not be deleted.': [ 'খুতবা মুছে ফেলা যায়নি।', null ],
+	'Could not create khatib profile.': [ 'খতিবের প্রোফাইল তৈরি করা যায়নি।', null ],
+	'Could not update khatib profile.': [ 'খতিবের প্রোফাইল আপডেট করা যায়নি।', null ],
+	'Could not delete profile.': [ 'প্রোফাইল মুছে ফেলা যায়নি।', null ],
+	'Could not create schedule entry.': [ 'সময়সূচির এন্ট্রি তৈরি করা যায়নি।', null ],
+	'Could not update schedule entry.': [ 'সময়সূচির এন্ট্রি আপডেট করা যায়নি।', null ],
+	'Could not delete schedule entry.': [ 'সময়সূচির এন্ট্রি মুছে ফেলা যায়নি।', null ],
+	'Khatib profile not found.': [ 'খতিবের প্রোফাইল পাওয়া যায়নি।', null ],
+	'Schedule entry not found.': [ 'সময়সূচির এন্ট্রি পাওয়া যায়নি।', null ],
+	'Plan date and topic are required.': [ 'পরিকল্পনার তারিখ ও বিষয় প্রয়োজন।', null ],
+	'Valid khatib is required.': [ 'সঠিক খতিব নির্বাচন প্রয়োজন।', null ],
+	'Valid schedule date is required.': [ 'সঠিক সময়সূচির তারিখ প্রয়োজন।', null ],
+	'MasjidOS requires PHP 7.4 or higher.': [ 'MasjidOS-এর জন্য PHP ৭.৪ বা তার বেশি প্রয়োজন।', null ],
+	'CSV file is empty.': [ 'CSV ফাইলটি ফাঁকা।', null ],
+	'CSV header row is missing.': [ 'CSV-এর হেডার সারি নেই।', null ],
+	'CSV must include a date column.': [ 'CSV-তে তারিখের কলাম থাকতে হবে।', null ],
+	'Line %1$d: invalid date "%2$s".': [ 'লাইন %1$d: অবৈধ তারিখ "%2$s"।', null ],
+	'Line %d: missing or invalid date.': [ 'লাইন %d: তারিখ নেই বা অবৈধ।', null ],
+	'Line %d: no prayer or Iqamah times found.': [ 'লাইন %d: নামাজ বা ইকামাহর কোনো সময় পাওয়া যায়নি।', null ],
+	'CSV content is required.': [ 'CSV-এর বিষয়বস্তু প্রয়োজন।', null ],
+	'CSV import could not be completed.': [ 'CSV ইম্পোর্ট সম্পন্ন করা যায়নি।', null ],
+	'Invalid date. Use YYYY-MM-DD.': [ 'অবৈধ তারিখ। YYYY-MM-DD ফরম্যাট ব্যবহার করুন।', null ],
+	'Not allowed.': [ 'অনুমতি নেই।', null ],
+	'Masjid CSV Timetable': [ 'মসজিদের CSV সময়সূচি', null ],
+	'MasjidOS Pro is active': [ 'MasjidOS Pro সক্রিয়', null ],
+	'Unlock with MasjidOS Pro': [ 'MasjidOS Pro দিয়ে আনলক করুন', null ],
+	'Events calendar, timings, and location registration': [ 'ইভেন্ট ক্যালেন্ডার, সময় ও স্থান নিবন্ধন', null ],
+
+	// --- Public front-end ---
+	'Check back later for community lectures, prayers, and charity events.': [ 'কমিউনিটির আলোচনা, নামাজ ও দান কার্যক্রমের জন্য পরে আবার দেখুন।', null ],
+	'Enable the Events module before using this shortcode.': [ 'এই শর্টকোড ব্যবহারের আগে Events মডিউল চালু করুন।', null ],
+	'Events are disabled': [ 'ইভেন্ট বন্ধ আছে', null ],
+	'No articles published yet.': [ 'এখনো কোনো প্রবন্ধ প্রকাশিত হয়নি।', null ],
+	'No upcoming events': [ 'কোনো আসন্ন ইভেন্ট নেই', null ],
+	'This week\'s khatib is not scheduled yet.': [ 'এই সপ্তাহের খতিব এখনো ঠিক হয়নি।', null ],
+	'Download PDF': [ 'PDF ডাউনলোড', null ],
+	'Enter a topic or khatib name to search.': [ 'খুঁজতে একটি বিষয় বা খতিবের নাম লিখুন।', null ],
+	'No results.': [ 'কোনো ফলাফল নেই।', null ],
+	'Search khutbahs…': [ 'খুতবা খুঁজুন…', null ],
+	'Prayer calculation details': [ 'নামাজ গণনার বিবরণ', null ],
+	'No upcoming khutbahs listed.': [ 'কোনো আসন্ন খুতবা তালিকাভুক্ত নেই।', null ],
+	'Dismissible modal for urgent announcements.': [ 'জরুরি ঘোষণার জন্য বন্ধ করা যায় এমন পপআপ।', null ],
+	'Slim top banner for the highest-priority notice.': [ 'সর্বোচ্চ অগ্রাধিকারের নোটিশের জন্য সরু ওপরের ব্যানার।', null ],
+	'Generated using %1$s for %2$s. Hijri dates may differ by local moon sighting.': [ '%2$s-এর জন্য %1$s ব্যবহার করে তৈরি। স্থানীয় চাঁদ দেখার ওপর ভিত্তি করে হিজরি তারিখ ভিন্ন হতে পারে।', null ],
+	'Prayer times for %1$s using %2$s': [ '%2$s পদ্ধতিতে %1$s-এর নামাজের সময়', null ]
+};
+
+const files = [ [ 'bn_BD-translations.json', 0 ], [ 'ar-translations.json', 1 ] ];
+for ( const [ file, idx ] of files ) {
+	const p = path.join( __dirname, file );
+	const raw = fs.readFileSync( p, 'utf8' );
+	const data = JSON.parse( raw );
+	let changed = 0;
+	for ( const [ key, vals ] of Object.entries( T ) ) {
+		if ( vals[ idx ] && ( ! data[ key ] || data[ key ] === key ) ) {
+			data[ key ] = vals[ idx ];
+			changed++;
+		}
+	}
+	const eol = raw.includes( '\r\n' ) ? '\r\n' : '\n';
+	fs.writeFileSync( p, JSON.stringify( data, null, '\t' ).replace( /\n/g, eol ) + eol );
+	console.log( file, 'updated', changed );
+}
