@@ -137,7 +137,7 @@ class ITMMS_Elementor_Ask_Imam extends Widget_Base {
 		} else {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in ITMMS_Ask_Imam.
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Sanitized by ITMMS_Ask_Imam with custom form/select tags.
-			echo ITMMS_Ask_Imam::get_instance()->render_form_shortcode( $atts );
+			echo ITMMS_Ask_Imam::get_instance()->render_submit_shortcode( $atts );
 		}
 	}
 }

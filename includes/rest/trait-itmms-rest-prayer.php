@@ -22,7 +22,7 @@ trait ITMMS_REST_Prayer {
 	/**
 	 * Return prayer times for a specific Gregorian date (public headless JSON).
 	 */
-	public function get_prayer_times_date( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+	public function get_prayer_times_date( WP_REST_Request $request ) {
 		$date_str = (string) $request->get_param( 'date' );
 		$settings = ITMMS_Settings::get_all();
 		try {
@@ -123,7 +123,7 @@ trait ITMMS_REST_Prayer {
 		);
 	}
 
-	public function import_prayer_timetable( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+	public function import_prayer_timetable( WP_REST_Request $request ) {
 		$params  = $request->get_json_params();
 		$csv     = isset( $params['csv'] ) ? (string) $params['csv'] : '';
 		$mode    = isset( $params['mode'] ) ? sanitize_key( (string) $params['mode'] ) : 'merge';
