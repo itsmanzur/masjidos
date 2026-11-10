@@ -11,12 +11,11 @@ use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Typography;
-use Elementor\Widget_Base;
 
 /**
  * Class ITMMS_Elementor_Prayer_Times
  */
-class ITMMS_Elementor_Prayer_Times extends Widget_Base {
+class ITMMS_Elementor_Prayer_Times extends ITMMS_Elementor_Widget_Base {
 
 	/**
 	 * Get widget name.
@@ -40,13 +39,6 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 	}
 
 	/**
-	 * Get widget categories.
-	 */
-	public function get_categories(): array {
-		return [ 'masjidos' ];
-	}
-
-	/**
 	 * Get widget keywords.
 	 */
 	public function get_keywords(): array {
@@ -65,6 +57,12 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 			]
 		);
 
+		$this->register_quick_manage_notice(
+			__( 'Configure Prayer & Iqamah Times', 'masjidos' ),
+			'admin.php?page=masjidos#prayer-times',
+			'prayer_times'
+		);
+
 		$this->add_control(
 			'title',
 			[
@@ -75,16 +73,24 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 			]
 		);
 
+		$design_options = [
+			'classic' => __( 'Classic (Cards Grid)', 'masjidos' ),
+			'compact' => __( 'Compact (List)', 'masjidos' ),
+			'minimal' => __( 'Minimal', 'masjidos' ),
+		];
+		if ( function_exists( 'masjidos_pro_is_active' ) && masjidos_pro_is_active() ) {
+			$design_options['premium-card']    = __( 'Pro: Premium Card', 'masjidos' );
+			$design_options['mosque-display']  = __( 'Pro: Mosque Display', 'masjidos' );
+			$design_options['ramadan-special'] = __( 'Pro: Ramadan Special', 'masjidos' );
+		}
+
 		$this->add_control(
 			'design',
 			[
 				'label'   => __( 'Design Layout', 'masjidos' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'classic',
-				'options' => [
-					'classic' => __( 'Classic (Cards Grid)', 'masjidos' ),
-					'compact' => __( 'Compact (List)', 'masjidos' ),
-				],
+				'options' => $design_options,
 			]
 		);
 
@@ -93,12 +99,8 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 			[
 				'label'   => __( 'Language', 'masjidos' ),
 				'type'    => Controls_Manager::SELECT,
-				'default' => 'en',
-				'options' => [
-					'en' => __( 'English', 'masjidos' ),
-					'bn' => __( 'Bangla (বাংলা)', 'masjidos' ),
-					'ar' => __( 'Arabic (العربية)', 'masjidos' ),
-				],
+				'default' => $this->get_default_language(),
+				'options' => $this->get_language_options(),
 			]
 		);
 
@@ -152,7 +154,7 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 
 		$this->end_controls_section();
 
-		// Style Section.
+		// Style Section — preserves existing control IDs while fixing selectors to match `.itmms-public-prayer`.
 		$this->start_controls_section(
 			'section_style_card',
 			[
@@ -167,7 +169,19 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 				'label'     => __( 'Background Color', 'masjidos' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .itmms-prayer-widget' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .itmms-public-prayer' => 'background: {{VALUE}}; background-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'card_padding',
+			[
+				'label'      => __( 'Padding', 'masjidos' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} .itmms-public-prayer' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -176,7 +190,7 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'     => 'card_border',
-				'selector' => '{{WRAPPER}} .itmms-prayer-widget',
+				'selector' => '{{WRAPPER}} .itmms-public-prayer',
 			]
 		);
 
@@ -187,7 +201,7 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
-					'{{WRAPPER}} .itmms-prayer-widget' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .itmms-public-prayer' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -196,7 +210,7 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name'     => 'card_box_shadow',
-				'selector' => '{{WRAPPER}} .itmms-prayer-widget',
+				'selector' => '{{WRAPPER}} .itmms-public-prayer',
 			]
 		);
 
@@ -216,8 +230,7 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 				'label'     => __( 'Heading Color', 'masjidos' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .itmms-prayer-widget__heading' => 'color: {{VALUE}};',
-					'{{WRAPPER}} .itmms-prayer-widget h3'       => 'color: {{VALUE}};',
+					'{{WRAPPER}} .itmms-public-prayer h2, {{WRAPPER}} .itmms-public-prayer h3' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -226,7 +239,7 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'heading_typography',
-				'selector' => '{{WRAPPER}} .itmms-prayer-widget__heading, {{WRAPPER}} .itmms-prayer-widget h3',
+				'selector' => '{{WRAPPER}} .itmms-public-prayer h2',
 			]
 		);
 
@@ -236,7 +249,7 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 				'label'     => __( 'Prayer Names Color', 'masjidos' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .itmms-prayer-card__name' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .itmms-public-prayer__name' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -247,7 +260,7 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 				'label'     => __( 'Prayer Time Digits Color', 'masjidos' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .itmms-prayer-card__time' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .itmms-public-prayer__time time, {{WRAPPER}} .itmms-public-prayer__iqamah b' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -264,7 +277,7 @@ class ITMMS_Elementor_Prayer_Times extends Widget_Base {
 		$atts = [
 			'title'    => $settings['title'] ?? '',
 			'design'   => $settings['design'] ?? 'classic',
-			'language' => $settings['language'] ?? 'en',
+			'language' => $settings['language'] ?? $this->get_default_language(),
 			'iqamah'   => ( 'yes' === ( $settings['iqamah'] ?? '' ) ) ? 'yes' : 'no',
 			'qibla'    => ( 'yes' === ( $settings['qibla'] ?? '' ) ) ? 'yes' : 'no',
 			'hijri'    => ( 'yes' === ( $settings['hijri'] ?? '' ) ) ? 'yes' : 'no',

@@ -20,6 +20,7 @@ if ( class_exists( 'ITMMS_Hijri' ) ) {
 
 $itmms_ramadan_class = $itmms_is_ramadan ? 'is-ramadan' : '';
 $design = in_array( $design, [ 'ticker', 'banner', 'popup', 'list' ], true ) ? $design : 'list';
+$itmms_editor_preview = method_exists( $this, 'is_editor_preview' ) && $this->is_editor_preview();
 
 $itmms_active_label = 1 === count( $notices )
 	? $labels['active_one']
@@ -35,9 +36,15 @@ $itmms_active_label = 1 === count( $notices )
 	<!-- POPUP ANNOUNCEMENT -->
 	<?php if ( ! empty( $notices ) ) : ?>
 		<?php $itmms_top_notice = $notices[0]; // Display the highest priority notice as popup ?>
-		<div class="itmms-public-popup-overlay" id="itmms-popup-<?php echo esc_attr( $itmms_top_notice['id'] ); ?>" data-itmms-popup-id="<?php echo esc_attr( $itmms_top_notice['id'] ); ?>" role="dialog" aria-modal="true" aria-labelledby="itmms-popup-title-<?php echo esc_attr( $itmms_top_notice['id'] ); ?>">
+		<div class="itmms-public-popup-overlay <?php echo $itmms_editor_preview ? 'is-editor-preview' : ''; ?>" id="itmms-popup-<?php echo esc_attr( $itmms_top_notice['id'] ); ?>" data-itmms-popup-id="<?php echo esc_attr( $itmms_top_notice['id'] ); ?>" role="dialog" aria-modal="<?php echo $itmms_editor_preview ? 'false' : 'true'; ?>" aria-labelledby="itmms-popup-title-<?php echo esc_attr( $itmms_top_notice['id'] ); ?>">
 			<div class="itmms-public-popup-content <?php echo esc_attr( $itmms_ramadan_class ); ?>">
-				<button type="button" class="itmms-public-popup-close" data-itmms-popup-close="<?php echo esc_attr( $itmms_top_notice['id'] ); ?>" aria-label="<?php echo esc_attr( __( 'Close popup', 'masjidos' ) ); ?>">&times;</button>
+				<?php if ( $itmms_editor_preview ) : ?>
+					<div class="itmms-public-popup-editor-badge">
+						<?php echo esc_html( __( 'Popup Notice Preview (displays as modal on live page)', 'masjidos' ) ); ?>
+					</div>
+				<?php else : ?>
+					<button type="button" class="itmms-public-popup-close" data-itmms-popup-close="<?php echo esc_attr( $itmms_top_notice['id'] ); ?>" aria-label="<?php echo esc_attr( __( 'Close popup', 'masjidos' ) ); ?>">&times;</button>
+				<?php endif; ?>
 
 				<?php if ( $itmms_is_ramadan ) : ?>
 					<div class="itmms-public-popup-ramadan-badge">
@@ -110,7 +117,7 @@ $itmms_active_label = 1 === count( $notices )
 	<section class="itmms-public-announcements itmms-public-announcements--list <?php echo esc_attr( $itmms_ramadan_class ); ?> itmms-public-announcements--lang-<?php echo esc_attr( $language ); ?>">
 		<header class="itmms-public-announcements__header">
 			<div>
-				<span class="itmms-public-announcements__eyebrow"><?php echo esc_html( $location ?: get_bloginfo( 'name' ) ); ?></span>
+				<span class="itmms-public-announcements__eyebrow"><?php echo esc_html( $location ?: get_bloginfo( 'name' ) ); ?> <?php echo $this->render_admin_quick_edit( 'admin.php?page=masjidos#announcements', $language ); ?></span>
 				<h2><?php echo esc_html( (string) $atts['title'] ); ?></h2>
 			</div>
 			<b><?php echo esc_html( $itmms_active_label ); ?></b>

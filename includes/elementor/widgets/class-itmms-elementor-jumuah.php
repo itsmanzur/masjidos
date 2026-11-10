@@ -8,12 +8,11 @@
 defined( 'ABSPATH' ) || exit;
 
 use Elementor\Controls_Manager;
-use Elementor\Widget_Base;
 
 /**
  * Class ITMMS_Elementor_Jumuah
  */
-class ITMMS_Elementor_Jumuah extends Widget_Base {
+class ITMMS_Elementor_Jumuah extends ITMMS_Elementor_Widget_Base {
 
 	/**
 	 * Get widget name.
@@ -37,13 +36,6 @@ class ITMMS_Elementor_Jumuah extends Widget_Base {
 	}
 
 	/**
-	 * Get widget categories.
-	 */
-	public function get_categories(): array {
-		return [ 'masjidos' ];
-	}
-
-	/**
 	 * Get widget keywords.
 	 */
 	public function get_keywords(): array {
@@ -62,6 +54,12 @@ class ITMMS_Elementor_Jumuah extends Widget_Base {
 			]
 		);
 
+		$this->register_quick_manage_notice(
+			__( 'Configure Jumuah Sessions & Khatib', 'masjidos' ),
+			'admin.php?page=masjidos#prayer-times',
+			'jumuah'
+		);
+
 		$this->add_control(
 			'title',
 			[
@@ -72,16 +70,22 @@ class ITMMS_Elementor_Jumuah extends Widget_Base {
 			]
 		);
 
+		$design_options = [
+			'classic' => __( 'Classic Card', 'masjidos' ),
+			'compact' => __( 'Compact', 'masjidos' ),
+		];
+		if ( function_exists( 'masjidos_pro_is_active' ) && masjidos_pro_is_active() ) {
+			$design_options['premium-sermon'] = __( 'Pro: Premium Sermon', 'masjidos' );
+			$design_options['mosque-notice']  = __( 'Pro: Mosque Notice', 'masjidos' );
+		}
+
 		$this->add_control(
 			'design',
 			[
 				'label'   => __( 'Design Layout', 'masjidos' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'classic',
-				'options' => [
-					'classic' => __( 'Classic Card', 'masjidos' ),
-					'compact' => __( 'Compact', 'masjidos' ),
-				],
+				'options' => $design_options,
 			]
 		);
 
@@ -90,12 +94,8 @@ class ITMMS_Elementor_Jumuah extends Widget_Base {
 			[
 				'label'   => __( 'Language', 'masjidos' ),
 				'type'    => Controls_Manager::SELECT,
-				'default' => 'en',
-				'options' => [
-					'en' => __( 'English', 'masjidos' ),
-					'bn' => __( 'Bangla (বাংলা)', 'masjidos' ),
-					'ar' => __( 'Arabic (العربية)', 'masjidos' ),
-				],
+				'default' => $this->get_default_language(),
+				'options' => $this->get_language_options(),
 			]
 		);
 
@@ -112,6 +112,8 @@ class ITMMS_Elementor_Jumuah extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		$this->register_common_style_controls( '.itmms-public-jumuah', '.itmms-public-jumuah__session' );
 	}
 
 	/**
@@ -123,7 +125,7 @@ class ITMMS_Elementor_Jumuah extends Widget_Base {
 		$atts = [
 			'title'    => $settings['title'] ?? '',
 			'design'   => $settings['design'] ?? 'classic',
-			'language' => $settings['language'] ?? 'en',
+			'language' => $settings['language'] ?? $this->get_default_language(),
 			'meta'     => ( 'yes' === ( $settings['meta'] ?? '' ) ) ? 'yes' : 'no',
 		];
 

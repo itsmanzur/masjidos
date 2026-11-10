@@ -11,6 +11,7 @@ $itmms_labels = [
 	'eyebrow'     => ( 'bn' === $language ) ? 'খুতবা খুঁজুন' : ( ( 'ar' === $language ) ? 'بحث الخطب' : __( 'Search khutbahs', 'masjidos' ) ),
 	'placeholder' => ( 'bn' === $language ) ? 'খুতবা খুঁজুন...' : ( ( 'ar' === $language ) ? 'ابحث عن الخطبة...' : __( 'Search khutbahs…', 'masjidos' ) ),
 	'search'      => ( 'bn' === $language ) ? 'অনুসন্ধান' : ( ( 'ar' === $language ) ? 'بحث' : __( 'Search', 'masjidos' ) ),
+	'reset'       => ( 'bn' === $language ) ? 'রিসেট' : ( ( 'ar' === $language ) ? 'مسح' : __( 'Clear', 'masjidos' ) ),
 	'empty'       => ( 'bn' === $language ) ? 'কোনো ফলাফল নেই।' : ( ( 'ar' === $language ) ? 'لا توجد نتائج.' : __( 'No results.', 'masjidos' ) ),
 	'hint'        => ( 'bn' === $language ) ? 'বিষয় বা খতিবের নাম লিখে খুঁজুন।' : ( ( 'ar' === $language ) ? 'ابحث بالموضوع أو اسم الخطيب.' : __( 'Enter a topic or khatib name to search.', 'masjidos' ) ),
 	'khatib'      => ( 'bn' === $language ) ? 'খতিব' : ( ( 'ar' === $language ) ? 'الخطيب' : __( 'Khatib', 'masjidos' ) ),
@@ -30,14 +31,15 @@ $itmms_search_id = 'itmms-minbar-search-' . wp_unique_id();
 <section class="itmms-public-minbar itmms-public-minbar--search itmms-public-minbar--lang-<?php echo esc_attr( $language ); ?>" dir="<?php echo 'ar' === $language ? 'rtl' : 'ltr'; ?>">
 	<header class="itmms-public-minbar__header">
 		<div>
-			<span class="itmms-public-minbar__eyebrow"><?php echo esc_html( $itmms_masjid ?: $itmms_labels['eyebrow'] ); ?></span>
+			<span class="itmms-public-minbar__eyebrow"><?php echo esc_html( $itmms_masjid ?: $itmms_labels['eyebrow'] ); ?> <?php echo $this->render_admin_quick_edit( 'admin.php?page=masjidos#minbar', $language ); ?></span>
 			<h2><?php echo esc_html( (string) $atts['title'] ); ?></h2>
 		</div>
 	</header>
-	<form method="get" action="" class="itmms-public-minbar__form" role="search">
+	<form method="get" action="" class="itmms-public-minbar__form" role="search" data-itmms-ajax-filter>
 		<label class="screen-reader-text" for="<?php echo esc_attr( $itmms_search_id ); ?>"><?php echo esc_html( $itmms_labels['search'] ); ?></label>
 		<input id="<?php echo esc_attr( $itmms_search_id ); ?>" type="search" name="itmms_khutbah_search" value="<?php echo esc_attr( $search ); ?>" placeholder="<?php echo esc_attr( $itmms_labels['placeholder'] ); ?>">
 		<button type="submit" class="itmms-public-minbar__submit"><?php echo esc_html( $itmms_labels['search'] ); ?></button>
+		<button type="button" class="itmms-public-minbar__reset" data-itmms-filter-reset <?php echo '' !== (string) $search ? '' : 'hidden'; ?>><?php echo esc_html( $itmms_labels['reset'] ); ?></button>
 	</form>
 	<?php if ( '' === $search ) : ?>
 		<p class="itmms-public-minbar__hint"><?php echo esc_html( $itmms_labels['hint'] ); ?></p>

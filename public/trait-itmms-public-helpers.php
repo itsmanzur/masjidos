@@ -608,6 +608,46 @@ trait ITMMS_Public_Helpers {
 	}
 
 	/**
+	 * Detect whether current render is inside Gutenberg ServerSideRender or Elementor editor/preview.
+	 */
+	public function is_editor_preview(): bool {
+		if ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+			return true;
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['elementor-preview'] ) ) {
+			return true;
+		}
+		if ( class_exists( '\Elementor\Plugin' ) && isset( \Elementor\Plugin::$instance->editor ) && \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Render a subtle admin-only quick-edit badge on frontend widgets (hidden from regular visitors & print).
+	 */
+	public function render_admin_quick_edit( string $admin_path, string $language = 'en' ): string {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return '';
+		}
+
+		$label = __( 'Edit', 'masjidos' );
+		if ( 'bn' === $language ) {
+			$label = 'এডিট';
+		} elseif ( 'ar' === $language ) {
+			$label = 'تعديل';
+		}
+
+		return sprintf(
+			'<a class="itmms-public-quick-edit" href="%s" target="_blank" rel="noopener noreferrer" title="%s">✎ %s</a>',
+			esc_url( admin_url( $admin_path ) ),
+			esc_attr__( 'Edit this module in MasjidOS Admin', 'masjidos' ),
+			esc_html( $label )
+		);
+	}
+
+	/**
 	 * Enqueue public assets only when shortcode renders.
 	 */
 	private function enqueue_assets(): void {
@@ -643,6 +683,17 @@ trait ITMMS_Public_Helpers {
 	public function safe_kses( string $html ): string {
 		$allowed = wp_kses_allowed_html( 'post' );
 
+		$allowed['a'] = array_merge(
+			$allowed['a'] ?? [],
+			[
+				'class'  => true,
+				'href'   => true,
+				'target' => true,
+				'rel'    => true,
+				'title'  => true,
+			]
+		);
+
 		$allowed['select'] = [
 			'class'                      => true,
 			'id'                         => true,
@@ -657,20 +708,22 @@ trait ITMMS_Public_Helpers {
 		];
 
 		$allowed['form'] = [
-			'action' => true,
-			'class'  => true,
-			'method' => true,
-			'role'   => true,
+			'action'                 => true,
+			'class'                  => true,
+			'method'                 => true,
+			'role'                   => true,
+			'data-itmms-ajax-filter' => true,
 		];
 
 		$allowed['input'] = [
-			'aria-label'  => true,
-			'class'       => true,
-			'id'          => true,
-			'name'        => true,
-			'placeholder' => true,
-			'type'        => true,
-			'value'       => true,
+			'aria-label'              => true,
+			'class'                   => true,
+			'id'                      => true,
+			'name'                    => true,
+			'placeholder'             => true,
+			'type'                    => true,
+			'value'                   => true,
+			'data-itmms-names-search' => true,
 		];
 
 		$allowed['label'] = [
@@ -691,23 +744,30 @@ trait ITMMS_Public_Helpers {
 			'type'                         => true,
 			'style'                        => true,
 			'disabled'                     => true,
+			'hidden'                       => true,
 			'data-itmms-monthly-step'      => true,
 			'data-itmms-monthly-current'   => true,
 			'data-itmms-monthly-print'     => true,
 			'data-itmms-ticker-toggle'     => true,
 			'data-play-label'              => true,
 			'data-pause-label'             => true,
+			'data-playing-label'           => true,
 			'data-itmms-calendar-step'     => true,
 			'data-itmms-calendar-current'  => true,
 			'data-itmms-dua-count'         => true,
 			'data-itmms-dua-reset'         => true,
 			'data-itmms-dua-audio'         => true,
 			'data-itmms-dua-share'         => true,
+			'data-itmms-dua-filter'        => true,
 			'data-itmms-education-share'   => true,
 			'data-itmms-popup-close'       => true,
 			'data-itmms-share-success'     => true,
 			'data-itmms-share-text'        => true,
 			'data-itmms-cal-toggle'        => true,
+			'data-itmms-filter-reset'      => true,
+			'data-itmms-names-toggle'      => true,
+			'data-expand-label'            => true,
+			'data-collapse-label'          => true,
 			'aria-label'                   => true,
 			'aria-pressed'                 => true,
 			'aria-expanded'                => true,
@@ -718,49 +778,54 @@ trait ITMMS_Public_Helpers {
 		$allowed['div'] = array_merge(
 			$allowed['div'] ?? [],
 			[
-				'class'                    => true,
-				'id'                       => true,
-				'hidden'                   => true,
-				'data-itmms-monthly'       => true,
-				'data-itmms-calendar'      => true,
-				'data-endpoint'            => true,
-				'data-month'               => true,
-				'data-year'                => true,
-				'data-current-month'       => true,
-				'data-current-year'        => true,
-				'data-design'              => true,
-				'data-language'            => true,
-				'data-iqamah'              => true,
-				'data-extras'              => true,
-				'data-title'               => true,
-				'data-error'               => true,
-				'data-next-prayer'         => true,
-				'data-itmms-public-qibla'  => true,
-				'data-itmms-popup-id'      => true,
-				'data-gregorian-date'      => true,
-				'data-hijri-date-label'    => true,
-				'data-itmms-calendar-drawer' => true,
-				'data-itmms-calendar-drawer-title' => true,
-				'data-itmms-calendar-drawer-list' => true,
-				'style'                    => true,
-				'role'                     => true,
-				'tabindex'                 => true,
-				'title'                    => true,
-				'dir'                      => true,
-				'aria-label'               => true,
-				'aria-busy'                => true,
-				'aria-hidden'              => true,
+				'class'                              => true,
+				'id'                                 => true,
+				'hidden'                             => true,
+				'data-itmms-monthly'                 => true,
+				'data-itmms-calendar'                => true,
+				'data-endpoint'                      => true,
+				'data-month'                         => true,
+				'data-year'                          => true,
+				'data-current-month'                 => true,
+				'data-current-year'                  => true,
+				'data-design'                        => true,
+				'data-language'                      => true,
+				'data-iqamah'                        => true,
+				'data-extras'                        => true,
+				'data-title'                         => true,
+				'data-error'                         => true,
+				'data-next-prayer'                   => true,
+				'data-prayer-key'                    => true,
+				'data-prayer-label'                  => true,
+				'data-prayer-clock'                  => true,
+				'data-prayer-raw'                    => true,
+				'data-itmms-public-qibla'            => true,
+				'data-itmms-popup-id'                => true,
+				'data-gregorian-date'                => true,
+				'data-hijri-date-label'              => true,
+				'data-itmms-calendar-drawer'         => true,
+				'data-itmms-calendar-drawer-title'   => true,
+				'data-itmms-calendar-drawer-list'    => true,
+				'style'                              => true,
+				'role'                               => true,
+				'tabindex'                           => true,
+				'title'                              => true,
+				'dir'                                => true,
+				'aria-label'                         => true,
+				'aria-busy'                          => true,
+				'aria-hidden'                        => true,
 			]
 		);
 
 		$allowed['span'] = array_merge(
 			$allowed['span'] ?? [],
 			[
-				'class'            => true,
-				'style'            => true,
-				'title'            => true,
-				'aria-hidden'      => true,
-				'data-today-label' => true,
+				'class'                   => true,
+				'style'                   => true,
+				'title'                   => true,
+				'aria-hidden'             => true,
+				'data-today-label'        => true,
+				'data-itmms-dua-progress' => true,
 			]
 		);
 
@@ -776,10 +841,14 @@ trait ITMMS_Public_Helpers {
 		$allowed['article'] = array_merge(
 			$allowed['article'] ?? [],
 			[
-				'class'                  => true,
-				'data-itmms-dua-key'     => true,
-				'data-itmms-dua-text'    => true,
-				'data-itmms-dua-target'  => true,
+				'class'                        => true,
+				'hidden'                       => true,
+				'data-itmms-dua-key'           => true,
+				'data-itmms-dua-text'          => true,
+				'data-itmms-dua-target'        => true,
+				'data-itmms-dua-categories'    => true,
+				'data-itmms-name-search-text'  => true,
+				'data-itmms-name-extra'        => true,
 			]
 		);
 

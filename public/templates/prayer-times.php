@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 <div class="itmms-public-prayer itmms-public-prayer--<?php echo esc_attr( $design ); ?> itmms-public-prayer--lang-<?php echo esc_attr( $language ); ?> <?php echo $is_compact ? 'itmms-public-prayer--compact' : ''; ?> <?php echo $show_iqamah_column ? '' : 'itmms-public-prayer--no-iqamah'; ?>" data-next-prayer="<?php echo esc_attr( $next['raw'] ?? '' ); ?>">
 	<div class="itmms-public-prayer__hero">
 		<div>
-			<span class="itmms-public-prayer__eyebrow"><?php echo esc_html( $meta['location'] ?: get_bloginfo( 'name' ) ); ?></span>
+			<span class="itmms-public-prayer__eyebrow"><?php echo esc_html( $meta['location'] ?: get_bloginfo( 'name' ) ); ?> <?php echo $this->render_admin_quick_edit( 'admin.php?page=masjidos#prayer-times', $language ); ?></span>
 			<h2><?php echo esc_html( $atts['title'] ); ?></h2>
 			<p class="itmms-public-prayer__dates">
 				<span><?php echo esc_html( $date_label ); ?></span>
@@ -43,11 +43,20 @@ defined( 'ABSPATH' ) || exit;
 		<div class="itmms-public-prayer__table">
 			<?php foreach ( $data['prayers'] as $itmms_prayer ) : ?>
 				<?php
-				$itmms_is_extra = 'extra' === ( $itmms_prayer['kind'] ?? '' ) || in_array( (string) ( $itmms_prayer['key'] ?? '' ), [ 'ishraq', 'zawal', 'sunrise' ], true );
+				$itmms_prayer_key   = (string) ( $itmms_prayer['key'] ?? '' );
+				$itmms_is_extra     = 'extra' === ( $itmms_prayer['kind'] ?? '' ) || in_array( $itmms_prayer_key, [ 'ishraq', 'zawal', 'sunrise' ], true );
+				$itmms_prayer_label = $this->prayer_label( $itmms_prayer_key, $language, (string) $itmms_prayer['name'] );
+				$itmms_prayer_clock = ITMMS_Hijri::format_clock( (string) $itmms_prayer['time'], $language );
 				?>
-				<div class="itmms-public-prayer__row <?php echo ! empty( $itmms_prayer['current'] ) ? 'is-current' : ''; ?> <?php echo $itmms_is_extra ? 'is-extra' : ''; ?>">
+				<div
+					class="itmms-public-prayer__row <?php echo ! empty( $itmms_prayer['current'] ) ? 'is-current' : ''; ?> <?php echo $itmms_is_extra ? 'is-extra' : ''; ?>"
+					data-prayer-key="<?php echo esc_attr( $itmms_prayer_key ); ?>"
+					data-prayer-label="<?php echo esc_attr( $itmms_prayer_label ); ?>"
+					data-prayer-clock="<?php echo esc_attr( $itmms_prayer_clock ); ?>"
+					data-prayer-raw="<?php echo esc_attr( (string) ( $itmms_prayer['raw'] ?? $itmms_prayer['time'] ?? '' ) ); ?>"
+				>
 					<span class="itmms-public-prayer__name">
-						<?php echo esc_html( $this->prayer_label( (string) $itmms_prayer['key'], $language, (string) $itmms_prayer['name'] ) ); ?>
+						<?php echo esc_html( $itmms_prayer_label ); ?>
 					</span>
 					<?php if ( $show_iqamah_column ) : ?>
 						<span class="itmms-public-prayer__iqamah">
@@ -58,8 +67,8 @@ defined( 'ABSPATH' ) || exit;
 						</span>
 					<?php endif; ?>
 					<span class="itmms-public-prayer__time">
-						<time><?php echo esc_html( ITMMS_Hijri::format_clock( (string) $itmms_prayer['time'], $language ) ); ?></time>
-						<?php if ( ! empty( $itmms_prayer['offset'] ) && 'ishraq' !== ( $itmms_prayer['key'] ?? '' ) ) : ?>
+						<time><?php echo esc_html( $itmms_prayer_clock ); ?></time>
+						<?php if ( ! empty( $itmms_prayer['offset'] ) && 'ishraq' !== $itmms_prayer_key ) : ?>
 							<?php
 							$itmms_base_time_label = sprintf(
 								/* translators: %s: Prayer time before the configured minute offset is applied. */

@@ -8,12 +8,11 @@
 defined( 'ABSPATH' ) || exit;
 
 use Elementor\Controls_Manager;
-use Elementor\Widget_Base;
 
 /**
  * Class ITMMS_Elementor_Ask_Imam
  */
-class ITMMS_Elementor_Ask_Imam extends Widget_Base {
+class ITMMS_Elementor_Ask_Imam extends ITMMS_Elementor_Widget_Base {
 
 	/**
 	 * Get widget name.
@@ -37,13 +36,6 @@ class ITMMS_Elementor_Ask_Imam extends Widget_Base {
 	}
 
 	/**
-	 * Get widget categories.
-	 */
-	public function get_categories(): array {
-		return [ 'masjidos' ];
-	}
-
-	/**
 	 * Get widget keywords.
 	 */
 	public function get_keywords(): array {
@@ -60,6 +52,11 @@ class ITMMS_Elementor_Ask_Imam extends Widget_Base {
 				'label' => __( 'Q&A Settings', 'masjidos' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
+		);
+
+		$this->register_quick_manage_notice(
+			__( 'Moderate Questions & Answers', 'masjidos' ),
+			'edit.php?post_type=itmms_imam_question'
 		);
 
 		$this->add_control(
@@ -90,11 +87,37 @@ class ITMMS_Elementor_Ask_Imam extends Widget_Base {
 			[
 				'label'   => __( 'Language', 'masjidos' ),
 				'type'    => Controls_Manager::SELECT,
-				'default' => 'en',
-				'options' => [
-					'en' => __( 'English', 'masjidos' ),
-					'bn' => __( 'Bangla (বাংলা)', 'masjidos' ),
-					'ar' => __( 'Arabic (العربية)', 'masjidos' ),
+				'default' => $this->get_default_language(),
+				'options' => $this->get_language_options(),
+			]
+		);
+
+		$qa_categories = [ '' => __( 'All Categories', 'masjidos' ) ];
+		if ( class_exists( 'ITMMS_Ask_Imam' ) && taxonomy_exists( ITMMS_Ask_Imam::TAXONOMY ) ) {
+			$terms = get_terms(
+				[
+					'taxonomy'   => ITMMS_Ask_Imam::TAXONOMY,
+					'hide_empty' => false,
+				]
+			);
+			if ( is_array( $terms ) ) {
+				foreach ( $terms as $term ) {
+					if ( $term instanceof WP_Term ) {
+						$qa_categories[ $term->slug ] = $term->name;
+					}
+				}
+			}
+		}
+
+		$this->add_control(
+			'category',
+			[
+				'label'     => __( 'Filter by Q&A Category', 'masjidos' ),
+				'type'      => Controls_Manager::SELECT,
+				'default'   => '',
+				'options'   => $qa_categories,
+				'condition' => [
+					'mode' => 'answers',
 				],
 			]
 		);
@@ -115,6 +138,8 @@ class ITMMS_Elementor_Ask_Imam extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		$this->register_common_style_controls( '.itmms-public-qa', '.itmms-public-qa__item' );
 	}
 
 	/**
@@ -126,18 +151,17 @@ class ITMMS_Elementor_Ask_Imam extends Widget_Base {
 
 		$atts = [
 			'title'    => $settings['title'] ?? '',
-			'language' => $settings['language'] ?? 'en',
+			'language' => $settings['language'] ?? $this->get_default_language(),
 		];
 
 		if ( 'answers' === $mode ) {
-			$atts['limit'] = (string) ( $settings['limit'] ?? '10' );
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in ITMMS_Ask_Imam.
+			$atts['limit']    = (string) ( $settings['limit'] ?? '10' );
+			$atts['category'] = (string) ( $settings['category'] ?? '' );
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Sanitized by ITMMS_Ask_Imam with custom form/select tags.
 			echo ITMMS_Ask_Imam::get_instance()->render_answers_shortcode( $atts );
 		} else {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in ITMMS_Ask_Imam.
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Sanitized by ITMMS_Ask_Imam with custom form/select tags.
-			echo ITMMS_Ask_Imam::get_instance()->render_form_shortcode( $atts );
+			echo ITMMS_Ask_Imam::get_instance()->render_submit_shortcode( $atts );
 		}
 	}
 }

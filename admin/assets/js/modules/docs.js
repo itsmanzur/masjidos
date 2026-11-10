@@ -104,8 +104,8 @@
 				pasteItem( __( 'WordPress Page', 'masjidos' ), __( 'Pages > Add New, add a Shortcode block, paste the shortcode, then publish.', 'masjidos' ) ) +
 				pasteItem( __( 'Post or Article', 'masjidos' ), __( 'Posts > Add New, place the shortcode where the prayer widget should appear.', 'masjidos' ) ) +
 				pasteItem( __( 'Widget Area', 'masjidos' ), __( 'Appearance > Widgets, add a Shortcode block in a sidebar or footer area.', 'masjidos' ) ) +
-				pasteItem( 'Elementor', __( 'Drag the Shortcode widget into your layout and paste the shortcode there.', 'masjidos' ) ) +
-				pasteItem( __( 'Block Editor', 'masjidos' ), __( 'Search for MasjidOS blocks when you prefer a block instead of manually pasting a shortcode.', 'masjidos' ) ) +
+				pasteItem( 'Elementor', __( 'Open the MasjidOS category in Elementor to drag-and-drop any of the 10 Free + 9 Pro native widgets with full Style controls, or paste a shortcode.', 'masjidos' ) ) +
+				pasteItem( __( 'Block Editor', 'masjidos' ), __( 'Search for MasjidOS in Gutenberg to insert any of the 19 Free + 9 Pro blocks with live ServerSideRender preview and sidebar controls.', 'masjidos' ) ) +
 			'</div>' +
 		'</section>';
 	}

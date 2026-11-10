@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 <div class="itmms-public-monthly itmms-public-monthly--<?php echo esc_attr( $design ); ?> itmms-public-monthly--lang-<?php echo esc_attr( $language ); ?>"<?php if ( $show_navigation ) : ?> data-itmms-monthly data-endpoint="<?php echo esc_url( rest_url( 'masjidos/v1/prayer-times/monthly' ) ); ?>" data-month="<?php echo esc_attr( (string) $month ); ?>" data-year="<?php echo esc_attr( (string) $year ); ?>" data-current-month="<?php echo esc_attr( $now->format( 'n' ) ); ?>" data-current-year="<?php echo esc_attr( $now->format( 'Y' ) ); ?>" data-design="<?php echo esc_attr( $design ); ?>" data-language="<?php echo esc_attr( $language ); ?>" data-iqamah="<?php echo esc_attr( $show_iqamah ? 'yes' : 'no' ); ?>" data-extras="<?php echo esc_attr( $show_extras ? 'yes' : 'no' ); ?>" data-title="<?php echo esc_attr( (string) $atts['title'] ); ?>" data-error="<?php echo esc_attr( $labels['error'] ); ?>"<?php endif; ?>>
 	<div class="itmms-public-monthly__header">
 		<div>
-			<span class="itmms-public-monthly__eyebrow"><?php echo esc_html( $meta['location'] ?? get_bloginfo( 'name' ) ); ?></span>
+			<span class="itmms-public-monthly__eyebrow"><?php echo esc_html( $meta['location'] ?? get_bloginfo( 'name' ) ); ?> <?php echo $this->render_admin_quick_edit( 'prayer-times', $language ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 			<h2><?php echo esc_html( $atts['title'] ); ?></h2>
 			<p>
 				<span><?php echo esc_html( ITMMS_Hijri::format_label( (string) ( $data['label'] ?? '' ), $language ) ); ?></span>

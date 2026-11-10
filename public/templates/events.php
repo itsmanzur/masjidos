@@ -69,7 +69,7 @@ $itmms_count_label = 1 === $itmms_count
 <section class="itmms-public-events itmms-public-events--list itmms-public-events--lang-<?php echo esc_attr( $language ); ?>">
 	<header class="itmms-public-events__header">
 		<div>
-			<span class="itmms-public-events__eyebrow"><?php echo esc_html( $location ?: get_bloginfo( 'name' ) ); ?></span>
+			<span class="itmms-public-events__eyebrow"><?php echo esc_html( $location ?: get_bloginfo( 'name' ) ); ?> <?php echo $this->render_admin_quick_edit( 'events', $language ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 			<h2><?php echo esc_html( (string) $atts['title'] ); ?></h2>
 		</div>
 		<b><?php echo esc_html( $itmms_count_label ); ?></b>

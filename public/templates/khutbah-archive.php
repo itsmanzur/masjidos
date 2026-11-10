@@ -8,9 +8,10 @@
 defined( 'ABSPATH' ) || exit;
 
 $itmms_archive_labels = [
-	'eyebrow'             => ( 'bn' === $language ) ? 'খুতবা আর্কাইভ' : ( ( 'ar' === $language ) ? 'أرشيف الخطب' : __( 'Khutbah archive', 'masjidos' ) ),
+	'eyebrow'            => ( 'bn' === $language ) ? 'খুতবা আর্কাইভ' : ( ( 'ar' === $language ) ? 'أرشيف الخطب' : __( 'Khutbah archive', 'masjidos' ) ),
 	'search_placeholder' => ( 'bn' === $language ) ? 'খুতবা খুঁজুন (বিষয়, খতিব)...' : ( ( 'ar' === $language ) ? 'ابحث عن الخطبة...' : __( 'Search khutbahs (topic, khatib)...', 'masjidos' ) ),
 	'search_btn'         => ( 'bn' === $language ) ? 'অনুসন্ধান' : ( ( 'ar' === $language ) ? 'بحث' : __( 'Search', 'masjidos' ) ),
+	'reset_btn'          => ( 'bn' === $language ) ? 'রিসেট' : ( ( 'ar' === $language ) ? 'إعادة ضبط' : __( 'Reset', 'masjidos' ) ),
 	'date_label'         => ( 'bn' === $language ) ? 'তারিখ' : ( ( 'ar' === $language ) ? 'التاريخ' : __( 'Date', 'masjidos' ) ),
 	'category_label'     => ( 'bn' === $language ) ? 'ক্যাটাগরি' : ( ( 'ar' === $language ) ? 'التصنيف' : __( 'Category', 'masjidos' ) ),
 	'all_categories'     => ( 'bn' === $language ) ? 'সব ক্যাটাগরি' : ( ( 'ar' === $language ) ? 'كل التصنيفات' : __( 'All categories', 'masjidos' ) ),
@@ -36,7 +37,7 @@ $itmms_search_id  = 'itmms-khutbah-search-' . wp_unique_id();
 <section class="itmms-public-archive itmms-public-archive--lang-<?php echo esc_attr( $language ); ?>" dir="<?php echo 'ar' === $language ? 'rtl' : 'ltr'; ?>">
 	<header class="itmms-public-archive__header">
 		<div>
-			<span class="itmms-public-archive__eyebrow"><?php echo esc_html( $itmms_masjid ?: $itmms_archive_labels['eyebrow'] ); ?></span>
+			<span class="itmms-public-archive__eyebrow"><?php echo esc_html( $itmms_masjid ?: $itmms_archive_labels['eyebrow'] ); ?> <?php echo $this->render_admin_quick_edit( 'admin.php?page=masjidos#minbar', $language ); ?></span>
 			<h2><?php echo esc_html( (string) $atts['title'] ); ?></h2>
 			<?php if ( $itmms_has_filter || $itmms_count > 0 ) : ?>
 				<p><?php echo esc_html( sprintf( $itmms_archive_labels['results'], $itmms_count ) ); ?></p>
@@ -44,7 +45,7 @@ $itmms_search_id  = 'itmms-khutbah-search-' . wp_unique_id();
 		</div>
 	</header>
 
-	<form method="get" action="" class="itmms-public-archive__form" role="search">
+	<form method="get" action="" class="itmms-public-archive__form" role="search" data-itmms-ajax-filter>
 		<div class="itmms-public-archive__search-group">
 			<label class="screen-reader-text" for="<?php echo esc_attr( $itmms_search_id ); ?>"><?php echo esc_html( $itmms_archive_labels['search_btn'] ); ?></label>
 			<input id="<?php echo esc_attr( $itmms_search_id ); ?>" type="search" name="itmms_khutbah_search" value="<?php echo esc_attr( $search ); ?>" placeholder="<?php echo esc_attr( $itmms_archive_labels['search_placeholder'] ); ?>">
@@ -58,6 +59,7 @@ $itmms_search_id  = 'itmms-khutbah-search-' . wp_unique_id();
 				</select>
 			<?php endif; ?>
 			<button type="submit" class="itmms-public-archive__submit"><?php echo esc_html( $itmms_archive_labels['search_btn'] ); ?></button>
+			<button type="button" class="itmms-public-archive__reset" data-itmms-filter-reset <?php echo $itmms_has_filter ? '' : 'hidden'; ?>><?php echo esc_html( $itmms_archive_labels['reset_btn'] ); ?></button>
 		</div>
 	</form>
 

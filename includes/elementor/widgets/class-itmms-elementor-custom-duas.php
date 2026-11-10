@@ -8,12 +8,11 @@
 defined( 'ABSPATH' ) || exit;
 
 use Elementor\Controls_Manager;
-use Elementor\Widget_Base;
 
 /**
  * Class ITMMS_Elementor_Custom_Duas
  */
-class ITMMS_Elementor_Custom_Duas extends Widget_Base {
+class ITMMS_Elementor_Custom_Duas extends ITMMS_Elementor_Widget_Base {
 
 	/**
 	 * Get widget name.
@@ -37,13 +36,6 @@ class ITMMS_Elementor_Custom_Duas extends Widget_Base {
 	}
 
 	/**
-	 * Get widget categories.
-	 */
-	public function get_categories(): array {
-		return [ 'masjidos' ];
-	}
-
-	/**
 	 * Get widget keywords.
 	 */
 	public function get_keywords(): array {
@@ -60,6 +52,12 @@ class ITMMS_Elementor_Custom_Duas extends Widget_Base {
 				'label' => __( 'Content Settings', 'masjidos' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
+		);
+
+		$this->register_quick_manage_notice(
+			__( 'Manage Duas Library', 'masjidos' ),
+			'edit.php?post_type=itmms_dua',
+			'duas_azkar'
 		);
 
 		$this->add_control(
@@ -93,12 +91,8 @@ class ITMMS_Elementor_Custom_Duas extends Widget_Base {
 			[
 				'label'   => __( 'Language', 'masjidos' ),
 				'type'    => Controls_Manager::SELECT,
-				'default' => 'en',
-				'options' => [
-					'en' => __( 'English', 'masjidos' ),
-					'bn' => __( 'Bangla (বাংলা)', 'masjidos' ),
-					'ar' => __( 'Arabic (العربية)', 'masjidos' ),
-				],
+				'default' => $this->get_default_language(),
+				'options' => $this->get_language_options(),
 			]
 		);
 
@@ -149,6 +143,8 @@ class ITMMS_Elementor_Custom_Duas extends Widget_Base {
 		}
 
 		$this->end_controls_section();
+
+		$this->register_common_style_controls( '.itmms-public-duas', '.itmms-public-duas__item' );
 	}
 
 	/**
@@ -160,7 +156,7 @@ class ITMMS_Elementor_Custom_Duas extends Widget_Base {
 		$atts = [
 			'title'    => $settings['title'] ?? '',
 			'category' => $settings['category'] ?? 'all',
-			'language' => $settings['language'] ?? 'en',
+			'language' => $settings['language'] ?? $this->get_default_language(),
 			'design'   => $settings['design'] ?? 'cards',
 			'limit'    => (string) ( $settings['limit'] ?? '12' ),
 			'source'   => ( 'yes' === ( $settings['source'] ?? 'yes' ) ) ? 'yes' : 'no',

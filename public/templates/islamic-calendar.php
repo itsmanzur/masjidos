@@ -212,7 +212,7 @@ $max_cell_events   = 2;
 >
 	<div class="itmms-public-calendar__header">
 		<div>
-			<span class="itmms-public-calendar__eyebrow"><?php echo esc_html( $masjid_name ); ?></span>
+			<span class="itmms-public-calendar__eyebrow"><?php echo esc_html( $masjid_name ); ?> <?php echo $this->render_admin_quick_edit( 'events', $language ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 			<h2><?php echo esc_html( $atts['title'] ); ?></h2>
 			<p>
 				<span><?php echo esc_html( $current_month_title ); ?></span>

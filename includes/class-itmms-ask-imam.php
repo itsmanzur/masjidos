@@ -436,7 +436,7 @@ final class ITMMS_Ask_Imam {
 		?>
 		<section class="itmms-public-qa itmms-public-qa--form itmms-public-qa--lang-<?php echo esc_attr( $language ); ?>" id="masjidos-ask-imam">
 			<header class="itmms-public-qa__header">
-				<span class="itmms-public-qa__eyebrow"><?php echo esc_html( $labels['eyebrow'] ); ?></span>
+				<span class="itmms-public-qa__eyebrow"><?php echo esc_html( $labels['eyebrow'] ); ?><?php if ( current_user_can( 'manage_options' ) ) : ?> <a class="itmms-public-quick-edit" href="<?php echo esc_url( admin_url( 'edit.php?post_type=' . self::POST_TYPE ) ); ?>" target="_blank" rel="noopener noreferrer" title="<?php echo esc_attr( 'bn' === $language ? 'এডিট' : ( 'ar' === $language ? 'تعديل' : __( 'Edit', 'masjidos' ) ) ); ?>">✎ <?php echo esc_html( 'bn' === $language ? 'এডিট' : ( 'ar' === $language ? 'تعديل' : __( 'Edit', 'masjidos' ) ) ); ?></a><?php endif; ?></span>
 				<h2><?php echo esc_html( (string) $atts['title'] ); ?></h2>
 				<p><?php echo esc_html( $labels['form_intro'] ); ?></p>
 			</header>
@@ -523,11 +523,11 @@ final class ITMMS_Ask_Imam {
 		?>
 		<section class="itmms-public-qa itmms-public-qa--answers itmms-public-qa--lang-<?php echo esc_attr( $language ); ?>">
 			<header class="itmms-public-qa__header">
-				<span class="itmms-public-qa__eyebrow"><?php echo esc_html( $labels['answers_eyebrow'] ); ?></span>
+				<span class="itmms-public-qa__eyebrow"><?php echo esc_html( $labels['answers_eyebrow'] ); ?><?php if ( current_user_can( 'manage_options' ) ) : ?> <a class="itmms-public-quick-edit" href="<?php echo esc_url( admin_url( 'edit.php?post_type=' . self::POST_TYPE ) ); ?>" target="_blank" rel="noopener noreferrer" title="<?php echo esc_attr( 'bn' === $language ? 'এডিট' : ( 'ar' === $language ? 'تعديل' : __( 'Edit', 'masjidos' ) ) ); ?>">✎ <?php echo esc_html( 'bn' === $language ? 'এডিট' : ( 'ar' === $language ? 'تعديل' : __( 'Edit', 'masjidos' ) ) ); ?></a><?php endif; ?></span>
 				<h2><?php echo esc_html( (string) $atts['title'] ); ?></h2>
 				<p><?php echo esc_html( $labels['search_intro'] ); ?></p>
 			</header>
-			<form class="itmms-public-qa__search" method="get" action="">
+			<form class="itmms-public-qa__search" method="get" action="" data-itmms-ajax-filter>
 				<input type="search" name="itmms_qa_search" value="<?php echo esc_attr( $search ); ?>" placeholder="<?php echo esc_attr( $labels['search_placeholder'] ); ?>">
 				<select name="itmms_qa_category">
 					<option value=""><?php echo esc_html( $labels['all_categories'] ); ?></option>
@@ -538,6 +538,7 @@ final class ITMMS_Ask_Imam {
 					<?php endif; ?>
 				</select>
 				<button type="submit"><?php echo esc_html( $labels['search'] ); ?></button>
+				<button type="button" class="itmms-public-qa__reset" data-itmms-filter-reset<?php echo ( '' === $search && '' === $category ) ? ' hidden' : ''; ?>><?php echo esc_html( 'bn' === $language ? 'রিসেট' : ( 'ar' === $language ? 'مسح' : __( 'Reset', 'masjidos' ) ) ); ?></button>
 			</form>
 			<div class="itmms-public-qa__list">
 				<?php if ( ! $query->have_posts() ) : ?>
@@ -598,7 +599,8 @@ final class ITMMS_Ask_Imam {
 			'action' => true,
 			'class'  => true,
 			'method' => true,
-			'role'   => true,
+			'role'                   => true,
+			'data-itmms-ajax-filter' => true,
 		];
 		$allowed['input'] = [
 			'autocomplete' => true,
@@ -635,7 +637,9 @@ final class ITMMS_Ask_Imam {
 		$allowed['button'] = [
 			'class'                    => true,
 			'data-itmms-loading-label' => true,
-			'type'                     => true,
+			'type'                    => true,
+			'data-itmms-filter-reset' => true,
+			'hidden'                  => true,
 		];
 		$allowed['label'] = [
 			'class' => true,
@@ -645,7 +649,10 @@ final class ITMMS_Ask_Imam {
 			$allowed['a'] ?? [],
 			[
 				'class' => true,
-				'href'  => true,
+				'href'   => true,
+				'target' => true,
+				'rel'    => true,
+				'title'  => true,
 			]
 		);
 		foreach ( [ 'section', 'header', 'div', 'article', 'span', 'strong', 'h2', 'h3', 'p' ] as $tag ) {

@@ -8,12 +8,11 @@
 defined( 'ABSPATH' ) || exit;
 
 use Elementor\Controls_Manager;
-use Elementor\Widget_Base;
 
 /**
  * Class ITMMS_Elementor_Monthly_Timetable
  */
-class ITMMS_Elementor_Monthly_Timetable extends Widget_Base {
+class ITMMS_Elementor_Monthly_Timetable extends ITMMS_Elementor_Widget_Base {
 
 	/**
 	 * Get widget name.
@@ -37,13 +36,6 @@ class ITMMS_Elementor_Monthly_Timetable extends Widget_Base {
 	}
 
 	/**
-	 * Get widget categories.
-	 */
-	public function get_categories(): array {
-		return [ 'masjidos' ];
-	}
-
-	/**
 	 * Get widget keywords.
 	 */
 	public function get_keywords(): array {
@@ -62,6 +54,12 @@ class ITMMS_Elementor_Monthly_Timetable extends Widget_Base {
 			]
 		);
 
+		$this->register_quick_manage_notice(
+			__( 'Edit Monthly Timetable & Overrides', 'masjidos' ),
+			'admin.php?page=masjidos#prayer-times',
+			'prayer_times'
+		);
+
 		$this->add_control(
 			'title',
 			[
@@ -72,16 +70,23 @@ class ITMMS_Elementor_Monthly_Timetable extends Widget_Base {
 			]
 		);
 
+		$design_options = [
+			'table'   => __( 'Table Grid', 'masjidos' ),
+			'compact' => __( 'Compact List', 'masjidos' ),
+		];
+		if ( function_exists( 'masjidos_pro_is_active' ) && masjidos_pro_is_active() ) {
+			$design_options['premium-print']   = __( 'Pro: Premium Print', 'masjidos' );
+			$design_options['mosque-board']    = __( 'Pro: Mosque Board', 'masjidos' );
+			$design_options['ramadan-monthly'] = __( 'Pro: Ramadan Monthly', 'masjidos' );
+		}
+
 		$this->add_control(
 			'design',
 			[
 				'label'   => __( 'Design Layout', 'masjidos' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'table',
-				'options' => [
-					'table'   => __( 'Table Grid', 'masjidos' ),
-					'compact' => __( 'Compact List', 'masjidos' ),
-				],
+				'options' => $design_options,
 			]
 		);
 
@@ -90,12 +95,42 @@ class ITMMS_Elementor_Monthly_Timetable extends Widget_Base {
 			[
 				'label'   => __( 'Language', 'masjidos' ),
 				'type'    => Controls_Manager::SELECT,
-				'default' => 'en',
+				'default' => $this->get_default_language(),
+				'options' => $this->get_language_options(),
+			]
+		);
+
+		$this->add_control(
+			'month',
+			[
+				'label'   => __( 'Initial Month', 'masjidos' ),
+				'type'    => Controls_Manager::SELECT,
+				'default' => '',
 				'options' => [
-					'en' => __( 'English', 'masjidos' ),
-					'bn' => __( 'Bangla (বাংলা)', 'masjidos' ),
-					'ar' => __( 'Arabic (العربية)', 'masjidos' ),
+					''   => __( 'Current Month (Auto)', 'masjidos' ),
+					'1'  => __( 'January', 'masjidos' ),
+					'2'  => __( 'February', 'masjidos' ),
+					'3'  => __( 'March', 'masjidos' ),
+					'4'  => __( 'April', 'masjidos' ),
+					'5'  => __( 'May', 'masjidos' ),
+					'6'  => __( 'June', 'masjidos' ),
+					'7'  => __( 'July', 'masjidos' ),
+					'8'  => __( 'August', 'masjidos' ),
+					'9'  => __( 'September', 'masjidos' ),
+					'10' => __( 'October', 'masjidos' ),
+					'11' => __( 'November', 'masjidos' ),
+					'12' => __( 'December', 'masjidos' ),
 				],
+			]
+		);
+
+		$this->add_control(
+			'year',
+			[
+				'label'       => __( 'Initial Year (Optional)', 'masjidos' ),
+				'type'        => Controls_Manager::TEXT,
+				'default'     => '',
+				'placeholder' => __( 'Current Year (Auto)', 'masjidos' ),
 			]
 		);
 
@@ -136,6 +171,8 @@ class ITMMS_Elementor_Monthly_Timetable extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		$this->register_common_style_controls( '.itmms-public-monthly' );
 	}
 
 	/**
@@ -147,7 +184,9 @@ class ITMMS_Elementor_Monthly_Timetable extends Widget_Base {
 		$atts = [
 			'title'      => $settings['title'] ?? '',
 			'design'     => $settings['design'] ?? 'table',
-			'language'   => $settings['language'] ?? 'en',
+			'language'   => $settings['language'] ?? $this->get_default_language(),
+			'month'      => (string) ( $settings['month'] ?? '' ),
+			'year'       => (string) ( $settings['year'] ?? '' ),
 			'iqamah'     => ( 'yes' === ( $settings['iqamah'] ?? '' ) ) ? 'yes' : 'no',
 			'navigation' => ( 'yes' === ( $settings['navigation'] ?? '' ) ) ? 'yes' : 'no',
 			'extras'     => ( 'yes' === ( $settings['extras'] ?? '' ) ) ? 'yes' : 'no',

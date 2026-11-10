@@ -8,12 +8,11 @@
 defined( 'ABSPATH' ) || exit;
 
 use Elementor\Controls_Manager;
-use Elementor\Widget_Base;
 
 /**
  * Class ITMMS_Elementor_Announcements
  */
-class ITMMS_Elementor_Announcements extends Widget_Base {
+class ITMMS_Elementor_Announcements extends ITMMS_Elementor_Widget_Base {
 
 	/**
 	 * Get widget name.
@@ -37,13 +36,6 @@ class ITMMS_Elementor_Announcements extends Widget_Base {
 	}
 
 	/**
-	 * Get widget categories.
-	 */
-	public function get_categories(): array {
-		return [ 'masjidos' ];
-	}
-
-	/**
 	 * Get widget keywords.
 	 */
 	public function get_keywords(): array {
@@ -62,6 +54,12 @@ class ITMMS_Elementor_Announcements extends Widget_Base {
 			]
 		);
 
+		$this->register_quick_manage_notice(
+			__( 'Manage Notices in MasjidOS', 'masjidos' ),
+			'admin.php?page=masjidos#announcements',
+			'announcements'
+		);
+
 		$this->add_control(
 			'title',
 			[
@@ -72,18 +70,25 @@ class ITMMS_Elementor_Announcements extends Widget_Base {
 			]
 		);
 
+		$design_options = [
+			'list'   => __( 'List', 'masjidos' ),
+			'cards'  => __( 'Cards', 'masjidos' ),
+			'ticker' => __( 'Live Ticker (Marquee)', 'masjidos' ),
+			'banner' => __( 'Slim Banner', 'masjidos' ),
+			'popup'  => __( 'Popup Modal', 'masjidos' ),
+		];
+		if ( function_exists( 'masjidos_pro_is_active' ) && masjidos_pro_is_active() ) {
+			$design_options['digital-board']  = __( 'Pro: Digital Board', 'masjidos' );
+			$design_options['ramadan-banner'] = __( 'Pro: Ramadan Banner', 'masjidos' );
+		}
+
 		$this->add_control(
 			'design',
 			[
 				'label'   => __( 'Design Layout', 'masjidos' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'list',
-				'options' => [
-					'list'   => __( 'List', 'masjidos' ),
-					'ticker' => __( 'Live Ticker (Marquee)', 'masjidos' ),
-					'banner' => __( 'Slim Banner', 'masjidos' ),
-					'popup'  => __( 'Popup Modal', 'masjidos' ),
-				],
+				'options' => $design_options,
 			]
 		);
 
@@ -92,12 +97,8 @@ class ITMMS_Elementor_Announcements extends Widget_Base {
 			[
 				'label'   => __( 'Language', 'masjidos' ),
 				'type'    => Controls_Manager::SELECT,
-				'default' => 'en',
-				'options' => [
-					'en' => __( 'English', 'masjidos' ),
-					'bn' => __( 'Bangla (বাংলা)', 'masjidos' ),
-					'ar' => __( 'Arabic (العربية)', 'masjidos' ),
-				],
+				'default' => $this->get_default_language(),
+				'options' => $this->get_language_options(),
 			]
 		);
 
@@ -108,12 +109,10 @@ class ITMMS_Elementor_Announcements extends Widget_Base {
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'all',
 				'options' => [
-					'all'       => __( 'All Types', 'masjidos' ),
-					'general'   => __( 'General', 'masjidos' ),
-					'urgent'    => __( 'Urgent / Important', 'masjidos' ),
-					'ramadan'   => __( 'Ramadan Special', 'masjidos' ),
-					'eid'       => __( 'Eid Announcement', 'masjidos' ),
-					'education' => __( 'Education / Class', 'masjidos' ),
+					'all'     => __( 'All Types', 'masjidos' ),
+					'general' => __( 'General', 'masjidos' ),
+					'urgent'  => __( 'Urgent / Important', 'masjidos' ),
+					'jumuah'  => __( 'Jumuah', 'masjidos' ),
 				],
 			]
 		);
@@ -143,6 +142,8 @@ class ITMMS_Elementor_Announcements extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		$this->register_common_style_controls( '.itmms-public-announcements', '.itmms-public-announcements__item' );
 	}
 
 	/**
@@ -154,7 +155,7 @@ class ITMMS_Elementor_Announcements extends Widget_Base {
 		$atts = [
 			'title'     => $settings['title'] ?? '',
 			'design'    => $settings['design'] ?? 'list',
-			'language'  => $settings['language'] ?? 'en',
+			'language'  => $settings['language'] ?? $this->get_default_language(),
 			'type'      => $settings['type'] ?? 'all',
 			'limit'     => (string) ( $settings['limit'] ?? '5' ),
 			'show_date' => ( 'yes' === ( $settings['show_date'] ?? '' ) ) ? 'yes' : 'no',

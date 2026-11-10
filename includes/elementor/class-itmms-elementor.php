@@ -62,11 +62,14 @@ final class ITMMS_Elementor {
 	 * @param \Elementor\Widgets_Manager $widgets_manager Widgets manager instance.
 	 */
 	public function register_widgets( $widgets_manager ): void {
+		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/class-itmms-elementor-widget-base.php';
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-prayer-times.php';
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-monthly-timetable.php';
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-jumuah.php';
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-announcements.php';
+		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-events.php';
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-islamic-calendar.php';
+		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-minbar.php';
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-ask-imam.php';
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-education.php';
 		require_once ITMMS_PLUGIN_DIR . 'includes/elementor/widgets/class-itmms-elementor-custom-duas.php';
@@ -75,7 +78,9 @@ final class ITMMS_Elementor {
 		$widgets_manager->register( new ITMMS_Elementor_Monthly_Timetable() );
 		$widgets_manager->register( new ITMMS_Elementor_Jumuah() );
 		$widgets_manager->register( new ITMMS_Elementor_Announcements() );
+		$widgets_manager->register( new ITMMS_Elementor_Events() );
 		$widgets_manager->register( new ITMMS_Elementor_Islamic_Calendar() );
+		$widgets_manager->register( new ITMMS_Elementor_Minbar() );
 		$widgets_manager->register( new ITMMS_Elementor_Ask_Imam() );
 		$widgets_manager->register( new ITMMS_Elementor_Education() );
 		$widgets_manager->register( new ITMMS_Elementor_Custom_Duas() );

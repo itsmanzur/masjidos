@@ -13,7 +13,7 @@ $itmms_show_meta_location = $has_meta && $location && $location !== $itmms_hero_
 <div class="itmms-public-jumuah itmms-public-jumuah--<?php echo esc_attr( $design ); ?> itmms-public-jumuah--lang-<?php echo esc_attr( $language ); ?> <?php echo $is_compact ? 'itmms-public-jumuah--compact' : ''; ?> <?php echo $has_meta ? '' : 'itmms-public-jumuah--no-meta'; ?> <?php echo $meta_lite ? 'itmms-public-jumuah--meta-lite' : ''; ?>">
 	<div class="itmms-public-jumuah__hero">
 		<div>
-			<span class="itmms-public-jumuah__eyebrow"><?php echo esc_html( $itmms_hero_location ); ?></span>
+			<span class="itmms-public-jumuah__eyebrow"><?php echo esc_html( $itmms_hero_location ); ?> <?php echo $this->render_admin_quick_edit( 'jumuah', $language ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 			<h2><?php echo esc_html( $atts['title'] ); ?></h2>
 			<p class="itmms-public-jumuah__context"><?php echo esc_html( $labels['friday'] ?? __( 'Friday', 'masjidos' ) ); ?></p>
 			<?php if ( $notice ) : ?>

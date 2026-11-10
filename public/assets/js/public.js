@@ -4,6 +4,9 @@
 ( function () {
 	'use strict';
 
+	var activeDuaAudio = null;
+	var activeDuaButton = null;
+
 	function pad2( value ) {
 		return String( value ).padStart( 2, '0' );
 	}
@@ -50,6 +53,73 @@
 		return localizeDigits( text, language || 'en' );
 	}
 
+	function advanceNextPrayer( widget ) {
+		var rows = Array.prototype.slice.call( widget.querySelectorAll( '.itmms-public-prayer__row[data-prayer-raw]' ) );
+		if ( ! rows.length ) {
+			return null;
+		}
+
+		var nonObligatory = { sunrise: true, ishraq: true, zawal: true };
+		var now = new Date();
+		var obligatoryRows = [];
+
+		rows.forEach( function ( row ) {
+			var key = row.getAttribute( 'data-prayer-key' ) || '';
+			var raw = row.getAttribute( 'data-prayer-raw' ) || '';
+			if ( nonObligatory[ key ] || ! /^\d{1,2}:\d{2}/.test( raw ) ) {
+				return;
+			}
+			var parts = raw.split( ':' );
+			var date = new Date( now.getFullYear(), now.getMonth(), now.getDate(), Number( parts[0] ), Number( parts[1] ), 0, 0 );
+			obligatoryRows.push( {
+				row: row,
+				key: key,
+				date: date
+			} );
+		} );
+
+		if ( ! obligatoryRows.length ) {
+			return null;
+		}
+
+		var nextEntry = null;
+		var currentEntry = obligatoryRows[ obligatoryRows.length - 1 ];
+
+		for ( var i = 0; i < obligatoryRows.length; i++ ) {
+			if ( obligatoryRows[ i ].date.getTime() > now.getTime() + 1000 ) {
+				nextEntry = obligatoryRows[ i ];
+				currentEntry = i > 0 ? obligatoryRows[ i - 1 ] : obligatoryRows[ obligatoryRows.length - 1 ];
+				break;
+			}
+		}
+
+		if ( ! nextEntry ) {
+			nextEntry = {
+				row: obligatoryRows[ 0 ].row,
+				key: obligatoryRows[ 0 ].key,
+				date: new Date( obligatoryRows[ 0 ].date.getTime() + 86400000 )
+			};
+			currentEntry = obligatoryRows[ obligatoryRows.length - 1 ];
+		}
+
+		rows.forEach( function ( row ) {
+			row.classList.toggle( 'is-current', currentEntry && row === currentEntry.row );
+		} );
+
+		var nextStrong = widget.querySelector( '.itmms-public-prayer__next strong' );
+		if ( nextStrong && nextEntry.row ) {
+			var nextLabel = nextEntry.row.getAttribute( 'data-prayer-label' ) || '';
+			var nextClock = nextEntry.row.getAttribute( 'data-prayer-clock' ) || '';
+			if ( nextLabel && nextClock ) {
+				nextStrong.textContent = nextLabel + ' · ' + nextClock;
+			}
+		}
+
+		var iso = nextEntry.date.toISOString();
+		widget.setAttribute( 'data-next-prayer', iso );
+		return nextEntry.date;
+	}
+
 	function tick( widget ) {
 		if ( ! document.documentElement.contains( widget ) ) {
 			return;
@@ -60,6 +130,13 @@
 		var output = widget.querySelector( '[data-itmms-public-countdown]' );
 		if ( ! target || ! output ) {
 			return;
+		}
+
+		if ( target.getTime() <= Date.now() ) {
+			var advanced = advanceNextPrayer( widget );
+			if ( advanced ) {
+				target = advanced;
+			}
 		}
 
 		output.textContent = formatCountdown( target, prayerWidgetLanguage( widget ) );
@@ -505,6 +582,12 @@
 		} else {
 			item.classList.remove( 'is-complete' );
 		}
+
+		var progressBar = item.querySelector( '[data-itmms-dua-progress]' );
+		if ( progressBar && target > 0 ) {
+			var percent = Math.min( 100, Math.max( 0, Math.round( ( count / target ) * 100 ) ) );
+			progressBar.style.width = percent + '%';
+		}
 	}
 
 	function initDuasAzkar( root ) {
@@ -521,15 +604,104 @@
 		} );
 	}
 
-	function initAnnouncementPopups( root ) {
-		( root || document ).querySelectorAll( '[data-itmms-popup-id]' ).forEach( function ( popup ) {
-			var id = popup.getAttribute( 'data-itmms-popup-id' );
+	function resetActiveDuaAudioButton() {
+		if ( activeDuaButton ) {
+			var orig = activeDuaButton.getAttribute( 'data-original-label' );
+			if ( orig ) {
+				activeDuaButton.textContent = orig;
+			}
+			activeDuaButton.classList.remove( 'is-playing' );
+			activeDuaButton.setAttribute( 'aria-pressed', 'false' );
+			activeDuaButton = null;
+		}
+	}
+
+	function stopActiveDuaAudio() {
+		if ( activeDuaAudio ) {
 			try {
-				if ( id && window.sessionStorage.getItem( 'itmms_popup_dismissed_' + id ) === 'yes' ) {
-					popup.style.display = 'none';
-					return;
+				activeDuaAudio.pause();
+				activeDuaAudio.currentTime = 0;
+			} catch ( e ) {}
+			activeDuaAudio = null;
+		}
+		resetActiveDuaAudioButton();
+	}
+
+	function toggleDuaAudio( button ) {
+		var audioUrl = button.getAttribute( 'data-itmms-dua-audio' );
+		if ( ! audioUrl ) {
+			return;
+		}
+
+		if ( activeDuaButton === button && activeDuaAudio && ! activeDuaAudio.paused ) {
+			stopActiveDuaAudio();
+			return;
+		}
+
+		stopActiveDuaAudio();
+
+		document.querySelectorAll( 'audio' ).forEach( function ( el ) {
+			try {
+				if ( ! el.paused ) {
+					el.pause();
 				}
 			} catch ( e ) {}
+		} );
+
+		if ( ! button.getAttribute( 'data-original-label' ) ) {
+			button.setAttribute( 'data-original-label', button.textContent );
+		}
+
+		var audio = new window.Audio( audioUrl );
+		activeDuaAudio = audio;
+		activeDuaButton = button;
+		button.classList.add( 'is-playing' );
+		button.setAttribute( 'aria-pressed', 'true' );
+		button.textContent = button.getAttribute( 'data-playing-label' ) || button.textContent;
+
+		audio.addEventListener( 'ended', function () {
+			if ( activeDuaAudio === audio ) {
+				stopActiveDuaAudio();
+			}
+		} );
+		audio.addEventListener( 'error', function () {
+			if ( activeDuaAudio === audio ) {
+				stopActiveDuaAudio();
+			}
+		} );
+
+		audio.play().catch( function () {
+			if ( activeDuaAudio === audio ) {
+				stopActiveDuaAudio();
+			}
+		} );
+	}
+
+	document.addEventListener( 'play', function ( event ) {
+		if ( event.target && event.target.tagName === 'AUDIO' ) {
+			stopActiveDuaAudio();
+			document.querySelectorAll( 'audio' ).forEach( function ( el ) {
+				if ( el !== event.target && ! el.paused ) {
+					try {
+						el.pause();
+					} catch ( e ) {}
+				}
+			} );
+		}
+	}, true );
+
+	function initAnnouncementPopups( root ) {
+		( root || document ).querySelectorAll( '[data-itmms-popup-id]' ).forEach( function ( popup ) {
+			var isEditorPreview = popup.classList.contains( 'is-editor-preview' );
+			var id = popup.getAttribute( 'data-itmms-popup-id' );
+			if ( ! isEditorPreview ) {
+				try {
+					if ( id && window.sessionStorage.getItem( 'itmms_popup_dismissed_' + id ) === 'yes' ) {
+						popup.style.display = 'none';
+						return;
+					}
+				} catch ( e ) {}
+			}
 
 			if ( popup.getAttribute( 'data-itmms-popup-ready' ) === '1' ) {
 				return;
@@ -537,14 +709,14 @@
 			popup.setAttribute( 'data-itmms-popup-ready', '1' );
 
 			var closeBtn = popup.querySelector( '[data-itmms-popup-close]' );
-			if ( closeBtn ) {
+			if ( closeBtn && ! isEditorPreview ) {
 				window.setTimeout( function () {
 					closeBtn.focus();
 				}, 0 );
 			}
 
 			popup.addEventListener( 'keydown', function ( event ) {
-				if ( event.key !== 'Escape' ) {
+				if ( event.key !== 'Escape' || isEditorPreview ) {
 					return;
 				}
 				event.preventDefault();
@@ -636,27 +808,153 @@
 		}
 	}
 
+	function syncFilterResetVisibility( form ) {
+		if ( ! form ) {
+			return;
+		}
+		var resetBtn = form.querySelector( '[data-itmms-filter-reset]' );
+		if ( ! resetBtn ) {
+			return;
+		}
+		var hasValue = false;
+		form.querySelectorAll( 'input[type="search"], input[type="text"], select' ).forEach( function ( field ) {
+			if ( field.value && String( field.value ).trim() !== '' ) {
+				hasValue = true;
+			}
+		} );
+		resetBtn.hidden = ! hasValue;
+	}
+
+	function submitAjaxFilterForm( form ) {
+		var containerSelector = '.itmms-public-archive, .itmms-public-minbar, .itmms-public-qa';
+		var widget = form.closest( containerSelector );
+		if ( ! widget || widget.classList.contains( 'is-loading' ) ) {
+			return;
+		}
+
+		var allWidgets = Array.prototype.slice.call( document.querySelectorAll( containerSelector ) );
+		var widgetIndex = allWidgets.indexOf( widget );
+
+		var url = new URL( form.getAttribute( 'action' ) || window.location.href, window.location.href );
+		var formData = new FormData( form );
+
+		Array.prototype.slice.call( form.elements ).forEach( function ( el ) {
+			if ( el.name ) {
+				url.searchParams.delete( el.name );
+			}
+		} );
+
+		formData.forEach( function ( value, key ) {
+			var strVal = String( value ).trim();
+			if ( strVal !== '' ) {
+				url.searchParams.set( key, strVal );
+			}
+		} );
+
+		widget.classList.add( 'is-loading' );
+		widget.setAttribute( 'aria-busy', 'true' );
+		syncFilterResetVisibility( form );
+
+		fetch( url.toString(), {
+			credentials: 'same-origin',
+			headers: { 'X-Requested-With': 'XMLHttpRequest' }
+		} )
+			.then( function ( response ) {
+				if ( ! response.ok ) {
+					throw new Error( 'Filter request failed.' );
+				}
+				return response.text();
+			} )
+			.then( function ( html ) {
+				var parser = new window.DOMParser();
+				var doc = parser.parseFromString( html, 'text/html' );
+				var docWidgets = Array.prototype.slice.call( doc.querySelectorAll( containerSelector ) );
+				var replacement = ( widgetIndex >= 0 && docWidgets[ widgetIndex ] ) ? docWidgets[ widgetIndex ] : docWidgets[ 0 ];
+				if ( ! replacement ) {
+					throw new Error( 'Matching widget not found.' );
+				}
+
+				widget.replaceWith( replacement );
+				if ( window.history && window.history.replaceState ) {
+					window.history.replaceState( {}, '', url.toString() );
+				}
+				if ( typeof window.itmmsPublicRefresh === 'function' ) {
+					window.itmmsPublicRefresh( replacement );
+				}
+			} )
+			.catch( function () {
+				window.location.href = url.toString();
+			} );
+	}
+
 	document.addEventListener( 'change', function ( event ) {
 		var surahSelect = event.target.closest( '[data-itmms-quran-surah]' );
-		if ( ! surahSelect ) {
+		if ( surahSelect ) {
+			var player = surahSelect.closest( '.itmms-public-audio-quran' ).querySelector( '[data-itmms-quran-player]' );
+			if ( ! player ) {
+				return;
+			}
+
+			if ( surahSelect.value ) {
+				player.src = surahSelect.value;
+				player.play();
+			} else {
+				player.pause();
+				player.removeAttribute( 'src' );
+			}
 			return;
 		}
 
-		var player = surahSelect.closest( '.itmms-public-audio-quran' ).querySelector( '[data-itmms-quran-player]' );
-		if ( ! player ) {
-			return;
+		var filterForm = event.target.closest( 'form[data-itmms-ajax-filter]' );
+		if ( filterForm ) {
+			syncFilterResetVisibility( filterForm );
+			if ( event.target.tagName === 'SELECT' ) {
+				submitAjaxFilterForm( filterForm );
+			}
+		}
+	} );
+
+	document.addEventListener( 'input', function ( event ) {
+		var filterForm = event.target.closest( 'form[data-itmms-ajax-filter]' );
+		if ( filterForm ) {
+			syncFilterResetVisibility( filterForm );
 		}
 
-		if ( surahSelect.value ) {
-			player.src = surahSelect.value;
-			player.play();
-		} else {
-			player.pause();
-			player.removeAttribute( 'src' );
+		var namesSearch = event.target.closest( '[data-itmms-names-search]' );
+		if ( namesSearch ) {
+			var namesWidget = namesSearch.closest( '.itmms-public-names' );
+			if ( ! namesWidget ) {
+				return;
+			}
+			var query = String( namesSearch.value || '' ).trim().toLowerCase();
+			var isExpanded = namesWidget.classList.contains( 'is-expanded' );
+			var footer = namesWidget.querySelector( '.itmms-public-names__footer' );
+
+			namesWidget.querySelectorAll( '.itmms-public-names__card' ).forEach( function ( card ) {
+				var text = ( card.getAttribute( 'data-itmms-name-search-text' ) || card.textContent || '' ).toLowerCase();
+				var isExtra = card.getAttribute( 'data-itmms-name-extra' ) === '1';
+
+				if ( query !== '' ) {
+					card.hidden = text.indexOf( query ) === -1;
+				} else {
+					card.hidden = isExtra && ! isExpanded;
+				}
+			} );
+
+			if ( footer ) {
+				footer.hidden = query !== '';
+			}
 		}
 	} );
 
 	document.addEventListener( 'submit', function ( event ) {
+		var ajaxFilterForm = event.target.closest( 'form[data-itmms-ajax-filter]' );
+		if ( ajaxFilterForm ) {
+			event.preventDefault();
+			submitAjaxFilterForm( ajaxFilterForm );
+			return;
+		}
+
 		var form = event.target.closest( '.itmms-public-qa__form' );
 		if ( ! form || ! window.itmmsPublicAskImam || ! window.itmmsPublicAskImam.ajaxUrl ) {
 			return;
@@ -698,6 +996,58 @@
 	} );
 
 	document.addEventListener( 'click', function ( event ) {
+		var filterResetBtn = event.target.closest( '[data-itmms-filter-reset]' );
+		if ( filterResetBtn ) {
+			var filterForm = filterResetBtn.closest( 'form[data-itmms-ajax-filter]' );
+			if ( filterForm ) {
+				event.preventDefault();
+				filterForm.querySelectorAll( 'input[type="search"], input[type="text"], select' ).forEach( function ( field ) {
+					field.value = '';
+				} );
+				filterResetBtn.hidden = true;
+				submitAjaxFilterForm( filterForm );
+			}
+			return;
+		}
+
+		var namesToggle = event.target.closest( '[data-itmms-names-toggle]' );
+		if ( namesToggle ) {
+			var namesWidget = namesToggle.closest( '.itmms-public-names' );
+			if ( namesWidget ) {
+				var expanded = namesWidget.classList.toggle( 'is-expanded' );
+				namesToggle.setAttribute( 'aria-expanded', expanded ? 'true' : 'false' );
+				namesToggle.textContent = expanded
+					? ( namesToggle.getAttribute( 'data-collapse-label' ) || namesToggle.textContent )
+					: ( namesToggle.getAttribute( 'data-expand-label' ) || namesToggle.textContent );
+				namesWidget.querySelectorAll( '.itmms-public-names__card[data-itmms-name-extra="1"]' ).forEach( function ( card ) {
+					card.hidden = ! expanded;
+				} );
+			}
+			return;
+		}
+
+		var duaFilterBtn = event.target.closest( '[data-itmms-dua-filter]' );
+		if ( duaFilterBtn ) {
+			var duasWidget = duaFilterBtn.closest( '.itmms-public-duas' );
+			if ( duasWidget ) {
+				var selectedCat = duaFilterBtn.getAttribute( 'data-itmms-dua-filter' ) || 'all';
+				duasWidget.querySelectorAll( '[data-itmms-dua-filter]' ).forEach( function ( btn ) {
+					var active = btn === duaFilterBtn;
+					btn.classList.toggle( 'is-active', active );
+					btn.setAttribute( 'aria-selected', active ? 'true' : 'false' );
+				} );
+				duasWidget.querySelectorAll( '.itmms-public-duas__item' ).forEach( function ( item ) {
+					if ( selectedCat === 'all' ) {
+						item.hidden = false;
+						return;
+					}
+					var cats = ( item.getAttribute( 'data-itmms-dua-categories' ) || '' ).split( /\s+/ );
+					item.hidden = cats.indexOf( selectedCat ) === -1;
+				} );
+			}
+			return;
+		}
+
 		var askAgainLink = event.target.closest( '.itmms-public-qa__message-link' );
 		if ( askAgainLink ) {
 			var qaWrap = askAgainLink.closest( '.itmms-public-qa' );
@@ -721,6 +1071,9 @@
 		if ( popupClose ) {
 			var popupId = popupClose.getAttribute( 'data-itmms-popup-close' );
 			var popup = document.getElementById( 'itmms-popup-' + popupId );
+			if ( popup && popup.classList.contains( 'is-editor-preview' ) ) {
+				return;
+			}
 			if ( popup ) {
 				popup.style.display = 'none';
 			}
@@ -736,11 +1089,21 @@
 			var countItem = countButton.closest( '.itmms-public-duas__item' );
 			var countOutput = countButton.querySelector( '[data-itmms-dua-count-value]' );
 			var nextCount = getDuaCount( countKey ) + 1;
+			var targetCount = countItem ? Number( countItem.getAttribute( 'data-itmms-dua-target' ) || '0' ) : 0;
 			setDuaCount( countKey, nextCount );
 			if ( countOutput ) {
 				countOutput.textContent = formatDuaCount( nextCount, duaWidgetLanguage( countButton ) );
 			}
 			syncDuaCompleteState( countItem, nextCount );
+			if ( typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function' ) {
+				try {
+					if ( targetCount > 0 && nextCount === targetCount ) {
+						navigator.vibrate( [ 30, 50, 40 ] );
+					} else {
+						navigator.vibrate( 12 );
+					}
+				} catch ( e ) {}
+			}
 			return;
 		}
 
@@ -759,10 +1122,7 @@
 
 		var audioButton = event.target.closest( '[data-itmms-dua-audio]' );
 		if ( audioButton ) {
-			var audioUrl = audioButton.getAttribute( 'data-itmms-dua-audio' );
-			if ( audioUrl ) {
-				new window.Audio( audioUrl ).play();
-			}
+			toggleDuaAudio( audioButton );
 			return;
 		}
 
@@ -829,24 +1189,59 @@
 		} );
 	} );
 
-	// Initialize on page load
+	// Initialize on page load and after Elementor / Gutenberg dynamic renders
 	window.itmmsPublicRefresh = function ( root ) {
-		initPrayerCountdowns( root || document );
-		initQiblaCompass( root || document );
-		initDuasAzkar( root || document );
-		initAnnouncementPopups( root || document );
-		initNoticeTickers( root || document );
+		var scope = ( root && root.querySelectorAll ) ? root : document;
+		initPrayerCountdowns( scope );
+		initQiblaCompass( scope );
+		initDuasAzkar( scope );
+		initAnnouncementPopups( scope );
+		initNoticeTickers( scope );
 	};
 
 	window.itmmsShareVerse = function ( text, btn, successLabel ) {
 		shareText( text, btn, successLabel );
 	};
 
+	function bindEditorLiveRefresh() {
+		if ( window.jQuery ) {
+			window.jQuery( window ).on( 'elementor/frontend/init', function () {
+				if ( window.elementorFrontend && window.elementorFrontend.hooks ) {
+					window.elementorFrontend.hooks.addAction( 'frontend/element_ready/global', function ( $scope ) {
+						window.itmmsPublicRefresh( $scope && $scope[0] ? $scope[0] : document );
+					} );
+				}
+			} );
+		}
+
+		if ( typeof window.MutationObserver === 'function' && document.body ) {
+			var refreshTimer = null;
+			var observer = new window.MutationObserver( function ( mutations ) {
+				var shouldRefresh = false;
+				for ( var i = 0; i < mutations.length; i++ ) {
+					if ( mutations[ i ].addedNodes && mutations[ i ].addedNodes.length > 0 ) {
+						shouldRefresh = true;
+						break;
+					}
+				}
+				if ( shouldRefresh ) {
+					window.clearTimeout( refreshTimer );
+					refreshTimer = window.setTimeout( function () {
+						window.itmmsPublicRefresh( document );
+					}, 120 );
+				}
+			} );
+			observer.observe( document.body, { childList: true, subtree: true } );
+		}
+	}
+
 	if ( document.readyState === 'loading' ) {
 		document.addEventListener( 'DOMContentLoaded', function () {
 			window.itmmsPublicRefresh( document );
+			bindEditorLiveRefresh();
 		} );
 	} else {
 		window.itmmsPublicRefresh( document );
+		bindEditorLiveRefresh();
 	}
 } )();

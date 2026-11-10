@@ -19,7 +19,7 @@ $itmms_masjid = (string) ( ITMMS_Settings::get_all()['masjid_name'] ?? get_blogi
 <section class="itmms-public-minbar itmms-public-minbar--upcoming itmms-public-minbar--lang-<?php echo esc_attr( $language ); ?>" dir="<?php echo 'ar' === $language ? 'rtl' : 'ltr'; ?>">
 	<header class="itmms-public-minbar__header">
 		<div>
-			<span class="itmms-public-minbar__eyebrow"><?php echo esc_html( $itmms_masjid ?: $itmms_labels['eyebrow'] ); ?></span>
+			<span class="itmms-public-minbar__eyebrow"><?php echo esc_html( $itmms_masjid ?: $itmms_labels['eyebrow'] ); ?> <?php echo $this->render_admin_quick_edit( 'minbar', $language ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 			<h2><?php echo esc_html( (string) $atts['title'] ); ?></h2>
 		</div>
 	</header>

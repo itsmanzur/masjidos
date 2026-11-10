@@ -16,7 +16,7 @@ $itmms_articles_eyebrow = ( 'bn' === $language ) ? 'ইসলামিক জ্
 <section class="itmms-public-articles itmms-public-articles--<?php echo esc_attr( $design ); ?> itmms-public-articles--lang-<?php echo esc_attr( $language ); ?>">
 	<header class="itmms-public-articles__header">
 		<div>
-			<span class="itmms-public-articles__eyebrow"><?php echo esc_html( $itmms_articles_eyebrow ); ?></span>
+			<span class="itmms-public-articles__eyebrow"><?php echo esc_html( $itmms_articles_eyebrow ); ?> <?php echo $this->render_admin_quick_edit( 'islamic-articles', $language ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 			<h2><?php echo esc_html( (string) $atts['title'] ); ?></h2>
 		</div>
 		<?php if ( $itmms_articles_count > 0 ) : ?>

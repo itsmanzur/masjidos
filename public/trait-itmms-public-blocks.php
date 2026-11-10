@@ -13,12 +13,40 @@ defined( 'ABSPATH' ) || exit;
 trait ITMMS_Public_Blocks {
 
 	/**
+	 * Register custom MasjidOS block category.
+	 *
+	 * @param array<int,array<string,mixed>> $categories Existing block categories.
+	 * @return array<int,array<string,mixed>>
+	 */
+	public function register_block_category( array $categories ): array {
+		foreach ( $categories as $category ) {
+			if ( isset( $category['slug'] ) && 'masjidos' === $category['slug'] ) {
+				return $categories;
+			}
+		}
+
+		array_unshift(
+			$categories,
+			[
+				'slug'  => 'masjidos',
+				'title' => __( 'MasjidOS', 'masjidos' ),
+				'icon'  => null,
+			]
+		);
+
+		return $categories;
+	}
+
+	/**
 	 * Register Gutenberg blocks.
 	 */
 	public function register_blocks(): void {
+		add_filter( 'block_categories_all', [ $this, 'register_block_category' ], 10, 1 );
+
+		$default_lang  = class_exists( 'ITMMS_Settings' ) ? ITMMS_Settings::ui_language() : 'en';
 		$language_attr = [
 			'type'    => 'string',
-			'default' => 'en',
+			'default' => $default_lang,
 		];
 		$title_attr = static function ( string $default ): array {
 			return [
@@ -48,8 +76,11 @@ trait ITMMS_Public_Blocks {
 			[
 				'render_callback' => [ $this, 'render_islamic_calendar_block' ],
 				'attributes'      => [
-					'title'    => $title_attr( __( 'Islamic Calendar', 'masjidos' ) ),
-					'language' => $language_attr,
+					'title'      => $title_attr( __( 'Islamic Calendar', 'masjidos' ) ),
+					'language'   => $language_attr,
+					'navigation' => [ 'type' => 'string', 'default' => 'yes' ],
+					'month'      => [ 'type' => 'string', 'default' => '' ],
+					'year'       => [ 'type' => 'string', 'default' => '' ],
 				],
 			]
 		);
@@ -62,6 +93,8 @@ trait ITMMS_Public_Blocks {
 					'title'      => $title_attr( __( 'Monthly Prayer Timetable', 'masjidos' ) ),
 					'language'   => $language_attr,
 					'design'     => [ 'type' => 'string', 'default' => 'table' ],
+					'month'      => [ 'type' => 'string', 'default' => '' ],
+					'year'       => [ 'type' => 'string', 'default' => '' ],
 					'iqamah'     => [ 'type' => 'string', 'default' => 'no' ],
 					'navigation' => [ 'type' => 'string', 'default' => 'yes' ],
 					'extras'     => [ 'type' => 'string', 'default' => 'no' ],
@@ -259,6 +292,30 @@ trait ITMMS_Public_Blocks {
 				],
 			]
 		);
+
+		register_block_type(
+			'masjidos/ask-imam',
+			[
+				'render_callback' => [ $this, 'render_ask_imam_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Ask the Imam', 'masjidos' ) ),
+					'language' => $language_attr,
+				],
+			]
+		);
+
+		register_block_type(
+			'masjidos/imam-answers',
+			[
+				'render_callback' => [ $this, 'render_imam_answers_block' ],
+				'attributes'      => [
+					'title'    => $title_attr( __( 'Answered Questions', 'masjidos' ) ),
+					'language' => $language_attr,
+					'category' => [ 'type' => 'string', 'default' => '' ],
+					'limit'    => [ 'type' => 'string', 'default' => '10' ],
+				],
+			]
+		);
 	}
 
 	public function render_prayer_times_block( array $attributes ): string {
@@ -329,14 +386,62 @@ trait ITMMS_Public_Blocks {
 		return $this->render_articles_shortcode( $attributes );
 	}
 
+	public function render_ask_imam_block( array $attributes ): string {
+		if ( ! class_exists( 'ITMMS_Ask_Imam' ) ) {
+			return '';
+		}
+		return ITMMS_Ask_Imam::get_instance()->render_submit_shortcode( $attributes );
+	}
+
+	public function render_imam_answers_block( array $attributes ): string {
+		if ( ! class_exists( 'ITMMS_Ask_Imam' ) ) {
+			return '';
+		}
+		return ITMMS_Ask_Imam::get_instance()->render_answers_shortcode( $attributes );
+	}
+
+	/**
+	 * Helper to collect taxonomy terms as slug => name map for block editor dropdowns.
+	 *
+	 * @return array<string,string>
+	 */
+	private function get_taxonomy_options_for_blocks( string $taxonomy ): array {
+		if ( ! taxonomy_exists( $taxonomy ) ) {
+			return [];
+		}
+		$terms = get_terms(
+			[
+				'taxonomy'   => $taxonomy,
+				'hide_empty' => false,
+			]
+		);
+		if ( ! is_array( $terms ) ) {
+			return [];
+		}
+		$options = [];
+		foreach ( $terms as $term ) {
+			if ( $term instanceof WP_Term ) {
+				$options[ $term->slug ] = $term->name;
+			}
+		}
+		return $options;
+	}
+
 	/**
 	 * Enqueue Gutenberg block editor assets.
 	 */
 	public function enqueue_block_editor_assets(): void {
+		wp_enqueue_style(
+			'itmms-public-styles',
+			ITMMS_PLUGIN_URL . 'public/assets/css/public.css',
+			[],
+			ITMMS_VERSION
+		);
+
 		wp_enqueue_script(
 			'itmms-block-editor',
 			ITMMS_PLUGIN_URL . 'admin/assets/js/block-editor.js',
-			[ 'wp-blocks', 'wp-components', 'wp-block-editor', 'wp-element', 'wp-i18n' ],
+			[ 'wp-blocks', 'wp-components', 'wp-block-editor', 'wp-element', 'wp-i18n', 'wp-server-side-render' ],
 			ITMMS_VERSION,
 			true
 		);
@@ -345,12 +450,36 @@ trait ITMMS_Public_Blocks {
 			wp_set_script_translations( 'itmms-block-editor', 'masjidos', ITMMS_PLUGIN_DIR . 'languages' );
 		}
 
+		$settings = class_exists( 'ITMMS_Settings' ) ? ITMMS_Settings::get_all() : [];
+		$modules  = isset( $settings['modules'] ) && is_array( $settings['modules'] ) ? $settings['modules'] : [];
+
 		wp_localize_script(
 			'itmms-block-editor',
 			'itmmsBlockData',
 			[
 				'defaultLanguage'     => ITMMS_Settings::ui_language(),
+				'proActive'           => function_exists( 'masjidos_pro_is_active' ) && masjidos_pro_is_active(),
 				'customDuaCategories' => class_exists( 'ITMMS_Duas_Library' ) ? ITMMS_Duas_Library::category_options() : [],
+				'khutbahCategories'   => class_exists( 'ITMMS_Khutbah' ) ? ITMMS_Khutbah::categories() : [],
+				'articleCategories'   => class_exists( 'ITMMS_Education' ) ? $this->get_taxonomy_options_for_blocks( ITMMS_Education::TAXONOMY ) : [],
+				'qaCategories'        => class_exists( 'ITMMS_Ask_Imam' ) ? $this->get_taxonomy_options_for_blocks( ITMMS_Ask_Imam::TAXONOMY ) : [],
+				'moduleStatus'        => [
+					'prayer_times'  => ! isset( $modules['prayer_times'] ) || ! empty( $modules['prayer_times'] ),
+					'announcements' => ! isset( $modules['announcements'] ) || ! empty( $modules['announcements'] ),
+					'events'        => ! empty( $modules['events'] ),
+					'duas_azkar'    => ! isset( $modules['duas_azkar'] ) || ! empty( $modules['duas_azkar'] ),
+					'jumuah'        => ! empty( $settings['jumuah']['enabled'] ),
+				],
+				'adminUrls'           => [
+					'features'      => admin_url( 'admin.php?page=masjidos#features' ),
+					'prayer_times'  => admin_url( 'admin.php?page=masjidos#prayer-times' ),
+					'announcements' => admin_url( 'admin.php?page=masjidos#announcements' ),
+					'events'        => admin_url( 'admin.php?page=masjidos#events' ),
+					'minbar'        => admin_url( 'admin.php?page=masjidos#minbar' ),
+					'articles'      => admin_url( 'edit.php?post_type=itmms_article' ),
+					'duas'          => admin_url( 'edit.php?post_type=itmms_dua' ),
+					'ask_imam'      => admin_url( 'edit.php?post_type=itmms_imam_question' ),
+				],
 			]
 		);
 	}
